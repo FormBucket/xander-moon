@@ -15,7 +15,7 @@ var App;
 export default App = React.createClass({
   render() {
     return (
-      <div className="wrapper">
+      <div>
         <Header />
         <div id="main">
           {this.props.children}

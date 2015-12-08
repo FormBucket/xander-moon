@@ -4,7 +4,7 @@ const Welcome = React.createClass({
   render () {
     return (
       <div id="welcome">
-        Welcome to FormBucket
+        <h1>Welcome to FormBucket</h1>
       </div>
     )
   }

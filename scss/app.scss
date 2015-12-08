@@ -1,7 +1,11 @@
 @import "bourbon/bourbon";
+@import "base/base";
 @import "neat/neat";
 
 /* Layout Elements */
+.wrapper {
+  @include outer-container;
+}
 
 #root {
   color: white;
@@ -11,7 +15,7 @@
 
 #header {
   width: 100%;
-  height: 5vh;
+  height: 5rem;
   background-color: rgb(17, 112, 8);
   padding: 20px;
 }

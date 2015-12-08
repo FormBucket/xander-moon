@@ -1,6 +1,6 @@
 #welcome {
+  @include outer-container;
   margin: auto;
-  width: 80vw;
   min-height: 80vh;
   background-color: white;
   color: black;
