@@ -43,6 +43,7 @@
     "immutable": "^3.7.5",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
+    "react-remarkable": "^1.1.1",
     "react-router": "^1.0.0-rc3",
     "react-set-animate": "0.0.15",
     "react-static-container": "^1.0.0",
