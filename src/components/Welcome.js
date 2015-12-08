@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react'
 const Welcome = React.createClass({
   render () {
     return (
-      <div className="welcome">
+      <div id="welcome">
         Put landing page content here
       </div>
     )

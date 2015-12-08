@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react'
 const Footer = React.createClass({
   render () {
     return (
-      <div className="footer">
+      <div id="footer">
         Footer goes here
       </div>
     )
