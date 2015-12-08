@@ -6,6 +6,7 @@ import createBrowserHistory from 'history/lib/createBrowserHistory'
 import App from './components/App'
 
 import Welcome from './components/Welcome';
+import Login from './components/Login';
 import FAQs from './components/FAQs';
 import API from './components/API';
 import Forms from './components/Forms';
@@ -24,6 +25,7 @@ render((
   <Router history={createBrowserHistory()} onUpdate={handleUpdate}>
     <Route path="/" component={App}>
       <IndexRoute component={Welcome} />
+      <Route path="login" component={Login} />
       <Route path="faqs" component={FAQs} />
       <Route path="api" component={API} />
       <Route path="forms" component={Forms} />

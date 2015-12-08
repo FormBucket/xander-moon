@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react'
 const API = React.createClass({
   render () {
     return (
-      <div>
+      <div id="api">
         Put API documentation here
       </div>
     )

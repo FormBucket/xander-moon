@@ -4,7 +4,7 @@ const Welcome = React.createClass({
   render () {
     return (
       <div id="welcome">
-        Put landing page content here
+        Welcome to FormBucket
       </div>
     )
   }
