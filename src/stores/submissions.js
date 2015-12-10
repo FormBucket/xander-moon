@@ -2,7 +2,7 @@ import {createStore} from 'sweetflux'
 import {loadSubmissions} from './actions'
 import {Map} from 'immutable';
 
-const Submissions = createStore(
+const SubmissionStore = createStore(
   'Submissions',
   Map(),
   (state, action) => {
@@ -17,3 +17,5 @@ const Submissions = createStore(
     getSubmissions: (state) => state.get('submissions'),
   }
 )
+
+export default SubmissionStore

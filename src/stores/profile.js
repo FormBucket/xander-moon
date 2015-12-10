@@ -2,8 +2,8 @@ import {createStore} from 'sweetflux'
 import {loadProfile} from './actions'
 import {Map} from 'immutable';
 
-const Profiles = createStore(
-  'Profiles',
+const ProfileStore = createStore(
+  'ProfileStore',
   Map(),
   (state, action) => {
     switch (action.type) {
@@ -17,3 +17,5 @@ const Profiles = createStore(
     getProfile: (state) => state,
   }
 )
+
+export default ProfileStore

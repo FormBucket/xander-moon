@@ -2,8 +2,8 @@ import {createStore} from 'sweetflux'
 import {loadForms} from './actions'
 import {Map} from 'immutable';
 
-const Forms = createStore(
-  'Forms',
+const FormStore = createStore(
+  'FormStore',
   Map(),
   (state, action) => {
     switch (action.type) {
@@ -19,3 +19,5 @@ const Forms = createStore(
     findFormByName: (state, name) => state.forms.find(n => n.name === name)
   }
 )
+
+export default FormStore
