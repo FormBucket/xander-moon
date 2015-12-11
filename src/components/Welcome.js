@@ -65,7 +65,7 @@ const Welcome = React.createClass({
               </div>
             </div>
           </div>
-          <div className="features">
+          <div className="features plans">
             <h2>30-Day Free Trial on All Plans</h2>
             <div className="pricing-plan">
               <p>Personal</p>
