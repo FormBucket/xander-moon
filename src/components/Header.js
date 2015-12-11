@@ -4,10 +4,10 @@ import {Link} from 'react-router'
 const Header = React.createClass({
   render () {
     return (
-      <div id="header">
+      <div className="header">
         <div className="wrapper">
           FormBucket
-          <Link style={{float: 'right', marginRight: 40, color: 'white' }} to="login">
+          <Link style={{float: 'right', color: 'white' }} to="login">
             Login
           </Link>
         </div>

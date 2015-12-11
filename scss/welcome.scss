@@ -1,8 +1,81 @@
-#welcome {
+.hero {
+  background-color: $purple;
+  padding-top: $base-spacing * 3;
+
+  h1 {
+    margin: 0;
+    text-align: center;
+    color: $lightest-purple;
+  }
+  h2 {
+    text-align: center;
+    color: $lightest-purple;
+    margin: 0;
+    padding-bottom: $base-spacing * 2;
+  }
+  h3 {
+    margin: 0;
+  }
+}
+
+.features {
   @include outer-container;
-  margin: auto;
-  min-height: 80vh;
-  background-color: white;
-  color: black;
-  padding: 20px;
+  background-color: $lightest-purple;
+  padding: $base-spacing;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.20);
+  text-align: center;
+}
+
+.tour {
+  border-radius: 3px 3px 0 0;
+
+  .key-features {
+    @include span-columns(12);
+
+    .feature {
+      @include span-columns(4);
+      text-align: center;
+
+      @include media($mobile) {
+        @include span-columns(12);
+      }
+    }
+  }
+}
+
+.editor {
+  @include span-columns(12);
+  height: 20rem;
+  background: $darkest-purple;
+  color: $eggshell;
+  font-family: $source-code;
+  text-align: left;
+  padding: $base-spacing;
+  margin-bottom: $base-spacing;
+  border-radius: 3px;
+}
+
+.left {
+  @include span-columns(6);
+}
+
+.pricing-plan {
+  @include span-columns(4);
+
+  @include media($mobile) {
+    @include span-columns(12);
+  }
+
+  border: 1px solid $purple;
+  border-radius: 3px;
+  padding: $base-spacing;
+
+  h3 {
+    font-size: $base-font-size * 3;
+    font-weight: 300;
+  }
+}
+
+.signup {
+  width: 100%;
 }
