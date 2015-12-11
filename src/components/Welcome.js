@@ -1,4 +1,8 @@
 import React, { PropTypes } from 'react'
+import Markdown from 'react-remarkable'
+import markdownOptions from './markdown-options'
+
+var content = require('../content/example-code.md');
 
 const Welcome = React.createClass({
   render () {
@@ -10,18 +14,6 @@ const Welcome = React.createClass({
             <h2>No embeds or iframes. Your fields, your CSS. We take care of the rest!</h2>
           </div>
           <div className="features tour">
-            <div className="editor">
-              <pre>
-                <code className="left">
-                  <form action="https://formbucket.com/f/ff4fu3" method="post">
-                    <input type="text" name="name" placeholder="Name"/>
-                    <input type="text" name="email" placeholder="Email"/>
-                    <textarea name="message" placeholder="Message"></textarea>
-                    <button type="submit">Send!</button>
-                  </form>
-                </code>
-              </pre>
-            </div>
             <div className="key-features">
               <div className="feature">
                 <img className="icon" src="/img/icon-markup.svg" alt="raw html" />
@@ -35,7 +27,7 @@ const Welcome = React.createClass({
               <div className="feature">
                 <img className="icon" src="/img/icon-rules.svg" alt="raw html" />
                 <div className="copy">
-                  <h3>Rules Engine</h3>
+                  <h3>Custom Rules</h3>
                   <p>
                     Redirect users to any URL after your form is submitted and configure unlimited webhooks.
                   </p>
@@ -54,6 +46,25 @@ const Welcome = React.createClass({
           </div>
         </div>
         <div className="wrapper">
+          <div className="features">
+            <div className="editor">
+              <div className="left">
+                <Markdown
+                  source={ content }
+                  options={ markdownOptions }
+                  />
+              </div>
+              <div className="right">
+                <h3>Try it out!</h3>
+                <form action="https://formbucket.com/f/ff4fu3" method="post">
+                  <input type="text" name="name" placeholder="Name"/>
+                  <input type="text" name="email" placeholder="Email"/>
+                  <textarea name="message" placeholder="Message"></textarea>
+                  <button type="submit">Send!</button>
+                </form>
+              </div>
+            </div>
+          </div>
           <div className="features">
             <h2>30-Day Free Trial on All Plans</h2>
             <div className="pricing-plan">

@@ -45,18 +45,25 @@
 
 .editor {
   @include span-columns(12);
-  height: 20rem;
-  background: $darkest-purple;
-  color: $eggshell;
-  font-family: $source-code;
   text-align: left;
-  padding: $base-spacing;
-  margin-bottom: $base-spacing;
+  margin: $base-spacing 0;
   border-radius: 3px;
-}
 
-.left {
-  @include span-columns(6);
+  .left {
+    @include span-columns(8);
+    padding: $base-spacing;
+    background-color: white;
+    border: 1px solid $purple;
+    border-radius: 3px;
+  }
+
+  .right {
+    @include span-columns(4);
+
+    h3 {
+      margin: 0 0 10px 0;
+    }
+  }
 }
 
 .pricing-plan {

@@ -1,8 +1,8 @@
 {
-  "name": "reactive-pennypixels",
+  "name": "formbucket",
   "version": "0.1.1",
-  "description": "Starter project for React",
-  "author": "Peter Moresi",
+  "description": "Powerful form handling for static sites",
+  "author": "FunctionFoundry",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist",
