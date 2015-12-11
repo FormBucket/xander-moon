@@ -2,35 +2,32 @@
 @import "base/base";
 @import "neat/neat";
 
+body {
+  background-color: $lightest-purple;
+  color: $purple;
+}
+
 /* Layout Elements */
 .wrapper {
   @include outer-container;
 }
 
-#root {
-  color: white;
-  width: 100vw;
-  height: 100vh;
+.header {
+  background-color: $dark-purple;
+  color: $eggshell;
+  height: 4rem;
+  line-height: 4rem;
 }
 
-#header {
-  width: 100%;
+.main {
+}
+
+.footer {
+  @include outer-container;
   height: 5rem;
-  background-color: rgb(17, 112, 8);
-  padding: 20px;
-}
-
-#main {
-  @include linear-gradient(to top, rgb(29, 190, 72), rgb(17, 112, 8));
-  min-height: 80vh;
-}
-
-#footer {
-  width: 100%;
-  height: 5vh;
-  padding: 20px;
-  background-color: white;
-  color: black;
+  padding: 20px 0;
+  text-align: center;
+  color: $dark-purple;
 }
 
 /* page elements */

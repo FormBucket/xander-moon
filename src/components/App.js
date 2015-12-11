@@ -17,7 +17,7 @@ export default App = React.createClass({
     return (
       <div>
         <Header />
-        <div id="main">
+        <div className="main">
           {this.props.children}
         </div>
         <Footer />

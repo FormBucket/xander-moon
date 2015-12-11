@@ -1,3 +1,6 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700);
+@import url(https://fonts.googleapis.com/css?family=Source+Code+Pro);
+
 body {
   color: $base-font-color;
   font-family: $base-font-family;
@@ -6,9 +9,19 @@ body {
   line-height: $base-line-height;
 }
 
-h1,
-h2,
-h3,
+h1 {
+  font-size: $base-font-size * 3;
+  font-weight: 300;
+}
+h2 {
+  font-size: $base-font-size * 1.75;
+  font-weight: 400;
+}
+h3 {
+  font-size: $base-font-size * 1.25;
+  font-weight: 700;
+  color: $purple
+}
 h4,
 h5,
 h6 {
