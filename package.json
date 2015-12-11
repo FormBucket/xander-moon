@@ -26,6 +26,7 @@
     "extract-text-webpack-plugin": "^0.9.1",
     "faucet": "0.0.1",
     "node-sass": "^3.4.2",
+    "raw-loader": "^0.5.1",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.0",
     "redbox-react": "^1.0.1",
@@ -39,12 +40,13 @@
   },
   "dependencies": {
     "functionfoundry": "^0.5.8",
+    "highlight.js": "^9.0.0",
     "history": "^1.13.0",
     "immutable": "^3.7.5",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "react-remarkable": "^1.1.1",
-    "react-router": "^1.0.0-rc3",
+    "react-router": "^1.0.1",
     "react-set-animate": "0.0.15",
     "react-static-container": "^1.0.0",
     "sweetflux": "^0.6.4"

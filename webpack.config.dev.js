@@ -28,7 +28,10 @@ module.exports = {
       loader: ExtractTextPlugin.extract(
         "style",
         "css!sass")
-      }
+    }, {
+        test: /\.md$/,
+        loader: 'raw'
+    }
     ]
   }
 };

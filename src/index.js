@@ -5,19 +5,24 @@ import { Router, Route, Link, IndexRoute } from 'react-router'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 import App from './components/App'
 
-import Welcome from './components/Welcome';
-import Login from './components/Login';
-import FAQs from './components/FAQs';
-import API from './components/API';
-import Forms from './components/Forms';
-import Submissions from './components/Submissions';
-import Profile from './components/Profile';
-import PageNotFound from './components/PageNotFound';
+import Welcome from './components/Welcome'
+import Login from './components/Login'
+import FAQs from './components/FAQs'
+import API from './components/API'
+import Forms from './components/Forms'
+import Submissions from './components/Submissions'
+import Profile from './components/Profile'
+import PageNotFound from './components/PageNotFound'
+import {initUser} from './stores/actions'
+import {dispatch} from 'sweetflux'
+
+dispatch(initUser)
 
 require('../scss/app.scss')
 
+
 function handleUpdate(){
-  window.prerenderReady = true;
+  window.prerenderReady = true
 }
 // Finally, we render a <Router> with some <Route>s.
 // It does all the fancy routing stuff for us.

@@ -7,6 +7,7 @@ var app = express();
 var compiler = webpack(config);
 
 app.use(express.static('public'));
+app.use(express.static('node_modules/highlight.js/styles'));
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
