@@ -4,7 +4,7 @@ import {Link} from 'react-router'
 const Footer = React.createClass({
   render () {
     return (
-      <div id="footer">
+      <div className="footer">
         <Link to="faqs">FAQs</Link> | <Link to="api">API</Link>
       </div>
     )
