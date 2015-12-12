@@ -36,12 +36,40 @@
     .feature {
       @include span-columns(4);
       text-align: center;
+      opacity: 0;
 
       @include media($mobile) {
         @include span-columns(12);
       }
     }
   }
+}
+
+@include keyframes(fadeIn) {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  @include animation(fadeIn 0.7s ease-in);
+  @include animation-iteration-count(1);
+  @include animation-fill-mode(forwards);
+}
+
+.fade-in.one {
+  @include animation-delay(0.1s);
+}
+
+.fade-in.two {
+  @include animation-delay(0.4s);
+}
+
+.fade-in.three {
+  @include animation-delay(0.7s);
 }
 
 .editor {
