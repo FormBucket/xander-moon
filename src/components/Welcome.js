@@ -88,7 +88,7 @@ const Welcome = React.createClass({
                   <li>Unlimited Submissions</li>
                   <li>Unlimited Custom Rules</li>
                   <li>CSV Export</li>
-                  <li>File Uploads</li>
+                  <li>Up to 2MB File Uploads</li>
                 </ul>
               <button className="signup">Sign Up</button>
             </div>
@@ -100,7 +100,7 @@ const Welcome = React.createClass({
                   <li>Unlimited Submissions</li>
                   <li>Unlimited Custom Rules</li>
                   <li>CSV Export</li>
-                  <li>File Uploads</li>
+                  <li>Up to 10MB File Uploads</li>
                 </ul>
               <button className="signup">Sign Up</button>
             </div>
