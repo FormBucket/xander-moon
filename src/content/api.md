@@ -5,7 +5,7 @@ an industry standard REST API. Data is returned in JSON format.
 
 ## Forms
 
-Delivering reliable forms on static websites is our mission.
+Reliably delivering powerful forms on static websites is our mission.
 
 ### Get a list of your forms
 
