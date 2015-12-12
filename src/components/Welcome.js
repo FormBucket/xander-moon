@@ -47,6 +47,7 @@ const Welcome = React.createClass({
         </div>
         <div className="wrapper">
           <div className="features">
+            <h2>Live Demo</h2>
             <div className="editor">
               <div className="left">
                 <Markdown
@@ -65,21 +66,42 @@ const Welcome = React.createClass({
               </div>
             </div>
           </div>
-          <div className="features">
+          <div className="features plans">
             <h2>30-Day Free Trial on All Plans</h2>
             <div className="pricing-plan">
               <p>Personal</p>
               <h3>$5/mo</h3>
+              <ul>
+                <li>1 Form</li>
+                <li>Unlimited Submissions</li>
+                <li>Unlimited Custom Rules</li>
+                <li>CSV Export</li>
+                <li><s>File Uploads</s></li>
+              </ul>
               <button className="signup">Sign Up</button>
             </div>
             <div className="pricing-plan">
               <p>Startup</p>
-              <h3>$12/mo</h3>
+              <h3>$24/mo</h3>
+                <ul>
+                  <li>10 Forms</li>
+                  <li>Unlimited Submissions</li>
+                  <li>Unlimited Custom Rules</li>
+                  <li>CSV Export</li>
+                  <li>File Uploads</li>
+                </ul>
               <button className="signup">Sign Up</button>
             </div>
             <div className="pricing-plan">
               <p>Enterprise</p>
-              <h3>$24/mo</h3>
+              <h3>$99/mo</h3>
+                <ul>
+                  <li>100 Forms</li>
+                  <li>Unlimited Submissions</li>
+                  <li>Unlimited Custom Rules</li>
+                  <li>CSV Export</li>
+                  <li>File Uploads</li>
+                </ul>
               <button className="signup">Sign Up</button>
             </div>
           </div>
