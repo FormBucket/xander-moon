@@ -15,7 +15,7 @@ GET https://www.FormBucket.com/forms.json
 
 Name          | Type          | Description
 ------------- | ------------- | -----------
-API_KEY       | string        | __Required__. The API key provided on your user profile page
+apikey        | string        | __Required__. The API key provided on your user profile page
 
 #### Example Response
 
@@ -46,11 +46,11 @@ GET https://www.FormBucket.com/forms/:id.json
 
 Name          | Type          | Description
 ------------- | ------------- | -----------
-API_KEY       | string        | __Required__. The API key provided on your user profile page
+apikey        | string        | __Required__. The API key provided on your user profile page
 
 #### Example request
 
-GET https://www.FormBucket.com/forms/123.json?API_KEY=e705c568-8869-4ca2-8a58-78ba782423c4
+GET https://www.FormBucket.com/forms/123.json?apikey=e705c568-8869-4ca2-8a58-78ba782423c4
 
 #### Example Response
 
@@ -72,13 +72,13 @@ POST https://www.FormBucket.com/forms
 
 Name            |   Type        | Description
 --------------- | ------------- | -----------
-API_KEY         | string        | __Required__. The API key provided on your user profile page
+apikey          | string        | __Required__. The API key provided on your user profile page
 name            | string        | __Required__. The name to identify the form.
+enabled         | boolean       | __Optional__. Disable a form to stop new submissions without deleting your data. Default to true.
 email_to        | string        | __Optional__. A list of email address to email submissions. Default to address in user profile.
 redirect_url    | string        | __Optional__. The URL to redirect a user after successful submission. Please not that this does not apply to submission sent over AJAX.  Default to blank.
-webhook         | string        | __Optional__. A webhook is a URL that accepts submissions via a POST after they are recorded in our system. Default to blank.
-enabled         | boolean       | __Optional__. Disable a form to stop new submissions without deleting your data. Default to true.
-required_fields | string        | __Optional__. A comma separated list of fields that are required to record the submission in our system. If required fields are omitted then the submission is rejected and the request redirected back to the origin.
+webhooks        | array         | __Optional__. A list of webhooks to send submissions via a POST after they are recorded in our system. A web is a URL that will accept the form data. Default to empty list.
+required_fields | array        | __Optional__. A list of fields that are required to record the submission in our system. If required fields are omitted then the submission is rejected and the request redirected back to the origin.
 
 #### Example Responses
 
@@ -91,7 +91,7 @@ When the form is successfully created:
 When an error occurs:
 
 ```js
-{ "code": 1, "error": "API_KEY is required." }
+{ "code": 1, "error": "apikey is required." }
 ```
 
 
@@ -117,7 +117,7 @@ __WARNING.__ Deleting a form removes all submissions from our system.
 
 Name          | Type          | Description
 ------------- | ------------- | -----------
-API_KEY       | string        | __Required__. The API key provided on your user profile page
+apikey        | string        | __Required__. The API key provided on your user profile page
 
 ## Submissions
 
@@ -131,7 +131,7 @@ GET https://www.FormBucket.com/submissions/:form_id.json
 
 Name          | Type          | Description
 ------------- | ------------- | -----------
-API_KEY       | string        | __Required__. The API key provided on your user profile page
+apikey        | string        | __Required__. The API key provided on your user profile page
 form_id       | integer       | __Required__. The id of the form. This parameter is in the URL instead of the query string.
 limit         | integer       | __Optional__. Restrict the number of submissions returned by the request. Default to 100.
 offset        | integer       | __Optional__. Offset the result to enable paging. To keep it simple the first record is 1 and the last record is the number of submissions. Records are sorted by the time received.
@@ -175,14 +175,14 @@ DELETE https://www.FormBucket.com/submission/:id
 
 Name          | Type          | Description
 ------------- | ------------- | -----------
-API_KEY       | string        | __Required__. The API key provided on your user profile page
+apikey        | string        | __Required__. The API key provided on your user profile page
 id            | guid          | __Required__. The id of the submission.
 
 ## Error Codes
 
  ID  | Text
  --- | ----
- 1   | API_KEY is required.
+ 1   | apikey is required.
  2   | Name is required.
  99  | System error.
 
