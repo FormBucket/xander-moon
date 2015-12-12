@@ -123,7 +123,7 @@ apikey        | string        | __Required__. The API key provided on your user 
 
 Submissions are actual form data entered by the users of your form.
 
-### Get all submissions
+### Get all submissions for a form
 
 GET https://www.FormBucket.com/submissions/:form_id.json
 
@@ -169,7 +169,7 @@ The system is designed to capture small documents and images. The maximum file s
 
 ### Delete a submission
 
-DELETE https://www.FormBucket.com/submission/:id
+DELETE https://www.FormBucket.com/submissions/:id
 
 #### Parameters
 
@@ -177,6 +177,17 @@ Name          | Type          | Description
 ------------- | ------------- | -----------
 apikey        | string        | __Required__. The API key provided on your user profile page
 id            | guid          | __Required__. The id of the submission.
+
+### Get a realtime stream of submissions
+
+GET https://www.FormBucket.com/submissions/events
+
+
+
+### Get a realtime stream of submission for a form
+
+GET https://www.FormBucket.com/submissions/:id/events
+
 
 ## Error Codes
 
