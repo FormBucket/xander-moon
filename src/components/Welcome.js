@@ -15,7 +15,7 @@ const Welcome = React.createClass({
           </div>
           <div className="features tour">
             <div className="key-features">
-              <div className="feature">
+              <div className="feature fade-in one">
                 <img className="icon" src="/img/icon-markup.svg" alt="raw html" />
                 <div className="copy">
                   <h3>Bare Metal Markup</h3>
@@ -24,7 +24,7 @@ const Welcome = React.createClass({
                   </p>
                 </div>
               </div>
-              <div className="feature">
+              <div className="feature fade-in two">
                 <img className="icon" src="/img/icon-rules.svg" alt="raw html" />
                 <div className="copy">
                   <h3>Custom Rules</h3>
@@ -33,7 +33,7 @@ const Welcome = React.createClass({
                   </p>
                 </div>
               </div>
-              <div className="feature">
+              <div className="feature fade-in three">
                 <img className="icon" src="/img/icon-submissions.svg" alt="raw html" />
                 <div className="copy">
                   <h3>Submissions Manager</h3>
