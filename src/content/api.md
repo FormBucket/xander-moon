@@ -9,7 +9,7 @@ Reliably delivering powerful forms on static websites is our mission.
 
 ### Get a list of your forms
 
-GET https://www.FormBucket.com/api/forms
+GET https://www.FormBucket.com/forms.json
 
 #### Parameters
 
@@ -38,9 +38,35 @@ API_KEY       | string        | __Required__. The API key provided on your user 
 ]
 ```
 
+### Get a form
+
+GET https://www.FormBucket.com/forms/:id.json
+
+#### Parameters
+
+Name          | Type          | Description
+------------- | ------------- | -----------
+API_KEY       | string        | __Required__. The API key provided on your user profile page
+
+#### Example request
+
+GET https://www.FormBucket.com/forms/123.json?API_KEY=e705c568-8869-4ca2-8a58-78ba782423c4
+
+#### Example Response
+
+```js
+{
+  "id": "5g75oz",
+  "name": "Product Interest Form",
+  "date": "2015-03-30T03:41:47.344Z",
+  "token": "Dfj7Iv8Bt3",
+  "submission_count": 142
+}
+```
+
 ### Create a new form
 
-POST https://www.FormBucket.com/api/forms
+POST https://www.FormBucket.com/forms
 
 #### Parameters
 
@@ -71,7 +97,7 @@ When an error occurs:
 
 ### Update a form
 
-PUT https://www.FormBucket.com/api/forms/:id
+PUT https://www.FormBucket.com/forms/:id
 
 #### Parameters
 
@@ -83,7 +109,7 @@ See example responses in "Create a new form"
 
 ### Delete a form
 
-DELETE https://www.FormBucket.com/api/forms/:id
+DELETE https://www.FormBucket.com/forms/:id
 
 __WARNING.__ Deleting a form removes all submissions from our system.
 
@@ -97,24 +123,60 @@ API_KEY       | string        | __Required__. The API key provided on your user 
 
 Submissions are actual form data entered by the users of your form.
 
-### Get a list of submissions
+### Get all submissions
 
-GET https://www.FormBucket.com/api/submissions
+GET https://www.FormBucket.com/submissions/:form_id.json
 
 #### Parameters
 
 Name          | Type          | Description
 ------------- | ------------- | -----------
 API_KEY       | string        | __Required__. The API key provided on your user profile page
+form_id       | integer       | __Required__. The id of the form. This parameter is in the URL instead of the query string.
 limit         | integer       | __Optional__. Restrict the number of submissions returned by the request. Default to 100.
 offset        | integer       | __Optional__. Offset the result to enable paging. To keep it simple the first record is 1 and the last record is the number of submissions. Records are sorted by the time received.
 
-
 #### Example Response
+
+```JSON
+[
+  {
+    "form_id":
+    "total": 1,
+    "count": 1,
+    "limit": 10,
+    "offset": 0,
+    "data": [{
+      "_id": "55a7281db501a6987ed5c354",
+      "subject": "Customer request",
+      "message": "Thanks for doing this. I really appreciate man."
+    }]
+  }
+]
+```
 
 ### Create a new submission
 
-POST https://www.FormBucket.com/api/submission
+POST https://www.FormBucket.com/f/:id
+
+#### Parameters
+
+The form may include any parameter needed to meet your data collection requirement.
+
+If you wish to transmit images or other files then the form must include 'enctype="multipart/form-data"'.
+
+The system is designed to capture small documents and images. The maximum file size is 5MB with a max per request of 10MB. If you need to transmit larger files then please contact customer support.
+
+### Delete a submission
+
+DELETE https://www.FormBucket.com/submission/:id
+
+#### Parameters
+
+Name          | Type          | Description
+------------- | ------------- | -----------
+API_KEY       | string        | __Required__. The API key provided on your user profile page
+id            | guid          | __Required__. The id of the submission.
 
 ## Error Codes
 
