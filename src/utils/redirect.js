@@ -1,5 +1,5 @@
-export default function redirect() {
+export default function redirect(url) {
   return function() {
-    document.location=this
+    document.location=url
   }
 }
