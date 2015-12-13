@@ -15,8 +15,7 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
-    new ExtractTextPlugin('app.css')
+    new webpack.NoErrorsPlugin()
   ],
   module: {
     loaders: [{
@@ -25,9 +24,7 @@ module.exports = {
       include: path.join(__dirname, 'src')
     }, {
       test: /\.scss$/,
-      loader: ExtractTextPlugin.extract(
-        "style",
-        "css!sass")
+      loaders: ['style', 'css', 'sass']
     }, {
         test: /\.md$/,
         loader: 'raw'
