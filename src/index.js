@@ -14,10 +14,6 @@ import Forms from './components/Forms'
 import Submissions from './components/Submissions'
 import Profile from './components/Profile'
 import PageNotFound from './components/PageNotFound'
-import {initUser} from './stores/actions'
-import {dispatch} from 'sweetflux'
-
-dispatch(initUser)
 
 require('../scss/app.scss')
 

@@ -24,15 +24,17 @@ const Signup = React.createClass({
           </div>
           <div className="email-signup">
             <p>Sign up with Email</p>
+            <form action="post" method="/signup">
               <label for="fullName">Full Name</label>
-              <input type="text" id="fullName" placeholder="e.g. Nikola Tesla"/>
+              <input type="text" id="fullName" name="displayName" placeholder="e.g. Nikola Tesla"/>
               <label for="emailAddress">Email Address</label>
-              <input type="text" id="emailAddress" placeholder="nikola@altcurrent.com"/>
+              <input type="text" id="emailAddress" name="username" placeholder="nikola@altcurrent.com"/>
               <label for="createPassword"><FontAwesome name='lock' /> Create Password</label>
-              <input type="password" id="createPassword"/>
+              <input type="password" id="createPassword" name="password" />
               <label for="confirmPassword"><FontAwesome name='lock' /> Confirm Password</label>
-              <input type="password" id="confirmPassword"/>
-              <button onClick={redirect('')}>Create Account</button>
+              <input type="password" id="confirmPasswordB"/>
+              <input type="submit" value="Create Account" />
+            </form>
           </div>
         </div>
       </div>

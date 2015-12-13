@@ -78,7 +78,7 @@ const Welcome = React.createClass({
                 <li>CSV Export</li>
                 <li><s>File Uploads</s></li>
               </ul>
-              <button className="signup">Sign Up</button>
+              <button onClick={() => this.props.history.push('/signup?plan=personal') } className="signup">Sign Up</button>
             </div>
             <div className="pricing-plan">
               <p>Startup</p>
@@ -90,7 +90,7 @@ const Welcome = React.createClass({
                   <li>CSV Export</li>
                   <li>Up to 2MB File Uploads</li>
                 </ul>
-              <button className="signup">Sign Up</button>
+              <button onClick={() => this.props.history.push('/signup?plan=startup') } className="signup">Sign Up</button>
             </div>
             <div className="pricing-plan">
               <p>Enterprise</p>
@@ -102,7 +102,7 @@ const Welcome = React.createClass({
                   <li>CSV Export</li>
                   <li>Up to 10MB File Uploads</li>
                 </ul>
-              <button className="signup">Sign Up</button>
+              <button onClick={() => this.props.history.push('/signup?plan=enterprise') } className="signup">Sign Up</button>
             </div>
           </div>
         </div>

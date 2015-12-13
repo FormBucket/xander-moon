@@ -1,27 +1,31 @@
 import {createStore, dispatch} from 'sweetflux'
+import {initUser} from './actions'
 
 function getMetaContentByName(name,content){
    var content = (content==null)?'content':content;
-   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+   var el = document.querySelector("meta[name='"+name+"']");
+   if (el) {
+     return el.getAttribute(content);
+   }
 }
 
 const UserStore = createStore(
   'UserStore',
-  { id: '', email: '', name: ''},
+  { id: undefined, email: undefined, name: undefined},
   (state, action) => {
     switch (action.type) {
       case initUser:
       return {
         id: getMetaContentByName('user.id'),
         email: getMetaContentByName('user.email'),
-        name: getMetaContentByName('user.name'),
+        displayName: getMetaContentByName('user.displayName'),
       }
       default:
       return state
     }
   },
   {
-    isUserLoggedIn: (state) => state.id !== '',
+    isUserLoggedIn: (state) => typeof state.id !== 'undefined',
     getId: (state) => state.id,
     getEmail: (state) => state.email,
     getName: (state) => state.name,
