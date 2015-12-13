@@ -178,16 +178,52 @@ Name          | Type          | Description
 apikey        | string        | __Required__. The API key provided on your user profile page
 id            | guid          | __Required__. The id of the submission.
 
+### Get submissions
+
+GET https://www.FormBucket.com/submissions.json
+
+#### Example Response
+
+```js
+[{
+  form: 'afbi23',
+  createdOn: '2015-01-24T12:23:32',
+  data: [{
+    // actual fields submitted
+  }]
+}]
+```
+
 ### Get a realtime stream of submissions
 
 GET https://www.FormBucket.com/submissions/events
 
+Access a realtime stream of data with the industry standard Server Sent Events protocol.
 
+Integrating this functionality into a supported browser is easy.
+
+```js
+var es = new EventSource("https://www.FormBucket.com/submissions/events");
+es.onmessage = function (event) {
+  console.log(event.data);
+};
+```  
+
+#### Example Response
+
+```js
+:ok
+
+data: { form: '12fdOd', createdOn: '2015-01-24T12:23:32', data: [ /* actually form */ ]}
+
+data: { form: '12fdOd', createdOn: '2015-01-24T12:23:32', data: [ /* actually form */ ]}
+```
 
 ### Get a realtime stream of submission for a form
 
 GET https://www.FormBucket.com/submissions/:id/events
 
+This is the same as the stream for all forms, except that the results are filtered to a particular form.
 
 ## Error Codes
 
