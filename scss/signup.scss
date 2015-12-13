@@ -1,0 +1,24 @@
+.page-heading {
+  height: 6rem;
+  background-color: $purple;
+  color: $lightest-purple;
+
+  h1 {
+    margin: 0;
+    padding: 0;
+    line-height: 6rem;
+  }
+}
+
+.chooser {
+  @include span-columns(4);
+
+  button {
+    width: 100%;
+    margin-bottom: $base-spacing;
+  }
+}
+
+.billing {
+  @include span-columns(8);
+}

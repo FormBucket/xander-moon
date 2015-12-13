@@ -19,6 +19,10 @@ body {
   line-height: 4rem;
 }
 
+button {
+  text-transform: uppercase;
+}
+
 .main {
 }
 
@@ -28,10 +32,16 @@ body {
   padding: 20px 0;
   text-align: center;
   color: $dark-purple;
+
+  a {
+    color: $purple;
+    text-decoration: underline;
+  }
 }
 
 /* page elements */
 @import "api";
 @import "faqs";
 @import "login";
+@import "signup";
 @import "welcome";

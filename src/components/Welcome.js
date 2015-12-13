@@ -67,7 +67,7 @@ const Welcome = React.createClass({
             </div>
           </div>
           <div className="features plans">
-            <h2>30-Day Free Trial on All Plans</h2>
+            <h2>30-Day Money Back Guarantee on All Plans</h2>
             <div className="pricing-plan">
               <p>Personal</p>
               <h3>$5/mo</h3>

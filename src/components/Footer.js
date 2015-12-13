@@ -5,7 +5,7 @@ const Footer = React.createClass({
   render () {
     return (
       <div className="footer">
-        <Link to="faqs">FAQs</Link> | <Link to="api">API</Link>
+        &copy; 2015 FormBucket <Link to="faqs">FAQs</Link> | <Link to="api">API</Link>
       </div>
     )
   }

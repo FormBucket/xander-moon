@@ -6,7 +6,9 @@ const Header = React.createClass({
     return (
       <div className="header">
         <div className="wrapper">
-          FormBucket
+          <Link to="/">
+            FormBucket
+          </Link>
           <Link style={{float: 'right', color: 'white' }} to="login">
             Login
           </Link>
