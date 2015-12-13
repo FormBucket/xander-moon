@@ -230,14 +230,16 @@ This is the same as the stream for all forms, except that the results are filter
 
  ID  | Text
  --- | ----
- 1   | apikey is required.
+ 1   | Record not found.
  2   | Name is required.
- 99  | System error.
 
  ## HTTP Status Codes
 
   ID    | Text
   ----- | ----
   200   | Success
-  4xx   | Invalid request
+  400   | Bad Request
+  401   | Unauthorized
+  403   | Forbidden
+  404   | Not Found
   500   | Unexpected system error
