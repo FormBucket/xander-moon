@@ -28,6 +28,7 @@ button {
 
 .footer {
   @include outer-container;
+  margin-top: $base-spacing * 3;
   height: 5rem;
   padding: 20px 0;
   text-align: center;
