@@ -46,7 +46,8 @@ GET https://www.FormBucket.com/forms/:id.json
 
 Name          | Type          | Description
 ------------- | ------------- | -----------
-apikey        | string        | __Required__. The API key provided on your user profile page
+apikey        | string        | __Required__. The API key provided on your user profile page.
+id            | string        | __Required__. The id assigned to the form.
 
 #### Example request
 
