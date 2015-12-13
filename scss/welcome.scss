@@ -125,6 +125,10 @@
   }
 }
 
+.free-plan {
+  @include span-columns(12);
+}
+
 .signup {
   width: 100%;
 }

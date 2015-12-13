@@ -7,6 +7,7 @@ import App from './components/App'
 
 import Welcome from './components/Welcome'
 import Signup from './components/Signup'
+import Billing from './components/Billing'
 import Login from './components/Login'
 import FAQs from './components/FAQs'
 import API from './components/API'
@@ -28,6 +29,7 @@ render((
     <Route path="/" component={App}>
       <IndexRoute component={Welcome} />
       <Route path="signup" component={Signup} />
+      <Route path="billing" component={Billing} />
       <Route path="login" component={Login} />
       <Route path="faqs" component={FAQs} />
       <Route path="api" component={API} />

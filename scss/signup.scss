@@ -13,6 +13,10 @@
 .chooser {
   @include span-columns(4);
 
+  @include media($mobile) {
+    @include span-columns(12);
+  }
+
   button {
     width: 100%;
     margin-bottom: $base-spacing;
@@ -22,6 +26,10 @@
 .or {
   @include span-columns(2);
   text-transform: uppercase;
+
+  @include media($mobile) {
+    @include span-columns(12);
+  }
 
   p {
     margin: auto;
@@ -36,7 +44,11 @@
 }
 
 .email-signup {
-  @include span-columns(4);
+  @include span-columns(6);
+
+  @include media($mobile) {
+    @include span-columns(12);
+  }
 
   p {
     text-transform: uppercase;

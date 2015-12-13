@@ -105,6 +105,11 @@ const Welcome = React.createClass({
               <button onClick={() => this.props.history.push('/signup?plan=enterprise') } className="signup">Sign Up</button>
             </div>
           </div>
+          <div className="features free-plan">
+            <p>
+              Need just a basic no-frills contact form? Check out our <a href="#">Free Plan</a>.
+            </p>
+          </div>
         </div>
       </div>
     )
