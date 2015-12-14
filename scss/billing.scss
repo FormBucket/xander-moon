@@ -12,9 +12,11 @@
 
 .billing-plan {
     padding: $base-spacing / 2;
+    border: 1px solid $lightest-purple;
 }
 
 .billing-plan:hover {
+  border: 1px solid $lightest-purple;
   background-color: white;
   border-radius: 3px;
 }

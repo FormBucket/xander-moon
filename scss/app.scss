@@ -10,10 +10,6 @@ body {
 /* Layout Elements */
 .wrapper {
   @include outer-container;
-
-  @include media($mobile) {
-    padding: 0 1rem;
-  }
 }
 
 .header {
