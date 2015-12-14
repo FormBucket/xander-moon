@@ -44,6 +44,7 @@
     "highlight.js": "^9.0.0",
     "history": "^1.13.0",
     "immutable": "^3.7.5",
+    "moment": "^2.10.6",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "react-fontawesome": "^0.3.3",
