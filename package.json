@@ -39,7 +39,7 @@
     "webpack-hot-middleware": "^2.0.0"
   },
   "dependencies": {
-    "formbucket-common": "../formbucket-common",
+    "formbucket-common": "file:../formbucket-common",
     "functionfoundry": "^0.5.8",
     "highlight.js": "^9.0.0",
     "history": "^1.13.0",
