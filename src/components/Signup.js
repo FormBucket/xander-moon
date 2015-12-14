@@ -33,7 +33,7 @@ const Signup = React.createClass({
               <input type="password" id="createPassword" name="password" />
               <label for="confirmPassword"><FontAwesome name='lock' /> Confirm Password</label>
               <input type="password" id="confirmPasswordB"/>
-              <input className="button" type="submit" value="Create Account" />
+              <input className="button" type="submit" value="Sign Up" />
             </form>
           </div>
         </div>

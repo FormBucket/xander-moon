@@ -15,18 +15,48 @@ const Billing = React.createClass({
         </div>
         <div className="wrapper">
           <h2>You can upgrade or downgrade your plan at any time.</h2>
-          <div className="email-signup">
-            <p>Plan</p>
-            <form action="post" method="/signup">
-              <label for="fullName">Full Name</label>
-              <input type="text" id="fullName" name="displayName" placeholder="e.g. Nikola Tesla"/>
-              <label for="emailAddress">Email Address</label>
-              <input type="text" id="emailAddress" name="username" placeholder="nikola@altcurrent.com"/>
-              <label for="createPassword"><FontAwesome name='lock' /> Create Password</label>
-              <input type="password" id="createPassword" name="password" />
-              <label for="confirmPassword"><FontAwesome name='lock' /> Confirm Password</label>
-              <input type="password" id="confirmPasswordB"/>
-              <input className="button" type="submit" value="Create Account" />
+          <div className="billing-details">
+            <form action="post" method="">
+              <h3>Plan</h3>
+              <div className="selected-plan">
+                <label>
+                  <input type="radio" class="radio" name="radio_button" value="radio_1" checked/> Free
+                    <span className="pill">Selected!</span>
+                </label>
+              </div>
+              <div className="billing-plan">
+                <label>
+                  <input type="radio" class="radio" name="radio_button" value="radio_2"/> Pro
+                </label>
+              </div>
+              <div className="billing-plan">
+                <label>
+                  <input type="radio" class="radio" name="radio_button" value="radio_3"/> Startup
+                </label>
+              </div>
+              <div className="billing-plan">
+                <label>
+                  <input type="radio" class="radio" name="radio_button" value="radio_4"/> Enterprise
+                </label>
+              </div>
+              <hr/>
+              <h3><FontAwesome name='lock' /> Payment Details</h3>
+                <div className="payment-info">
+                  <div className="cardNumber">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" data-stripe="number"/>
+                  </div>
+                  <div className="cvc">
+                    <label for="cvc">CVC</label>
+                    <input type="text" id="cvc" data-stripe="cvc"/>
+                  </div>
+                  <div className="exp">
+                    <label for="exp">Exp</label>
+                    <input type="text" id="exp" data-stripe="exp" placeholder="MM/YYYY"/>
+                  </div>
+                </div>
+                <p>Your card will be charged $[plan amount] on the [day] of each month.</p>
+                <input className="button" type="submit" value="Create My Account" />
             </form>
           </div>
         </div>

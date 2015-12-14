@@ -69,7 +69,7 @@ const Welcome = React.createClass({
           <div className="features plans">
             <h2>30-Day Money Back Guarantee on All Plans</h2>
             <div className="pricing-plan">
-              <p>Personal</p>
+              <p>Pro</p>
               <h3>$5/mo</h3>
               <ul>
                 <li>1 Form</li>
@@ -78,7 +78,7 @@ const Welcome = React.createClass({
                 <li>CSV Export</li>
                 <li><s>File Uploads</s></li>
               </ul>
-              <button onClick={() => this.props.history.push('/signup?plan=personal') } className="signup">Sign Up</button>
+              <button onClick={() => this.props.history.push('/signup?plan=pro') } className="signup">Sign Up</button>
             </div>
             <div className="pricing-plan">
               <p>Startup</p>
