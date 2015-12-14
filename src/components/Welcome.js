@@ -1,12 +1,9 @@
 import React, { PropTypes } from 'react'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
-import Common from 'formbucket-common'
-import Foundry from 'functionfoundry'
+import {COND} from 'functionfoundry'
+import {Plans} from 'formbucket-common'
 
-// FIXME: why doesn't destructuring work with import
-var {COND} = Foundry
-var {Plans} = Common
 var PaidPlans = Plans.slice(1, 4)
 
 var content = require('../content/example-code.md');
@@ -77,7 +74,7 @@ const Welcome = React.createClass({
             <h2>30-Day Money Back Guarantee on All Plans</h2>
 
             { PaidPlans.map(plan => (
-                <div className="pricing-plan foo">
+                <div key={plan.id} className="pricing-plan foo">
                   <p>{plan.displayName}</p>
                   <h3>${plan.monthly_cost}/mo</h3>
                     <ul>
@@ -90,7 +87,7 @@ const Welcome = React.createClass({
                         <li><s>File Uploads</s></li>)
                        }
                     </ul>
-                  <button onClick={() => { localStorage.setItem('plan', plan.code); this.props.history.push('/signup?plan=' + plan.code) } } className="signup">Sign Up</button>
+                  <button onClick={() => { localStorage.setItem('plan', plan.code); this.props.history.push('/signup') } } className="signup">Sign Up</button>
                 </div>
               ))
             }

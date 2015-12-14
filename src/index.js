@@ -3,6 +3,7 @@ import { render } from 'react-dom'
 
 import { Router, Route, Link, IndexRoute } from 'react-router'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
+
 import App from './components/App'
 
 import Welcome from './components/Welcome'
@@ -18,14 +19,10 @@ import PageNotFound from './components/PageNotFound'
 
 require('../scss/app.scss')
 
-
-function handleUpdate(){
-  window.prerenderReady = true
-}
 // Finally, we render a <Router> with some <Route>s.
 // It does all the fancy routing stuff for us.
 render((
-  <Router history={createBrowserHistory()} onUpdate={handleUpdate}>
+  <Router history={createBrowserHistory()} onUpdate={() => window.prerenderReady = true}>
     <Route path="/" component={App}>
       <IndexRoute component={Welcome} />
       <Route path="signup" component={Signup} />

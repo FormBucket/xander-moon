@@ -5,8 +5,10 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
+
+import UserStore from '../stores/user'
 import {dispatch} from 'sweetflux'
-import {initUser} from '../stores/actions'
+import {INIT_USER} from '../stores/actions'
 
 /* Write some great components about what data
 * this application displays and how it needs to be
@@ -15,7 +17,7 @@ import {initUser} from '../stores/actions'
 const App = React.createClass({
 
   componentDidMount: function() {
-    dispatch(initUser)
+    dispatch(INIT_USER)
   },
 
   render() {
