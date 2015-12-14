@@ -4,6 +4,7 @@ import markdownOptions from './markdown-options'
 import redirect from '../utils/redirect'
 import Common from 'formbucket-common'
 import Foundry from 'functionfoundry'
+import moment from 'moment'
 
 // FIXME: why doesn't destructuring work with import
 var {COND} = Foundry
@@ -47,7 +48,7 @@ const Billing = React.createClass({
               <input type="text" id="exp" data-stripe="exp" placeholder="MM/YYYY"/>
             </div>
           </div>
-          <p>Your card will be charged $[plan amount] on the [day] of each month.</p>
+          <p>Your card will be charged ${this.state.selectedPlan.monthly_cost}.00 on the {moment().format('Do')} of each month.</p>
       </div>
     )
 
