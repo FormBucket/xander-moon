@@ -48,3 +48,15 @@
 .exp {
   @include span-columns(4);
 }
+
+.checkout {
+  @include shift(2);
+  text-align: right;
+
+  @include media($mobile) {
+    @include span-columns(12);
+    @include shift(0);
+    margin-top: $base-spacing;
+    text-align: center;
+  }
+}

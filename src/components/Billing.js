@@ -63,7 +63,7 @@ const Billing = React.createClass({
           <h2>You can upgrade or downgrade your plan at any time.</h2>
           <div className="billing-details">
 
-              <h3>Plan (${this.state.selectedPlan.monthly_cost}.00)</h3>
+              <h3>Plan</h3>
               { Plans.map( plan => COND(
                 this.state.selectedPlanCode === plan.code,
                 <div className="selected-plan">
@@ -90,7 +90,7 @@ const Billing = React.createClass({
           </div>
           <div>
 
-            <div className="pricing-plan foo">
+            <div className="pricing-plan checkout">
               <p>{this.state.selectedPlan.displayName}</p>
               <h3>${this.state.selectedPlan.monthly_cost}/mo</h3>
                 <ul>
