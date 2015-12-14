@@ -6,6 +6,14 @@ module.exports = {
   entry: [
     './src/index'
   ],
+  externals: {
+    'highlight.js': 'hljs ',
+    'react': 'React',
+    'react-dom': 'ReactDOM',
+    'react-router': 'ReactRouter',
+    'remarkable': 'Remarkable',
+    'moment': 'moment'
+  },
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
