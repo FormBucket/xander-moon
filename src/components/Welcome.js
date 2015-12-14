@@ -1,6 +1,13 @@
 import React, { PropTypes } from 'react'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
+import Common from 'formbucket-common'
+import Foundry from 'functionfoundry'
+
+// FIXME: why doesn't destructuring work with import
+var {COND} = Foundry
+var {Plans} = Common
+var PaidPlans = Plans.slice(1, 4)
 
 var content = require('../content/example-code.md');
 
@@ -68,42 +75,26 @@ const Welcome = React.createClass({
           </div>
           <div className="features plans">
             <h2>30-Day Money Back Guarantee on All Plans</h2>
-            <div className="pricing-plan">
-              <p>Pro</p>
-              <h3>$5/mo</h3>
-              <ul>
-                <li>1 Form</li>
-                <li>Unlimited Submissions</li>
-                <li>Unlimited Custom Rules</li>
-                <li>CSV Export</li>
-                <li><s>File Uploads</s></li>
-              </ul>
-              <button onClick={() => this.props.history.push('/signup?plan=pro') } className="signup">Sign Up</button>
-            </div>
-            <div className="pricing-plan">
-              <p>Startup</p>
-              <h3>$24/mo</h3>
-                <ul>
-                  <li>10 Forms</li>
-                  <li>Unlimited Submissions</li>
-                  <li>Unlimited Custom Rules</li>
-                  <li>CSV Export</li>
-                  <li>Up to 2MB File Uploads</li>
-                </ul>
-              <button onClick={() => this.props.history.push('/signup?plan=startup') } className="signup">Sign Up</button>
-            </div>
-            <div className="pricing-plan">
-              <p>Enterprise</p>
-              <h3>$99/mo</h3>
-                <ul>
-                  <li>100 Forms</li>
-                  <li>Unlimited Submissions</li>
-                  <li>Unlimited Custom Rules</li>
-                  <li>CSV Export</li>
-                  <li>Up to 10MB File Uploads</li>
-                </ul>
-              <button onClick={() => this.props.history.push('/signup?plan=enterprise') } className="signup">Sign Up</button>
-            </div>
+
+            { PaidPlans.map(plan => (
+                <div className="pricing-plan foo">
+                  <p>{plan.displayName}</p>
+                  <h3>${plan.monthly_cost}/mo</h3>
+                    <ul>
+                      <li>{plan.max_forms} Forms</li>
+                      <li>Unlimited Submissions</li>
+                      <li>Unlimited Custom Rules</li>
+                      <li>CSV Export</li>
+                      { COND(plan.allow_file_uploads,
+                        <li>Up to {plan.max_submissions_mb}MB File Uploads</li>,
+                        <li><s>File Uploads</s></li>)
+                       }
+                    </ul>
+                  <button onClick={() => { localStorage.setItem('plan', plan.code); this.props.history.push('/signup?plan=' + plan.code) } } className="signup">Sign Up</button>
+                </div>
+              ))
+            }
+
           </div>
           <div className="features free-plan">
             <p>
