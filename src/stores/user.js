@@ -1,8 +1,6 @@
 import {createStore, dispatch} from 'sweetflux'
 import {INIT_USER} from './actions'
 
-console.log('init', INIT_USER)
-
 function getMetaContentByName(name,content){
    var content = (content==null)?'content':content;
    var el = document.querySelector("meta[name='"+name+"']");
