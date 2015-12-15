@@ -1,7 +1,7 @@
 .billing-details {
   @include span-columns(6);
 
-  @include media($mobile) {
+  @include media($phablet) {
     @include span-columns(12);
   }
 
@@ -25,7 +25,6 @@
   border: 1px solid $purple;
   border-radius: 3px;
   padding: $base-spacing / 2;
-  background-color: white;
 }
 
 .pill {
@@ -52,10 +51,11 @@
 }
 
 .checkout {
+  @include span-columns(4);
   @include shift(2);
   text-align: right;
 
-  @include media($mobile) {
+  @include media($tablet) {
     @include span-columns(12);
     @include shift(0);
     margin-top: $base-spacing;

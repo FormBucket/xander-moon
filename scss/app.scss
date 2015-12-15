@@ -10,6 +10,7 @@ body {
 /* Layout Elements */
 .wrapper {
   @include outer-container;
+  padding: 0 1rem;
 }
 
 .header {

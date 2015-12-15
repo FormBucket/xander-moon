@@ -19,34 +19,34 @@ const Welcome = React.createClass({
           <div className="wrapper">
             <h1>Powerful form handling for your static sites</h1>
             <h2>No embeds or iframes. Your fields, your CSS. We take care of the rest!</h2>
-          </div>
-          <div className="features tour">
-            <div className="key-features">
-              <div className="feature fade-in one">
-                <img className="icon" src="/img/icon-markup.svg" alt="raw html" />
-                <div className="copy">
-                  <h3>Bare Metal Markup</h3>
-                  <p>
-                    Get raw form HTML with a unique URL endpoint. Drop it right into your project!
-                  </p>
+            <div className="features tour">
+              <div className="key-features">
+                <div className="feature fade-in one">
+                  <img className="icon" src="/img/icon-markup.svg" alt="raw html" />
+                  <div className="copy">
+                    <h3>Bare Metal Markup</h3>
+                    <p>
+                      Get raw form HTML with a unique URL endpoint. Drop it right into your project!
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="feature fade-in two">
-                <img className="icon" src="/img/icon-rules.svg" alt="raw html" />
-                <div className="copy">
-                  <h3>Custom Rules</h3>
-                  <p>
-                    Redirect users to any URL after your form is submitted and configure unlimited webhooks.
-                  </p>
+                <div className="feature fade-in two">
+                  <img className="icon" src="/img/icon-rules.svg" alt="raw html" />
+                  <div className="copy">
+                    <h3>Custom Rules</h3>
+                    <p>
+                      Redirect users to any URL after your form is submitted and configure unlimited webhooks.
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="feature fade-in three">
-                <img className="icon" src="/img/icon-submissions.svg" alt="raw html" />
-                <div className="copy">
-                  <h3>Submissions Manager</h3>
-                  <p>
-                    Submissions get delivered to your inbox and stored in a searchable dashboard.
-                  </p>
+                <div className="feature fade-in three">
+                  <img className="icon" src="/img/icon-submissions.svg" alt="raw html" />
+                  <div className="copy">
+                    <h3>Submissions Manager</h3>
+                    <p>
+                      Submissions get delivered to your inbox and stored in a searchable dashboard.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
