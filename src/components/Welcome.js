@@ -78,8 +78,16 @@ const Welcome = React.createClass({
                   <p>{plan.displayName}</p>
                   <h3>${plan.monthly_cost}/mo</h3>
                     <ul>
-                      <li>{plan.max_forms} Forms</li>
-                      <li>Unlimited Submissions</li>
+                      <li>
+                      { COND(
+                          plan.max_forms === Number.POSITIVE_INFINITY,
+                          'Unlimited',
+                          plan.max_forms )} Forms</li>
+                      <li>
+                      { COND(
+                          plan.max_submissions_per_month === Number.POSITIVE_INFINITY,
+                          'Unlimited',
+                          plan.max_submissions_per_month )} Submissions</li>
                       <li>Unlimited Custom Rules</li>
                       <li>CSV Export</li>
                       { COND(plan.allow_file_uploads,

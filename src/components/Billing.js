@@ -91,8 +91,16 @@ const Billing = React.createClass({
               <p>{this.state.selectedPlan.displayName}</p>
               <h3>${this.state.selectedPlan.monthly_cost}/mo</h3>
                 <ul>
-                  <li>{this.state.selectedPlan.max_forms} Forms</li>
-                  <li>{this.state.selectedPlan.max_submissions_per_month} Submissions</li>
+                  <li>
+                    { COND(
+                        this.state.selectedPlan.max_forms === Number.POSITIVE_INFINITY,
+                        'Unlimited',
+                        this.state.selectedPlan.max_forms )} Forms</li>
+                  <li>
+                  { COND(
+                      this.state.selectedPlan.max_submissions_per_month === Number.POSITIVE_INFINITY,
+                      'Unlimited',
+                      this.state.selectedPlan.max_submissions_per_month )} Submissions</li>
                   <li>Unlimited Custom Rules</li>
                   { COND(this.state.selectedPlan.allow_csv_export,
                     <li>CSV Export</li>,
