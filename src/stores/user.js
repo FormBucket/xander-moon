@@ -1,5 +1,5 @@
 import {createStore, dispatch} from 'sweetflux'
-import {initUser} from './actions'
+import {INIT_USER} from './actions'
 
 function getMetaContentByName(name,content){
    var content = (content==null)?'content':content;
@@ -14,7 +14,7 @@ const UserStore = createStore(
   { id: undefined, email: undefined, name: undefined},
   (state, action) => {
     switch (action.type) {
-      case initUser:
+      case INIT_USER:
       return {
         id: getMetaContentByName('user.id'),
         email: getMetaContentByName('user.email'),

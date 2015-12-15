@@ -1,16 +1,13 @@
 import React, { PropTypes } from 'react'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
+import FontAwesome from 'react-fontawesome'
 import redirect from '../utils/redirect'
 import Common from 'formbucket-common'
-import Foundry from 'functionfoundry'
 import moment from 'moment'
+import {COND} from 'functionfoundry'
+import {Plans} from 'formbucket-common'
 
-// FIXME: why doesn't destructuring work with import
-var {COND} = Foundry
-var {Plans} = Common
-
-var FontAwesome = require('react-fontawesome');
 const Billing = React.createClass({
   getInitialState: () => {
     var planCode = localStorage.getItem('plan') || 'free'
@@ -66,13 +63,13 @@ const Billing = React.createClass({
               <h3>Plan</h3>
               { Plans.map( plan => COND(
                 this.state.selectedPlanCode === plan.code,
-                <div className="selected-plan">
+                <div key={plan.id} className="selected-plan">
                   <label>
                     <input type="radio" class="radio" name="radio_button" value="radio_1" checked/> {plan.displayName}
                       <span className="pill">Selected!</span>
                   </label>
                 </div>,
-                <div className="billing-plan" onClick={this.handlePlanClick.bind(cmp, plan.code)}>
+                <div key={plan.id} className="billing-plan" onClick={this.handlePlanClick.bind(cmp, plan.code)}>
                   <label>
                     <input type="radio" class="radio" name="radio_button" value="radio_2"/> {plan.displayName}
                   </label>

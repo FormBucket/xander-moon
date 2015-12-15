@@ -3,11 +3,12 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
+  devtool: 'source-map',
   entry: [
     './src/index'
   ],
   externals: {
-    'highlight.js': 'hljs ',
+    'highlight.js': 'hljs',
     'react': 'React',
     'react-dom': 'ReactDOM',
     'react-router': 'ReactRouter',
