@@ -1,5 +1,5 @@
 import {createStore} from 'sweetflux'
-import {loadSubmissions} from './actions'
+import {LOAD_SUBMISSIONS} from './actions'
 import {Map} from 'immutable';
 
 const SubmissionStore = createStore(
@@ -7,7 +7,7 @@ const SubmissionStore = createStore(
   Map(),
   (state, action) => {
     switch (action.type) {
-      case loadSubmissions:
+      case LOAD_SUBMISSIONS:
         return state.set('submissions', action.data);
       default:
         return state;

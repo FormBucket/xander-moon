@@ -8,7 +8,7 @@ const Header = React.createClass({
     return {}
   },
 
-  componentWillMount: function() {
+  componentDidMount: function() {
     this.storeSubscription = UserStore.addListener(this.handleUserStoreChanged)
   },
 

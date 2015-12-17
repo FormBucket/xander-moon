@@ -1,5 +1,5 @@
 import {createStore} from 'sweetflux'
-import {loadProfile} from './actions'
+import {LOAD_PROFILE} from './actions'
 import {Map} from 'immutable';
 
 const ProfileStore = createStore(
@@ -7,7 +7,7 @@ const ProfileStore = createStore(
   Map(),
   (state, action) => {
     switch (action.type) {
-      case loadProfile:
+      case LOAD_PROFILE:
         return action.data
       default:
         return state

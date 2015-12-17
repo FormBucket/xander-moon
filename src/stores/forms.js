@@ -1,5 +1,5 @@
 import {createStore} from 'sweetflux'
-import {loadForms} from './actions'
+import {LOAD_FORMS} from './actions'
 import {Map} from 'immutable'
 
 const FormStore = createStore(
@@ -7,7 +7,7 @@ const FormStore = createStore(
   Map(),
   (state, action) => {
     switch (action.type) {
-      case loadForms:
+      case LOAD_FORMS:
         return state.set('forms', action.data)
       default:
         return state
