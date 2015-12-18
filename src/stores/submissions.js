@@ -1,20 +1,22 @@
 import {createStore} from 'sweetflux'
-import {LOAD_SUBMISSIONS} from './actions'
-import {Map} from 'immutable';
+import {RECEIVE_SUBMISSION, RECEIVE_SUBMISSIONS} from './actions'
+import {List} from 'immutable';
 
 const SubmissionStore = createStore(
   'Submissions',
-  Map(),
+  List(),
   (state, action) => {
     switch (action.type) {
-      case LOAD_SUBMISSIONS:
-        return state.set('submissions', action.data);
+      case RECEIVE_SUBMISSIONS:
+        return state.concat(action.data);
+      case RECEIVE_SUBMISSION:
+        return state.push(action.data);
       default:
         return state;
     }
   },
   {
-    getSubmissions: (state) => state.get('submissions'),
+    getSubmissions: (state) => state,
   }
 )
 

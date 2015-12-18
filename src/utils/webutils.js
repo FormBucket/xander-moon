@@ -50,7 +50,7 @@ export function getForm(id){
     name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
   })
 */
-export function createForm(data){
+export function requestCreateForm(data){
   return fetch('/forms', {
     credentials: 'include',
     method: 'post',
@@ -69,7 +69,7 @@ export function createForm(data){
     name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
   })
 */
-export function updateForm(data){
+export function requireUpdateForm(data){
   return fetch('/forms/5oFr9Lr', {
     method: 'put', credentials: 'include',
     headers: {

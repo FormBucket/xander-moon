@@ -6,9 +6,7 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 
-import UserStore from '../stores/user'
-import {dispatch} from 'sweetflux'
-import {INIT_USER} from '../stores/actions'
+import {initUser} from '../stores/ActionCreator'
 
 /* Write some great components about what data
 * this application displays and how it needs to be
@@ -17,7 +15,7 @@ import {INIT_USER} from '../stores/actions'
 const App = React.createClass({
 
   componentDidMount: function() {
-    dispatch(INIT_USER)
+    initUser()
   },
 
   render() {
