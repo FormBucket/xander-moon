@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import {Link} from 'react-router'
 import UserStore from '../stores/user'
+var FontAwesome = require('react-fontawesome');
 
 const Header = React.createClass({
 
@@ -27,15 +28,20 @@ const Header = React.createClass({
 
   render () {
     var topRight = (
-      <Link style={{float: 'right', color: 'white' }} to="login">
-        Login
-      </Link>
+      <div className="nav">
+        <ul className="menu">
+          <li><Link to="login">Login</Link></li>
+        </ul>
+      </div>
     )
 
     if (this.state.user) {
       topRight = (
-        <div style={{float: 'right', color: 'white' }} >
-          <Link to="/dashboard">Dashboard</Link> Welcome, {this.state.user.displayName} <a href="/logout">Logout</a>
+        <div className="nav">
+          <ul className="menu">
+            <li><Link to="/dashboard">Dashboard</Link></li>
+            <li><a href="/logout">Logout</a></li>
+          </ul>
         </div>
       )
     }

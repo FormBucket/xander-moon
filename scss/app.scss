@@ -20,6 +20,22 @@ body {
   line-height: 4rem;
 }
 
+.nav {
+    float: right;
+}
+
+.menu {
+
+  li {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+
+  li:last-child {
+    margin-right: 0;
+  }
+}
+
 button, .button {
   text-transform: uppercase;
 }
