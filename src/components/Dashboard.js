@@ -35,16 +35,16 @@ const Dashboard = React.createClass({
                   </thead>
                   <tbody>
                     <tr>
-                      <td><Link to="#">Contact</Link></td>
-                      <td>38</td>
+                      <td><Link to="#"><FontAwesome name='gear' /> Contact</Link></td>
+                      <td><h3><Link to="#">38</Link></h3></td>
                     </tr>
                     <tr>
-                      <td><Link to="#">Beta Signup</Link></td>
-                      <td>3,099</td>
+                      <td><Link to="#"><FontAwesome name='gear' /> Beta Signup</Link></td>
+                      <td><h3><Link to="#">3,099</Link></h3></td>
                     </tr>
                     <tr>
-                      <td><Link to="#">Pre-Orders</Link></td>
-                      <td>201</td>
+                      <td><Link to="#"><FontAwesome name='gear' /> Pre-Orders</Link></td>
+                      <td><h3><Link to="#">201</Link></h3></td>
                     </tr>
                   </tbody>
                 </table>
