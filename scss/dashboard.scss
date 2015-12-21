@@ -6,7 +6,6 @@
   $tab-border: 1px solid $base-border-color;
   $tab-active-background: $base-background-color;
   $tab-inactive-color: none;
-  $tab-mode: $medium-screen;
 
   @include clearfix;
   line-height: 1.5;
@@ -32,6 +31,12 @@
     @include media($medium-screen-up) {
       @include inline-block;
       border-top: 0;
+    }
+
+    @include media($mobile) {
+      border: 0;
+      padding: 0;
+      font-weight: bold;
     }
 
     &:hover {
