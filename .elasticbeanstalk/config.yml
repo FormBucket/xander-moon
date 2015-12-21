@@ -1,0 +1,10 @@
+branch-defaults:
+  master:
+    environment: formbucket-dev
+global:
+  application_name: FormBucket
+  default_ec2_keyname: null
+  default_platform: 64bit Amazon Linux 2015.09 v2.0.5 running Node.js
+  default_region: us-west-2
+  profile: eb-cli
+  sc: git

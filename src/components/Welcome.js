@@ -61,7 +61,7 @@ const Welcome = React.createClass({
               </div>
               <div className="right">
                 <h3>Try it out!</h3>
-                <form action="https://formbucket.com/f/ff4fu3" method="post">
+                <form action="/f/1234567" method="post">
                   <input type="text" name="name" placeholder="Name"/>
                   <input type="text" name="email" placeholder="Email"/>
                   <textarea name="message" placeholder="Message"></textarea>
