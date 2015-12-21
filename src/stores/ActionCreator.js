@@ -28,7 +28,6 @@ export function startSubmissionEventSource(formId) {
   var url = formId ? "/submissions/${formId}/events" : "/submissions/events"
   var es = new EventSource(url, { withCredentials: true });
   es.onmessage = function (event) {
-    console.log(event)
     receiveSubmission(JSON.parse(event.data));
   };
 }

@@ -29,7 +29,7 @@ const Submissions = React.createClass({
     return (
       <ul>
         {this.state.submissions.map( submission => (
-          <li>{JSON.stringify(submission, null, 4)}</li>
+          <li style={{marginBottom: 10, borderBottom: '1px solid black' }}>{JSON.stringify(submission, null, 4)}</li>
         ))}
       </ul>
     )

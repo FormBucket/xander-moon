@@ -26,6 +26,7 @@ const UserStore = createStore(
   },
   {
     isUserLoggedIn: (state) => typeof state.id !== 'undefined',
+    canCreateForm: (state) => true,
     getId: (state) => state.id,
     getEmail: (state) => state.email,
     getName: (state) => state.name,

@@ -3,10 +3,9 @@ import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 import FontAwesome from 'react-fontawesome'
 import redirect from '../utils/redirect'
-import Common from 'formbucket-common'
 import moment from 'moment'
 import {COND} from 'functionfoundry'
-import {Plans} from 'formbucket-common'
+import {Plans} from '../common/plans'
 
 const Billing = React.createClass({
   getInitialState: () => {

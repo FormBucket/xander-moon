@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 import {COND} from 'functionfoundry'
-import {Plans} from 'formbucket-common'
+import {Plans} from '../common/plans'
 
 var PaidPlans = Plans.slice(1, 4)
 
@@ -61,7 +61,7 @@ const Welcome = React.createClass({
               </div>
               <div className="right">
                 <h3>Try it out!</h3>
-                <form action="https://formbucket.com/f/ff4fu3" method="post">
+                <form action="/f/1234567" method="post">
                   <input type="text" name="name" placeholder="Name"/>
                   <input type="text" name="email" placeholder="Email"/>
                   <textarea name="message" placeholder="Message"></textarea>
