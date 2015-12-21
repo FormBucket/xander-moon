@@ -36,6 +36,19 @@ body {
   }
 }
 
+.page-heading {
+  height: 6rem;
+  background-color: $purple;
+  color: $lightest-purple;
+  margin-bottom: $base-spacing;
+
+  h1 {
+    margin: 0;
+    padding: 0;
+    line-height: 6rem;
+  }
+}
+
 button, .button {
   text-transform: uppercase;
 }
@@ -64,3 +77,4 @@ button, .button {
 @import "signup";
 @import "billing";
 @import "welcome";
+@import "dashboard";

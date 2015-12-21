@@ -1,15 +1,3 @@
-.page-heading {
-  height: 6rem;
-  background-color: $purple;
-  color: $lightest-purple;
-
-  h1 {
-    margin: 0;
-    padding: 0;
-    line-height: 6rem;
-  }
-}
-
 .chooser {
   @include span-columns(4);
 
