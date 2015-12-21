@@ -109,10 +109,22 @@
     background-color: $purple;
     color: $lightest-purple;
     padding: $base-spacing;
+
+    tr:hover {
+      background-color: $purple;
+    }
   }
 
   td, th {
     padding: $base-spacing;
-    border-bottom: 1px solid $purple;
+    border-bottom: 1px solid rgba($purple,0.1);
+  }
+
+  tr {
+    transition: background-color $base-duration $base-timing;
+  }
+
+  tr:hover {
+    background-color: rgba($light-green,0.1);
   }
 }
