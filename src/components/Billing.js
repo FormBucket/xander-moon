@@ -5,7 +5,7 @@ import FontAwesome from 'react-fontawesome'
 import redirect from '../utils/redirect'
 import moment from 'moment'
 import {COND} from 'functionfoundry'
-import {Plans} from '../common/plans'
+import {Plans} from 'formbucket-common'
 
 const Billing = React.createClass({
   getInitialState: () => {
