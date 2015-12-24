@@ -24,7 +24,7 @@ const Signup = React.createClass({
           </div>
           <div className="email-signup">
             <p>Sign up with Email</p>
-            <form action="post" method="/signup">
+            <form method="post" action="/signup">
               <label for="fullName">Full Name</label>
               <input type="text" id="fullName" name="displayName" placeholder="e.g. Nikola Tesla"/>
               <label for="emailAddress">Email Address</label>
