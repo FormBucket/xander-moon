@@ -17,6 +17,7 @@ import Forms from './components/Forms'
 import Submissions from './components/Submissions'
 import Profile from './components/Profile'
 import PageNotFound from './components/PageNotFound'
+import ThankYou from './components/ThankYou'
 
 require('../scss/app.scss')
 
@@ -35,6 +36,7 @@ render((
       <Route path="forms" component={Forms} />
       <Route path="submissions" component={Submissions} />
       <Route path="profile" component={Profile} />
+      <Route path="thank-you" component={ThankYou} />
       <Route path="*" component={PageNotFound} />
     </Route>
   </Router>
