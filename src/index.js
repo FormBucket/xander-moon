@@ -13,6 +13,7 @@ import Login from './components/Login'
 import FAQs from './components/FAQs'
 import API from './components/API'
 import Dashboard from './components/Dashboard'
+import NewForm from './components/NewForm'
 import Forms from './components/Forms'
 import Submissions from './components/Submissions'
 import Profile from './components/Profile'
@@ -33,6 +34,7 @@ render((
       <Route path="faqs" component={FAQs} />
       <Route path="api" component={API} />
       <Route path="dashboard" component={Dashboard} />
+      <Route path="new" component={NewForm} />
       <Route path="forms" component={Forms} />
       <Route path="submissions" component={Submissions} />
       <Route path="profile" component={Profile} />
