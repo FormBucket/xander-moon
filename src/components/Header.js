@@ -50,7 +50,7 @@ const Header = React.createClass({
       <div className="header">
         <div className="wrapper">
           <Link to="/">
-            FormBucket
+            <img className="logo" src="/img/logo.svg" alt="FormBucket" />
           </Link>
           {topRight}
         </div>
