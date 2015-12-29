@@ -1,6 +1,7 @@
 .hero {
   background-color: $purple;
   padding-top: $base-spacing * 3;
+  text-align: center;
 
   h1 {
     margin: 0;
@@ -11,10 +12,14 @@
     text-align: center;
     color: $lightest-purple;
     margin: 0;
-    padding-bottom: $base-spacing * 2;
+    padding-bottom: $base-spacing;
   }
   h3 {
     margin: 0;
+  }
+
+  button {
+    margin-bottom: $base-spacing * 3;
   }
 }
 

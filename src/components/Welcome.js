@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
+import redirect from '../utils/redirect'
 import {COND} from 'functionfoundry'
 import {Plans} from 'formbucket-common'
 
@@ -16,6 +17,7 @@ const Welcome = React.createClass({
           <div className="wrapper">
             <h1>Powerful form handling for your static sites</h1>
             <h2>No embeds or iframes. Your fields, your CSS. We take care of the rest!</h2>
+            <button onClick={redirect('#plans')}>See Plans & Pricing</button>
             <div className="features tour">
               <div className="key-features">
                 <div className="feature fade-in one">
@@ -70,7 +72,7 @@ const Welcome = React.createClass({
               </div>
             </div>
           </div>
-          <div className="features plans">
+          <div id="plans" className="features plans">
             <h2>30-Day Money Back Guarantee on All Plans</h2>
 
             { PaidPlans.map(plan => (
@@ -103,7 +105,7 @@ const Welcome = React.createClass({
           </div>
           <div className="features free-plan">
             <p>
-              Need just a basic no-frills contact form? Check out our <a href="#">Free Plan</a>.
+              Need just a basic no-frills contact form for your personal site? Check out our <strong><a href="#">Free Plan</a></strong>.
             </p>
           </div>
         </div>
