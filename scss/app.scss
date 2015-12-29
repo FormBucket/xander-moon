@@ -53,6 +53,14 @@ button, .button {
   text-transform: uppercase;
 }
 
+label {
+  font-weight: 400;
+}
+
+.checkbox {
+  margin-top: $base-spacing;
+}
+
 .main {
 }
 

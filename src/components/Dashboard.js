@@ -22,7 +22,7 @@ const Dashboard = React.createClass({
               <a href="#" className="tab-link is-active">Active Forms</a>
               <div className="tab-content">
                 <div className="callout">
-                  <button onClick={redirect('')}><FontAwesome name='plus' /> New Form</button>
+                  <button onClick={redirect('new')}><FontAwesome name='plus' /> New Form</button>
                   <p>You are using 3 out of 5 available active forms in <Link to="billing">your plan</Link>.</p>
                 </div>
                 <table className="form-list">

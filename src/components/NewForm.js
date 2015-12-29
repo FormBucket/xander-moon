@@ -18,15 +18,31 @@ const NewForm = React.createClass({
         </div>
         <div className="wrapper">
           <div className="form-details">
+            <h3>Settings</h3>
             <label for="formName">Form Name</label>
-            <input type="text" id="formName" placeholder="e.g. Beta Signups" autoFocus={focus}/>
-            <label for="redirectURL">Redirect URL</label>
-            <input type="text" id="redirectURL" />
+              <input type="text" id="formName" placeholder="e.g. Beta Signups" autoFocus={focus}/>
+            <label for="originDomain">Origin Domain</label>
+              <input type="text" id="originDomain" />
             <hr/>
+            <h3>Actions</h3>
+            <label for="redirectURL">Redirect URL</label>
+              <input type="text" id="redirectURL" />
+            <label for="webhook1">Webhook</label>
+              <input type="text" id="webhook1" />
+            <a href="#"><FontAwesome name='plus' /> Add another webhook</a>
             <label>
-            <input type="checkbox" class="checkbox" name="sendSubmissions" value="check_1"/> Send new submission notifications to sean@functionfoundry.com
+              <input type="checkbox" className="checkbox" name="sendAutoresponder" value="check_1"/> Automatically send an email to form submitters
             </label>
-            <input className="button" type="submit" value="Create Form" />
+            <hr/>
+            <h3>Notifications</h3>
+            <label>
+            <input type="checkbox" className="checkbox" name="sendSubmissions" value="check_1"/> Send notifications of new submissions to sean@functionfoundry.com
+            </label>
+            <label>
+              <input type="checkbox" className="checkbox" name="ccSubmissions" value="check_1"/> Send notifications to these email addresses as well...
+              <textarea placeholder="Multiple recipients separated by commas"></textarea>
+            </label>
+            <input className="button" type="submit" value="Save This Form" />
           </div>
         </div>
       </div>
