@@ -9,3 +9,17 @@
     width: 100%;
   }
 }
+
+.autoresponder {
+  margin-top: $base-spacing;
+}
+
+.autoresponder-wrapper {
+  padding: $base-spacing;
+  background-color: white;
+  border-radius: $base-border-radius;
+}
+
+.cc-emails {
+  margin-top: $base-spacing / 2;
+}

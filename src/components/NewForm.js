@@ -31,8 +31,16 @@ const NewForm = React.createClass({
               <input type="text" id="webhook1" />
             <a href="#"><FontAwesome name='plus' /> Add another webhook</a>
             <label>
-              <input type="checkbox" className="checkbox" name="sendAutoresponder" value="check_1"/> Automatically send an email to form submitters
+              <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" value="check_1"/> Automatically send an email to form submitters
             </label>
+            <div className="autoresponder-wrapper">
+              <label for="fromEmail">From Email</label>
+                <input type="text" id="fromEmail" placeholder="sean@functionfoundry.com"/>
+              <label for="subject">Subject</label>
+                <input type="text" id="subject" placeholder="Thanks!"/>
+              <label for="emailBody">Body</label>
+                <textarea id="emailBody" placeholder="Really appreciate it."></textarea>
+            </div>
             <hr/>
             <h3>Notifications</h3>
             <label>
@@ -40,7 +48,7 @@ const NewForm = React.createClass({
             </label>
             <label>
               <input type="checkbox" className="checkbox" name="ccSubmissions" value="check_1"/> Send notifications to these email addresses as well...
-              <textarea placeholder="Multiple recipients separated by commas"></textarea>
+              <textarea className="cc-emails" placeholder="Multiple recipients separated by commas"></textarea>
             </label>
             <input className="button" type="submit" value="Save This Form" />
           </div>
