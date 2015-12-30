@@ -56,10 +56,13 @@ const Welcome = React.createClass({
             <h2>Live Demo</h2>
             <div className="editor">
               <div className="left">
-                <Markdown
-                  source={ content }
-                  options={ markdownOptions }
-                  />
+                <div className="typing">
+                  <Markdown
+                    source={ content }
+                    options={ markdownOptions }
+                    />
+                  <span className="blinking-cursor">&#9608;</span>
+                </div>
               </div>
               <div className="right">
                 <h3>Try it out!</h3>
@@ -105,7 +108,7 @@ const Welcome = React.createClass({
           </div>
           <div className="features free-plan">
             <p>
-              Need just a basic no-frills contact form for your personal site? Check out our <strong><a href="#">Free Plan</a></strong>.
+              Need just a basic no-frills contact form? Check out our <strong><a href="#">Free Plan</a></strong> for up to 100 submissions/mo.
             </p>
           </div>
         </div>
