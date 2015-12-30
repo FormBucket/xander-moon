@@ -6,9 +6,28 @@ import FontAwesome from 'react-fontawesome'
 import redirect from '../utils/redirect'
 import moment from 'moment'
 import {COND} from 'functionfoundry'
+import {loadForms} from '../stores/ActionCreator'
+import FormStore from '../stores/forms'
 
 const Dashboard = React.createClass({
-  render () {
+  getInitialState() {
+    return {
+      forms: undefined
+    }
+  },
+  componentDidMount() {
+    loadForms()
+    this.token = FormStore.addListener(this.handleFormsChanged)
+  },
+  componentWillUnmount() {
+    this.token.remove()
+  },
+  handleFormsChanged() {
+    this.setState({
+      forms: FormStore.getForms()
+    })
+  },
+  render() {
     return (
       <div>
         <div className="page-heading">
@@ -22,41 +41,41 @@ const Dashboard = React.createClass({
               <a href="#" className="tab-link is-active">Active Forms</a>
               <div className="tab-content">
                 <div className="callout">
-                  <button onClick={redirect('new')}><FontAwesome name='plus' /> New Form</button>
+                  <button onClick={redirect('/forms/new')}><FontAwesome name='plus' /> New Form</button>
                   <p>You are using 3 out of 5 available active forms in <Link to="billing">your plan</Link>.</p>
                 </div>
-                <table className="form-list">
-                  <thead>
-                    <tr>
-                      <th>Form Name</th>
-                      <th># Submissions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><Link to="#"><FontAwesome name='gear' /> Contact</Link></td>
-                      <td><h3><Link to="#">38</Link></h3></td>
-                    </tr>
-                    <tr>
-                      <td><Link to="#"><FontAwesome name='gear' /> Beta Signup</Link></td>
-                      <td><h3><Link to="#">3,099</Link></h3></td>
-                    </tr>
-                    <tr>
-                      <td><Link to="#"><FontAwesome name='gear' /> Pre-Orders</Link></td>
-                      <td><h3><Link to="#">201</Link></h3></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </li>
-            <li className="tab-header-and-content">
-              <a href="#" className="tab-link">Archived Forms</a>
-            </li>
-          </ul>
-        </div>
+
+                { typeof this.state.forms === 'undefined' ? 'Loading...' : (
+                  <table className="form-list">
+                    <thead>
+                      <tr>
+                        <th>Form Name</th>
+                        <th># Submissions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        this.state.forms.map(form => (
+                          <tr key={form.id}>
+                            <td><Link to={`/forms/update/${form.id}`}><FontAwesome name='gear' /> {form.name}</Link></td>
+                            <td><h3><Link to="#">{form.submission_count}</Link></h3></td>
+                          </tr>
+                        ))
+                      }
+                    </tbody>
+                  </table>
+                )
+              }
+            </div>
+          </li>
+          <li className="tab-header-and-content">
+            <a href="#" className="tab-link">Archived Forms</a>
+          </li>
+        </ul>
       </div>
-    )
-  }
+    </div>
+  )
+}
 })
 
 export default Dashboard

@@ -1,6 +1,10 @@
 import {dispatch} from 'sweetflux'
 
+// FIXME: REMOVE DEV HACK
+window.dispatch = dispatch
+
 import {
+  getForms,
   requestCreateForm,
   requestUpdateForm
 } from '../utils/webutils'
@@ -36,8 +40,12 @@ export function receiveSubmission(submission) {
   dispatch(RECEIVE_SUBMISSION, submission)
 }
 
-export function loadForms(forms) {
-  dispatch(LOAD_FORMS, submission)
+export function loadForms() {
+  getForms()
+  .then((forms) => {
+    console.log('foo', LOAD_FORMS, forms)
+    dispatch(LOAD_FORMS, forms)
+  })
 }
 
 export function createForm(form) {

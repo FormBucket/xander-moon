@@ -36,6 +36,8 @@ render((
       <Route path="dashboard" component={Dashboard} />
       <Route path="new" component={NewForm} />
       <Route path="forms" component={Forms} />
+      <Route path="/forms/new" component={NewForm} />
+      <Route path="/forms/update/:id" component={NewForm} />
       <Route path="submissions" component={Submissions} />
       <Route path="profile" component={Profile} />
       <Route path="thank-you" component={ThankYou} />

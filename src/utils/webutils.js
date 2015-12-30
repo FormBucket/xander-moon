@@ -6,7 +6,7 @@ All of these functions return a promise.
 */
 
 // generic function to detect common HTTP error codes. Credit to Mozilla.
-export function processStatus(response) {
+function processStatus(response) {
   // status "0" to handle local files fetching (e.g. Cordova/Phonegap etc.)
   if (response.status === 200 || response.status === 0) {
     return Promise.resolve(response);
@@ -15,6 +15,13 @@ export function processStatus(response) {
   }
 }
 
+function getText(response) {
+  return response.text();
+}
+
+function getJSON(response) {
+  return response.json();
+}
 /* Send server request to get user's Forms
 
   Usage:
@@ -26,7 +33,9 @@ export function getForms(){
   return fetch('/forms.json', {
     credentials: 'include',
     method: 'get'
-  }).then(processStatus)
+  })
+  .then(processStatus)
+  .then(getJSON)
 }
 
 /* Send server request to get a specific Forms

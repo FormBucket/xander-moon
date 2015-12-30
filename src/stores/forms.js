@@ -6,8 +6,10 @@ const FormStore = createStore(
   'FormStore',
   Map(),
   (state, action) => {
+    console.log('forms', state, action)
     switch (action.type) {
       case LOAD_FORMS:
+        console.log('LOAD_FORMS', action)
         return state.set('forms', action.data)
       default:
         return state
@@ -19,5 +21,8 @@ const FormStore = createStore(
     findFormByName: (state, name) => state.forms.find(n => n.name === name)
   }
 )
+
+// FIXME: REMOVE DEV HACK
+window.FormStore = FormStore
 
 export default FormStore

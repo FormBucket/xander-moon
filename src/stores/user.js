@@ -34,6 +34,7 @@ const UserStore = createStore(
   }
 )
 
+// FIXME: REMOVE DEV HACK
 window.UserStore = UserStore
 
 export default UserStore
