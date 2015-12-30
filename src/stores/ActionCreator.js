@@ -48,12 +48,12 @@ export function loadForms() {
   })
 }
 
-export function createForm(form) {
+export function createForm(form, done) {
   requestCreateForm(form)
   .then((result) => {
     dispatch(FORM_CREATED, result)
-  })
-  .error((err) => {
+    done()
+  }, (err) => {
     dispatch(ERROR, err)
   })
 }

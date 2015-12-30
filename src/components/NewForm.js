@@ -27,7 +27,9 @@ const NewForm = React.createClass({
     }
     // FIXME: Remove
     console.log(form)
-    createForm(form)
+    createForm(form, () => {
+      this.props.history.push('/dashboard')
+    })
   },
 
   render () {

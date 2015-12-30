@@ -3,7 +3,6 @@ import {Link} from 'react-router'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 import FontAwesome from 'react-fontawesome'
-import redirect from '../utils/redirect'
 import moment from 'moment'
 import {COND} from 'functionfoundry'
 import {loadForms} from '../stores/ActionCreator'
@@ -41,7 +40,7 @@ const Dashboard = React.createClass({
               <a href="#" className="tab-link is-active">Active Forms</a>
               <div className="tab-content">
                 <div className="callout">
-                  <button onClick={redirect('/forms/new')}><FontAwesome name='plus' /> New Form</button>
+                  <button onClick={() => this.props.history.push('/forms/new')}><FontAwesome name='plus' /> New Form</button>
                   <p>You are using 3 out of 5 available active forms in <Link to="billing">your plan</Link>.</p>
                 </div>
 
