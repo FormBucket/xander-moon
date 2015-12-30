@@ -7,13 +7,13 @@ import moment from 'moment'
 import {COND} from 'functionfoundry'
 import {Plans} from 'formbucket-common'
 import UserStore from '../stores/user'
-import {createForm} from '../stores/ActionCreator'
+import {createBucket} from '../stores/ActionCreator'
 
-const NewForm = React.createClass({
+const NewBucket = React.createClass({
 
   onSave (e) {
-    var form = {
-      name: this.refs.formName.value,
+    var bucket = {
+      name: this.refs.bucketName.value,
       redirect_url: this.refs.redirectURL.value,
       webhooks: [ this.refs.webhook1.value ],
       email_to: COND(
@@ -26,8 +26,8 @@ const NewForm = React.createClass({
         this.refs.additionalEmails.value)
     }
     // FIXME: Remove
-    console.log(form)
-    createForm(form, () => {
+    console.log(bucket)
+    createBucket(bucket, () => {
       this.props.history.push('/dashboard')
     })
   },
@@ -37,14 +37,14 @@ const NewForm = React.createClass({
       <div>
         <div className="page-heading">
           <div className="wrapper">
-            <h1>{ this.props.location.pathname === '/forms/new' ? 'New Form' : 'Edit Form' }</h1>
+            <h1>{ this.props.location.pathname === '/buckets/new' ? 'New Bucket' : 'Edit Bucket' }</h1>
           </div>
         </div>
         <div className="wrapper">
-          <div className="form-details">
+          <div className="bucket-details">
             <h3>Settings</h3>
-            <label htmlFor="formName">Form Name</label>
-              <input type="text" id="formName" ref="formName" placeholder="e.g. Beta Signups" autoFocus={focus}/>
+            <label htmlFor="bucketName">Bucket Name</label>
+              <input type="text" id="bucketName" ref="bucketName" placeholder="e.g. Beta Signups" autoFocus={focus}/>
             <label htmlFor="originDomain">Origin Domain</label>
               <input type="text" id="originDomain" />
             <hr/>
@@ -55,7 +55,7 @@ const NewForm = React.createClass({
               <input type="text" id="webhook1" ref="webhook1" />
               <a href="#"><FontAwesome name='plus' /> Add another webhook</a>
             <label>
-              <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" value="check_1"/> Automatically send an email to form submitters
+              <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" value="check_1"/> Automatically send an email to bucket submitters
             </label>
             <div className="autoresponder-wrapper">
               <label htmlFor="fromEmail">From Email</label>
@@ -76,7 +76,7 @@ const NewForm = React.createClass({
                 Send notifications to these email addresses as well...
               <textarea className="cc-emails" ref="additionalEmails" placeholder="Multiple recipients separated by commas"></textarea>
             </label>
-            <input className="button" type="submit" onClick={this.onSave} value="Save This Form" />
+            <input className="button" type="submit" onClick={this.onSave} value="Save This Bucket" />
           </div>
         </div>
       </div>
@@ -84,4 +84,4 @@ const NewForm = React.createClass({
   }
 })
 
-export default NewForm
+export default NewBucket

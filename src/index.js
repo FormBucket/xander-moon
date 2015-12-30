@@ -13,8 +13,7 @@ import Login from './components/Login'
 import FAQs from './components/FAQs'
 import API from './components/API'
 import Dashboard from './components/Dashboard'
-import NewForm from './components/NewForm'
-import Forms from './components/Forms'
+import Bucket from './components/Bucket'
 import Submissions from './components/Submissions'
 import Profile from './components/Profile'
 import PageNotFound from './components/PageNotFound'
@@ -34,10 +33,8 @@ render((
       <Route path="faqs" component={FAQs} />
       <Route path="api" component={API} />
       <Route path="dashboard" component={Dashboard} />
-      <Route path="new" component={NewForm} />
-      <Route path="forms" component={Forms} />
-      <Route path="/forms/new" component={NewForm} />
-      <Route path="/forms/update/:id" component={NewForm} />
+      <Route path="/buckets/new" component={Bucket} />
+      <Route path="/buckets/update/:id" component={Bucket} />
       <Route path="submissions" component={Submissions} />
       <Route path="profile" component={Profile} />
       <Route path="thank-you" component={ThankYou} />

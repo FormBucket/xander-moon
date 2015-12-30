@@ -11,12 +11,13 @@ function getMetaContentByName(name,content){
 
 const UserStore = createStore(
   'UserStore',
-  { id: undefined, email: undefined, name: undefined},
+  { auth_id: undefined, email: undefined, name: undefined},
   (state, action) => {
     switch (action.type) {
       case INIT_USER:
       return {
-        id: getMetaContentByName('user.id'),
+        provider: getMetaContentByName('user.provider'),
+        auth_id: getMetaContentByName('user.auth_id'),
         email: getMetaContentByName('user.email'),
         displayName: getMetaContentByName('user.displayName'),
       }
@@ -25,9 +26,10 @@ const UserStore = createStore(
     }
   },
   {
-    isUserLoggedIn: (state) => typeof state.id !== 'undefined',
+    isUserLoggedIn: (state) => typeof state.auth_id !== 'undefined',
     canCreateForm: (state) => true,
-    getId: (state) => state.id,
+    getProvider: (state) => state.provider,
+    getId: (state) => state.auth_id,
     getEmail: (state) => state.email,
     getName: (state) => state.displayName,
     getUser: (state) => state,

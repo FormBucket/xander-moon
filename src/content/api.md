@@ -1,15 +1,16 @@
 # FormBucket API
 
+Reliably collecting forms from your static website is our mission.
+
 The FormBucket API enables integration with 3rd party system over
 an industry standard REST API. Data is returned in JSON format.
 
-## Forms
+## Buckets
 
-Reliably delivering powerful forms on static websites is our mission.
 
-### Get a list of your forms
+### Get a list of your buckets
 
-GET https://www.FormBucket.com/forms.json
+GET https://www.FormBucket.com/buckets.json
 
 #### Parameters
 
@@ -38,20 +39,20 @@ apikey        | string        | __Required__. The API key provided on your user 
 ]
 ```
 
-### Get a form
+### Get a bucket
 
-GET https://www.FormBucket.com/forms/:id.json
+GET https://www.FormBucket.com/buckets/:id.json
 
 #### Parameters
 
 Name          | Type          | Description
 ------------- | ------------- | -----------
 apikey        | string        | __Required__. The API key provided on your user profile page.
-id            | string        | __Required__. The id assigned to the form.
+id            | string        | __Required__. The id assigned to the bucket.
 
 #### Example request
 
-GET https://www.FormBucket.com/forms/123.json?apikey=e705c568-8869-4ca2-8a58-78ba782423c4
+GET https://www.FormBucket.com/buckets/123.json?apikey=e705c568-8869-4ca2-8a58-78ba782423c4
 
 #### Example Response
 
@@ -65,25 +66,25 @@ GET https://www.FormBucket.com/forms/123.json?apikey=e705c568-8869-4ca2-8a58-78b
 }
 ```
 
-### Create a new form
+### Create a new bucket
 
-POST https://www.FormBucket.com/forms
+POST https://www.FormBucket.com/buckets
 
 #### Parameters
 
 Name            |   Type        | Description
 --------------- | ------------- | -----------
 apikey          | string        | __Required__. The API key provided on your user profile page
-name            | string        | __Required__. The name to identify the form.
-enabled         | boolean       | __Optional__. Disable a form to stop new submissions without deleting your data. Default to true.
+name            | string        | __Required__. The name to identify the bucket.
+enabled         | boolean       | __Optional__. Disable a bucket to stop new submissions without deleting your data. Default to true.
 email_to        | string        | __Optional__. A list of email address to email submissions. Default to address in user profile.
 redirect_url    | string        | __Optional__. The URL to redirect a user after successful submission. Please not that this does not apply to submission sent over AJAX.  Default to blank.
-webhooks        | array         | __Optional__. A list of webhooks to send submissions via a POST after they are recorded in our system. A web is a URL that will accept the form data. Default to empty list.
+webhooks        | array         | __Optional__. A list of webhooks to send submissions via a POST after they are recorded in our system. A web is a URL that will accept the bucket data. Default to empty list.
 required_fields | array        | __Optional__. A list of fields that are required to record the submission in our system. If required fields are omitted then the submission is rejected and the request redirected back to the origin.
 
 #### Example Responses
 
-When the form is successfully created:
+When the bucket is successfully created:
 
 ```js
 { "success": true }
@@ -96,23 +97,23 @@ When an error occurs:
 ```
 
 
-### Update a form
+### Update a bucket
 
-PUT https://www.FormBucket.com/forms/:id
+PUT https://www.FormBucket.com/buckets/:id
 
 #### Parameters
 
-Accepts same parameters used to create the form.
+Accepts same parameters used to create the bucket.
 
 #### Example responses
 
-See example responses in "Create a new form"
+See example responses in "Create a new bucket"
 
-### Delete a form
+### Delete a bucket
 
-DELETE https://www.FormBucket.com/forms/:id
+DELETE https://www.FormBucket.com/buckets/:id
 
-__WARNING.__ Deleting a form removes all submissions from our system.
+__WARNING.__ Deleting a bucket deletes all submissions in this bucket.
 
 #### Parameters
 
@@ -122,18 +123,18 @@ apikey        | string        | __Required__. The API key provided on your user 
 
 ## Submissions
 
-Submissions are actual form data entered by the users of your form.
+Submissions are actual form data entered by the users of your bucket.
 
-### Get all submissions for a form
+### Get all submissions in a bucket
 
-GET https://www.FormBucket.com/submissions/:form_id.json
+GET https://www.FormBucket.com/submissions/:bucket_id.json
 
 #### Parameters
 
 Name          | Type          | Description
 ------------- | ------------- | -----------
 apikey        | string        | __Required__. The API key provided on your user profile page
-form_id       | integer       | __Required__. The id of the form. This parameter is in the URL instead of the query string.
+bucket_id       | integer       | __Required__. The id of the bucket. This parameter is in the URL instead of the query string.
 limit         | integer       | __Optional__. Restrict the number of submissions returned by the request. Default to 100.
 offset        | integer       | __Optional__. Offset the result to enable paging. To keep it simple the first record is 1 and the last record is the number of submissions. Records are sorted by the time received.
 
@@ -142,7 +143,7 @@ offset        | integer       | __Optional__. Offset the result to enable paging
 ```JSON
 [
   {
-    "form_id":
+    "bucket_id":
     "total": 1,
     "count": 1,
     "limit": 10,
@@ -162,11 +163,7 @@ POST https://www.FormBucket.com/f/:id
 
 #### Parameters
 
-The form may include any parameter needed to meet your data collection requirement.
-
-If you wish to transmit images or other files then the form must include 'enctype="multipart/form-data"'.
-
-The system is designed to capture small documents and images. The maximum file size is 5MB with a max per request of 10MB. If you need to transmit larger files then please contact customer support.
+The form may include any field needed to meet your data collection requirement.
 
 ### Delete a submission
 
@@ -187,8 +184,8 @@ GET https://www.FormBucket.com/submissions.json
 
 ```js
 [{
-  form: 'afbi23',
-  createdOn: '2015-01-24T12:23:32',
+  bucket: 'afbi23',
+  created_on: '2015-01-24T12:23:32',
   data: [{
     // actual fields submitted
   }]
@@ -215,16 +212,16 @@ es.onmessage = function (event) {
 ```js
 :ok
 
-data: { form: '12fdOd', createdOn: '2015-01-24T12:23:32', data: [ /* actually form */ ]}
+data: { bucket: '12fdOd', created_on: '2015-01-24T12:23:32', data: [ /* actually form */ ]}
 
-data: { form: '12fdOd', createdOn: '2015-01-24T12:23:32', data: [ /* actually form */ ]}
+data: { bucket: '12fdOd', created_on: '2015-01-24T12:23:32', data: [ /* actually form */ ]}
 ```
 
 ### Get a realtime stream of submission for a form
 
 GET https://www.FormBucket.com/submissions/:id/events
 
-This is the same as the stream for all forms, except that the results are filtered to a particular form.
+This is the same as the stream for all buckets, except that the results are filtered to a particular bucket.
 
 ## Error Codes
 

@@ -25,12 +25,12 @@ function getJSON(response) {
 /* Send server request to get user's Forms
 
   Usage:
-  createForm({
+  createBucket({
     name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
   })
 */
-export function getForms(){
-  return fetch('/forms.json', {
+export function getBuckets(){
+  return fetch('/buckets.json', {
     credentials: 'include',
     method: 'get'
   })
@@ -38,29 +38,29 @@ export function getForms(){
   .then(getJSON)
 }
 
-/* Send server request to get a specific Forms
+/* Send server request to get a specific Buckets
 
   Usage:
-  createForm({
+  createBucket({
     name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
   })
 */
-export function getForm(id){
-  return fetch(`/form/${id}.json`, {
+export function getBucket(id){
+  return fetch(`/bucket/${id}.json`, {
     credentials: 'include',
     method: 'get'
   }).then(processStatus)
 }
 
-/* Send server request to create new form
+/* Send server request to create new bucket
 
   Usage:
-  createForm({
+  createBucket({
     name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
   })
 */
-export function requestCreateForm(data){
-  return fetch('/forms', {
+export function requestCreateBucket(data){
+  return fetch('/buckets', {
     credentials: 'include',
     method: 'post',
     headers: {
@@ -71,15 +71,15 @@ export function requestCreateForm(data){
   }).then(processStatus)
 }
 
-/* Send server request to update existing form
+/* Send server request to update existing bucket
 
   Usage:
-  updateForm({
+  updateBucket({
     name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
   })
 */
-export function requestUpdateForm(formId, data){
-  return fetch('/forms/' + formId, {
+export function requestUpdateBucket(bucketId, data){
+  return fetch('/buckets/' + bucketId, {
     method: 'put',
     credentials: 'include',
     headers: {
@@ -90,8 +90,8 @@ export function requestUpdateForm(formId, data){
   }).then(processStatus)
 }
 
-export function requestDeleteForm(formId){
-  return fetch('/forms/' + formId, {
+export function requestDeleteBucket(bucketId){
+  return fetch('/buckets/' + bucketId, {
     method: 'delete',
     credentials: 'include',
     headers: {

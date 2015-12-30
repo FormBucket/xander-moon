@@ -92,9 +92,9 @@ const Billing = React.createClass({
                 <ul>
                   <li>
                     { COND(
-                        this.state.selectedPlan.max_forms === Number.POSITIVE_INFINITY,
+                        this.state.selectedPlan.max_buckets === Number.POSITIVE_INFINITY,
                         'Unlimited',
-                        this.state.selectedPlan.max_forms )} Forms</li>
+                        this.state.selectedPlan.max_buckets )} Buckets</li>
                   <li>
                   { COND(
                       this.state.selectedPlan.max_submissions_per_month === Number.POSITIVE_INFINITY,
@@ -105,10 +105,10 @@ const Billing = React.createClass({
                     <li>CSV Export</li>,
                     <li><s>CSV Export</s></li>)
                    }
-                  { COND(this.state.selectedPlan.allow_file_uploads,
+                  {/* COND(this.state.selectedPlan.allow_file_uploads,
                     <li>Up to {this.state.selectedPlan.max_submissions_mb}MB File Uploads</li>,
                     <li><s>File Uploads</s></li>)
-                   }
+                   */}
                 </ul>
             </div>
 

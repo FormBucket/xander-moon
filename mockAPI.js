@@ -1,7 +1,7 @@
 'use strict';
 
 // Implement the FormBucket API with static return values.
-var forms = [{
+var buckets = [{
   id: 'ff4fu3',
   name: 'FormBucket Homepage'
 }, {
@@ -13,7 +13,7 @@ var forms = [{
 }]
 
 var submissions = [{
-  form_id: 'ff4fu3',
+  bucket_id: 'ff4fu3',
   user_id: '1234'
 }]
 
@@ -27,10 +27,10 @@ function send(value) {
 
 // a function to load the mocked APIs
 function mockAPI(app) {
-  app.get( '/forms.json', send(forms) )
-  app.get( '/forms/:id.json', send('TBD') )
-  app.post( '/forms', send('TBD') )
-  app.put( '/forms/:id', send('TBD') )
+  app.get( '/buckets.json', send(buckets) )
+  app.get( '/buckets/:id.json', send('TBD') )
+  app.post( '/buckets', send('TBD') )
+  app.put( '/buckets/:id', send('TBD') )
 }
 
 module.exports = mockAPI

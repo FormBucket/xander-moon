@@ -15,8 +15,8 @@ const Welcome = React.createClass({
       <div>
         <div className="hero">
           <div className="wrapper">
-            <h1>Powerful form handling for your static sites</h1>
-            <h2>No embeds or iframes. Your fields, your CSS. We take care of the rest!</h2>
+            <h1>Every Form Needs a Bucket.</h1>
+            <h2>Your markup, your CSS. We take care of the rest!</h2>
             <button onClick={redirect('#plans')}>See Plans & Pricing</button>
             <div className="features tour">
               <div className="key-features">
@@ -85,9 +85,9 @@ const Welcome = React.createClass({
                     <ul>
                       <li>
                       { COND(
-                          plan.max_forms === Number.POSITIVE_INFINITY,
+                          plan.max_buckets === Number.POSITIVE_INFINITY,
                           'Unlimited',
-                          plan.max_forms )} Forms</li>
+                          plan.max_buckets )} Buckets</li>
                       <li>
                       { COND(
                           plan.max_submissions_per_month === Number.POSITIVE_INFINITY,
@@ -95,10 +95,10 @@ const Welcome = React.createClass({
                           plan.max_submissions_per_month )} Submissions</li>
                       <li>Unlimited Custom Rules</li>
                       <li>CSV Export</li>
-                      { COND(plan.allow_file_uploads,
+                      {/* COND(plan.allow_file_uploads,
                         <li>Up to {plan.max_submissions_mb}MB File Uploads</li>,
                         <li><s>File Uploads</s></li>)
-                       }
+                       */}
                     </ul>
                   <button onClick={() => { localStorage.setItem('plan', plan.code); this.props.history.push('/signup') } } className="signup">Sign Up</button>
                 </div>

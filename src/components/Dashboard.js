@@ -5,25 +5,25 @@ import markdownOptions from './markdown-options'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
 import {COND} from 'functionfoundry'
-import {loadForms} from '../stores/ActionCreator'
-import FormStore from '../stores/forms'
+import {loadBuckets} from '../stores/ActionCreator'
+import BucketStore from '../stores/buckets'
 
 const Dashboard = React.createClass({
   getInitialState() {
     return {
-      forms: undefined
+      buckets: undefined
     }
   },
   componentDidMount() {
-    loadForms()
-    this.token = FormStore.addListener(this.handleFormsChanged)
+    loadBuckets()
+    this.token = BucketStore.addListener(this.handleBucketsChanged)
   },
   componentWillUnmount() {
     this.token.remove()
   },
-  handleFormsChanged() {
+  handleBucketsChanged() {
     this.setState({
-      forms: FormStore.getForms()
+      buckets: BucketStore.getBuckets()
     })
   },
   render() {
@@ -37,27 +37,27 @@ const Dashboard = React.createClass({
         <div className="wrapper">
           <ul className="accordion-tabs-minimal">
             <li className="tab-header-and-content">
-              <a href="#" className="tab-link is-active">Active Forms</a>
+              <a href="#" className="tab-link is-active">Active Buckets</a>
               <div className="tab-content">
                 <div className="callout">
-                  <button onClick={() => this.props.history.push('/forms/new')}><FontAwesome name='plus' /> New Form</button>
-                  <p>You are using 3 out of 5 available active forms in <Link to="billing">your plan</Link>.</p>
+                  <button onClick={() => this.props.history.push('/buckets/new')}><FontAwesome name='plus' /> New Bucket</button>
+                  <p>You are using 3 out of 5 available active buckets in <Link to="billing">your plan</Link>.</p>
                 </div>
 
-                { typeof this.state.forms === 'undefined' ? 'Loading...' : (
-                  <table className="form-list">
+                { typeof this.state.buckets === 'undefined' ? 'Loading...' : (
+                  <table className="bucket-list">
                     <thead>
                       <tr>
-                        <th>Form Name</th>
+                        <th>Bucket Name</th>
                         <th># Submissions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {
-                        this.state.forms.map(form => (
-                          <tr key={form.id}>
-                            <td><Link to={`/forms/update/${form.id}`}><FontAwesome name='gear' /> {form.name}</Link></td>
-                            <td><h3><Link to="#">{form.submission_count}</Link></h3></td>
+                        this.state.buckets.map(bucket => (
+                          <tr key={bucket.id}>
+                            <td><Link to={`/buckets/update/${bucket.id}`}><FontAwesome name='gear' /> {bucket.name}</Link></td>
+                            <td><h3><Link to="#">{bucket.submission_count}</Link></h3></td>
                           </tr>
                         ))
                       }
@@ -68,7 +68,7 @@ const Dashboard = React.createClass({
             </div>
           </li>
           <li className="tab-header-and-content">
-            <a href="#" className="tab-link">Archived Forms</a>
+            <a href="#" className="tab-link">Archived Buckets</a>
           </li>
         </ul>
       </div>
