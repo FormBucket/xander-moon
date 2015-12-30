@@ -17,6 +17,7 @@ import {
   LOAD_PROFILE,
   CREATE_FORM,
   FORM_CREATED,
+  FORM_DELETED,
   RECEIVE_SUBMISSION,
   RECEIVE_SUBMISSIONS,
   UPDATE_FORM,
@@ -66,5 +67,13 @@ export function updateForm(form) {
   })
   .error((err) => {
     dispatch(ERROR, err)
+  })
+}
+
+export function deleteForm(formId, done) {
+  requestDeleteForm(formId)
+  .then(result => {
+    dispatch(FORM_DELETED, result)
+    done()
   })
 }

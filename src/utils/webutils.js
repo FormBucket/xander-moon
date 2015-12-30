@@ -78,13 +78,25 @@ export function requestCreateForm(data){
     name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
   })
 */
-export function requireUpdateForm(data){
-  return fetch('/forms/5oFr9Lr', {
-    method: 'put', credentials: 'include',
+export function requestUpdateForm(formId, data){
+  return fetch('/forms/' + formId, {
+    method: 'put',
+    credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
+  }).then(processStatus)
+}
+
+export function requestDeleteForm(formId){
+  return fetch('/forms/' + formId, {
+    method: 'delete',
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
   }).then(processStatus)
 }
