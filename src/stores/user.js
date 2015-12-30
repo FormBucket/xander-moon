@@ -29,7 +29,7 @@ const UserStore = createStore(
     canCreateForm: (state) => true,
     getId: (state) => state.id,
     getEmail: (state) => state.email,
-    getName: (state) => state.name,
+    getName: (state) => state.displayName,
     getUser: (state) => state,
   }
 )
