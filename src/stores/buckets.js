@@ -1,10 +1,10 @@
 import {createStore} from 'sweetflux'
 import {LOAD_BUCKETS} from './actions'
-import {Map} from 'immutable'
+import Immutable, {Map} from 'immutable'
 
 const BucketStore = createStore(
   'BucketStore',
-  Map(),
+  Immutable.fromJS({ buckets: [] }),
   (state, action) => {
     console.log('buckets', state, action)
     switch (action.type) {
@@ -17,8 +17,8 @@ const BucketStore = createStore(
   },
   {
     getBuckets: (state) => state.get('buckets'),
-    findBucket: (state, id) => state.buckets.find(n => n.id === id),
-    findBucketByName: (state, name) => state.buckets.find(n => n.name === name)
+    find: (state, id) => state.get('buckets').find(n => n.id === id),
+    findByName: (state, name) => state.get('buckets').find(n => n.name === name)
   }
 )
 
