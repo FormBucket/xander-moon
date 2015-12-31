@@ -2,13 +2,23 @@
 
 // Implement the FormBucket API with static return values.
 var buckets = [{
-  id: 'ff4fu3',
-  name: 'FormBucket Homepage'
+  _id: "5684405f64886e001a000001",
+  email_to: "peter@functionfoundry.com",
+  id: "1234567",
+  user_id: "56843f5d1490158244dff14f",
+  name: "FormBucket Contact Form",
+  enabled: true,
+  redirect_url: "https://formbucket-development.elasticbeanstalk.com/thank-you",
+  webhooks: [
+    "http://formbucket-development.elasticbeanstalk.com/f/hook",
+    "https://zapier.com/hooks/catch/3pv96h/"
+  ],
+  required_fields: []
 }, {
   id: 'abij6d',
   name: 'Contact Form'
 }, {
-  id: 'abij6d',
+  id: 'baij6d',
   name: 'Survey Form'
 }]
 
