@@ -13,7 +13,8 @@ var buckets = [{
     "http://formbucket-development.elasticbeanstalk.com/f/hook",
     "https://zapier.com/hooks/catch/3pv96h/"
   ],
-  required_fields: []
+  required_fields: [],
+  auto_responder: false
 }, {
   id: 'abij6d',
   name: 'Contact Form'
