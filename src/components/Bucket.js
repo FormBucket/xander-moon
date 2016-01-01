@@ -119,15 +119,18 @@ const NewBucket = React.createClass({
                 </label>
                 <input type="button" className="button" onClick={this.onSave} value="Save Bucket" />
               </div>
-              {
-                /*
+              <div className="bucket-preview">
+                <h3>API Preview</h3>
+                {
+                  /*
 
-                */
-              }
-              <Markdown
-                source={ '```JSON\n' + JSON.stringify(this.state, null, 4) + '\n```' }
-                options={ markdownOptions }>
-              </Markdown>
+                  */
+                }
+                <Markdown
+                  source={ '```JSON\n' + JSON.stringify(this.state, null, 4) + '\n```' }
+                  options={ markdownOptions }>
+                </Markdown>
+              </div>
             </div>
           </div>
         )

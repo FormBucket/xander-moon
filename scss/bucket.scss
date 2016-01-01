@@ -23,3 +23,15 @@
 .cc-emails {
   margin-top: $base-spacing / 2;
 }
+
+.bucket-preview {
+  @include span-columns(5);
+  @include shift(1);
+
+  @include media($tablet) {
+    @include span-columns(12);
+    @include shift(0);
+    margin-top: $base-spacing;
+    text-align: center;
+  }
+}
