@@ -8,11 +8,18 @@ var content = require('../content/api.md');
 const API = React.createClass({
   render () {
     return (
-      <div id="api">
-        <Markdown
-          source={ content }
-          options={ markdownOptions }
-          />
+      <div>
+        <div className="page-heading">
+          <div className="wrapper">
+            <h1>API</h1>
+          </div>
+        </div>
+        <div className="wrapper">
+          <Markdown
+            source={ content }
+            options={ markdownOptions }
+            />
+        </div>
       </div>
     )
   }

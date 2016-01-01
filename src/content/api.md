@@ -1,9 +1,8 @@
-# FormBucket API
-
-Reliably collecting forms from your static website is our mission.
+## Reliably collecting forms from your static website is our mission.
 
 The FormBucket API enables integration with 3rd party system over
 an industry standard REST API. Data is returned in JSON format.
+---
 
 ## Buckets
 
@@ -222,6 +221,8 @@ data: { bucket: '12fdOd', created_on: '2015-01-24T12:23:32', data: [ /* actually
 GET https://www.FormBucket.com/submissions/:id/events
 
 This is the same as the stream for all buckets, except that the results are filtered to a particular bucket.
+
+---
 
 ## Error Codes
 
