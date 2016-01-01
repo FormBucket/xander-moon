@@ -5,7 +5,7 @@ import markdownOptions from './markdown-options'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
 import {COND} from 'functionfoundry'
-import {loadBuckets} from '../stores/ActionCreator'
+import {loadBuckets, createBucket} from '../stores/ActionCreator'
 import BucketStore from '../stores/buckets'
 
 const Dashboard = React.createClass({
@@ -20,6 +20,17 @@ const Dashboard = React.createClass({
   },
   componentWillUnmount() {
     this.token.remove()
+  },
+  handleNewBucket(event) {
+    createBucket({}, (err, result) => {
+      if (err) {
+        console.log(err)
+        return
+      }
+
+      console.log('createdBucket with', result)
+      this.props.history.push('/buckets/' + result.id)
+    })
   },
   handleBucketsChanged() {
     this.setState({
@@ -40,7 +51,7 @@ const Dashboard = React.createClass({
               <a href="#" className="tab-link is-active">Active Buckets</a>
               <div className="tab-content">
                 <div className="callout">
-                  <button onClick={() => this.props.history.push('/buckets/new')}><FontAwesome name='plus' /> New Bucket</button>
+                  <button onClick={this.handleNewBucket}><FontAwesome name='plus' /> New Bucket</button>
                   <p>You are using 3 out of 5 available active buckets in <Link to="billing">your plan</Link>.</p>
                 </div>
 
@@ -56,7 +67,7 @@ const Dashboard = React.createClass({
                       {
                         this.state.buckets.map(bucket => (
                           <tr key={bucket.id}>
-                            <td><Link to={`/buckets/update/${bucket.id}`}><FontAwesome name='gear' /> {bucket.name}</Link></td>
+                            <td><Link to={`/buckets/${bucket.id}`}><FontAwesome name='gear' /> {bucket.name}</Link></td>
                             <td><h3><Link to="#">{bucket.submission_count}</Link></h3></td>
                           </tr>
                         ))

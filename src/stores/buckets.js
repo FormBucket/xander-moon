@@ -1,24 +1,24 @@
 import {createStore} from 'sweetflux'
-import {LOAD_BUCKETS} from './actions'
-import Immutable, {Map} from 'immutable'
+import {SET_BUCKET} from './actions'
 
 const BucketStore = createStore(
   'BucketStore',
-  Immutable.fromJS({ buckets: [] }),
+  { },
   (state, action) => {
-    console.log('buckets', state, action)
     switch (action.type) {
-      case LOAD_BUCKETS:
-        console.log('LOAD_BUCKETS', action)
-        return state.set('buckets', action.data)
+      case SET_BUCKET:
+        var obj = {}
+        obj[action.data.id] = action.data
+        console.log(SET_BUCKET, state, obj)
+        return Object.assign({}, state, obj)
       default:
         return state
     }
   },
   {
-    getBuckets: (state) => state.get('buckets'),
-    find: (state, id) => state.get('buckets').find(n => n.id === id),
-    findByName: (state, name) => state.get('buckets').find(n => n.name === name)
+    getBuckets: (state) => Object.keys(state).reduce( (a,b) => a.concat([state[b]]), []), // convert list to array
+    find: (state, id) => state[id],
+    findByName: (state, name) => state.filter(n => n.name === name)
   }
 )
 

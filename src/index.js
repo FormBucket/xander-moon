@@ -4,8 +4,9 @@ import { render } from 'react-dom'
 import { Router, Route, Link, IndexRoute } from 'react-router'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 
-import App from './components/App'
+import UserStore from './stores/user'
 
+import App from './components/App'
 import Welcome from './components/Welcome'
 import Signup from './components/Signup'
 import Billing from './components/Billing'
@@ -33,8 +34,7 @@ render((
       <Route path="faqs" component={FAQs} />
       <Route path="api" component={API} />
       <Route path="dashboard" component={Dashboard} />
-      <Route path="/buckets/new" component={Bucket} />
-      <Route path="/buckets/update/:id" component={Bucket} />
+      <Route path="/buckets/:id" component={Bucket} />
       <Route path="submissions" component={Submissions} />
       <Route path="profile" component={Profile} />
       <Route path="thank-you" component={ThankYou} />

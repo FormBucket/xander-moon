@@ -6,23 +6,8 @@ var FontAwesome = require('react-fontawesome');
 const Header = React.createClass({
 
   getInitialState: function() {
-    return {}
-  },
-
-  componentDidMount: function() {
-    this.storeSubscription = UserStore.addListener(this.handleUserStoreChanged)
-  },
-
-  componentWillUnmount: function() {
-    this.storeSubscription.remove();
-  },
-
-
-  handleUserStoreChanged: function() {
-    if (UserStore.isUserLoggedIn()) {
-      this.setState({
-        user: UserStore.getUser()
-      })
+    return {
+      user: UserStore.getUser()
     }
   },
 
@@ -35,7 +20,7 @@ const Header = React.createClass({
       </div>
     )
 
-    if (this.state.user) {
+    if (UserStore.isUserLoggedIn()) {
       topRight = (
         <div className="nav">
           <ul className="menu">

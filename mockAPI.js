@@ -2,9 +2,8 @@
 
 // Implement the FormBucket API with static return values.
 var buckets = [{
-  _id: "5684405f64886e001a000001",
-  email_to: "peter@functionfoundry.com",
   id: "1234567",
+  email_to: "peter@functionfoundry.com",
   user_id: "56843f5d1490158244dff14f",
   name: "FormBucket Contact Form",
   enabled: true,
@@ -16,11 +15,7 @@ var buckets = [{
   required_fields: [],
   auto_responder: false
 }, {
-  id: 'abij6d',
-  name: 'Contact Form'
-}, {
-  id: 'baij6d',
-  name: 'Survey Form'
+  id: 'foobar'
 }]
 
 var submissions = [{

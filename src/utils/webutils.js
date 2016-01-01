@@ -2,7 +2,7 @@
 Author: Peter Moresi
 Date: 2015-12-14
 
-All of these functions return a promise.
+All of these functions return a promise to get a payload.
 */
 
 // generic function to detect common HTTP error codes. Credit to Mozilla.
@@ -68,7 +68,9 @@ export function requestCreateBucket(data){
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
-  }).then(processStatus)
+  })
+  .then(processStatus)
+  .then(getJSON)
 }
 
 /* Send server request to update existing bucket
@@ -78,16 +80,18 @@ export function requestCreateBucket(data){
     name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
   })
 */
-export function requestUpdateBucket(bucketId, data){
-  return fetch('/buckets/' + bucketId, {
+export function requestUpdateBucket(bucket){
+  return fetch('/buckets/' + bucket.id, {
     method: 'put',
     credentials: 'include',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(data)
-  }).then(processStatus)
+    body: JSON.stringify(bucket)
+  })
+  .then(processStatus)
+  .then(getJSON)
 }
 
 export function requestDeleteBucket(bucketId){
@@ -98,5 +102,7 @@ export function requestDeleteBucket(bucketId){
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     }
-  }).then(processStatus)
+  })
+  .then(processStatus)
+  .then(getJSON)
 }

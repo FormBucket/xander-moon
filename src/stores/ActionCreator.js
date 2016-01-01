@@ -3,70 +3,48 @@ import {dispatch} from 'sweetflux'
 // FIXME: REMOVE DEV HACK
 window.dispatch = dispatch
 
+let submissionEventStream
+
 import {
   getBuckets,
   requestCreateBucket,
-  requestUpdateBucket
+  requestUpdateBucket,
+  startSubmissionEventSource
 } from '../utils/webutils'
 
 import {
-  INIT_USER,
-  LOAD_BUCKETS,
-  RECEIVE_BUCKETS,
-  LOAD_SUBMISSIONS,
-  LOAD_PROFILE,
-  CREATE_BUCKET,
-  BUCKET_CREATED,
-  BUCKET_DELETED,
-  RECEIVE_SUBMISSION,
+  SET_BUCKET,
   RECEIVE_SUBMISSIONS,
-  UPDATE_BUCKET,
-  DELETE_BUCKET,
-  ERROR
 } from './actions'
-
-export function initUser() {
-  dispatch(INIT_USER)
-}
-
-export function startSubmissionEventSource(bucketId) {
-  var url = bucketId ? "/submissions/${bucketId}/events" : "/submissions/events"
-  var es = new EventSource(url, { withCredentials: true });
-  es.onmessage = function (event) {
-    receiveSubmission(JSON.parse(event.data));
-  };
-}
-
-export function receiveSubmission(submission) {
-  dispatch(RECEIVE_SUBMISSION, submission)
-}
 
 export function loadBuckets() {
   getBuckets()
   .then((buckets) => {
-    console.log('foo', LOAD_BUCKETS, buckets)
-    dispatch(LOAD_BUCKETS, buckets)
+    console.log(SET_BUCKET, buckets)
+    buckets.forEach(bucket => dispatch(SET_BUCKET, bucket))
   })
 }
 
 export function createBucket(bucket, done) {
   requestCreateBucket(bucket)
   .then((result) => {
-    dispatch(BUCKET_CREATED, result)
-    done()
+    bucket.id = result.id
+    console.log(SET_BUCKET, bucket)
+    dispatch(SET_BUCKET, bucket)
+    done(null, bucket)
   }, (err) => {
-    dispatch(ERROR, err)
+    done(err)
   })
 }
 
 
-export function updateBucket(bucket) {
+export function updateBucket(bucket, done) {
   requestUpdateBucket(bucket)
   .then((result) => {
-    dispatch(BUCKET_UPDATED, result)
-  })
-  .error((err) => {
-    dispatch(ERROR, err)
+    dispatch('updateBucket', result)
+    done(null, result)
+  }, (err) => {
+    done(err)
   })
 }
 
@@ -74,6 +52,21 @@ export function deleteBucket(bucketId, done) {
   requestDeleteBucket(bucketId)
   .then(result => {
     dispatch(BUCKET_DELETED, result)
-    done()
+    done(null, result)
+  }, (err) => {
+    done(err)
   })
+}
+
+export function streamSubmissions(bucketId) {
+  var url = bucketId ? "/submissions/${bucketId}/events" : "/submissions/events",
+  submissionEventStream = new EventSource(url, { withCredentials: true });
+
+  submissionEventStream.onmessage = function (event) {
+    dispatch(RECEIVE_SUBMISSIONS, [JSON.parse(event.data)])
+  };
+}
+
+export function stopSubmissionStream() {
+  submissionEventStream.close()
 }
