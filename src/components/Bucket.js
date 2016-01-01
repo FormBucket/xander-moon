@@ -127,16 +127,11 @@ const NewBucket = React.createClass({
                     Send notifications to:
                     <textarea disabled={typeof this.state.email_to === 'string' ? false : true} className="cc-emails" ref="additionalEmails" placeholder="Separate addresses by comma" onChange={(e) => this.setState({ email_to: e.target.value })} defaultValue={ typeof this.state.email_to === 'string' ? this.state.email_to : '' }></textarea>
                   </label>
-                  <input type="button" className="button" onClick={this.onSave} value="Save Bucket" />
+                  <input type="button" className="button" onClick={this.onSave} value="Update Settings" />
                 </div>
               </div>
               <div className="bucket-preview">
                 <h3>API Preview</h3>
-                {
-                  /*
-
-                  */
-                }
                 <Markdown
                   source={ '```JSON\n' + JSON.stringify(this.state, null, 4) + '\n```' }
                   options={ markdownOptions }>
