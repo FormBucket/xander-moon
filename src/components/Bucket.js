@@ -57,11 +57,13 @@ const NewBucket = React.createClass({
           <div className="wrapper">
             <div className="bucket-details">
               <div className="section">
-                <h3>Bucket ({this.state.id})</h3>
                 <label htmlFor="bucketName">Name</label>
                 <input type="text" id="bucketName" ref="bucketName" placeholder="e.g. Beta Signups" autoFocus={focus} onChange={ (e) => this.setState({ name: e.target.value }) } defaultValue={this.state.name} />
-                <label htmlFor="bucketStatus" className="label-switch">Status
-                  <input id="bucketStatus" type="checkbox" />
+              </div>
+              <div className="section">
+                <h3>Bucket ({this.state.id})</h3>
+                <label htmlFor="bucketEnabled" className="label-switch"> Enabled
+                  <input id="bucketEnabled" type="checkbox" onChange={(event) => this.setState({ enabled: event.target.checked }) } checked={this.state.enabled} />
                   <div className="checkbox"></div>
                 </label>
               </div>
