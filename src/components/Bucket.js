@@ -101,7 +101,7 @@ const NewBucket = React.createClass({
                   >
                 </textarea>
                 <span>
-                  Note: Your form must have a <strong>from</strong> field to use this feature.
+                  Note: Your form must have an <strong>email address</strong> field to use this feature.
                 </span>
               </div>
               <h3>Notifications</h3>
