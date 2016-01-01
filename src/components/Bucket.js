@@ -77,7 +77,7 @@ const NewBucket = React.createClass({
                 )) : ''
               }
               <div>
-                <a style={{ cursor: 'pointer' }} onClick={() => this.setState({webhooks: this.state.webhooks.concat([''])})}><FontAwesome name='plus' /> Add webhook</a>
+                <a style={{ cursor: 'pointer' }} onClick={() => this.setState({webhooks: this.state.webhooks ? this.state.webhooks.concat(['']) : [] })}><FontAwesome name='plus' /> Add webhook</a>
               </div>
               <label>
                 <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" onChange={this.toggleAutoResponder} checked={ this.state.auto_responder }/>
