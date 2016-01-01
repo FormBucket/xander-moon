@@ -19,7 +19,7 @@ apikey        | string        | __Required__. The API key provided on your user 
 
 #### Example Response
 
-```js
+```JSON
 [
   {
     "id": "5g75oz",
@@ -55,7 +55,7 @@ GET https://www.FormBucket.com/buckets/123.json?apikey=e705c568-8869-4ca2-8a58-7
 
 #### Example Response
 
-```js
+```JSON
 {
   "id": "5g75oz",
   "name": "Product Interest Form",
@@ -85,13 +85,13 @@ required_fields | array        | __Optional__. A list of fields that are require
 
 When the bucket is successfully created:
 
-```js
+```JSON
 { "success": true }
 ```
 
 When an error occurs:
 
-```js
+```JSON
 { "code": 1, "error": "apikey is required." }
 ```
 
@@ -142,7 +142,7 @@ offset        | integer       | __Optional__. Offset the result to enable paging
 ```JSON
 [
   {
-    "bucket_id":
+    "bucket_id": "hgyg65kj",
     "total": 1,
     "count": 1,
     "limit": 10,
@@ -183,9 +183,9 @@ GET https://www.FormBucket.com/submissions.json
 
 ```js
 [{
-  bucket: 'afbi23',
-  created_on: '2015-01-24T12:23:32',
-  data: [{
+  "bucket_id": "afbi23",
+  "created_on": "2015-01-24T12:23:32",
+  "data": [{
     // actual fields submitted
   }]
 }]

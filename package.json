@@ -10,7 +10,8 @@
     "build": "npm run clean && npm run build:webpack",
     "copy:server": "cp -r dist/ ../formbucket-server/dist && cp -r public/ ../formbucket-server/public",
     "start": "node devServer.js",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "g": "npm run build && npm run copy:server"
   },
   "devDependencies": {
     "babel-core": "^6.3.15",
