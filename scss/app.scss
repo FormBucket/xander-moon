@@ -61,6 +61,17 @@ button, .button {
   text-transform: uppercase;
 }
 
+.secondary {
+  background-color: transparent;
+  border: 1px solid $purple;
+  color: $purple;
+}
+
+.secondary:hover, .secondary:active {
+  background-color: $lightest-purple;
+  color: $purple;
+}
+
 label {
   font-weight: 400;
 }

@@ -63,9 +63,9 @@ const Dashboard = React.createClass({
                 {
                   this.state.buckets.map(bucket => (
                     <tr key={bucket.id}>
-                      <td><Link to={`/buckets/${bucket.id}`}><FontAwesome name='gear' /> {bucket.name}</Link></td>
+                      <td><h4>{bucket.name}</h4></td>
                       <td>{bucket.enabled}</td>
-                      <td><h3><Link to="#">{bucket.submission_count}</Link></h3></td>
+                      <td><button className="secondary" onClick={this.handleBucket}>{bucket.submission_count} Submissions <FontAwesome name='chevron-right' /></button></td>
                     </tr>
                   ))
                 }
