@@ -3,8 +3,6 @@ import {dispatch} from 'sweetflux'
 // FIXME: REMOVE DEV HACK
 window.dispatch = dispatch
 
-let submissionEventStream
-
 import {
   getBuckets,
   requestCreateBucket,
@@ -73,8 +71,8 @@ export function loadSubmissions(offset, limit) {
 export function loadSubmissionsByBucket(bucket_id, offset, limit) {
   getSubmissionsByBucket(bucket_id, offset, limit)
   .then((items) => {
-    console.log(GET_SUBMISSION, items)
-    items.forEach(item => dispatch(GET_SUBMISSION, item))
+    console.log(GET_SUBMISSIONS, 'by bucket', items)
+    dispatch(GET_SUBMISSIONS, items)
   })
 }
 
@@ -82,14 +80,11 @@ export function streamSubmissions(bucketId) {
   if (typeof submissionEventStream !== 'undefined') { return }
 
   var url = bucketId ? "/submissions/${bucketId}/events" : "/submissions/events",
-  submissionEventStream = new EventSource(url, { withCredentials: true });
+      submissionEventStream = new EventSource(url, { withCredentials: true })
 
   submissionEventStream.onmessage = function (event) {
     dispatch(STREAM_SUBMISSION, JSON.parse(event.data))
   };
-}
 
-export function stopSubmissionStream() {
-  submissionEventStream.close()
-  submissionEventStream = undefined
+  return submissionEventStream
 }

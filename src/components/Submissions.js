@@ -1,38 +1,49 @@
 import React, { PropTypes } from 'react'
-import SubmissionsStore from '../stores/Submissions'
-import {loadSubmissions, streamSubmissions} from '../stores/ActionCreator'
+import {NOT, EQ, ISBLANK} from 'functionfoundry'
+import Markdown from 'react-remarkable'
+import markdownOptions from './markdown-options'
 
 const Submissions = React.createClass({
-
-  getInitialState: function() {
-    return {
-      submissions: []
-    }
-  },
-
-  componentDidMount: function() {
-    this.token = SubmissionsStore.addListener(this.handleSubmissionsChanged)
-    loadSubmissions(0, 50) // load first 50 submissions
-    streamSubmissions();  //
-  },
-
-  componentWillUnmount: function() {
-    this.token.remove();
-  },
-
-  handleSubmissionsChanged: function() {
-    this.setState({
-      submissions: SubmissionsStore.getSubmissions()
-    })
-  },
-
   render () {
+
+    if (ISBLANK(this.props.selected_bucket)) {
+      return (
+        <div></div>
+      )
+    }
+
+    if (ISBLANK(this.props.submissions)) {
+      return (
+        <div>Loading...</div>
+      )
+    }
+
+    if (EQ(this.props.submissions.length, 0)) {
+      return (
+        <div>No Submissions Yet!</div>
+      )
+    }
+
     return (
-      <ul>
-        {this.state.submissions.map( (submission, i) => (
-          <li key={i} style={{marginBottom: 10, borderBottom: '1px solid black' }}>{JSON.stringify(submission, null, 4)}</li>
+      <table className="bucket-list">
+        <thead>
+          <tr>
+            <th>Submissions for {this.props.selected_bucket.name}</th>
+          </tr>
+        </thead>
+        <tbody>
+        {this.props.submissions.map( (submission, i) => (
+          <tr key={i} style={{marginBottom: 10, borderBottom: '1px solid black' }}>
+            <td>
+              <Markdown
+                source={ '```JSON\n' + JSON.stringify(submission, null, 4) + '\n```' }
+                options={ markdownOptions }>
+              </Markdown>
+            </td>
+          </tr>
         ))}
-      </ul>
+      </tbody>
+    </table>
     )
   }
 })

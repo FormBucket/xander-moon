@@ -43,7 +43,7 @@ const Welcome = React.createClass({
                   <div className="copy">
                     <h3>Work in Real Time</h3>
                     <p>
-                      Submissions get delivered immediately to multiple inbox nearly immediately; making it easy to search and collaborate.
+                      Submissions get delivered immediately to multiple buckets nearly immediately; making it easy to search and collaborate.
                     </p>
                   </div>
                 </div>
