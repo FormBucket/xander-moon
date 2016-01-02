@@ -16,23 +16,23 @@ const Welcome = React.createClass({
         <div className="hero">
           <div className="wrapper">
             <h1>Every Form Needs a Bucket.</h1>
-            <h2>Your markup, your CSS. We take care of the rest!</h2>
+            <h2>Buckets are meant for sharing.</h2>
             <button onClick={redirect('#plans')}>See Plans & Pricing</button>
             <div className="features tour">
               <div className="key-features">
                 <div className="feature fade-in one">
                   <img className="icon" src="/img/icon-markup.svg" alt="raw html" />
                   <div className="copy">
-                    <h3>Bare Metal Markup</h3>
+                    <h3>Forms on Static Websites</h3>
                     <p>
-                      Get raw form HTML with a unique URL endpoint. Drop it right into your project!
+                      Get raw form HTML with a unique URL endpoint. Use it to let people share with your directly from your website.
                     </p>
                   </div>
                 </div>
                 <div className="feature fade-in two">
                   <img className="icon" src="/img/icon-rules.svg" alt="raw html" />
                   <div className="copy">
-                    <h3>Custom Rules</h3>
+                    <h3>Define your Rules</h3>
                     <p>
                       Redirect users to any URL after your form is submitted and configure unlimited webhooks.
                     </p>
@@ -41,9 +41,9 @@ const Welcome = React.createClass({
                 <div className="feature fade-in three">
                   <img className="icon" src="/img/icon-submissions.svg" alt="raw html" />
                   <div className="copy">
-                    <h3>Submissions Manager</h3>
+                    <h3>Work in Real Time</h3>
                     <p>
-                      Submissions get delivered to your inbox and stored in a searchable dashboard.
+                      Submissions get delivered immediately to multiple inbox nearly immediately; making it easy to search and collaborate.
                     </p>
                   </div>
                 </div>

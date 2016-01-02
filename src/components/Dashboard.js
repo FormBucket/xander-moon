@@ -7,6 +7,7 @@ import moment from 'moment'
 import {COND} from 'functionfoundry'
 import {loadBuckets, createBucket} from '../stores/ActionCreator'
 import BucketStore from '../stores/buckets'
+import Submissions from './Submissions'
 
 const Dashboard = React.createClass({
   getInitialState() {
@@ -74,6 +75,7 @@ const Dashboard = React.createClass({
           )
         }
       </div>
+      <Submissions />
     </div>
   )
 }

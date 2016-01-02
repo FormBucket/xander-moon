@@ -113,7 +113,7 @@ export function requestDeleteBucket(bucketId){
 
 
 export function submit(formId, formData) {
-  fetch(`/f/${formId}`, {
+  return fetch(`/f/${formId}`, {
     method: 'post',
     headers: {
       'Accept': 'application/json',
