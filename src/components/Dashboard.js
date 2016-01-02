@@ -54,9 +54,9 @@ const Dashboard = React.createClass({
             <table className="bucket-list">
               <thead>
                 <tr>
-                  <th>Bucket Name</th>
+                  <th>Bucket</th>
                   <th>Status</th>
-                  <th># Submissions</th>
+                  <th>Submissions</th>
                 </tr>
               </thead>
               <tbody>
