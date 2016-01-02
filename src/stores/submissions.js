@@ -1,14 +1,17 @@
 import {createStore} from 'sweetflux'
-import {RECEIVE_SUBMISSION, RECEIVE_SUBMISSIONS} from './actions'
+import {GET_SUBMISSIONS, STREAM_SUBMISSION} from './actions'
 
 const SubmissionStore = createStore(
   'Submissions',
   [],
   (state, action) => {
     switch (action.type) {
-      case RECEIVE_SUBMISSIONS:
-        console.log('RECEIVE_SUBMISSIONS', state, action.data)
-        return state.concat(action.data);
+      case GET_SUBMISSIONS:
+        console.log('GET_SUBMISSIONS', action.data)
+        return [state].concat(action.data); // push to front
+      case STREAM_SUBMISSION:
+          console.log('STREAM_SUBMISSION', action.data)
+          return [action.data].concat(state); // push to front
       default:
         return state;
     }
@@ -17,5 +20,8 @@ const SubmissionStore = createStore(
     getSubmissions: (state) => state,
   }
 )
+
+// FIXME: remove
+window.SubmissionStore = SubmissionStore
 
 export default SubmissionStore

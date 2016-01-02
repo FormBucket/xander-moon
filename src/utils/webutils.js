@@ -5,6 +5,9 @@ Date: 2015-12-14
 All of these functions return a promise to get a payload.
 */
 
+// FIXME: remove
+window.submit = submit
+
 // generic function to detect common HTTP error codes. Credit to Mozilla.
 function processStatus(response) {
   // status "0" to handle local files fetching (e.g. Cordova/Phonegap etc.)
@@ -22,6 +25,7 @@ function getText(response) {
 function getJSON(response) {
   return response.json();
 }
+
 /* Send server request to get user's Forms
 
   Usage:
@@ -102,6 +106,43 @@ export function requestDeleteBucket(bucketId){
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     }
+  })
+  .then(processStatus)
+  .then(getJSON)
+}
+
+
+export function submit(formId, formData) {
+  fetch(`/f/${formId}`, {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  })
+  .then(processStatus)
+  .then(getJSON)
+}
+
+/* Send server request to get user's submissions
+
+  Usage:
+  getSubmissions(10, 50)
+*/
+export function getSubmissions(offset, limit){
+  return fetch(`/submissions.json?offset=${+offset}&limit=${+limit}`, {
+    credentials: 'include',
+    method: 'get'
+  })
+  .then(processStatus)
+  .then(getJSON)
+}
+
+export function getSubmissionsByBucket(bucket_id, offset, limit){
+  return fetch(`/submissions/${bucket_id}.json?offset=${+offset}&limit=${+limit}`, {
+    credentials: 'include',
+    method: 'get'
   })
   .then(processStatus)
   .then(getJSON)

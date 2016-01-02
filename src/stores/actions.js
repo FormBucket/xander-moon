@@ -1,5 +1,6 @@
 export const SET_BUCKET = 'SET_BUCKET'
-export const RECEIVE_SUBMISSIONS = 'RECEIVE_SUBMISSIONS'         // receive submissions from server
+export const GET_SUBMISSIONS = 'GET_SUBMISSIONS'             // receive submissions from server
+export const STREAM_SUBMISSION = 'STREAM_SUBMISSION'         // receive submissions from server
 
 // Thoughts...
 // export const INIT_USER = 'INIT_USER'                             // load user data from meta tags into store

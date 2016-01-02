@@ -9,12 +9,15 @@ import {
   getBuckets,
   requestCreateBucket,
   requestUpdateBucket,
+  getSubmissions,
+  getSubmissionsByBucket,
   startSubmissionEventSource
 } from '../utils/webutils'
 
 import {
   SET_BUCKET,
-  RECEIVE_SUBMISSIONS,
+  GET_SUBMISSIONS,
+  STREAM_SUBMISSION,
 } from './actions'
 
 export function loadBuckets() {
@@ -58,15 +61,35 @@ export function deleteBucket(bucketId, done) {
   })
 }
 
+
+export function loadSubmissions(offset, limit) {
+  getSubmissions(offset, limit)
+  .then((items) => {
+    console.log(GET_SUBMISSIONS, items)
+    dispatch(GET_SUBMISSIONS, items)
+  })
+}
+
+export function loadSubmissionsByBucket(bucket_id, offset, limit) {
+  getSubmissionsByBucket(bucket_id, offset, limit)
+  .then((items) => {
+    console.log(GET_SUBMISSION, items)
+    items.forEach(item => dispatch(GET_SUBMISSION, item))
+  })
+}
+
 export function streamSubmissions(bucketId) {
+  if (typeof submissionEventStream !== 'undefined') { return }
+
   var url = bucketId ? "/submissions/${bucketId}/events" : "/submissions/events",
   submissionEventStream = new EventSource(url, { withCredentials: true });
 
   submissionEventStream.onmessage = function (event) {
-    dispatch(RECEIVE_SUBMISSIONS, [JSON.parse(event.data)])
+    dispatch(STREAM_SUBMISSION, JSON.parse(event.data))
   };
 }
 
 export function stopSubmissionStream() {
   submissionEventStream.close()
+  submissionEventStream = undefined
 }
