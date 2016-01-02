@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import SubmissionsStore from '../stores/Submissions'
-import {startSubmissionEventSource} from '../stores/ActionCreator'
+import {streamSubmissions, stopSubmissionStream} from '../stores/ActionCreator'
 
 const Submissions = React.createClass({
 
@@ -12,11 +12,12 @@ const Submissions = React.createClass({
 
   componentDidMount: function() {
     this.token = SubmissionsStore.addListener(this.handleSubmissionsChanged)
-    startSubmissionEventSource();
+    streamSubmissions();
   },
 
   componentWillUnmount: function() {
     this.token.remove();
+    stopSubmissionStream();
   },
 
   handleSubmissionsChanged: function() {

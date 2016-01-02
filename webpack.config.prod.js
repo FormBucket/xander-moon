@@ -19,7 +19,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: 'formbucket.js',
   },
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
@@ -36,7 +36,7 @@ module.exports = {
         warnings: false
       }
     }),
-    new ExtractTextPlugin('app.css')
+    new ExtractTextPlugin('formbucket.css')
   ],
   module: {
     loaders: [{
