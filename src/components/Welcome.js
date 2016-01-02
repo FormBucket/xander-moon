@@ -25,7 +25,7 @@ const Welcome = React.createClass({
                   <div className="copy">
                     <h3>Bare Metal Markup</h3>
                     <p>
-                      Get raw form HTML with a unique URL endpoint. Drop it right into your project!
+                      Get unique URL endpoints to drop right into your raw HTML forms.
                     </p>
                   </div>
                 </div>
@@ -79,7 +79,7 @@ const Welcome = React.createClass({
             <h2>30-Day Money Back Guarantee on All Plans</h2>
 
             { PaidPlans.map(plan => (
-                <div key={plan.id} className="pricing-plan foo">
+                <div key={plan.id} className="pricing-plan">
                   <p>{plan.displayName}</p>
                   <h3>${plan.monthly_cost}/mo</h3>
                     <ul>
@@ -92,7 +92,7 @@ const Welcome = React.createClass({
                       { COND(
                           plan.max_submissions_per_month === Number.POSITIVE_INFINITY,
                           'Unlimited',
-                          plan.max_submissions_per_month )} Submissions</li>
+                          plan.max_submissions_per_month )} Submissions per Bucket</li>
                       <li>Unlimited Custom Rules</li>
                       <li>CSV Export</li>
                       {/* COND(plan.allow_file_uploads,
