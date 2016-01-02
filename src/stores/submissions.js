@@ -8,7 +8,7 @@ const SubmissionStore = createStore(
     switch (action.type) {
       case GET_SUBMISSIONS:
         console.log('GET_SUBMISSIONS', action.data)
-        return [state].concat(action.data); // push to front
+        return state.concat(action.data); // push to front
       case STREAM_SUBMISSION:
           console.log('STREAM_SUBMISSION', action.data)
           return [action.data].concat(state); // push to front
