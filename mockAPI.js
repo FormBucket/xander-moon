@@ -33,10 +33,10 @@ function send(value) {
 
 // a function to load the mocked APIs
 function mockAPI(app) {
-  app.get( '/buckets.json', send(buckets) )
-  app.get( '/buckets/:id.json', send('TBD') )
-  app.post( '/buckets', send('TBD') )
-  app.put( '/buckets/:id', send('TBD') )
+  app.get( '/bucket-list.json', send(buckets) )
+  app.get( '/bucket/:id.json', send('TBD') )
+  app.post( '/bucket-list', send('TBD') )
+  app.put( '/bucket/:id', send('TBD') )
 }
 
 module.exports = mockAPI

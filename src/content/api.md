@@ -40,7 +40,7 @@ apikey        | string        | __Required__. The API key provided on your user 
 
 ### Get a bucket
 
-GET https://www.FormBucket.com/buckets/:id.json
+GET https://www.FormBucket.com/bucket/:id.json
 
 #### Parameters
 
@@ -98,7 +98,7 @@ When an error occurs:
 
 ### Update a bucket
 
-PUT https://www.FormBucket.com/buckets/:id
+PUT https://www.FormBucket.com/bucket/:id
 
 #### Parameters
 
@@ -110,7 +110,7 @@ See example responses in "Create a new bucket"
 
 ### Delete a bucket
 
-DELETE https://www.FormBucket.com/buckets/:id
+DELETE https://www.FormBucket.com/bucket/:id
 
 __WARNING.__ Deleting a bucket deletes all submissions in this bucket.
 

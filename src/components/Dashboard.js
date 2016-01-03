@@ -52,7 +52,7 @@ const Dashboard = React.createClass({
       }
 
       console.log('createdBucket with', result)
-      this.props.history.push('/buckets/' + result.id)
+      this.props.history.push('/bucket/' + result.id)
     })
   },
   handleBucketsChanged() {
@@ -65,7 +65,7 @@ const Dashboard = React.createClass({
       <div>
         <div className="page-heading">
           <div className="wrapper">
-            <h1>Buckets</h1>
+            <h1>Bucket List</h1>
           </div>
         </div>
         <div className="wrapper">
@@ -77,11 +77,11 @@ const Dashboard = React.createClass({
           selected_bucket_id={this.state.selected_bucket_id}
           select={(bucket) => {
             console.log('bucket settings click', bucket)
-            this.props.history.push('/buckets/' + bucket.id + '/settings')
+            this.props.history.push('/bucket/' + bucket.id + '/settings')
           }}
           show={(bucket) => {
             console.log('show submissions click', bucket)
-            this.props.history.push('/buckets/' + bucket.id + '/submissions')
+            this.props.history.push('/bucket/' + bucket.id + '/submissions')
 
             // this.setState({ selected_bucket_id: bucket.id })
             // this.setState({ selected_bucket: bucket })

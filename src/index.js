@@ -37,9 +37,9 @@ render((
       <Route path="faqs" component={FAQs} />
       <Route path="api" component={API} />
       <Route path="account" component={Account} />
-      <Route path="/buckets" component={Dashboard} />
-      <Route path="/buckets/:id/settings" component={Bucket} />
-      <Route path="/buckets/:id/submissions" component={Submissions} />
+      <Route path="/bucket-list" component={Dashboard} />
+      <Route path="/bucket/:id/settings" component={Bucket} />
+      <Route path="/bucket/:id/submissions" component={Submissions} />
       <Route path="profile" component={Profile} />
       <Route path="thank-you" component={ThankYou} />
       <Route path="support" component={Support} />

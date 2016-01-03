@@ -112,7 +112,7 @@ name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required
 })
 */
 export function getBucket(id){
-  return getResource(`/buckets/${id}.json`)
+  return getResource(`/bucket/${id}.json`)
   .then(processStatus)
   .then(getJSON)
 }
@@ -138,13 +138,13 @@ name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required
 })
 */
 export function requestUpdateBucket(bucket){
-  return putResource( '/buckets/' + bucket.id, bucket )
+  return putResource( '/bucket/' + bucket.id, bucket )
   .then(processStatus)
   .then(getJSON)
 }
 
 export function requestDeleteBucket(bucketId){
-  return deleteResource('/buckets/' + bucketId)
+  return deleteResource('/bucket/' + bucketId)
   .then(processStatus)
   .then(getJSON)
 }

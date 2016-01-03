@@ -4,13 +4,16 @@ import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 import {loadBucket, loadSubmissionsByBucket} from '../stores/ActionCreator'
 import SubmissionsStore from '../stores/Submissions'
+import FontAwesome from 'react-fontawesome'
 
 const Submissions = React.createClass({
   getInitialState () {
     return {
       mode: 'json',
       submissions: undefined,
-      loaded: false
+      loaded: false,
+      offset: 0,
+      limit: 50
     }
   },
   componentDidMount() {
@@ -23,7 +26,6 @@ const Submissions = React.createClass({
 
         console.log('found', bucket)
         this.setState( { bucket: bucket } )
-        loadSubmissionsByBucket(this.props.params.id, 0, 50)
 
         var submissions = SubmissionsStore.getSubmissionsByBucket(this.props.params.id)
 
@@ -62,9 +64,44 @@ const Submissions = React.createClass({
       submissions: COND(
         ISBLANK(this.props.params.id),
         [],
-        SubmissionsStore.getSubmissionsByBucket(this.props.params.id)
+        SubmissionsStore.getSubmissionsByBucket(this.props.params.id, this.state.offset, this.state.limit)
       )
     })
+  },
+
+  goForward (event) {
+    console.log('goForward')
+    var newOffset = COND(
+      this.state.offset + this.state.limit <= this.state.bucket.submission_count,
+      this.state.offset + this.state.limit,
+      this.state.offset
+    )
+
+    if (newOffset === this.state.offset) {
+      return
+    }
+
+    loadSubmissionsByBucket(this.props.params.id, newOffset, newOffset+this.state.limit)
+    this.setState({ offset: newOffset })
+
+  },
+
+  goBack (event) {
+    console.log('goBack')
+    var newOffset = COND(
+      this.state.offset - this.state.limit > 0,
+      this.state.offset - this.state.limit,
+      0
+    )
+
+    this.setState({ offset: newOffset })
+
+    if (newOffset === 0) {
+      return
+    }
+
+    loadSubmissionsByBucket(this.props.params.id, newOffset, newOffset+this.state.limit)
+
   },
   render () {
 
@@ -126,7 +163,7 @@ const Submissions = React.createClass({
                     { this.state.bucket.name }
                     <span style={{float:'right'}}>
                       Export: &nbsp;
-                      <a href="#">CSV</a> { ' | ' }
+                      <a href="#">CSV </a> { ' | ' }
                       <a href="#">JSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
 
                       Format: &nbsp;
@@ -134,7 +171,14 @@ const Submissions = React.createClass({
                       <a href="#">Table</a>{ ' | ' }
                       <a href="#">JSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
 
-                      {1}-{50} of {107}
+                      {this.state.offset+1}-{this.state.offset+this.state.limit < this.state.bucket.submission_count ? this.state.offset+this.state.limit+1 : this.state.bucket.submission_count} of {this.state.bucket.submission_count}&nbsp;&nbsp;&nbsp;&nbsp;
+                      <span onClick={this.goBack}>
+                        <FontAwesome style={{ cursor: 'pointer', fontSize: '1.5em', backgroundColor: 'white', color: 'black', padding: 5 }} name="chevron-left" />
+                      </span>
+                      &nbsp;
+                      <span onClick={this.goForward} >
+                        <FontAwesome style={{ cursor: 'pointer', fontSize: '1.5em', backgroundColor: 'white', color: 'black', padding: 5 }} name="chevron-right" />
+                      </span>
                     </span>
                   </th>
                 </tr>

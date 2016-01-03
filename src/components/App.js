@@ -26,7 +26,7 @@ const App = React.createClass({
   render() {
     return (
       <div>
-        <Header />
+        <Header history={this.props.history} />
         <div className="main">
           {this.props.children}
         </div>
