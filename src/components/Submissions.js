@@ -105,25 +105,34 @@ const Submissions = React.createClass({
 
     if (EQ(this.state.mode, 'json')) {
       return (
-        <table className="bucket-list">
-          <thead>
-            <tr>
-              <th>{ this.state.bucket.name }</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.submissions.map( (submission, i) => (
-              <tr key={i} style={{marginBottom: 10, borderBottom: '1px solid black' }}>
-                <td>
-                  <Markdown
-                    source={ '```JSON\n' + JSON.stringify(submission, null, 4) + '\n```' }
-                    options={ markdownOptions }>
-                  </Markdown>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div>
+          <div className="page-heading">
+            <div className="wrapper">
+              <h1>Submissions</h1>
+            </div>
+          </div>
+          <div className="wrapper">
+            <table className="bucket-list">
+              <thead>
+                <tr>
+                  <th>{ this.state.bucket.name }</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.submissions.map( (submission, i) => (
+                  <tr key={i} style={{marginBottom: 10, borderBottom: '1px solid black' }}>
+                    <td>
+                      <Markdown
+                        source={ '```JSON\n' + JSON.stringify(submission, null, 4) + '\n```' }
+                        options={ markdownOptions }>
+                      </Markdown>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       )
     }
 
