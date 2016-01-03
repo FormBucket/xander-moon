@@ -70,7 +70,7 @@ export function getBuckets(){
   })
 */
 export function getBucket(id){
-  return getResource(`/bucket/${id}.json`)
+  return getResource(`/buckets/${id}.json`)
   .then(processStatus)
   .then(getJSON)
 }
