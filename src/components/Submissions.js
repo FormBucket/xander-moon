@@ -9,28 +9,34 @@ const Submissions = React.createClass({
   getInitialState () {
     return {
       mode: 'json',
-      submissions: undefined
+      submissions: undefined,
+      loaded: false
     }
   },
   componentDidMount() {
     if (UserStore.isUserLoggedIn()) {
       this.token = SubmissionsStore.addListener(this.handleSubmissionsChanged)
 
-      var submissions = SubmissionsStore.getSubmissionsByBucket(this.props.params.id)
-
-      if (submissions && submissions.length > 0) {
-        this.setState({ submissions: submissions })
-        return
-      }
-
       var bucket = BucketStore.find(this.props.params.id)
 
       if (bucket) {
+
         console.log('found', bucket)
         this.setState( { bucket: bucket } )
         loadSubmissionsByBucket(this.props.params.id, 0, 50)
+
+        var submissions = SubmissionsStore.getSubmissionsByBucket(this.props.params.id)
+
+        if (submissions && submissions.length > 0) {
+          this.setState({ loaded: true, submissions: submissions })
+          return
+        }
+
+        loadSubmissionsByBucket(this.props.params.id, 0, 50)
         return
+
       }
+
 
       console.log('load bucket and submissions for', this.props.params.id)
       loadBucket(this.props.params.id, (err, bucket) => {
@@ -52,6 +58,7 @@ const Submissions = React.createClass({
   handleSubmissionsChanged: function() {
     console.log('handleSubmissionsChanged', this.props.params.id, SubmissionsStore.getState())
     this.setState({
+      loaded: true,
       submissions: COND(
         ISBLANK(this.props.params.id),
         [],
@@ -63,7 +70,7 @@ const Submissions = React.createClass({
 
     if (EQ(this.state.loaded, false)) {
       return (
-        <div></div>
+        <div>Loading...</div>
       )
     }
 
@@ -115,7 +122,21 @@ const Submissions = React.createClass({
             <table className="bucket-list">
               <thead>
                 <tr>
-                  <th>{ this.state.bucket.name }</th>
+                  <th>
+                    { this.state.bucket.name }
+                    <span style={{float:'right'}}>
+                      Export: &nbsp;
+                      <a href="#">CSV</a> { ' | ' }
+                      <a href="#">JSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                      Format: &nbsp;
+                      <a href="#">List</a> { ' | ' }
+                      <a href="#">Table</a>{ ' | ' }
+                      <a href="#">JSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                      {1}-{50} of {107}
+                    </span>
+                  </th>
                 </tr>
               </thead>
               <tbody>
