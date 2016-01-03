@@ -24,7 +24,7 @@ const Header = React.createClass({
       topRight = (
         <div className="nav">
           <ul className="menu">
-            <li><Link to="/dashboard">Buckets</Link></li>
+            <li><Link to="/buckets">Buckets</Link></li>
             <li><Link to="/account">Account</Link></li>
             <li><a href="/logout">Logout</a></li>
           </ul>

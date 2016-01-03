@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import {COND, NOT, EQ, ISBLANK} from 'functionfoundry'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
-import {loadSubmissionsByBucket} from '../stores/ActionCreator'
+import {loadBucket, loadSubmissionsByBucket} from '../stores/ActionCreator'
 import SubmissionsStore from '../stores/Submissions'
 
 const Submissions = React.createClass({
@@ -14,6 +14,8 @@ const Submissions = React.createClass({
   },
   componentDidMount() {
     if (UserStore.isUserLoggedIn()) {
+      this.token = SubmissionsStore.addListener(this.handleSubmissionsChanged)
+
       var submissions = SubmissionsStore.getSubmissionsByBucket(this.props.params.id)
 
       if (submissions && submissions.length > 0) {
@@ -24,11 +26,12 @@ const Submissions = React.createClass({
       var bucket = BucketStore.find(this.props.params.id)
 
       if (bucket) {
-        this.setState( { bucket: bucket } ) )
+        console.log('found', bucket)
+        this.setState( { bucket: bucket } )
         loadSubmissionsByBucket(this.props.params.id, 0, 50)
+        return
       }
 
-      this.token = SubmissionsStore.addListener(this.handleSubmissionsChanged)
       console.log('load bucket and submissions for', this.props.params.id)
       loadBucket(this.props.params.id, (err, bucket) => {
         if (err) {
@@ -36,7 +39,7 @@ const Submissions = React.createClass({
           this.setState( { error: err } )
 
         }
-        this.setState( { bucket: bucket } ) )
+        this.setState( { bucket: bucket } )
         loadSubmissionsByBucket(this.props.params.id, 0, 50)
       })
     }
@@ -57,6 +60,12 @@ const Submissions = React.createClass({
     })
   },
   render () {
+
+    if (EQ(this.state.loaded, false)) {
+      return (
+        <div></div>
+      )
+    }
 
     if (ISBLANK(this.props.params.id)) {
       return (
@@ -99,7 +108,7 @@ const Submissions = React.createClass({
         <table className="bucket-list">
           <thead>
             <tr>
-              <th>Submissions for {bucket.name}</th>
+              <th>{ this.state.bucket.name }</th>
             </tr>
           </thead>
           <tbody>
