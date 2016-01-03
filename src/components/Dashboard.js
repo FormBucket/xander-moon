@@ -11,7 +11,6 @@ import BucketStore from '../stores/buckets'
 import SubmissionsStore from '../stores/Submissions'
 import {loadSubmissionsByBucket, streamSubmissions} from '../stores/ActionCreator'
 
-import Submissions from './Submissions'
 import Buckets from './Buckets'
 
 const Dashboard = React.createClass({
@@ -30,18 +29,12 @@ const Dashboard = React.createClass({
   componentDidMount() {
     if (UserStore.isUserLoggedIn()) {
       loadBuckets()
-
       this.token = BucketStore.addListener(this.handleBucketsChanged)
-      this.token2 = SubmissionsStore.addListener(this.handleSubmissionsChanged)
-
-      this.stream = streamSubmissions();
     }
   },
   componentWillUnmount() {
     if (UserStore.isUserLoggedIn()) {
       this.token.remove()
-      this.token2.remove()
-      this.stream.close();
     }
   },
   handleNewBucket(event) {
@@ -87,18 +80,17 @@ const Dashboard = React.createClass({
           selected_bucket_id={this.state.selected_bucket_id}
           select={(bucket) => {
             console.log('bucket settings click', bucket)
-            this.props.history.push('/buckets/' + bucket.id)
+            this.props.history.push('/buckets/' + bucket.id + '/settings')
           }}
           show={(bucket) => {
             console.log('show submissions click', bucket)
-            this.setState({ selected_bucket_id: bucket.id })
-            this.setState({ selected_bucket: bucket })
-            this.setState({ submissions: undefined })
-            loadSubmissionsByBucket(bucket.id, 0, 50) // load first 50 submissions
+            this.props.history.push('/buckets/' + bucket.id + '/submissions')
+
+            // this.setState({ selected_bucket_id: bucket.id })
+            // this.setState({ selected_bucket: bucket })
+            // this.setState({ submissions: undefined })
+            // loadSubmissionsByBucket(bucket.id, 0, 50) // load first 50 submissions
           }}/>
-        <Submissions
-          submissions={this.state.submissions}
-          selected_bucket={this.state.selected_bucket} />
       </div>
     </div>
   )
