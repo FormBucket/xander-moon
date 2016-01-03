@@ -75,13 +75,13 @@ const Dashboard = React.createClass({
       <div>
         <div className="page-heading">
           <div className="wrapper">
-            <h1>Dashboard</h1>
+            <h1>Buckets</h1>
           </div>
         </div>
         <div className="wrapper">
           <div className="callout">
             <button onClick={this.handleNewBucket}><FontAwesome name='plus' /> New Bucket</button>
-            <p>You are using 3 out of 5 available active buckets in <Link to="billing">your plan</Link>.</p>
+            <p>You are using 3 out of 5 available active buckets in <Link to="account/billing">your plan</Link>.</p>
           </div>
         <Buckets buckets={this.state.buckets}
           selected_bucket_id={this.state.selected_bucket_id}

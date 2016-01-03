@@ -14,11 +14,13 @@ import Login from './components/Login'
 import FAQs from './components/FAQs'
 import API from './components/API'
 import Dashboard from './components/Dashboard'
+import Account from './components/Account'
 import Bucket from './components/Bucket'
 import Submissions from './components/Submissions'
 import Profile from './components/Profile'
 import PageNotFound from './components/PageNotFound'
 import ThankYou from './components/ThankYou'
+import Support from './components/Support'
 
 require('../scss/app.scss')
 
@@ -36,8 +38,10 @@ render((
       <Route path="dashboard" component={Dashboard} />
       <Route path="/buckets/:id" component={Bucket} />
       <Route path="submissions" component={Submissions} />
+      <Route path="account" component={Account} />
       <Route path="profile" component={Profile} />
       <Route path="thank-you" component={ThankYou} />
+      <Route path="support" component={Support} />
       <Route path="*" component={PageNotFound} />
     </Route>
   </Router>

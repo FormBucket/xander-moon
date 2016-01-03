@@ -31,22 +31,3 @@
     color: white;
   }
 }
-
-.email-signup {
-  @include span-columns(6);
-
-  @include media($phablet) {
-    @include span-columns(12);
-  }
-
-  p {
-    text-transform: uppercase;
-
-    @include media($phablet);
-      text-align: center;
-  }
-
-  button, .button {
-    width: 100%;
-  }
-}

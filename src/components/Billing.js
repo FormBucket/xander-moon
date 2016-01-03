@@ -57,8 +57,8 @@ const Billing = React.createClass({
         </div>
         <div className="wrapper">
           <h2>You can upgrade or downgrade your plan at any time.</h2>
+          <p>Pssst...want to get a month free? See <a href="#">annual pricing</a>.</p>
           <div className="billing-details">
-
               <h3>Plan</h3>
               { Plans.map( plan => COND(
                 this.state.selectedPlanCode === plan.code,
@@ -81,7 +81,7 @@ const Billing = React.createClass({
                 undefined
               )}
 
-              <input className="button" type="submit" value="Create My Account" />
+              <input className="button" type="submit" value="Save and Finish" />
 
           </div>
           <div>
