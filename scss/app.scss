@@ -32,7 +32,7 @@ body {
 
   li {
     display: inline-block;
-    margin-right: 1rem;
+    margin-right: $base-spacing;
   }
 
   li:last-child {
@@ -57,6 +57,33 @@ body {
   }
 }
 
+.page-nav-container {
+  height: 3rem;
+  border-bottom: 1px solid $purple;
+  margin-bottom: $base-spacing;
+
+  .page-nav {
+
+    li {
+      display: inline-block;
+      margin-right: $base-spacing;
+    }
+
+    li:last-child {
+      margin-right: 0;
+    }
+
+    a {
+      color: $purple;
+
+    }
+
+    .active {
+      font-weight: 700;
+    }
+  }
+}
+
 button, .button {
   text-transform: uppercase;
 }
@@ -72,6 +99,7 @@ button, .button {
   color: $purple;
 }
 
+
 label {
   font-weight: 400;
 }
@@ -80,6 +108,27 @@ label {
 }
 
 .main {
+}
+
+/* Use this to create a half page width column that resizes into full width on smaller viewports */
+
+.half-width {
+  @include span-columns(6);
+
+  @include media($phablet) {
+    @include span-columns(12);
+  }
+
+  p {
+    text-transform: uppercase;
+
+    @include media($phablet);
+      text-align: center;
+  }
+
+  button, .button {
+    width: 100%;
+  }
 }
 
 .footer {

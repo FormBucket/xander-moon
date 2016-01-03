@@ -15,7 +15,7 @@ const Welcome = React.createClass({
       <div>
         <div className="hero">
           <div className="wrapper">
-            <h1>Every Form Needs a Bucket.</h1>
+            <h1>Turbocharge Your Static Site Forms</h1>
             <h2>Your markup, your CSS. We take care of the rest!</h2>
             <button onClick={redirect('#plans')}>See Plans & Pricing</button>
             <div className="features tour">
