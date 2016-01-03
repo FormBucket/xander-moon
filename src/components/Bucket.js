@@ -21,6 +21,8 @@ const NewBucket = React.createClass({
     loadBucket(this.props.params.id, (err, bucket) => {
       if (err) {
         alert('Error loading...')
+        this.setState( { error: err } )
+
       }
       this.setState( Object.assign( { loaded: true}, bucket ) )
     })
@@ -49,16 +51,23 @@ const NewBucket = React.createClass({
     },
 
     render () {
-      var bucket = BucketStore.find( this.props.params.id )
-      console.log('bucket', bucket, this.props.params.id)
+
+      if (this.state.error) {
+        return <div>{this.state.error}</div>
+      }
 
       if (!this.state.loaded) {
         return <div>Loading</div>
       }
 
+      var bucket = BucketStore.find( this.props.params.id )
+      console.log('bucket', bucket, this.props.params.id)
+
+
       if (ISBLANK(bucket)) {
-        return <div>Cannot find</div>
+        return <div>Cannot find bucket</div>
       }
+
 
       return (
         <div>
