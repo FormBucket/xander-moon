@@ -22,8 +22,11 @@ import {
 export function loadBuckets(done) {
   getBuckets()
   .then((buckets) => {
-    console.log(SET_BUCKET, buckets)
-    buckets.forEach(bucket => dispatch(SET_BUCKET, bucket))
+    console.log('SET_BUCKETS')
+    buckets.forEach(bucket => {
+      console.log(SET_BUCKET, bucket)
+      dispatch(SET_BUCKET, bucket)
+    })
     done(null)
   }, (err) => {
     done(err)
@@ -33,8 +36,9 @@ export function loadBuckets(done) {
 export function loadBucket(id, done) {
   getBucket(id)
   .then((bucket) => {
-    console.log(SET_BUCKET, buckets)
-    buckets.forEach(bucket => dispatch(SET_BUCKET, bucket))
+    console.log(SET_BUCKET, bucket)
+    dispatch(SET_BUCKET, bucket)
+    done(undefined, bucket )
   }, (err) => {
     done(err)
   })

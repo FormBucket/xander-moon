@@ -18,11 +18,11 @@ const NewBucket = React.createClass({
   },
 
   componentWillMount() {
-    loadBucket(this.props.params.id, (err) => {
+    loadBucket(this.props.params.id, (err, bucket) => {
       if (err) {
         alert('Error loading...')
       }
-      this.setState({ loaded: true })
+      this.setState( Object.assign( { loaded: true}, bucket ) )
     })
   },
 
@@ -51,7 +51,6 @@ const NewBucket = React.createClass({
     render () {
       var bucket = BucketStore.find( this.props.params.id )
       console.log('bucket', bucket, this.props.params.id)
-      return Object.assign(bucket, { mode: mode })
 
       if (!this.state.loaded) {
         return <div>Loading</div>
@@ -65,7 +64,7 @@ const NewBucket = React.createClass({
         <div>
           <div className="page-heading">
             <div className="wrapper">
-              <h1>{ this.state.mode === 'new' ? 'New Bucket' : 'Edit Bucket' }</h1>
+              <h1>{ this.state.name && this.state.name.length > 0 ? this.state.name : `Bucket (${this.state.id})` }</h1>
             </div>
           </div>
           <div className="wrapper">
