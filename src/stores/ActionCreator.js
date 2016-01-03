@@ -3,10 +3,9 @@ import {dispatch} from 'sweetflux'
 // FIXME: REMOVE DEV HACK
 window.dispatch = dispatch
 
-let submissionEventStream
-
 import {
   getBuckets,
+  getBucket,
   requestCreateBucket,
   requestUpdateBucket,
   getSubmissions,
@@ -20,11 +19,24 @@ import {
   STREAM_SUBMISSION,
 } from './actions'
 
-export function loadBuckets() {
+export function loadBuckets(done) {
   getBuckets()
   .then((buckets) => {
     console.log(SET_BUCKET, buckets)
     buckets.forEach(bucket => dispatch(SET_BUCKET, bucket))
+    done(null)
+  }, (err) => {
+    done(err)
+  })
+}
+
+export function loadBucket(id, done) {
+  getBucket(id)
+  .then((bucket) => {
+    console.log(SET_BUCKET, buckets)
+    buckets.forEach(bucket => dispatch(SET_BUCKET, bucket))
+  }, (err) => {
+    done(err)
   })
 }
 
@@ -73,8 +85,8 @@ export function loadSubmissions(offset, limit) {
 export function loadSubmissionsByBucket(bucket_id, offset, limit) {
   getSubmissionsByBucket(bucket_id, offset, limit)
   .then((items) => {
-    console.log(GET_SUBMISSION, items)
-    items.forEach(item => dispatch(GET_SUBMISSION, item))
+    console.log(GET_SUBMISSIONS, 'by bucket', items)
+    dispatch(GET_SUBMISSIONS, items)
   })
 }
 
@@ -82,14 +94,11 @@ export function streamSubmissions(bucketId) {
   if (typeof submissionEventStream !== 'undefined') { return }
 
   var url = bucketId ? "/submissions/${bucketId}/events" : "/submissions/events",
-  submissionEventStream = new EventSource(url, { withCredentials: true });
+      submissionEventStream = new EventSource(url, { withCredentials: true })
 
   submissionEventStream.onmessage = function (event) {
     dispatch(STREAM_SUBMISSION, JSON.parse(event.data))
   };
-}
 
-export function stopSubmissionStream() {
-  submissionEventStream.close()
-  submissionEventStream = undefined
+  return submissionEventStream
 }

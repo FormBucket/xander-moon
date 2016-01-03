@@ -1,38 +1,105 @@
 import React, { PropTypes } from 'react'
+import {COND, NOT, EQ, ISBLANK} from 'functionfoundry'
+import Markdown from 'react-remarkable'
+import markdownOptions from './markdown-options'
+import {loadSubmissionsByBucket} from '../stores/ActionCreator'
 import SubmissionsStore from '../stores/Submissions'
-import {loadSubmissions, streamSubmissions} from '../stores/ActionCreator'
 
 const Submissions = React.createClass({
-
-  getInitialState: function() {
+  getInitialState () {
     return {
-      submissions: []
+      mode: 'json',
+      submissions: undefined
     }
   },
-
-  componentDidMount: function() {
-    this.token = SubmissionsStore.addListener(this.handleSubmissionsChanged)
-    loadSubmissions(0, 50) // load first 50 submissions
-    streamSubmissions();  //
+  componentDidMount() {
+    if (UserStore.isUserLoggedIn()) {
+      this.token = SubmissionsStore.addListener(this.handleSubmissionsChanged)
+      console.log('load top 50 submissions for', this.props.params.id)
+      loadSubmissionsByBucket(this.props.params.id, 0, 50)
+    }
   },
-
-  componentWillUnmount: function() {
-    this.token.remove();
+  componentWillUnmount() {
+    if (this.token) {
+      this.token.remove()
+    }
   },
-
   handleSubmissionsChanged: function() {
+    console.log('handleSubmissionsChanged', this.state.selected_bucket_id, SubmissionsStore.getState())
     this.setState({
-      submissions: SubmissionsStore.getSubmissions()
+      submissions: COND(
+        ISBLANK(this.props.params.id),
+        [],
+        SubmissionsStore.getSubmissionsByBucket(this.props.params.id)
+      )
     })
   },
-
   render () {
+
+    if (ISBLANK(this.props.params.id)) {
+      return (
+        <div>ERROR: No bucket selected!</div>
+      )
+    }
+
+    var bucket = BucketStore.find(this.props.params.id)
+
+    if (ISBLANK(bucket)) {
+      return (
+        <div>ERROR: Cannot find bucket!</div>
+      )
+    }
+
+    if (ISBLANK(this.state.submissions)) {
+      return (
+        <div>Loading...</div>
+      )
+    }
+
+    if (EQ(this.state.submissions.length, 0)) {
+      return (
+        <div>No Submissions Yet!</div>
+      )
+    }
+
+    if (EQ(this.state.mode, 'list')) {
+      return (
+        <div>Do the list mode</div>
+      )
+    }
+
+    if (EQ(this.state.mode, 'table')) {
+      return (
+        <div>Do the table mode</div>
+      )
+    }
+
+    if (EQ(this.state.mode, 'json')) {
+      return (
+        <table className="bucket-list">
+          <thead>
+            <tr>
+              <th>Submissions for {bucket.name}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.submissions.map( (submission, i) => (
+              <tr key={i} style={{marginBottom: 10, borderBottom: '1px solid black' }}>
+                <td>
+                  <Markdown
+                    source={ '```JSON\n' + JSON.stringify(submission, null, 4) + '\n```' }
+                    options={ markdownOptions }>
+                  </Markdown>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )
+    }
+
     return (
-      <ul>
-        {this.state.submissions.map( (submission, i) => (
-          <li key={i} style={{marginBottom: 10, borderBottom: '1px solid black' }}>{JSON.stringify(submission, null, 4)}</li>
-        ))}
-      </ul>
+      <div>Huh, unsupported mode.</div>
     )
   }
 })

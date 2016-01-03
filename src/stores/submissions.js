@@ -18,6 +18,7 @@ const SubmissionStore = createStore(
   },
   {
     getSubmissions: (state) => state,
+    getSubmissionsByBucket: (state, bucket_id) => state.filter((n) => n.bucket_id === bucket_id )
   }
 )
 

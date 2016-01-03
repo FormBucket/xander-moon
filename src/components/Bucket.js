@@ -4,24 +4,26 @@ import markdownOptions from './markdown-options'
 import FontAwesome from 'react-fontawesome'
 import redirect from '../utils/redirect'
 import moment from 'moment'
-import {COND, ISARRAY} from 'functionfoundry'
+import {COND, ISARRAY, ISBLANK} from 'functionfoundry'
 import {Plans} from 'formbucket-common'
 import UserStore from '../stores/user'
-import {updateBucket} from '../stores/ActionCreator'
+import {loadBucket, updateBucket} from '../stores/ActionCreator'
 
 const NewBucket = React.createClass({
 
-  getInitialState () {
-    var mode = this.props.location.pathname === '/buckets/new' ? 'new' : 'edit'
-    if (mode === 'edit') {
-      var bucket = BucketStore.find( this.props.params.id )
-      console.log('bucket', bucket, this.props.params.id)
-      return Object.assign(bucket, { mode: mode })
-    }
-    return { mode: mode }
+  getInitialState: function() {
+    return {
+      loaded: false
+    };
   },
 
   componentWillMount() {
+    loadBucket(this.props.params.id, (err) => {
+      if (err) {
+        alert('Error loading...')
+      }
+      this.setState({ loaded: true })
+    })
   },
 
   componentDidUpdate(prevProps, prevState) {
@@ -47,6 +49,18 @@ const NewBucket = React.createClass({
     },
 
     render () {
+      var bucket = BucketStore.find( this.props.params.id )
+      console.log('bucket', bucket, this.props.params.id)
+      return Object.assign(bucket, { mode: mode })
+
+      if (!this.state.loaded) {
+        return <div>Loading</div>
+      }
+
+      if (ISBLANK(bucket)) {
+        return <div>Cannot find</div>
+      }
+
       return (
         <div>
           <div className="page-heading">

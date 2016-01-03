@@ -16,6 +16,8 @@ const UserStore = createStore(
     auth_id: getMetaContentByName('user.auth_id'),
     email: getMetaContentByName('user.email'),
     displayName: getMetaContentByName('user.displayName'),
+    apikey: getMetaContentByName('user.apikey'),
+    selected_bucket: undefined
   },
   (state, action) => state, // store does not support updates
   {
@@ -25,6 +27,7 @@ const UserStore = createStore(
     getId: (state) => state.auth_id,
     getEmail: (state) => state.email,
     getName: (state) => state.displayName,
+    getAPIKey: (state) => state.apikey,
     getUser: (state) => state,
   }
 )
