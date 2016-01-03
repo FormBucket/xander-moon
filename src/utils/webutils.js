@@ -4,9 +4,14 @@ Date: 2015-12-14
 
 All of these functions return a promise to get a payload.
 */
+import UserStore from '../stores/user'
+
+let mode = (process.env.NODE_ENV === 'production') ? 'local' : 'api',
+server = "https://formbucket-development.elasticbeanstalk.com"
 
 // FIXME: remove
 window.submit = submit
+window.getBuckets = getBuckets
 
 // generic function to detect common HTTP error codes. Credit to Mozilla.
 function processStatus(response) {
@@ -26,6 +31,24 @@ function getJSON(response) {
   return response.json();
 }
 
+function getResource(resource) {
+  if (mode === 'api') {
+    console.log('getResource', 'apimode', UserStore.getAPIKey())
+
+    return fetch(server + resource + (resource.indexOf('?') > -1 ? '&' : '?') + 'apikey=' + UserStore.getAPIKey(), {
+      header: {
+        method: 'GET',
+        mode: 'cors'
+      }
+    })
+  } else {
+    return fetch( resource, {
+      credentials: 'include'
+    })
+  }
+}
+
+
 /* Send server request to get user's Forms
 
   Usage:
@@ -34,10 +57,7 @@ function getJSON(response) {
   })
 */
 export function getBuckets(){
-  return fetch('/buckets.json', {
-    credentials: 'include',
-    method: 'get'
-  })
+  return getResource('/buckets.json')
   .then(processStatus)
   .then(getJSON)
 }
@@ -50,10 +70,9 @@ export function getBuckets(){
   })
 */
 export function getBucket(id){
-  return fetch(`/bucket/${id}.json`, {
-    credentials: 'include',
-    method: 'get'
-  }).then(processStatus)
+  return getResource(`/bucket/${id}.json`)
+  .then(processStatus)
+  .then(getJSON)
 }
 
 /* Send server request to create new bucket
@@ -131,19 +150,13 @@ export function submit(formId, formData) {
   getSubmissions(10, 50)
 */
 export function getSubmissions(offset, limit){
-  return fetch(`/submissions.json?offset=${+offset}&limit=${+limit}`, {
-    credentials: 'include',
-    method: 'get'
-  })
+  return getResource(`/submissions.json?offset=${+offset}&limit=${+limit}`)
   .then(processStatus)
   .then(getJSON)
 }
 
 export function getSubmissionsByBucket(bucket_id, offset, limit){
-  return fetch(`/submissions/${bucket_id}.json?offset=${+offset}&limit=${+limit}`, {
-    credentials: 'include',
-    method: 'get'
-  })
+  return getResource(`/submissions/${bucket_id}.json?offset=${+offset}&limit=${+limit}`)
   .then(processStatus)
   .then(getJSON)
 }

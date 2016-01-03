@@ -5,6 +5,7 @@ window.dispatch = dispatch
 
 import {
   getBuckets,
+  getBucket,
   requestCreateBucket,
   requestUpdateBucket,
   getSubmissions,
@@ -18,11 +19,24 @@ import {
   STREAM_SUBMISSION,
 } from './actions'
 
-export function loadBuckets() {
+export function loadBuckets(done) {
   getBuckets()
   .then((buckets) => {
     console.log(SET_BUCKET, buckets)
     buckets.forEach(bucket => dispatch(SET_BUCKET, bucket))
+    done(null)
+  }, (err) => {
+    done(err)
+  })
+}
+
+export function loadBucket(id, done) {
+  getBucket(id)
+  .then((bucket) => {
+    console.log(SET_BUCKET, buckets)
+    buckets.forEach(bucket => dispatch(SET_BUCKET, bucket))
+  }, (err) => {
+    done(err)
   })
 }
 
