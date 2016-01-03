@@ -21,6 +21,7 @@ import Profile from './components/Profile'
 import PageNotFound from './components/PageNotFound'
 import ThankYou from './components/ThankYou'
 import Support from './components/Support'
+import Affiliates from './components/Affiliates'
 
 require('../scss/app.scss')
 
@@ -42,6 +43,7 @@ render((
       <Route path="profile" component={Profile} />
       <Route path="thank-you" component={ThankYou} />
       <Route path="support" component={Support} />
+      <Route path="affiliates" component={Affiliates} />
       <Route path="*" component={PageNotFound} />
     </Route>
   </Router>
