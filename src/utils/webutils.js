@@ -37,7 +37,7 @@ function getResource(resource) {
 
     return fetch(server + resource + (resource.indexOf('?') > -1 ? '&' : '?') + 'apikey=' + UserStore.getAPIKey(), {
       header: {
-        method: 'GET',
+        method: 'get',
         mode: 'cors'
       }
     })
@@ -48,13 +48,55 @@ function getResource(resource) {
   }
 }
 
+function callResource(method, resource, data) {
+  if (mode === 'api') {
+    console.log('callResource', method, UserStore.getAPIKey())
+    return fetch(server + resource, {
+      mode: 'cors',
+      credentials: 'include',
+      method: method,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'apikey': 'UserStore.getAPIKey()'
+      },
+      body: JSON.stringify(data)
+    })
+  } else {
+    console.log('callResource non-API mode', method, UserStore.getAPIKey())
 
+    return fetch(resource, {
+      credentials: 'include',
+      method: method,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+  }
+}
+
+function postResource(resource, data) {
+  console.log('postResource', resource, data)
+  return callResource('post', resource, data)
+}
+
+function putResource(resource, data) {
+  console.log('putResource', resource, data)
+  return callResource('put', resource, data)
+}
+
+function deleteResource(resource, data) {
+  console.log('deleteResource', resource, data)
+  return callResource('delete', resource, data)
+}
 /* Send server request to get user's Forms
 
-  Usage:
-  createBucket({
-    name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
-  })
+Usage:
+createBucket({
+name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
+})
 */
 export function getBuckets(){
   return getResource('/buckets.json')
@@ -64,10 +106,10 @@ export function getBuckets(){
 
 /* Send server request to get a specific Buckets
 
-  Usage:
-  createBucket({
-    name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
-  })
+Usage:
+createBucket({
+name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
+})
 */
 export function getBucket(id){
   return getResource(`/buckets/${id}.json`)
@@ -77,77 +119,47 @@ export function getBucket(id){
 
 /* Send server request to create new bucket
 
-  Usage:
-  createBucket({
-    name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
-  })
+Usage:
+createBucket({
+name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
+})
 */
 export function requestCreateBucket(data){
-  return fetch('/buckets', {
-    credentials: 'include',
-    method: 'post',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
+  return postResource('/buckets', data)
   .then(processStatus)
   .then(getJSON)
 }
 
 /* Send server request to update existing bucket
 
-  Usage:
-  updateBucket({
-    name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
-  })
+Usage:
+updateBucket({
+name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
+})
 */
 export function requestUpdateBucket(bucket){
-  return fetch('/buckets/' + bucket.id, {
-    method: 'put',
-    credentials: 'include',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(bucket)
-  })
+  return putResource( '/buckets/' + bucket.id, bucket )
   .then(processStatus)
   .then(getJSON)
 }
 
 export function requestDeleteBucket(bucketId){
-  return fetch('/buckets/' + bucketId, {
-    method: 'delete',
-    credentials: 'include',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    }
-  })
+  return deleteResource('/buckets/' + bucketId)
   .then(processStatus)
   .then(getJSON)
 }
 
 
 export function submit(formId, formData) {
-  return fetch(`/f/${formId}`, {
-    method: 'post',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(formData)
-  })
+  return postResource(`/f/${formId}`, formData )
   .then(processStatus)
   .then(getJSON)
 }
 
 /* Send server request to get user's submissions
 
-  Usage:
-  getSubmissions(10, 50)
+Usage:
+getSubmissions(10, 50)
 */
 export function getSubmissions(offset, limit){
   return getResource(`/submissions.json?offset=${+offset}&limit=${+limit}`)

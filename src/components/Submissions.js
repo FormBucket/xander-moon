@@ -14,9 +14,31 @@ const Submissions = React.createClass({
   },
   componentDidMount() {
     if (UserStore.isUserLoggedIn()) {
+      var submissions = SubmissionsStore.getSubmissionsByBucket(this.props.params.id)
+
+      if (submissions && submissions.length > 0) {
+        this.setState({ submissions: submissions })
+        return
+      }
+
+      var bucket = BucketStore.find(this.props.params.id)
+
+      if (bucket) {
+        this.setState( { bucket: bucket } ) )
+        loadSubmissionsByBucket(this.props.params.id, 0, 50)
+      }
+
       this.token = SubmissionsStore.addListener(this.handleSubmissionsChanged)
-      console.log('load top 50 submissions for', this.props.params.id)
-      loadSubmissionsByBucket(this.props.params.id, 0, 50)
+      console.log('load bucket and submissions for', this.props.params.id)
+      loadBucket(this.props.params.id, (err, bucket) => {
+        if (err) {
+          alert('Error loading...')
+          this.setState( { error: err } )
+
+        }
+        this.setState( { bucket: bucket } ) )
+        loadSubmissionsByBucket(this.props.params.id, 0, 50)
+      })
     }
   },
   componentWillUnmount() {
@@ -25,7 +47,7 @@ const Submissions = React.createClass({
     }
   },
   handleSubmissionsChanged: function() {
-    console.log('handleSubmissionsChanged', this.state.selected_bucket_id, SubmissionsStore.getState())
+    console.log('handleSubmissionsChanged', this.props.params.id, SubmissionsStore.getState())
     this.setState({
       submissions: COND(
         ISBLANK(this.props.params.id),
@@ -42,9 +64,7 @@ const Submissions = React.createClass({
       )
     }
 
-    var bucket = BucketStore.find(this.props.params.id)
-
-    if (ISBLANK(bucket)) {
+    if (ISBLANK(this.state.bucket)) {
       return (
         <div>ERROR: Cannot find bucket!</div>
       )

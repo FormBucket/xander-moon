@@ -27,6 +27,13 @@ const Dashboard = React.createClass({
   },
 
   componentDidMount() {
+
+    var buckets = BucketStore.getBuckets();
+
+    if (buckets.length > 0) {
+      this.setState({ buckets: buckets })
+    }
+
     if (UserStore.isUserLoggedIn()) {
       loadBuckets()
       this.token = BucketStore.addListener(this.handleBucketsChanged)
@@ -51,16 +58,6 @@ const Dashboard = React.createClass({
   handleBucketsChanged() {
     this.setState({
       buckets: BucketStore.getBuckets()
-    })
-  },
-  handleSubmissionsChanged: function() {
-    console.log('handleSubmissionsChanged', this.state.selected_bucket_id, SubmissionsStore.getState())
-    this.setState({
-      submissions: COND(
-        ISBLANK(this.state.selected_bucket_id),
-        [],
-        SubmissionsStore.getSubmissionsByBucket(this.state.selected_bucket_id)
-      )
     })
   },
   render() {

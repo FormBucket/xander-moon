@@ -22,9 +22,9 @@ const BucketStore = createStore(
     }
   },
   {
-    getBuckets: (state) => Object.keys(state).reduce( (a,b) => a.concat([state[b]]), []), // convert list to array
-    find: (state, id) => state[id],
-    findByName: (state, name) => state.filter(n => n.name === name)
+    getBuckets: (state) => state ? Object.keys(state).reduce( (a,b) => a.concat([state[b]]), []) : [], // convert list to array
+    find: (state, id) => state ? state[id] : undefined,
+    findByName: (state, name) => state ? state.filter(n => n.name === name) : undefined
   }
 )
 
