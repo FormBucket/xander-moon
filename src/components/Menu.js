@@ -25,15 +25,15 @@ var Menu = React.createClass({
         <input type="checkbox" id={checkboxId} role="button" className={theme.showMenuCheckbox}/>
         <ul className={theme.menu}>
           {
-            this.props.items.map((item) => {
+            this.props.items.map((item, i) => {
               var subMenu;
 
               if (item.items && item.items.length > 0) {
                 subMenu = (
-                  <ul className={theme.subMenu}>
+                  <ul key={i} className={theme.subMenu}>
                     {
-                      item.items.map((subItem) => {
-                        return (<li>
+                      item.items.map((subItem, j) => {
+                        return (<li key={j}>
                           <a style={{ cursor: 'pointer' }} onClick={subItem.onClick.bind(this, subItem)}>{subItem.text}</a>
                         </li>);
                       }) }
@@ -42,7 +42,7 @@ var Menu = React.createClass({
                 }
 
                 return (
-                  <li className={theme.item}>
+                  <li key={i} className={theme.item}>
                     <a style={{ cursor: 'pointer' }} onClick={item.onClick.bind(this, item)}>{item.text}</a>
                     {subMenu}
                   </li>
