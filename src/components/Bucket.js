@@ -62,7 +62,7 @@ const NewBucket = React.createClass({
         return
       }
 
-      this.props.history.push('/dashboard')
+      this.props.history.push('/bucket-list')
     })
   },
 

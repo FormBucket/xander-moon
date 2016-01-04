@@ -43,12 +43,12 @@ const Submissions = React.createClass({
         console.log('found', bucket)
         this.setState( { bucket: bucket } )
 
-        var submissions = SubmissionsStore.getSubmissionsByBucket(this.props.params.id)
-
-        if (submissions && submissions.length > 0) {
-          this.setState({ loaded: true, submissions: submissions })
-          return
-        }
+        // var submissions = SubmissionsStore.getSubmissionsByBucket(this.props.params.id)
+        //
+        // if (submissions && submissions.length > 0) {
+        //   this.setState({ loaded: true, submissions: submissions })
+        //   return
+        // }
 
         this.setState({ loading: true })
         loadSubmissionsByBucket(this.props.params.id, 0, 50, (err, submissions) => {
@@ -59,8 +59,9 @@ const Submissions = React.createClass({
           }
 
           this.setState({ loading: false, loaded: true, submissions: submissions })
+          return
+
         })
-        return
 
       }
 
@@ -68,11 +69,13 @@ const Submissions = React.createClass({
       console.log('load bucket and submissions for', this.props.params.id)
       this.setState({ loading: true })
       loadBucket(this.props.params.id, (err, bucket) => {
+
         if (err) {
           alert('Error loading...')
           this.setState( { error: err } )
-
+          return
         }
+
         this.setState( { bucket: bucket } )
         loadSubmissionsByBucket(this.props.params.id, 0, 50, (err, submissions) => {
           if (err) {
@@ -177,31 +180,6 @@ const Submissions = React.createClass({
   },
   render () {
 
-    let pager = (
-      <span style={{float:'right'}}>
-        Export: &nbsp;
-        <a href="#">CSV </a> { ' | ' }
-        <a href="#">JSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
-
-        Format: &nbsp;
-        <a onClick={() => this.setState({mode: 'list'})}>List</a> { ' | ' }
-        <a onClick={() => this.setState({mode: 'table'})}>Table</a>{ ' | ' }
-        <a onClick={() => this.setState({mode: 'json'})}>JSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
-
-        {this.state.offset+1}-{this.state.offset+this.state.limit < this.state.bucket.submission_count ? this.state.offset+this.state.limit+1 : this.state.bucket.submission_count} of {this.state.bucket.submission_count}&nbsp;&nbsp;&nbsp;&nbsp;
-        <span onClick={this.goBack}>
-          <FontAwesome style={{ cursor: 'pointer', fontSize: '1.5em', backgroundColor: 'white', color: 'black', padding: 5 }} name="chevron-left" />
-        </span>
-        &nbsp;
-        <span onClick={this.goForward} >
-          <FontAwesome style={{ cursor: 'pointer', fontSize: '1.5em', backgroundColor: 'white', color: 'black', padding: 5 }} name="chevron-right" />
-        </span>
-        <span style={{ display: COND(this.state.loading, '', 'none'), background: 'white', color: 'red', float: 'right', position: 'absolute', right: 40, zIndex: 100 }}>
-          Loading...
-        </span>
-      </span>
-    )
-
     if (EQ(this.state.loaded, false)) {
       return (
         <div>Loading...</div>
@@ -232,18 +210,45 @@ const Submissions = React.createClass({
       )
     }
 
+    let pager = (
+      <span style={{float:'right' }}>
+        Export: &nbsp;
+        <a href="#">CSV </a> { ' | ' }
+        <a href="#">JSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Format: &nbsp;
+        <a onClick={() => this.setState({mode: 'list'})}>List</a> { ' | ' }
+        <a onClick={() => this.setState({mode: 'table'})}>Table</a>{ ' | ' }
+        <a onClick={() => this.setState({mode: 'json'})}>JSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
+
+        {this.state.offset+1}-{this.state.offset+this.state.limit < this.state.bucket.submission_count ? this.state.offset+this.state.limit+1 : this.state.bucket.submission_count} of {this.state.bucket.submission_count}&nbsp;&nbsp;&nbsp;&nbsp;
+        <span onClick={this.goBack}>
+          <FontAwesome style={{ cursor: 'pointer', fontSize: '1.5em', backgroundColor: 'white', color: 'black', padding: 5 }} name="chevron-left" />
+        </span>
+        &nbsp;
+        <span onClick={this.goForward} >
+          <FontAwesome style={{ cursor: 'pointer', fontSize: '1.5em', backgroundColor: 'white', color: 'black', padding: 5 }} name="chevron-right" />
+        </span>
+        <span style={{ display: COND(this.state.loading, '', 'none'), background: 'white', color: 'red', float: 'right', position: 'absolute', right: 40, zIndex: 9999 }}>
+          Loading...
+        </span>
+      </span>
+    )
+
     if (EQ(this.state.mode, 'list')) {
       return wrap(
         <div>
-          <div>
-            Do the list mode
+          <div style={{ padding: 25, background: '#666', color: 'white' }}>
+            {this.state.bucket.name}
             {pager}
           </div>
-          {this.state.submissions.length}
           {this.state.submissions.map( (submission, i) => (
             <div style={{border: '1px solid black', margin: 10, background: 'white'}} key={submission.id}>
+              <div>
+                <span>{submission.created_on.substring(0, 16).replace('T', ' at ')}</span>
+              </div>
               {Object.keys(submission.data).map( (key, j) => (
-                <div>
+                <div key={i + '|' + j}>
                   <strong>{key}</strong>
                   <span>: {submission.data[key].toString()}</span>
                 </div>
