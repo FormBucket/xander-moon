@@ -6,14 +6,30 @@ import {loadBucket, loadSubmissionsByBucket} from '../stores/ActionCreator'
 import SubmissionsStore from '../stores/Submissions'
 import FontAwesome from 'react-fontawesome'
 
+function wrap(output) {
+  return (
+    <div>
+      <div className="page-heading">
+        <div className="wrapper">
+          <h1>Submissions</h1>
+        </div>
+      </div>
+      <div className="wrapper">
+        {output}
+      </div>
+    </div>
+  )
+}
+
 const Submissions = React.createClass({
   getInitialState () {
     return {
-      mode: 'json',
+      mode: 'list',
       submissions: undefined,
       loaded: false,
+      loading: false,
       offset: 0,
-      limit: 50
+      limit: 10
     }
   },
   componentDidMount() {
@@ -34,13 +50,23 @@ const Submissions = React.createClass({
           return
         }
 
-        loadSubmissionsByBucket(this.props.params.id, 0, 50)
+        this.setState({ loading: true })
+        loadSubmissionsByBucket(this.props.params.id, 0, 50, (err, submissions) => {
+          if (err) {
+            console.log(err)
+            alert('Error occurred')
+            return
+          }
+
+          this.setState({ loading: false, loaded: true, submissions: submissions })
+        })
         return
 
       }
 
 
       console.log('load bucket and submissions for', this.props.params.id)
+      this.setState({ loading: true })
       loadBucket(this.props.params.id, (err, bucket) => {
         if (err) {
           alert('Error loading...')
@@ -48,7 +74,16 @@ const Submissions = React.createClass({
 
         }
         this.setState( { bucket: bucket } )
-        loadSubmissionsByBucket(this.props.params.id, 0, 50)
+        loadSubmissionsByBucket(this.props.params.id, 0, 50, (err, submissions) => {
+          if (err) {
+            console.log(err)
+            alert('Error occurred')
+            return
+          }
+
+          this.setState({ loading: false, loaded: true, submissions: submissions })
+
+        })
       })
     }
   },
@@ -59,17 +94,20 @@ const Submissions = React.createClass({
   },
   handleSubmissionsChanged: function() {
     console.log('handleSubmissionsChanged', this.props.params.id, SubmissionsStore.getState())
-    this.setState({
-      loaded: true,
-      submissions: COND(
-        ISBLANK(this.props.params.id),
-        [],
-        SubmissionsStore.getSubmissionsByBucket(this.props.params.id, this.state.offset, this.state.limit)
-      )
-    })
+    // this.setState({
+    //   loaded: true,
+    //   submissions: COND(
+    //     ISBLANK(this.props.params.id),
+    //     [],
+    //     SubmissionsStore.getSubmissionsByBucket(this.props.params.id, this.state.offset, this.state.limit)
+    //   )
+    // })
   },
 
   goForward (event) {
+    if (this.state.loading) {
+      return
+    }
     console.log('goForward')
     var newOffset = COND(
       this.state.offset + this.state.limit <= this.state.bucket.submission_count,
@@ -77,16 +115,35 @@ const Submissions = React.createClass({
       this.state.offset
     )
 
-    if (newOffset === this.state.offset) {
-      return
+    if (this.state.offset === newOffset) {
+      returned
     }
 
-    loadSubmissionsByBucket(this.props.params.id, newOffset, newOffset+this.state.limit)
-    this.setState({ offset: newOffset })
+    this.setState({ loading: true })
+    loadSubmissionsByBucket(
+      this.props.params.id,
+      newOffset,
+      this.state.limit,
+      (err, submissions) => {
+        if (err) {
+          console.log(err)
+          alert('Error occurred')
+          return
+        }
+
+        console.log('change offset', newOffset)
+        this.setState({ offset: newOffset, loading: false, loaded: true, submissions: submissions })
+      }
+    )
 
   },
 
   goBack (event) {
+
+    if (this.state.loading) {
+      return
+    }
+
     console.log('goBack')
     var newOffset = COND(
       this.state.offset - this.state.limit > 0,
@@ -94,16 +151,56 @@ const Submissions = React.createClass({
       0
     )
 
-    this.setState({ offset: newOffset })
-
-    if (newOffset === 0) {
-      return
+    if (this.state.offset === newOffset) {
+      returned
     }
 
-    loadSubmissionsByBucket(this.props.params.id, newOffset, newOffset+this.state.limit)
+    this.setState({ loading: true })
+    loadSubmissionsByBucket(
+      this.props.params.id,
+      newOffset,
+      this.state.limit,
+      (err, submissions) => {
+
+        if (err) {
+          console.log(err)
+          alert('Error occurred')
+          return
+        }
+
+        console.log('change offset', newOffset)
+        this.setState({ offset: newOffset, loading: false, loaded: true, submissions: submissions })
+
+      }
+    )
 
   },
   render () {
+
+    let pager = (
+      <span style={{float:'right'}}>
+        Export: &nbsp;
+        <a href="#">CSV </a> { ' | ' }
+        <a href="#">JSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
+
+        Format: &nbsp;
+        <a onClick={() => this.setState({mode: 'list'})}>List</a> { ' | ' }
+        <a onClick={() => this.setState({mode: 'table'})}>Table</a>{ ' | ' }
+        <a onClick={() => this.setState({mode: 'json'})}>JSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
+
+        {this.state.offset+1}-{this.state.offset+this.state.limit < this.state.bucket.submission_count ? this.state.offset+this.state.limit+1 : this.state.bucket.submission_count} of {this.state.bucket.submission_count}&nbsp;&nbsp;&nbsp;&nbsp;
+        <span onClick={this.goBack}>
+          <FontAwesome style={{ cursor: 'pointer', fontSize: '1.5em', backgroundColor: 'white', color: 'black', padding: 5 }} name="chevron-left" />
+        </span>
+        &nbsp;
+        <span onClick={this.goForward} >
+          <FontAwesome style={{ cursor: 'pointer', fontSize: '1.5em', backgroundColor: 'white', color: 'black', padding: 5 }} name="chevron-right" />
+        </span>
+        <span style={{ display: COND(this.state.loading, '', 'none'), background: 'white', color: 'red', float: 'right', position: 'absolute', right: 40, zIndex: 100 }}>
+          Loading...
+        </span>
+      </span>
+    )
 
     if (EQ(this.state.loaded, false)) {
       return (
@@ -136,68 +233,61 @@ const Submissions = React.createClass({
     }
 
     if (EQ(this.state.mode, 'list')) {
-      return (
-        <div>Do the list mode</div>
+      return wrap(
+        <div>
+          <div>
+            Do the list mode
+            {pager}
+          </div>
+          {this.state.submissions.length}
+          {this.state.submissions.map( (submission, i) => (
+            <div style={{border: '1px solid black', margin: 10, background: 'white'}} key={submission.id}>
+              {Object.keys(submission.data).map( (key, j) => (
+                <div>
+                  <strong>{key}</strong>
+                  <span>: {submission.data[key].toString()}</span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       )
     }
 
     if (EQ(this.state.mode, 'table')) {
-      return (
-        <div>Do the table mode</div>
+      return wrap(
+        <div>
+          Do the table mode
+          {pager}
+        </div>
       )
     }
 
     if (EQ(this.state.mode, 'json')) {
-      return (
-        <div>
-          <div className="page-heading">
-            <div className="wrapper">
-              <h1>Submissions</h1>
-            </div>
-          </div>
-          <div className="wrapper">
-            <table className="bucket-list">
-              <thead>
-                <tr>
-                  <th>
-                    { this.state.bucket.name }
-                    <span style={{float:'right'}}>
-                      Export: &nbsp;
-                      <a href="#">CSV </a> { ' | ' }
-                      <a href="#">JSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
+      return wrap(
+        <table className="bucket-list">
+          <thead>
+            <tr>
+              <th>
+                { this.state.bucket.name }
 
-                      Format: &nbsp;
-                      <a href="#">List</a> { ' | ' }
-                      <a href="#">Table</a>{ ' | ' }
-                      <a href="#">JSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
-
-                      {this.state.offset+1}-{this.state.offset+this.state.limit < this.state.bucket.submission_count ? this.state.offset+this.state.limit+1 : this.state.bucket.submission_count} of {this.state.bucket.submission_count}&nbsp;&nbsp;&nbsp;&nbsp;
-                      <span onClick={this.goBack}>
-                        <FontAwesome style={{ cursor: 'pointer', fontSize: '1.5em', backgroundColor: 'white', color: 'black', padding: 5 }} name="chevron-left" />
-                      </span>
-                      &nbsp;
-                      <span onClick={this.goForward} >
-                        <FontAwesome style={{ cursor: 'pointer', fontSize: '1.5em', backgroundColor: 'white', color: 'black', padding: 5 }} name="chevron-right" />
-                      </span>
-                    </span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.submissions.map( (submission, i) => (
-                  <tr key={i} style={{marginBottom: 10, borderBottom: '1px solid black' }}>
-                    <td>
-                      <Markdown
-                        source={ '```JSON\n' + JSON.stringify(submission, null, 4) + '\n```' }
-                        options={ markdownOptions }>
-                      </Markdown>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+                {pager}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.submissions.map( (submission, i) => (
+              <tr key={i} style={{marginBottom: 10, borderBottom: '1px solid black' }}>
+                <td>
+                  <Markdown
+                    source={ '```JSON\n' + JSON.stringify(submission, null, 4) + '\n```' }
+                    options={ markdownOptions }>
+                  </Markdown>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )
     }
 

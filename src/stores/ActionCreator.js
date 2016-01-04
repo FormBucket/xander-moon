@@ -27,7 +27,10 @@ export function loadBuckets(done) {
       console.log(SET_BUCKET, bucket)
       dispatch(SET_BUCKET, bucket)
     })
-    done(null)
+
+    if (done) {
+      done(undefined, buckets )
+    }
   }, (err) => {
     done(err)
   })
@@ -38,7 +41,9 @@ export function loadBucket(id, done) {
   .then((bucket) => {
     console.log(SET_BUCKET, bucket)
     dispatch(SET_BUCKET, bucket)
-    done(undefined, bucket )
+    if (done) {
+      done(undefined, bucket )
+    }
   }, (err) => {
     done(err)
   })
@@ -50,7 +55,9 @@ export function createBucket(bucket, done) {
     bucket.id = result.id
     console.log(SET_BUCKET, bucket)
     dispatch(SET_BUCKET, bucket)
-    done(null, bucket)
+    if (done) {
+      done(undefined, bucket )
+    }
   }, (err) => {
     done(err)
   })
@@ -86,11 +93,15 @@ export function loadSubmissions(offset, limit) {
   })
 }
 
-export function loadSubmissionsByBucket(bucket_id, offset, limit) {
+export function loadSubmissionsByBucket(bucket_id, offset, limit, done) {
   getSubmissionsByBucket(bucket_id, offset, limit)
   .then((items) => {
     console.log(GET_SUBMISSIONS, 'by bucket', items)
     dispatch(GET_SUBMISSIONS, items)
+
+    if (done) {
+      done(undefined, items)
+    }
   })
 }
 
