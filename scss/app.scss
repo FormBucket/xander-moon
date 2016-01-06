@@ -131,6 +131,10 @@ label {
   }
 }
 
+.loading {
+  text-align: center;
+}
+
 .footer {
   @include outer-container;
   margin-top: $base-spacing * 3;

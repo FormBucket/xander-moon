@@ -73,7 +73,9 @@ const Dashboard = React.createClass({
             <button onClick={this.handleNewBucket}><FontAwesome name='plus' /> New Bucket</button>
             <p>You are using 3 out of 5 available active buckets in <Link to="account/billing">your plan</Link>.</p>
           </div>
-          <img className="loading" src="/img/loading.gif" alt="Loading..." />
+          <div className="loading">
+            <img src="/img/loading.gif" alt="Loading..." />
+          </div>
         <Buckets buckets={this.state.buckets}
           selected_bucket_id={this.state.selected_bucket_id}
           select={(bucket) => {
