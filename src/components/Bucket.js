@@ -19,13 +19,13 @@ const NewBucket = React.createClass({
 
   componentWillMount() {
 
-    var bucket = BucketStore.find( this.props.params.id )
-
-    if (bucket) {
-      console.log('foundBucket', bucket)
-      this.setState( Object.assign( bucket, { loaded: true} ) )
-      return
-    }
+    // var bucket = BucketStore.find( this.props.params.id )
+    //
+    // if (bucket) {
+    //   console.log('foundBucket', bucket)
+    //   this.setState( Object.assign( bucket, { loaded: true} ) )
+    //   return
+    // }
 
     loadBucket(this.props.params.id, (err, bucket) => {
       if (err) {
@@ -62,7 +62,7 @@ const NewBucket = React.createClass({
         return
       }
 
-      this.props.history.push('/bucket-list')
+      this.props.history.push('/buckets')
     })
   },
 
@@ -154,7 +154,7 @@ const NewBucket = React.createClass({
             <div className="section">
               <h3>Notifications</h3>
               <label>
-                <input type="radio" name="email_to" value="none" onClick={() => this.setState({ email_to: false })}  checked={ this.state.email_to === false } />
+                <input type="radio" name="email_to" value="none" onClick={() => this.setState({ email_to: false })}  checked={ !this.state.email_to } />
                 Do not send notifications
               </label>
               <label>

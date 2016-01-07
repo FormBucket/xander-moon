@@ -13,7 +13,7 @@ import Billing from './components/Billing'
 import Login from './components/Login'
 import FAQs from './components/FAQs'
 import API from './components/API'
-import Dashboard from './components/Dashboard'
+import Buckets from './components/Buckets'
 import Account from './components/Account'
 import Bucket from './components/Bucket'
 import Submissions from './components/Submissions'
@@ -37,9 +37,9 @@ render((
       <Route path="faqs" component={FAQs} />
       <Route path="api" component={API} />
       <Route path="account" component={Account} />
-      <Route path="/bucket-list" component={Dashboard} />
-      <Route path="/bucket/:id/settings" component={Bucket} />
-      <Route path="/bucket/:id/submissions" component={Submissions} />
+      <Route path="/buckets" component={Buckets} />
+      <Route path="/buckets/:id/settings" component={Bucket} />
+      <Route path="/buckets/:id/submissions" component={Submissions} />
       <Route path="profile" component={Profile} />
       <Route path="thank-you" component={ThankYou} />
       <Route path="support" component={Support} />

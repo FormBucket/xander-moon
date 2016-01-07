@@ -5,9 +5,13 @@ Date: 2015-12-14
 All of these functions return a promise to get a payload.
 */
 import UserStore from '../stores/user'
+import {COND} from 'functionfoundry'
 
-let mode = (process.env.NODE_ENV === 'production') ? 'local' : 'api',
-server = "https://formbucket-development.elasticbeanstalk.com"
+let server =  COND(
+  process.env.NODE_ENV === 'production',
+  "", // use same origin
+  "http://localhost:3001" )
+// let server = "https://formbucket-development.elasticbeanstalk.com"
 
 // FIXME: remove
 window.submit = submit
@@ -32,65 +36,81 @@ function getJSON(response) {
 }
 
 function getResource(resource) {
-  if (mode === 'api') {
-    console.log('getResource', 'apimode', UserStore.getAPIKey())
 
-    return fetch(server + resource + (resource.indexOf('?') > -1 ? '&' : '?') + 'apikey=' + UserStore.getAPIKey(), {
-      header: {
-        method: 'get',
-        mode: 'cors'
-      }
-    })
-  } else {
-    return fetch( resource, {
-      credentials: 'include'
-    })
+  if (!localStorage.hasOwnProperty('token')) {
+    throw Error('User has no access token')
   }
+
+  return fetch( server + resource, {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.token}`
+    }
+  })
 }
 
 function callResource(method, resource, data) {
-  if (mode === 'api') {
-    console.log('callResource', method, UserStore.getAPIKey())
-    return fetch(server + resource, {
-      mode: 'cors',
-      credentials: 'include',
-      method: method,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'apikey': 'UserStore.getAPIKey()'
-      },
-      body: JSON.stringify(data)
-    })
-  } else {
-    console.log('callResource non-API mode', method, UserStore.getAPIKey())
 
-    return fetch(resource, {
-      credentials: 'include',
-      method: method,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-  }
+  console.log('callResource', 'foo')
+
+  return fetch( server + resource, {
+    method: method,
+    mode: 'cors',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.token}`
+    },
+    body: JSON.stringify(data)
+  })
 }
 
 function postResource(resource, data) {
   console.log('postResource', resource, data)
-  return callResource('post', resource, data)
+  return callResource('POST', resource, data)
 }
 
 function putResource(resource, data) {
   console.log('putResource', resource, data)
-  return callResource('put', resource, data)
+  return callResource('PUT', resource, data)
 }
 
 function deleteResource(resource, data) {
   console.log('deleteResource', resource, data)
-  return callResource('delete', resource, data)
+  return callResource('DELETE', resource, data)
 }
+
+export function requestSignIn(user) {
+
+  return fetch( server + '/signin', {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Accept': 'application/json',
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify(user)
+  })
+
+}
+
+export function requestSignUp(user) {
+
+  return fetch( server + '/signup', {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Accept': 'application/json',
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify(user)
+  })
+
+}
+
 /* Send server request to get user's Forms
 
 Usage:
@@ -99,7 +119,7 @@ name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required
 })
 */
 export function getBuckets(){
-  return getResource('/buckets.json')
+  return getResource('/buckets')
   .then(processStatus)
   .then(getJSON)
 }
@@ -112,7 +132,7 @@ name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required
 })
 */
 export function getBucket(id){
-  return getResource(`/bucket/${id}.json`)
+  return getResource(`/buckets/${id}`)
   .then(processStatus)
   .then(getJSON)
 }
@@ -138,13 +158,13 @@ name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required
 })
 */
 export function requestUpdateBucket(bucket){
-  return putResource( '/bucket/' + bucket.id, bucket )
+  return putResource( '/buckets/' + bucket.id, bucket )
   .then(processStatus)
   .then(getJSON)
 }
 
 export function requestDeleteBucket(bucketId){
-  return deleteResource('/bucket/' + bucketId)
+  return deleteResource('/buckets/' + bucketId)
   .then(processStatus)
   .then(getJSON)
 }
@@ -162,13 +182,13 @@ Usage:
 getSubmissions(10, 50)
 */
 export function getSubmissions(offset, limit){
-  return getResource(`/submissions.json?offset=${+offset}&limit=${+limit}`)
+  return getResource(`/submissions?offset=${+offset}&limit=${+limit}`)
   .then(processStatus)
   .then(getJSON)
 }
 
 export function getSubmissionsByBucket(bucket_id, offset, limit){
-  return getResource(`/submissions/${bucket_id}.json?offset=${+offset}&limit=${+limit}`)
+  return getResource(`/buckets/${bucket_id}/submissions?offset=${+offset}&limit=${+limit}`)
   .then(processStatus)
   .then(getJSON)
 }

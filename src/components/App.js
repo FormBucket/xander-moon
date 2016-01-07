@@ -14,14 +14,14 @@ import {streamSubmissions} from '../stores/ActionCreator'
 */
 const App = React.createClass({
   componentDidMount () {
-    if (UserStore.isUserLoggedIn()) {
-      this.stream = streamSubmissions();
-    }
+    // if (UserStore.isUserLoggedIn()) {
+    //   this.stream = streamSubmissions();
+    // }
   },
   componentWillUnmount() {
-    if (UserStore.isUserLoggedIn()) {
-      this.stream.close();
-    }
+    // if (UserStore.isUserLoggedIn()) {
+    //   this.stream.close();
+    // }
   },
   render() {
     return (

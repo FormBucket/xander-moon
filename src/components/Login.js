@@ -1,8 +1,35 @@
 import React, { PropTypes } from 'react'
 import redirect from '../utils/redirect'
 import FontAwesome from 'react-fontawesome'
+import {signIn} from '../stores/ActionCreator'
 
 const Login = React.createClass({
+  getInitialState() {
+    return {
+      error: false
+    }
+  },
+  handleClick() {
+
+    signIn(
+      this.refs.email.value,
+      this.refs.password.value
+    )
+    .then(
+      n => {
+        console.log('foo')
+        this.props.history.push('/buckets')
+      },
+      err => {
+        console.log('bar')
+
+        this.setState({
+          error: err
+        })
+      }
+    )
+
+  },
   render () {
     return (
       <div>
@@ -13,30 +40,22 @@ const Login = React.createClass({
         </div>
         <div className="wrapper">
           <h2>Welcome back!</h2>
-          <div className="chooser">
-            <button onClick={redirect('auth/google')}>
-              <FontAwesome name='google' /> Login with Google
-            </button>
-            <button onClick={redirect('auth/github')}>
-              <FontAwesome name='github' /> Login with GitHub
-            </button>
+
+          <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: this.state.error ? '' : 'none'}}>
+            {this.state.error ? this.state.error.message : ''}
           </div>
-          <div className="or">
-            <p>OR</p>
-          </div>
+
           <div className="email-signup">
             <p> Login with your email</p>
-            <form method="POST" action="/login">
-              <label>
-                Username:
-                <input name="username" type="text" />
-              </label>
-              <label>
-                Password:
-                <input name="password" type="password" />
-              </label>
-              <input type="submit" value="Login" />
-          </form>
+            <label>
+              Email:
+              <input name="email" ref="email" type="email" />
+            </label>
+            <label>
+              Password:
+              <input name="password" ref="password" type="password" />
+            </label>
+            <input onClick={this.handleClick} type="button" value="Login" />
         </div>
       </div>
     </div>

@@ -10,14 +10,98 @@ import {
   requestUpdateBucket,
   getSubmissions,
   getSubmissionsByBucket,
-  startSubmissionEventSource
+  startSubmissionEventSource,
+  requestSignUp,
+  requestSignIn
 } from '../utils/webutils'
 
 import {
   SET_BUCKET,
   GET_SUBMISSIONS,
   STREAM_SUBMISSION,
+  SIGNUP,
+  SIGNIN
 } from './actions'
+
+export function signUp(name, org, email, password) {
+  var p = new Promise( (resolve, reject) => {
+    console.log('foo')
+    requestSignUp({
+        name: name,
+        org: org,
+        email: email,
+        password: password
+    })
+    .then(response => {
+
+      if (response.status === 200 || response.status === 0) {
+
+        response.text().then(
+          result => {
+
+            localStorage.setItem('token', result) // save token to localStorage
+
+            dispatch(SIGNUP, {
+              name: name,
+              org: org,
+              email: email,
+              token: result
+            })
+
+            resolve(result)
+          }
+        )
+      } else {
+
+        response.json().then(
+          result => reject(result)
+        )
+      }
+
+    }, (error) => reject(error))
+
+  })
+
+  return p;
+
+}
+
+export function signIn(email, password) {
+  var p = new Promise( (resolve, reject) => {
+    console.log('foo')
+    requestSignIn({
+        email: email,
+        password: password
+    })
+    .then(response => {
+
+      if (response.status === 200 || response.status === 0) {
+
+        response.text().then(
+          result => {
+
+            localStorage.setItem('token', result) // save token to localStorage
+
+            dispatch(SIGNIN, {
+              token: result
+            })
+
+            resolve(result)
+          }
+        )
+      } else {
+
+        response.json().then(
+          result => reject(result)
+        )
+      }
+
+    }, (error) => reject(error))
+
+  })
+
+  return p;
+}
 
 export function loadBuckets(done) {
   getBuckets()
@@ -108,7 +192,7 @@ export function loadSubmissionsByBucket(bucket_id, offset, limit, done) {
 export function streamSubmissions(bucketId) {
   if (typeof submissionEventStream !== 'undefined') { return }
 
-  var url = bucketId ? "/submissions/${bucketId}/events" : "/submissions/events",
+  var url = "http:localhost:3001/changes",
       submissionEventStream = new EventSource(url, { withCredentials: true })
 
   submissionEventStream.onmessage = function (event) {

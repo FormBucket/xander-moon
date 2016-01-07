@@ -51,7 +51,7 @@ const Submissions = React.createClass({
         // }
 
         this.setState({ loading: true })
-        loadSubmissionsByBucket(this.props.params.id, 0, 50, (err, submissions) => {
+        loadSubmissionsByBucket(this.props.params.id, 0, this.state.limit, (err, submissions) => {
           if (err) {
             console.log(err)
             alert('Error occurred')

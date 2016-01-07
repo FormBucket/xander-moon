@@ -3,7 +3,7 @@ import {SET_BUCKET, STREAM_SUBMISSION} from './actions'
 
 const BucketStore = createStore(
   'BucketStore',
-  undefined,
+  [],
   (state, action) => {
     switch (action.type) {
       case SET_BUCKET:
