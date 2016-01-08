@@ -80,6 +80,8 @@ export function signIn(email, password) {
         response.text().then(
           result => {
 
+            console.log(result, typeof result )
+
             localStorage.setItem('token', result) // save token to localStorage
 
             dispatch(SIGNIN, {
@@ -103,34 +105,47 @@ export function signIn(email, password) {
   return p;
 }
 
-export function loadBuckets(done) {
-  getBuckets()
-  .then((buckets) => {
-    console.log('SET_BUCKETS')
-    buckets.forEach(bucket => {
-      console.log(SET_BUCKET, bucket)
-      dispatch(SET_BUCKET, bucket)
+export function loadBuckets() {
+
+  var p = new Promise( (resolve, reject) => {
+
+    getBuckets()
+    .then((buckets) => {
+
+      // publish to stores
+      buckets.forEach(bucket => dispatch(SET_BUCKET, bucket))
+
+      // resolve to caller
+      resolve( buckets )
+
+    }, (err) => {
+      reject(err)
     })
 
-    if (done) {
-      done(undefined, buckets )
-    }
-  }, (err) => {
-    done(err)
   })
+
+  return p
+
 }
 
-export function loadBucket(id, done) {
-  getBucket(id)
-  .then((bucket) => {
-    console.log(SET_BUCKET, bucket)
-    dispatch(SET_BUCKET, bucket)
-    if (done) {
-      done(undefined, bucket )
-    }
-  }, (err) => {
-    done(err)
+export function loadBucket(id) {
+
+  var p = new Promise( (resolve, reject) => {
+
+    getBucket(id)
+    .then((bucket) => {
+
+      dispatch(SET_BUCKET, bucket)
+
+      resolve( bucket )
+
+    }, (err) => {
+      reject(err)
+    })
   })
+
+  return p
+
 }
 
 export function createBucket(bucket, done) {
@@ -177,16 +192,24 @@ export function loadSubmissions(offset, limit) {
   })
 }
 
-export function loadSubmissionsByBucket(bucket_id, offset, limit, done) {
-  getSubmissionsByBucket(bucket_id, offset, limit)
-  .then((items) => {
-    console.log(GET_SUBMISSIONS, 'by bucket', items)
-    dispatch(GET_SUBMISSIONS, items)
+export function loadSubmissionsByBucket(bucket_id, offset, limit) {
+  console.log('loadSubmissionsByBucket')
+  var p = new Promise( (resolve, reject) => {
+    console.log('run load submissions', bucket_id, offset, limit)
+    getSubmissionsByBucket(bucket_id, offset, limit)
+    .then((items) => {
 
-    if (done) {
-      done(undefined, items)
-    }
+      console.log(GET_SUBMISSIONS, items)
+      dispatch(GET_SUBMISSIONS, items)
+
+      resolve( items )
+
+    })
+    .catch(error => reject(error))
+
   })
+
+  return p
 }
 
 export function streamSubmissions(bucketId) {

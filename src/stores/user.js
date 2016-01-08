@@ -5,7 +5,7 @@ const UserStore = createStore(
   {},
   (state, action) => state, // store does not support updates
   {
-    isUserLoggedIn: (state) => typeof localStorage.hasOwnProperty('token'),
+    isUserLoggedIn: (state) => localStorage.hasOwnProperty('token'),
     canCreateForm: (state) => true,
     getProvider: (state) => state.provider,
     getId: (state) => state.auth_id,

@@ -9,7 +9,6 @@ const BucketStore = createStore(
       case SET_BUCKET:
         var obj = {}
         obj[action.data.id] = action.data
-        console.log(SET_BUCKET, state, obj)
         return Object.assign({}, state, obj)
       case STREAM_SUBMISSION: // bump count when submission is streamed
         var bucket = state[action.data.bucket_id]

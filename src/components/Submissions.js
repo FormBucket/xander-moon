@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react'
-import {COND, NOT, EQ, ISBLANK} from 'functionfoundry'
+import {COND, NOT, EQ, OR, ISBLANK} from 'functionfoundry'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 import {loadBucket, loadSubmissionsByBucket} from '../stores/ActionCreator'
+import BucketStore from '../stores/buckets'
 import SubmissionsStore from '../stores/Submissions'
 import FontAwesome from 'react-fontawesome'
 
@@ -32,79 +33,57 @@ const Submissions = React.createClass({
       limit: 10
     }
   },
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('match', this.state === prevState )
+    console.log('state', JSON.stringify(this.state, null, 4))
+  },
+
   componentDidMount() {
     if (UserStore.isUserLoggedIn()) {
-      this.token = SubmissionsStore.addListener(this.handleSubmissionsChanged)
 
-      var bucket = BucketStore.find(this.props.params.id)
+      this.setState({ loading: true, bucket_id: this.props.params.id })
 
-      if (bucket) {
+      Promise.all([
+        loadBucket(this.props.params.id),
+        loadSubmissionsByBucket(this.props.params.id, 0, 50)
+      ])
+      .then(values => this.setState({
+        loading: false,
+        loaded: true,
+        bucket: values[0],
+        submissions: values[1]
+      }))
+      .catch(error => this.setState({ error: error }))
 
-        console.log('found', bucket)
-        this.setState( { bucket: bucket } )
+      // subscribe to local changes
+      // this.token = BucketStore.addListener(this.handleBucketsChanged)
+      // this.token2 = SubmissionsStore.addListener(this.handleSubmissionsChanged)
 
-        // var submissions = SubmissionsStore.getSubmissionsByBucket(this.props.params.id)
-        //
-        // if (submissions && submissions.length > 0) {
-        //   this.setState({ loaded: true, submissions: submissions })
-        //   return
-        // }
-
-        this.setState({ loading: true })
-        loadSubmissionsByBucket(this.props.params.id, 0, this.state.limit, (err, submissions) => {
-          if (err) {
-            console.log(err)
-            alert('Error occurred')
-            return
-          }
-
-          this.setState({ loading: false, loaded: true, submissions: submissions })
-          return
-
-        })
-
-      }
-
-
-      console.log('load bucket and submissions for', this.props.params.id)
-      this.setState({ loading: true })
-      loadBucket(this.props.params.id, (err, bucket) => {
-
-        if (err) {
-          alert('Error loading...')
-          this.setState( { error: err } )
-          return
-        }
-
-        this.setState( { bucket: bucket } )
-        loadSubmissionsByBucket(this.props.params.id, 0, 50, (err, submissions) => {
-          if (err) {
-            console.log(err)
-            alert('Error occurred')
-            return
-          }
-
-          this.setState({ loading: false, loaded: true, submissions: submissions })
-
-        })
-      })
     }
   },
   componentWillUnmount() {
     if (this.token) {
       this.token.remove()
     }
+
+    if (this.token2) {
+      this.token2.remove()
+    }
   },
+
+  handleBucketsChanged: function() {
+    console.log('handleSubmissionsChanged', this.state.bucket_id, BucketStore.find(this.state.bucket_id))
+    this.setState( {
+      bucket: BucketStore.find(this.state.bucket_id)
+    })
+  },
+
   handleSubmissionsChanged: function() {
-    console.log('handleSubmissionsChanged', this.props.params.id, SubmissionsStore.getState())
-    // this.setState({
-    //   loaded: true,
-    //   submissions: COND(
-    //     ISBLANK(this.props.params.id),
-    //     [],
-    //     SubmissionsStore.getSubmissionsByBucket(this.props.params.id, this.state.offset, this.state.limit)
-    //   )
-    // })
+    console.log('handleSubmissionsChanged', this.props.params.id, SubmissionsStore.getSubmissions())
+    this.setState( {
+      submissions: SubmissionsStore.getSubmissions()
+    })
   },
 
   goForward (event) {
@@ -119,25 +98,21 @@ const Submissions = React.createClass({
     )
 
     if (this.state.offset === newOffset) {
-      returned
+      return
     }
 
     this.setState({ loading: true })
     loadSubmissionsByBucket(
       this.props.params.id,
       newOffset,
-      this.state.limit,
-      (err, submissions) => {
-        if (err) {
-          console.log(err)
-          alert('Error occurred')
-          return
-        }
-
-        console.log('change offset', newOffset)
-        this.setState({ offset: newOffset, loading: false, loaded: true, submissions: submissions })
-      }
+      this.state.limit
     )
+    .then(submissions => this.setState({
+      loading: false,
+      offset: newOffset,
+      submissions: submissions
+    }))
+    .catch(error => this.setState({ error: error }))
 
   },
 
@@ -154,31 +129,29 @@ const Submissions = React.createClass({
       0
     )
 
-    if (this.state.offset === newOffset) {
-      returned
+    if (OR(
+      this.state.offset === newOffset,
+      this.state.offset >= this.state.bucket.submission_count) ) {
+      return
     }
 
     this.setState({ loading: true })
     loadSubmissionsByBucket(
       this.props.params.id,
       newOffset,
-      this.state.limit,
-      (err, submissions) => {
-
-        if (err) {
-          console.log(err)
-          alert('Error occurred')
-          return
-        }
-
-        console.log('change offset', newOffset)
-        this.setState({ offset: newOffset, loading: false, loaded: true, submissions: submissions })
-
-      }
+      this.state.limit
     )
+    .then(submissions => this.setState({
+      loading: false,
+      offset: newOffset,
+      submissions: submissions
+    }))
+    .catch(error => this.setState({ error: error }))
 
   },
   render () {
+
+    console.log('render', this.state )
 
     if (EQ(this.state.loaded, false)) {
       return (

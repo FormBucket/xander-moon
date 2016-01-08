@@ -19,22 +19,10 @@ const NewBucket = React.createClass({
 
   componentWillMount() {
 
-    // var bucket = BucketStore.find( this.props.params.id )
-    //
-    // if (bucket) {
-    //   console.log('foundBucket', bucket)
-    //   this.setState( Object.assign( bucket, { loaded: true} ) )
-    //   return
-    // }
+    loadBucket(this.props.params.id)
+    .then(bucket => this.setState( Object.assign( { loaded: true}, bucket ) ))
+    .catch(err => this.setState( { error: err } ))
 
-    loadBucket(this.props.params.id, (err, bucket) => {
-      if (err) {
-        alert('Error loading...')
-        this.setState( { error: err } )
-
-      }
-      this.setState( Object.assign( { loaded: true}, bucket ) )
-    })
   },
 
   componentDidUpdate(prevProps, prevState) {

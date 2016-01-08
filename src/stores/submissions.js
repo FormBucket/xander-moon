@@ -7,19 +7,16 @@ const SubmissionStore = createStore(
   (state, action) => {
     switch (action.type) {
       case GET_SUBMISSIONS:
-        console.log('GET_SUBMISSIONS', action.data)
-        return state.concat(action.data); // push to front
+        return action.data
       case STREAM_SUBMISSION:
-          console.log('STREAM_SUBMISSION', action.data)
-          return [action.data].concat(state); // push to front
+          return [action.data].concat(state)
       default:
         return state;
     }
   },
   {
     getSubmissions: (state) => state,
-    getSubmissionsByBucket: (state, bucket_id, offset, limit) =>
-    state
+    getSubmissionsByBucket: (state, bucket_id, offset, limit) => state
     .filter((n, i) => (n.bucket_id === bucket_id) && (i > offset && i < offset+limit) )
   }
 )

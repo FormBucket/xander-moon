@@ -1,5 +1,5 @@
 // Author: Peter Moresi
-import {COND, ISBLANK} from 'functionfoundry'
+import {COND, NOT, ISBLANK, ISFUNCTION} from 'functionfoundry'
 import React, { PropTypes } from 'react'
 import {Link} from 'react-router'
 import Markdown from 'react-remarkable'
@@ -29,29 +29,25 @@ const Buckets = React.createClass({
 
   componentDidMount() {
 
-    var buckets = BucketStore.getBuckets();
-
-    if (buckets.length > 0) {
-      this.setState({ buckets: buckets })
-    }
-
     if (UserStore.isUserLoggedIn()) {
-      loadBuckets((err, buckets) => {
-        if (err) {
-          this.setState({ error: err })
-        }
-        this.setState({
-          buckets: buckets
-        })
-      })
+
+      // load the buckets
+      loadBuckets()
+      .then( (buckets) => this.setState({ buckets: buckets }) )
+      .catch( (err) => this.setState({ error: err }))
+
+      // subscribe to future changes
       this.token = BucketStore.addListener(this.handleBucketsChanged)
+
     }
   },
+
   componentWillUnmount() {
-    if (UserStore.isUserLoggedIn()) {
+    if (this.token) {
       this.token.remove()
     }
   },
+
   handleNewBucket(event) {
     createBucket({}, (err, result) => {
       if (err) {
@@ -63,11 +59,13 @@ const Buckets = React.createClass({
       this.props.history.push('/buckets/' + result.id + '/settings')
     })
   },
+
   handleBucketsChanged() {
     this.setState({
       buckets: BucketStore.getBuckets()
     })
   },
+
   handleSelect(bucket) {
     console.log('bucket settings click', bucket)
     this.props.history.push('/buckets/' + bucket.id + '/settings')
