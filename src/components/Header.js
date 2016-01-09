@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import {Link} from 'react-router'
 import UserStore from '../stores/user'
-import Menu from './Menu'
 import FontAwesome from 'react-fontawesome'
 
 const Header = React.createClass({
@@ -14,57 +13,42 @@ const Header = React.createClass({
 
   render () {
     var topRight = (
-      <div className="nav">
-        <ul className="menu">
-          <li><Link to="login">Login</Link></li>
+      <nav role="navigation">
+        <a href="#" className="navigation-menu-button" id="js-mobile-menu">MENU</a>
+        <ul id="js-navigation-menu" className="navigation-menu show">
+          <li className="nav-link"><Link to="login">Login</Link></li>
         </ul>
-      </div>
+      </nav>
     )
 
     if (UserStore.isUserLoggedIn()) {
       topRight = (
-        <div className="nav">
-          <Menu items={[{
-            text: 'Buckets',
-            href: '/buckets',
-            onClick: (item, event) => {
-              console.log()
-              this.props.history.push(item.href)
-            }
-          }, {
-            text: 'Account',
-            href: '/account',
-            onClick: (item, event) => this.props.history.push(item.href)
-          }, {
-            text: 'Profile',
-            href: '/bucket-list',
-            onClick: (item, event) => console.log(this, item, event),
-            items: [{
-              text: 'Setting',
-              href: '/profile',
-              onClick: (item, event) => this.props.history.push(item.href)
-            }, {
-              text: 'Logout',
-              href: '/logout',
-              onClick: (item, event) => {
-                localStorage.removeItem('token')
-                this.props.history.push('/')
-              }
-            }]
-          }]} />
-        </div>
+        <nav role="navigation">
+          <a href="#" className="navigation-menu-button" id="js-mobile-menu">MENU</a>
+          <ul id="js-navigation-menu" className="navigation-menu show">
+            <li className="nav-link more"><Link to="/">Function Foundry</Link>
+              <ul className="submenu">
+                <li><Link to="/">UXTalent</Link></li>
+                <li><Link to="/">PennyMac</Link></li>
+              </ul>
+            </li>
+            <li className="nav-link"><Link to="/buckets">Buckets</Link></li>
+            <li className="nav-link"><Link to="/account">Account</Link></li>
+            <li className="nav-link"><a href="/logout">Logout</a></li>
+          </ul>
+        </nav>
       )
     }
 
     return (
-      <div className="header">
-        <div className="wrapper">
-          <Link to="/">
-            <img className="logo" src="/img/logo.svg" alt="FormBucket" />
+      <header className="navigation" role="banner">
+        <div className="navigation-wrapper">
+          <Link to="/" className="logo">
+            <img src="/img/logo.svg" alt="FormBucket" />
           </Link>
           {topRight}
         </div>
-      </div>
+      </header>
     )
   }
 })

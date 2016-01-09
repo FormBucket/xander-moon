@@ -56,8 +56,8 @@ const Welcome = React.createClass({
       <div>
         <div className="hero">
           <div className="wrapper">
-            <h1>Turbocharge Your Static Site Forms</h1>
-            <h2>Your markup, your CSS. We take care of the rest!</h2>
+            <h1>Endpoints are Just the Beginning</h1>
+            <h2>Turbocharged Automation for Static Site Forms</h2>
             <button onClick={this.handleSeePlans}>See Plans & Pricing</button>
             <div className="features tour">
               <div className="key-features">
@@ -66,16 +66,17 @@ const Welcome = React.createClass({
                   <div className="copy">
                     <h3>Bare Metal Markup</h3>
                     <p>
-                      Get unique URL endpoints to drop right into your raw HTML forms.
+                      Hosted endpoints for your forms.
+                      Your markup, your CSS. We take care of the rest.
                     </p>
                   </div>
                 </div>
                 <div className="feature fade-in two">
                   <img className="icon" src="/img/icon-rules.svg" alt="raw html" />
                   <div className="copy">
-                    <h3>Custom Rules</h3>
+                    <h3>Custom Automation</h3>
                     <p>
-                      Redirect users to any URL after your form is submitted and configure unlimited webhooks.
+                      Redirect users to any URL, send autoresponder emails and add unlimited webhooks.
                     </p>
                   </div>
                 </div>
@@ -84,7 +85,7 @@ const Welcome = React.createClass({
                   <div className="copy">
                     <h3>Submissions Manager</h3>
                     <p>
-                      Submissions get delivered to your inbox and stored in a searchable dashboard.
+                      Submissions get delivered to your inbox and stored in a dashboard with export options.
                     </p>
                   </div>
                 </div>
@@ -94,7 +95,6 @@ const Welcome = React.createClass({
         </div>
         <div className="wrapper">
           <div className="features">
-            <h2>Live Demo</h2>
             <div className="editor">
               <div className="left">
                 <div className="typing">

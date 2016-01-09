@@ -85,8 +85,9 @@
 
   .left {
     @include span-columns(8);
+    min-height: 18rem;
     padding: $base-spacing;
-    background-color: black;
+    background-color: $lightest-purple;
     border: 1px solid $purple;
     border-radius: 3px;
 
@@ -119,7 +120,7 @@
 
   .blinking-cursor {
     animation: blink 1s ease-in infinite;
-    border-right: 2px white solid;
+    border-right: 2px $purple solid;
   }
 }
 
