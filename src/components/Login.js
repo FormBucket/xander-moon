@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import redirect from '../utils/redirect'
 import FontAwesome from 'react-fontawesome'
 import {signIn} from '../stores/ActionCreator'
 

@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react'
 import {Link} from 'react-router'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
-import redirect from '../utils/redirect'
 import {signUp} from '../stores/ActionCreator'
 
 var FontAwesome = require('react-fontawesome');

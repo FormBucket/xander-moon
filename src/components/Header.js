@@ -25,8 +25,8 @@ const Header = React.createClass({
       topRight = (
         <div className="nav">
           <Menu items={[{
-            text: 'Bucket List',
-            href: '/bucket-list',
+            text: 'Buckets',
+            href: '/buckets',
             onClick: (item, event) => {
               console.log()
               this.props.history.push(item.href)
@@ -46,7 +46,10 @@ const Header = React.createClass({
             }, {
               text: 'Logout',
               href: '/logout',
-              onClick: (item, event) => this.props.history.push(item.href)
+              onClick: (item, event) => {
+                localStorage.removeItem('token')
+                this.props.history.push('/')
+              }
             }]
           }]} />
         </div>

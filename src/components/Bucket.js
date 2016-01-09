@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 import FontAwesome from 'react-fontawesome'
-import redirect from '../utils/redirect'
 import moment from 'moment'
 import {COND, ISARRAY, ISBLANK} from 'functionfoundry'
 import {Plans} from 'formbucket-common'
@@ -40,17 +39,12 @@ const NewBucket = React.createClass({
 
   onSave (e) {
     var bucket = this.state
-    // FIXME: Remove
-    console.log('updateBucket')
 
-    updateBucket(bucket, (err, result) => {
-      if (err) {
-        console.log('ERROR', err)
-        alert('Error')
-        return
-      }
-
-      this.props.history.push('/buckets')
+    updateBucket( bucket )
+    .then(result => this.props.history.push('/buckets'))
+    .catch(err => {
+      console.log('ERROR', err)
+      this.setState({ error: err })
     })
   },
 

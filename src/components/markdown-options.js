@@ -1,6 +1,7 @@
 import hljs from 'highlight.js' // https://highlightjs.org/
 
 export default {
+  html: true,
   highlight: function (str, lang) {
     if (lang && hljs.getLanguage(lang)) {
       try {

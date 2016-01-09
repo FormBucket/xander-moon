@@ -119,6 +119,7 @@
 
   .blinking-cursor {
     animation: blink 1s ease-in infinite;
+    border-right: 2px white solid;
   }
 }
 
