@@ -15,6 +15,8 @@ import FAQs from './components/FAQs'
 import API from './components/API'
 import Buckets from './components/Buckets'
 import Account from './components/Account'
+import AccountBilling from './components/AccountBilling'
+import AccountUsers from './components/AccountUsers'
 import Bucket from './components/Bucket'
 import Submissions from './components/Submissions'
 import Profile from './components/Profile'
@@ -37,6 +39,8 @@ render((
       <Route path="faqs" component={FAQs} />
       <Route path="api" component={API} />
       <Route path="account" component={Account} />
+      <Route path="account/billing" component={AccountBilling} />
+      <Route path="account/users" component={AccountUsers} />
       <Route path="/buckets" component={Buckets} />
       <Route path="/buckets/:id/settings" component={Bucket} />
       <Route path="/buckets/:id/submissions" component={Submissions} />
