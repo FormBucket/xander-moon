@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import {Link} from 'react-router'
 import FontAwesome from 'react-fontawesome'
+import AccountMenu from './AccountMenu'
 
 const AccountUsers = React.createClass({
   render () {
@@ -13,12 +14,7 @@ const AccountUsers = React.createClass({
         </div>
         <div className="page-nav-container">
           <div className="wrapper">
-            <ul className="page-nav">
-              <li><Link to="account">Profile</Link></li>
-              <li className="active">Users</li>
-              <li><Link to="/account/integrations">Integrations</Link></li>
-              <li><Link to="/account/billing">Billing</Link></li>
-            </ul>
+            <AccountMenu active="Users" />
           </div>
         </div>
         <div className="wrapper">

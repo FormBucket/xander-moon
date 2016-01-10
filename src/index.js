@@ -14,7 +14,8 @@ import Login from './components/Login'
 import FAQs from './components/FAQs'
 import API from './components/API'
 import Buckets from './components/Buckets'
-import Account from './components/Account'
+import AccountProfile from './components/AccountProfile'
+import AccountIntegrations from './components/AccountIntegrations'
 import AccountBilling from './components/AccountBilling'
 import AccountUsers from './components/AccountUsers'
 import Bucket from './components/Bucket'
@@ -38,7 +39,8 @@ render((
       <Route path="login" component={Login} />
       <Route path="faqs" component={FAQs} />
       <Route path="api" component={API} />
-      <Route path="account" component={Account} />
+      <Route path="account/profile" component={AccountProfile} />
+      <Route path="account/integrations" component={AccountIntegrations} />
       <Route path="account/billing" component={AccountBilling} />
       <Route path="account/users" component={AccountUsers} />
       <Route path="/buckets" component={Buckets} />
