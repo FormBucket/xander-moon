@@ -33,8 +33,11 @@ const Header = React.createClass({
               </ul>
             </li>
             <li className="nav-link"><Link to="/buckets">Buckets</Link></li>
-            <li className="nav-link"><Link to="/account">Account</Link></li>
-            <li className="nav-link"><a href="/logout">Logout</a></li>
+            <li className="nav-link"><Link to="/account/profile">Account</Link></li>
+            <li className="nav-link"><a onClick={() => {
+              localStorage.removeItem('token')
+              this.props.history.push('/')
+            }}>Logout</a></li>
           </ul>
         </nav>
       )
