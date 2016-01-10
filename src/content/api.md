@@ -1,124 +1,184 @@
-## Reliably collecting forms from your static website is our mission.
+## Powering static websites is our mission.
 
-The FormBucket API enables integration with 3rd party system over
-an industry standard REST API. Data is returned in JSON format.
----
+Collecting and managing data is a science and an art. You need to setup databases and install scripts. Protecting against spammers and bots is a risk and applications developed by friendly business partners can create DOS attacks. Our services helps you to create endpoints, access your data in real time, view, visualize, analyze, protect and monitor your data.  
+
+The FormBucket API accepts _application/json_ requests via HTTPS and is secured with the recent [IETF Standard 7519 JSON Web Tokens (JWT)](https://tools.ietf.org/html/rfc7519).
+
+Optionally, we encourage public key infrastructure by offering a registry to privately share your public keys. Users that opt into public key infrastructure will benefit from layered encryption that encrypt messages before sending over a TLS transport with trusted certificates.
+
+## Accounts / profile
+
+The APIs will only respond when presented with a token. Requests that do not include a token or include an invalid token will be denied.
+
+The token must be provided via an HTTP Header named _Authorization_ that contains the value _Bearer {token}_.
+
+With the fetch API you can call with:
+
+```js
+fetch('https://stream.formbucket.com/signup', {
+  method: 'POST',
+  headers: {
+    ContentType: 'application/json'
+  },
+  body: JSON.stringify({ email: 'you@domain.com', password: 'shhhh' })
+})
+.then(res => res.text())
+.then(token => console.log(`Your token is ${token}`))
+```
+
+Upon successful signup the user is issued a token.
+
+```js
+let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NjhkZjZjMGM4ZDVhZmQxYTJkMDVmMzMiLCJvcmdOYW1lIjoiIiwiZW1haWwiOiJmb29AZm9vMS5jb20iLCJpYXQiOjE0NTIyNDUxNTA2NjN9.NP-6XQGZdpDJfRW8r-gHdeCGmyhKCFSGSUmA3pCiUMY'
+```
+
+This token must be presented to access data APIs.
+
+```js
+fetch('https://stream.formbucket.com/buckets', {
+  method: 'GET',
+  headers: {
+    ContentType: 'application/json',
+    Authorization: `Bearer ${token}`
+  },
+})
+.then(res => res.text())
+.then(token => console.log(`Your token is ${token}`))
+```
+
+A returning user may obtain a new token by presenting their username and password.
+
+```js
+fetch('https://stream.formbucket.com/login', {
+  method: 'POST',
+  headers: {
+    ContentType: 'application/json',
+    Authorization: `Bearer ${token}`
+  },
+  body: JSON.stringify({ email: 'you@domain.com', password: 'shhhh' })
+})
+.then(res => res.text())
+.then(token => console.log(`Your token is ${token}`))
+```
 
 ## Buckets
 
+Users may choose from fixed or variable sized buckets. The fixed size buckets will overwrite the oldest submissions.
 
 ### Get a list of your buckets
 
-GET https://www.FormBucket.com/buckets.json
-
-#### Parameters
-
-Name          | Type          | Description
-------------- | ------------- | -----------
-apikey        | string        | __Required__. The API key provided on your user profile page
+```curl
+GET https://stream.formbucket.com/buckets
+```
 
 #### Example Response
 
 ```JSON
 [
   {
-    "id": "5g75oz",
-    "name": "Product Interest Form",
-    "date": "2015-03-30T03:41:47.344Z",
-    "token": "Dfj7Iv8Bt3",
-    "submission_count": 142
+    "id": "6h86zo",
+    "enabled": true,
+    "name": "Contact Form",
+    "submission_count": 417
   },
   {
-    "id": "6h86zo",
-    "name": "Contact Form",
-    "date": "2015-01-24T03:41:47.344Z",
-    "token": "Egh8Iv9Bt3",
-    "submission_count": 417
+    "id": "5g75oz",
+    "enabled": false,
+    "name": "Product Interest Form",
+    "submission_count": 142
   }
 ]
 ```
 
 ### Get a bucket
 
-GET https://www.FormBucket.com/bucket/:id.json
+```curl
+GET https://stream.formbucket.com/buckets/:id
+```
 
 #### Parameters
 
 Name          | Type          | Description
 ------------- | ------------- | -----------
-apikey        | string        | __Required__. The API key provided on your user profile page.
-id            | string        | __Required__. The id assigned to the bucket.
-
-#### Example request
-
-GET https://www.FormBucket.com/buckets/123.json?apikey=e705c568-8869-4ca2-8a58-78ba782423c4
+limit        | number        | __Optional__. The maximum number of buckets to return in a single call. The default is 50.
+offset            | number        | __Optional__. The number of records to skip before returning rows. Applied after sorting. The default is 0.
+sort            | object        | __Required__. An object that describes the sort options. The default is **{ created_on: -1 }**.
 
 #### Example Response
 
 ```JSON
 {
-  "id": "5g75oz",
-  "name": "Product Interest Form",
-  "date": "2015-03-30T03:41:47.344Z",
-  "token": "Dfj7Iv8Bt3",
-  "submission_count": 142
+  "loaded": true,
+  "_id": "568e05fec7738ff3a349c62e",
+  "id": "KfdHERM",
+  "user_id": "568df6c0c8d5afd1a2d05f33",
+  "name": "Test Bucket",
+  "updated_on": "2016-01-08T00:41:19.732Z",
+  "enabled": true,
+  "email_to": true,
+  "auto_responder": {
+      "from": "me@domain.com",
+      "subject": "Thanks!",
+      "body": "I appreciate your response. I will reply as soon as possible. Thanks!"
+  },
+  "submission_count": 5747
 }
 ```
 
 ### Create a new bucket
 
-POST https://www.FormBucket.com/buckets
+```curl
+POST https://stream.formbucket.com/buckets
+```
 
 #### Parameters
 
 Name            |   Type        | Description
 --------------- | ------------- | -----------
-apikey          | string        | __Required__. The API key provided on your user profile page
-name            | string        | __Required__. The name to identify the bucket.
-enabled         | boolean       | __Optional__. Disable a bucket to stop new submissions without deleting your data. Default to true.
-email_to        | string        | __Optional__. A list of email address to email submissions. Default to address in user profile.
-redirect_url    | string        | __Optional__. The URL to redirect a user after successful submission. Please not that this does not apply to submission sent over AJAX.  Default to blank.
-webhooks        | array         | __Optional__. A list of webhooks to send submissions via a POST after they are recorded in our system. A web is a URL that will accept the bucket data. Default to empty list.
-required_fields | array        | __Optional__. A list of fields that are required to record the submission in our system. If required fields are omitted then the submission is rejected and the request redirected back to the origin.
+bucket | object        | __Optional__. An object containing bucket settings. This object is whitelisted on the server to enforce the fields.
+
+The field whitelist include:
+
+    1. name : string
+    2. enabled : boolean
+    3. webhooks : array
+    4. email_to: (boolean | string)
+    5. auto_responder: ( false | object )
+      1. from : string
+      2. subject : string
+      3. body: string
+    6. redirect_url : string
 
 #### Example Responses
 
 When the bucket is successfully created:
 
 ```JSON
-{ "success": true }
+{ "success": true, "id": "KfdHERM"}
 ```
 
 When an error occurs:
 
 ```JSON
-{ "code": 1, "error": "apikey is required." }
+{ "error": "apikey is required." }
 ```
-
 
 ### Update a bucket
 
-PUT https://www.FormBucket.com/bucket/:id
+```curl
+PUT https://api.formbucket.com/buckets
+```
 
 #### Parameters
 
-Accepts same parameters used to create the bucket.
-
-#### Example responses
-
-See example responses in "Create a new bucket"
+Accepts same parameters used to create a bucket.
 
 ### Delete a bucket
 
-DELETE https://www.FormBucket.com/bucket/:id
-
-__WARNING.__ Deleting a bucket deletes all submissions in this bucket.
-
-#### Parameters
-
-Name          | Type          | Description
-------------- | ------------- | -----------
-apikey        | string        | __Required__. The API key provided on your user profile page
+```curls
+DELETE https://api.formbucket.com/buckets/:id
+```
+__WARNING.__ The Bucket and data are gone and cannot be recovered.
 
 ## Submissions
 
@@ -126,39 +186,44 @@ Submissions are actual form data entered by the users of your bucket.
 
 ### Get all submissions in a bucket
 
-GET https://www.FormBucket.com/submissions/:bucket_id.json
+```curl
+GET https://api.formbucket.com/buckets/:id/submissions?limit=10&offset=0&sort=%7Bcreated_on:%20-1%7D
+```
 
 #### Parameters
 
 Name          | Type          | Description
 ------------- | ------------- | -----------
-apikey        | string        | __Required__. The API key provided on your user profile page
-bucket_id       | integer       | __Required__. The id of the bucket. This parameter is in the URL instead of the query string.
+id       | integer       | __Required__. The id of the bucket. This parameter is in the URL.
 limit         | integer       | __Optional__. Restrict the number of submissions returned by the request. Default to 100.
 offset        | integer       | __Optional__. Offset the result to enable paging. To keep it simple the first record is 1 and the last record is the number of submissions. Records are sorted by the time received.
+sort        | object       | __Optional__.
 
 #### Example Response
 
 ```JSON
-[
-  {
-    "bucket_id": "hgyg65kj",
-    "total": 1,
-    "count": 1,
-    "limit": 10,
-    "offset": 0,
-    "data": [{
-      "_id": "55a7281db501a6987ed5c354",
-      "subject": "Customer request",
-      "message": "Thanks for doing this. I really appreciate man."
-    }]
-  }
-]
+[{
+  "_id": "55a7281db501a6987ed5c354",
+  "subject": "Customer request",
+  "message": "Thanks for doing this. I really appreciate man."
+},{
+  "_id": "43b7281db501a6987ed5c354",
+  "subject": "Help",
+  "message": "I'm interested in hiring you for a project. Please contact me."
+}]
 ```
 
 ### Create a new submission
 
-POST https://www.FormBucket.com/f/:id
+
+```curl
+POST https://api.formbucket.com/buckets/:id/submissions
+```
+or use the alias
+```curl
+POST https://api.formbucket.com/:id
+```
+
 
 #### Parameters
 
@@ -167,69 +232,6 @@ The form may include any field needed to meet your data collection requirement.
 ### Delete a submission
 
 DELETE https://www.FormBucket.com/submissions/:id
-
-#### Parameters
-
-Name          | Type          | Description
-------------- | ------------- | -----------
-apikey        | string        | __Required__. The API key provided on your user profile page
-id            | guid          | __Required__. The id of the submission.
-
-### Get submissions
-
-GET https://www.FormBucket.com/submissions.json
-
-#### Example Response
-
-```js
-[{
-  "bucket_id": "afbi23",
-  "created_on": "2015-01-24T12:23:32",
-  "data": [{
-    // actual fields submitted
-  }]
-}]
-```
-
-### Get a realtime stream of submissions
-
-GET https://www.FormBucket.com/submissions/events
-
-Access a realtime stream of data with the industry standard Server Sent Events protocol.
-
-Integrating this functionality into a supported browser is easy.
-
-```js
-var es = new EventSource("https://www.FormBucket.com/submissions/events");
-es.onmessage = function (event) {
-  console.log(event.data);
-};
-```  
-
-#### Example Response
-
-```js
-:ok
-
-data: { bucket: '12fdOd', created_on: '2015-01-24T12:23:32', data: [ /* actually form */ ]}
-
-data: { bucket: '12fdOd', created_on: '2015-01-24T12:23:32', data: [ /* actually form */ ]}
-```
-
-### Get a realtime stream of submission for a form
-
-GET https://www.FormBucket.com/submissions/:id/events
-
-This is the same as the stream for all buckets, except that the results are filtered to a particular bucket.
-
----
-
-## Error Codes
-
- ID  | Text
- --- | ----
- 1   | Record not found.
- 2   | Name is required.
 
  ## HTTP Status Codes
 
@@ -240,4 +242,5 @@ This is the same as the stream for all buckets, except that the results are filt
   401   | Unauthorized
   403   | Forbidden
   404   | Not Found
+  422   | Unprocessable Entity
   500   | Unexpected system error

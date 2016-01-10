@@ -13,7 +13,7 @@ import {
   startSubmissionEventSource,
   requestSignUp,
   requestSignIn
-} from '../utils/webutils'
+} from './webutils'
 
 import {
   SET_BUCKET,
@@ -52,7 +52,6 @@ export function signUp(name, org, email, password) {
           }
         )
       } else {
-
         response.json().then(
           result => reject(result)
         )
@@ -148,48 +147,53 @@ export function loadBucket(id) {
 
 }
 
-export function createBucket(bucket, done) {
-  requestCreateBucket(bucket)
-  .then((result) => {
-    bucket.id = result.id
-    console.log(SET_BUCKET, bucket)
-    dispatch(SET_BUCKET, bucket)
-    if (done) {
-      done(undefined, bucket )
-    }
-  }, (err) => {
-    done(err)
+export function createBucket(bucket={}) {
+
+  var p = new Promise((resolve, reject) => {
+    requestCreateBucket(bucket)
+    .then((result) => {
+      bucket.id = result.id
+
+      dispatch(SET_BUCKET, bucket)
+      resolve( bucket )
+
+    }, (err) => reject(err) )
   })
+
+  return p
 }
 
 
-export function updateBucket(bucket, done) {
-  requestUpdateBucket(bucket)
-  .then((result) => {
-    dispatch('updateBucket', result)
-    done(null, result)
-  }, (err) => {
-    done(err)
+export function updateBucket(bucket) {
+
+  var p = new Promise((resolve, reject) => {
+
+    requestUpdateBucket(bucket)
+    .then((result) => {
+      dispatch('updateBucket', result)
+      resolve(result)
+    }, (err) => {
+      reject(err)
+    })
+
   })
+
+  return p
+
 }
 
 export function deleteBucket(bucketId, done) {
-  requestDeleteBucket(bucketId)
-  .then(result => {
-    dispatch(BUCKET_DELETED, result)
-    done(null, result)
-  }, (err) => {
-    done(err)
-  })
-}
+  var p = new Promise((resolve, reject) => {
 
+    requestDeleteBucket(bucketId)
+    .then(result => {
+      dispatch(BUCKET_DELETED, result)
+      resolve(result)
+    }, (err) => reject(err))
 
-export function loadSubmissions(offset, limit) {
-  getSubmissions(offset, limit)
-  .then((items) => {
-    console.log(GET_SUBMISSIONS, items)
-    dispatch(GET_SUBMISSIONS, items)
   })
+
+  return p
 }
 
 export function loadSubmissionsByBucket(bucket_id, offset, limit) {
@@ -210,17 +214,4 @@ export function loadSubmissionsByBucket(bucket_id, offset, limit) {
   })
 
   return p
-}
-
-export function streamSubmissions(bucketId) {
-  if (typeof submissionEventStream !== 'undefined') { return }
-
-  var url = "http:localhost:3001/changes",
-      submissionEventStream = new EventSource(url, { withCredentials: true })
-
-  submissionEventStream.onmessage = function (event) {
-    dispatch(STREAM_SUBMISSION, JSON.parse(event.data))
-  };
-
-  return submissionEventStream
 }

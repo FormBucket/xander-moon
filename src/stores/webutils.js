@@ -9,8 +9,8 @@ import {COND} from 'functionfoundry'
 
 let server =  COND(
   process.env.NODE_ENV === 'production',
-  '', // use same origin
-  'https://formbucket-koajs.elasticbeanstalk.com' // "http://localhost:3001"
+  'https://formbucket-koajs.elasticbeanstalk.com',
+  'https://formbucket-koajs.elasticbeanstalk.com'
 )
 // let server = "https://formbucket-development.elasticbeanstalk.com"
 

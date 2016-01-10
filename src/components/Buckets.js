@@ -49,15 +49,12 @@ const Buckets = React.createClass({
   },
 
   handleNewBucket(event) {
-    createBucket({}, (err, result) => {
-      if (err) {
-        console.log(err)
-        return
-      }
-
+    createBucket()
+    .then( result => {
       console.log('createdBucket with', result)
       this.props.history.push('/buckets/' + result.id + '/settings')
     })
+    .catch( err => this.setState( { error: err } ))
   },
 
   handleBucketsChanged() {
@@ -75,7 +72,7 @@ const Buckets = React.createClass({
       <div>
         <div className="page-heading">
           <div className="wrapper">
-            <h1>Bucket List</h1>
+            <h1>Buckets</h1>
             <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: this.state.error ? '' : 'none'}}>
               {this.state.error ? this.state.error.message : ''}
             </div>

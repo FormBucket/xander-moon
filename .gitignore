@@ -5,3 +5,7 @@ dist
 npm-debug.log
 
 *.zip
+
+public/css/formbucket.css
+
+public/js/formbucket.js
