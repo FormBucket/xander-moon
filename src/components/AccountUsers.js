@@ -15,9 +15,9 @@ const AccountUsers = React.createClass({
           <div className="wrapper">
             <ul className="page-nav">
               <li><Link to="account">Profile</Link></li>
-              <li className="active"><Link to="account/users">Users</Link></li>
-              <li><Link to="account/integrations">Integrations</Link></li>
-              <li><Link to="account/billing">Billing</Link></li>
+              <li className="active">Users</li>
+              <li><Link to="/account/integrations">Integrations</Link></li>
+              <li><Link to="/account/billing">Billing</Link></li>
             </ul>
           </div>
         </div>
@@ -28,7 +28,7 @@ const AccountUsers = React.createClass({
           </div>
           <div className="half-width">
             <form method="post" action="">
-              
+
               <button className="button secondary" type="submit">Save Changes</button>
             </form>
           </div>

@@ -8,7 +8,7 @@ const AccountBilling = React.createClass({
       <div>
         <div className="page-heading">
           <div className="wrapper">
-            <h1>Account</h1>
+            <h1>Integrations</h1>
           </div>
         </div>
         <div className="page-nav-container">
@@ -16,8 +16,8 @@ const AccountBilling = React.createClass({
             <ul className="page-nav">
               <li><Link to="/account">Profile</Link></li>
               <li><Link to="/account/users">Users</Link></li>
-              <li><Link to="/account/integrations">Integrations</Link></li>
-              <li className="active">Billing</li>
+              <li className="active">Integrations</li>
+              <li><Link to="/account/billing">Billing</Link></li>
             </ul>
           </div>
         </div>

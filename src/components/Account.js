@@ -14,10 +14,10 @@ const Account = React.createClass({
         <div className="page-nav-container">
           <div className="wrapper">
             <ul className="page-nav">
-              <li className="active"><Link to="account">Profile</Link></li>
-              <li><Link to="account/users">Users</Link></li>
-              <li><Link to="account/integrations">Integrations</Link></li>
-              <li><Link to="account/billing">Billing</Link></li>
+              <li className="active">Profile</li>
+              <li><Link to="/account/users">Users</Link></li>
+              <li><Link to="/account/integrations">Integrations</Link></li>
+              <li><Link to="/account/billing">Billing</Link></li>
             </ul>
           </div>
         </div>
