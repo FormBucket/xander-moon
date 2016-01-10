@@ -6,6 +6,7 @@ import {loadBucket, loadSubmissionsByBucket} from '../stores/ActionCreator'
 import BucketStore from '../stores/buckets'
 import SubmissionsStore from '../stores/Submissions'
 import FontAwesome from 'react-fontawesome'
+import {getQueryParam} from '../stores/webutils'
 
 function wrap(output) {
   return (
@@ -24,19 +25,19 @@ function wrap(output) {
 
 const Submissions = React.createClass({
   getInitialState () {
+    console.log(+getQueryParam('l'), +getQueryParam('o'))
     return {
       mode: 'list',
       submissions: undefined,
       loaded: false,
       loading: false,
-      offset: 0,
-      limit: 10
+      offset: ( +getQueryParam('o') ) || 0,
+      limit: ( +getQueryParam('l') )|| 50
     }
   },
 
   componentDidUpdate(prevProps, prevState) {
     console.log('match', this.state === prevState )
-    console.log('state', JSON.stringify(this.state, null, 4))
   },
 
   componentDidMount() {
@@ -46,7 +47,7 @@ const Submissions = React.createClass({
 
       Promise.all([
         loadBucket(this.props.params.id),
-        loadSubmissionsByBucket(this.props.params.id, 0, 50)
+        loadSubmissionsByBucket(this.props.params.id, this.state.offset, this.state.limit)
       ])
       .then(values => this.setState({
         loading: false,
@@ -107,11 +108,14 @@ const Submissions = React.createClass({
       newOffset,
       this.state.limit
     )
-    .then(submissions => this.setState({
-      loading: false,
-      offset: newOffset,
-      submissions: submissions
-    }))
+    .then(submissions => {
+      this.setState({
+        loading: false,
+        offset: newOffset,
+        submissions: submissions
+      })
+      this.props.history.push(`/buckets/${this.props.params.id}/submissions?l=${this.state.limit}&o=${this.state.offset}`)
+    })
     .catch(error => this.setState({ error: error }))
 
   },
@@ -141,11 +145,15 @@ const Submissions = React.createClass({
       newOffset,
       this.state.limit
     )
-    .then(submissions => this.setState({
-      loading: false,
-      offset: newOffset,
-      submissions: submissions
-    }))
+    .then(submissions => {
+      this.setState({
+        loading: false,
+        offset: newOffset,
+        submissions: submissions
+      })
+
+      this.props.history.push(`/buckets/${this.props.params.id}/submissions?l=${this.state.limit}&o=${this.state.offset}`)
+    })
     .catch(error => this.setState({ error: error }))
 
   },
@@ -216,7 +224,7 @@ const Submissions = React.createClass({
             {pager}
           </div>
           {this.state.submissions.map( (submission, i) => (
-            <div style={{border: '1px solid black', margin: 10, background: 'white'}} key={submission.id}>
+            <div style={{border: '1px solid black', margin: 10, background: 'white'}} key={i}>
               <div>
                 <span>{submission.created_on.substring(0, 16).replace('T', ' at ')}</span>
               </div>

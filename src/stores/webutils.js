@@ -10,7 +10,7 @@ import {COND} from 'functionfoundry'
 let server =  COND(
   process.env.NODE_ENV === 'production',
   'https://formbucket-koajs.elasticbeanstalk.com',
-  'https://formbucket-koajs.elasticbeanstalk.com'
+  'http://localhost:3001'
 )
 // let server = "https://formbucket-development.elasticbeanstalk.com"
 
@@ -18,8 +18,16 @@ let server =  COND(
 window.submit = submit
 window.getBuckets = getBuckets
 
+// reads value from qur
+export function getQueryParam(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
 // generic function to detect common HTTP error codes. Credit to Mozilla.
-function processStatus(response) {
+export function processStatus(response) {
   // status "0" to handle local files fetching (e.g. Cordova/Phonegap etc.)
   if (response.status === 200 || response.status === 0) {
     return Promise.resolve(response);
@@ -28,15 +36,15 @@ function processStatus(response) {
   }
 }
 
-function getText(response) {
+export function getText(response) {
   return response.text();
 }
 
-function getJSON(response) {
+export function getJSON(response) {
   return response.json();
 }
 
-function getResource(resource) {
+export function getResource(resource) {
 
   if (!localStorage.hasOwnProperty('token')) {
     throw Error('User has no access token')
@@ -53,7 +61,7 @@ function getResource(resource) {
   })
 }
 
-function callResource(method, resource, data) {
+export function callResource(method, resource, data) {
 
   console.log('callResource', 'foo')
 
