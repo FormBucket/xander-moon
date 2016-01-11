@@ -22,7 +22,8 @@ const Welcome = React.createClass({
     }
   },
   componentDidMount () {
-    var timerId = setInterval( () => {
+    
+    this.timerId = setInterval( () => {
 
       this.setState({
         ghostTextLength: this.state.ghostTextLength+1,
@@ -34,9 +35,13 @@ const Welcome = React.createClass({
         this.setState({
           ghostText: this.state.ghostText + '\n<span class="blinking-cursor" />'
         })
-        clearInterval(timerId)
+        clearInterval(this.timerId)
       }
     }, 20)
+      
+  },
+  componentWillUnmount () {
+    clearInterval(this.timerId)
   },
   handleSeePlans () {
     let currentPos = window.scrollY
