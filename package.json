@@ -8,10 +8,8 @@
     "clean": "rimraf dist",
     "build:webpack": "NODE_ENV=production webpack --config webpack.config.prod.js",
     "build": "npm run clean && npm run build:webpack",
-    "copy-to-server": "cp -r public/ ../formbucket-server/public && cp dist/formbucket.j* ../formbucket-server/public/js/ && cp dist/formbucket.cs* ../formbucket-server/public/css/",
     "start": "node devServer.js",
     "lint": "eslint src",
-    "g": "npm run build && npm run copy-to-server"
   },
   "devDependencies": {
     "babel-core": "^6.3.15",
@@ -50,7 +48,7 @@
     "react-fontawesome": "^0.3.3",
     "react-remarkable": "^1.1.1",
     "react-router": "^1.0.3",
-    "react-set-animate": "0.0.15",
+    "react-set-animate": "0.0.16",
     "react-static-container": "^1.0.0",
     "sweetflux": "^0.7.0"
   }
