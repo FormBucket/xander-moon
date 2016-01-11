@@ -190,14 +190,14 @@ export function submit(formId, formData) {
 Usage:
 getSubmissions(10, 50)
 */
-export function getSubmissions(offset, limit){
-  return getResource(`/submissions?offset=${+offset}&limit=${+limit}`)
+export function getSubmissions(offset, limit, select){
+  return getResource(`/submissions?offset=${+offset}&limit=${+limit}&select=${select}`)
   .then(processStatus)
   .then(getJSON)
 }
 
-export function getSubmissionsByBucket(bucket_id, offset, limit){
-  return getResource(`/buckets/${bucket_id}/submissions?offset=${+offset}&limit=${+limit}`)
+export function getSubmissionsByBucket(bucket_id, offset, limit, select){
+  return getResource(`/buckets/${bucket_id}/submissions?offset=${+offset}&limit=${+limit}&select=${select}`)
   .then(processStatus)
   .then(getJSON)
 }

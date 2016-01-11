@@ -25,19 +25,30 @@ function wrap(output) {
 
 const Submissions = React.createClass({
   getInitialState () {
-    console.log(+getQueryParam('l'), +getQueryParam('o'))
-    return {
-      mode: 'list',
+    console.log(+getQueryParam('l'), +getQueryParam('o'), getQueryParam('s'), getQueryParam('m'))
+    var initialState = {
+      mode: getQueryParam('m') || getQueryParam('mode') || 'list',
       submissions: undefined,
       loaded: false,
       loading: false,
-      offset: ( +getQueryParam('o') ) || 0,
-      limit: ( +getQueryParam('l') )|| 50
+      offset: ( +getQueryParam('o')  || +getQueryParam('offset') || 0),
+      limit: ( +getQueryParam('l') || +getQueryParam('limit') || 50),
+      select: ( getQueryParam('s') || getQueryParam('select') || 'created_on,data' )
     }
+    console.log(initialState)
+    return initialState
   },
 
+  go() {
+    this.props.history.push(`/buckets/${this.props.params.id}/submissions?s=${this.state.select}&m=${this.state.mode}&l=${this.state.limit}&o=${this.state.offset}`)
+  },
+  
   componentDidUpdate(prevProps, prevState) {
-    console.log('match', this.state === prevState )
+    console.log('match', this.state === prevState, this.state, prevState )
+
+      if (this.state !== prevState) {
+        this.go()
+      }
   },
 
   componentDidMount() {
@@ -47,7 +58,7 @@ const Submissions = React.createClass({
 
       Promise.all([
         loadBucket(this.props.params.id),
-        loadSubmissionsByBucket(this.props.params.id, this.state.offset, this.state.limit)
+        loadSubmissionsByBucket(this.props.params.id, this.state.offset, this.state.limit, this.state.select)
       ])
       .then(values => this.setState({
         loading: false,
@@ -98,15 +109,26 @@ const Submissions = React.createClass({
       this.state.offset
     )
 
+    console.log('test', this.state.offset, this.state.limit, this.state.bucket.submission_count)
+
     if (this.state.offset === newOffset) {
+      //console.log('fail1')
       return
     }
 
+    if (newOffset >= this.state.bucket.submission_count) {
+      //console.log('fail2')
+      return
+    }
+
+    //console.log('do it', this.state.offset, this.state.limit, this.state.submissions.length)
+    
     this.setState({ loading: true })
     loadSubmissionsByBucket(
       this.props.params.id,
       newOffset,
-      this.state.limit
+      this.state.limit,
+      this.state.select
     )
     .then(submissions => {
       this.setState({
@@ -114,7 +136,6 @@ const Submissions = React.createClass({
         offset: newOffset,
         submissions: submissions
       })
-      this.props.history.push(`/buckets/${this.props.params.id}/submissions?l=${this.state.limit}&o=${this.state.offset}`)
     })
     .catch(error => this.setState({ error: error }))
 
@@ -143,7 +164,8 @@ const Submissions = React.createClass({
     loadSubmissionsByBucket(
       this.props.params.id,
       newOffset,
-      this.state.limit
+      this.state.limit,
+      this.state.select
     )
     .then(submissions => {
       this.setState({
@@ -151,8 +173,6 @@ const Submissions = React.createClass({
         offset: newOffset,
         submissions: submissions
       })
-
-      this.props.history.push(`/buckets/${this.props.params.id}/submissions?l=${this.state.limit}&o=${this.state.offset}`)
     })
     .catch(error => this.setState({ error: error }))
 
@@ -193,10 +213,6 @@ const Submissions = React.createClass({
 
     let pager = (
       <span style={{float:'right' }}>
-        Export: &nbsp;
-        <a href="#">CSV </a> { ' | ' }
-        <a href="#">JSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
-
         Format: &nbsp;
         <a onClick={() => this.setState({mode: 'list'})}>List</a> { ' | ' }
         <a onClick={() => this.setState({mode: 'table'})}>Table</a>{ ' | ' }
