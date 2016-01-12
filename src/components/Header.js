@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react'
 import {Link} from 'react-router'
 import UserStore from '../stores/user'
 import FontAwesome from 'react-fontawesome'
-import {Animate} from 'react-set-animate'
 
 const Header = React.createClass({
 
