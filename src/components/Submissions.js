@@ -218,7 +218,7 @@ const Submissions = React.createClass({
         <a onClick={() => this.setState({mode: 'table'})}>Table</a>{ ' | ' }
         <a onClick={() => this.setState({mode: 'json'})}>JSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
 
-        {this.state.offset+1}-{this.state.offset+this.state.limit < this.state.bucket.submission_count ? this.state.offset+this.state.limit+1 : this.state.bucket.submission_count} of {this.state.bucket.submission_count}&nbsp;&nbsp;&nbsp;&nbsp;
+        {this.state.offset+1}-{this.state.offset+this.state.limit < this.state.bucket.submission_count ? this.state.offset + this.state.limit : this.state.bucket.submission_count} of {this.state.bucket.submission_count}&nbsp;&nbsp;&nbsp;&nbsp;
         <span onClick={this.goBack}>
           <FontAwesome style={{ cursor: 'pointer', fontSize: '1.5em', backgroundColor: 'white', color: 'black', padding: 5 }} name="chevron-left" />
         </span>
