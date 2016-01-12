@@ -1,33 +1,41 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 import {signIn} from '../stores/ActionCreator'
+import {COND} from 'functionfoundry'
 
 const Login = React.createClass({
   getInitialState() {
     return {
+      loading: false,
       error: false
     }
   },
   handleClick() {
-
+    this.setState({ loading: true, error: false })
     signIn(
       this.refs.email.value,
       this.refs.password.value
     )
     .then(
       n => {
-        console.log('foo')
         this.props.history.push('/buckets')
       },
       err => {
-        console.log('bar')
-
         this.setState({
+          loading: false,
           error: err
         })
       }
     )
 
+  },
+  handleKeyPress (event) {
+    console.log(event.keyCode);
+    if (event.keyCode === 13) {
+      // enter key pressed
+      this.handleClick()
+    }
+                             
   },
   render () {
     return (
@@ -48,13 +56,14 @@ const Login = React.createClass({
             <p> Login with your email</p>
             <label>
               Email:
-              <input name="email" ref="email" type="email" />
+              <input name="email" ref="email" type="email" onKeyUp={this.handleKeyPress} />
             </label>
             <label>
               Password:
-              <input name="password" ref="password" type="password" />
+              <input name="password" ref="password" type="password" onKeyUp={this.handleKeyPress} />
             </label>
-            <input onClick={this.handleClick} type="button" value="Login" />
+            <input onClick={this.handleClick} type="button" value="Login" disabled={this.state.loading} />
+            <p style={{ display: COND(this.state.loading, '', 'none') }}>Loading...</p>
         </div>
       </div>
     </div>
