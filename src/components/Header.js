@@ -27,14 +27,8 @@ const Header = React.createClass({
         <nav role="navigation">
           <a href="#" className="navigation-menu-button" onClick={(event) => this.setState({ show: !this.state.show })}>MENU</a>
           <ul className={"navigation-menu" + (this.state.show ? ' show' : ' hide')}>
-            <li className="nav-link"><Link to="/endpoints">Endpoints</Link></li>
             <li className="nav-link"><Link to="/buckets">Buckets</Link></li>
-            <li className="nav-link"><Link to="/webhooks">Webhooks</Link></li>
-            <li className="nav-link"><Link to="/forms">Forms</Link></li>
             <li className="nav-link"><Link to="/account/profile">Account</Link></li>
-            <li className="nav-link"><Link to="/" onClick={() => {
-              localStorage.removeItem('token')
-            }}>Logout</Link></li>
           </ul>
         </nav>
       )

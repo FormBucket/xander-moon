@@ -4,14 +4,15 @@ import markdownOptions from './markdown-options'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
 import {COND} from 'functionfoundry'
-import {Plans} from 'formbucket-common'
+import Plans from '../content/plans'
 
 const Billing = React.createClass({
   getInitialState: () => {
     var planCode = localStorage.getItem('plan') || 'free'
     return {
       selectedPlanCode: planCode,
-      selectedPlan: Plans.filter( n=> n.code === planCode)[0]
+      selectedPlan: Plans.filter( n=> n.code === planCode)[0],
+      nowrap: true
     }
   },
 
@@ -47,14 +48,22 @@ const Billing = React.createClass({
       </div>
     )
 
-    return (
-      <div>
+      function wrap(el) {
+        if (cmp.props.nowrap) { return el }
+      return (
+       <div>
         <div className="page-heading">
           <div className="wrapper">
             <h1>Billing</h1>
           </div>
         </div>
-        <div className="wrapper">
+        {el}
+      </div>
+      )
+    }
+      
+    return wrap(
+       <div className="wrapper">
           <h2>You can upgrade or downgrade your plan at any time.</h2>
           <p>Pssst...want to get a month free? See <a href="#">annual pricing</a>.</p>
           <div className="billing-details">
@@ -113,7 +122,6 @@ const Billing = React.createClass({
 
           </div>
         </div>
-      </div>
     )
   }
 })

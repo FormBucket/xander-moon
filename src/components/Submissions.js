@@ -26,16 +26,18 @@ function wrap(output) {
 const Submissions = React.createClass({
   getInitialState () {
     console.log(+getQueryParam('l'), +getQueryParam('o'), getQueryParam('s'), getQueryParam('m'))
+    var limit = ( +getQueryParam('l') || +getQueryParam('limit') || 50);
+    var offset = ( +getQueryParam('o')  || +getQueryParam('offset') || 0);
     var initialState = {
       mode: getQueryParam('m') || getQueryParam('mode') || 'list',
       submissions: undefined,
       loaded: false,
       loading: false,
-      offset: ( +getQueryParam('o')  || +getQueryParam('offset') || 0),
-      limit: ( +getQueryParam('l') || +getQueryParam('limit') || 50),
+      offset: offset,
+      limit: limit,
       select: ( getQueryParam('s') || getQueryParam('select') || 'created_on,data' ),
-      canGoBack: false,
-      canGoForward: true
+      can_go_back: false,
+      can_go_forward: false
     }
     console.log(initialState)
     return initialState
@@ -66,7 +68,9 @@ const Submissions = React.createClass({
         loading: false,
         loaded: true,
         bucket: values[0],
-        submissions: values[1]
+        submissions: values[1],
+        can_go_forward: (this.state.offset + this.state.limit) < values[0].submission_count,
+        can_go_back: this.state.offset > 0
       }))
       .catch(error => this.setState({ error: error }))
 
@@ -176,7 +180,7 @@ const Submissions = React.createClass({
         loading: false,
         offset: newOffset,
         submissions: submissions,
-        can_go_forward: true,
+        can_go_forward: (newOffset + this.state.limit) < this.state.bucket.submission_count,
         can_go_back: newOffset > 0
       })
     })

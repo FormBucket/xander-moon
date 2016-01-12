@@ -2,7 +2,9 @@ import React, { PropTypes } from 'react'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 import {COND} from 'functionfoundry'
-import {Plans} from 'formbucket-common'
+import Plans from '../content/plans.json'
+
+console.log('Plans', Plans)
 
 var PaidPlans = Plans.slice(1, 4)
 
@@ -26,18 +28,18 @@ const Welcome = React.createClass({
     this.timerId = setInterval( () => {
 
       this.setState({
-        ghostTextLength: this.state.ghostTextLength+1,
-        ghostMarkup: content.substring(0, this.state.ghostTextLength+1 ),
-        ghostText: '```html\n' + content.substring(0, this.state.ghostTextLength+1 ) + '\n```'
+        ghostTextLength: this.state.ghostTextLength+2,
+        ghostMarkup: content.substring(0, this.state.ghostTextLength+2 ),
+        ghostText: '```html\n' + content.substring(0, this.state.ghostTextLength+2 ) + '\n```'
       })
 
-      if (this.state.ghostTextLength+1 > content.length) {
+      if (this.state.ghostTextLength+2 > content.length) {
         this.setState({
           ghostText: this.state.ghostText + '\n<span class="blinking-cursor" />'
         })
         clearInterval(this.timerId)
       }
-    }, 20)
+    }, 40)
       
   },
   componentWillUnmount () {

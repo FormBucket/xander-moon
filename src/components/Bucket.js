@@ -4,7 +4,6 @@ import markdownOptions from './markdown-options'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
 import {COND, ISARRAY, ISBLANK} from 'functionfoundry'
-import {Plans} from 'formbucket-common'
 import UserStore from '../stores/user'
 import {loadBucket, updateBucket} from '../stores/ActionCreator'
 
