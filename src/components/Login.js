@@ -63,7 +63,10 @@ const Login = React.createClass({
               <input name="password" ref="password" type="password" onKeyUp={this.handleKeyPress} />
             </label>
             <input onClick={this.handleClick} type="button" value="Login" disabled={this.state.loading} />
-            <p style={{ display: COND(this.state.loading, '', 'none') }}>Loading...</p>
+            {
+              COND(this.state.loading,
+                   <p><FontAwesome name="fa fa-spinner" /> Logging in</p>)
+            }
         </div>
       </div>
     </div>
