@@ -33,7 +33,9 @@ const Submissions = React.createClass({
       loading: false,
       offset: ( +getQueryParam('o')  || +getQueryParam('offset') || 0),
       limit: ( +getQueryParam('l') || +getQueryParam('limit') || 50),
-      select: ( getQueryParam('s') || getQueryParam('select') || 'created_on,data' )
+      select: ( getQueryParam('s') || getQueryParam('select') || 'created_on,data' ),
+      canGoBack: false,
+      canGoForward: true
     }
     console.log(initialState)
     return initialState
@@ -121,7 +123,7 @@ const Submissions = React.createClass({
       return
     }
 
-    //console.log('do it', this.state.offset, this.state.limit, this.state.submissions.length)
+    console.log('do it', newOffset, this.state.offset, this.state.limit, this.state.bucket.submission_count)
     
     this.setState({ loading: true })
     loadSubmissionsByBucket(
@@ -134,7 +136,9 @@ const Submissions = React.createClass({
       this.setState({
         loading: false,
         offset: newOffset,
-        submissions: submissions
+        submissions: submissions,
+        can_go_back: true, 
+        can_go_forward: (newOffset + this.state.limit) < this.state.bucket.submission_count
       })
     })
     .catch(error => this.setState({ error: error }))
@@ -171,7 +175,9 @@ const Submissions = React.createClass({
       this.setState({
         loading: false,
         offset: newOffset,
-        submissions: submissions
+        submissions: submissions,
+        can_go_forward: true,
+        can_go_back: newOffset > 0
       })
     })
     .catch(error => this.setState({ error: error }))
@@ -220,15 +226,18 @@ const Submissions = React.createClass({
 
         {this.state.offset+1}-{this.state.offset+this.state.limit < this.state.bucket.submission_count ? this.state.offset + this.state.limit : this.state.bucket.submission_count} of {this.state.bucket.submission_count}&nbsp;&nbsp;&nbsp;&nbsp;
         <span onClick={this.goBack}>
-          <FontAwesome style={{ cursor: 'pointer', fontSize: '1.5em', backgroundColor: 'white', color: 'black', padding: 5 }} name="chevron-left" />
+          <FontAwesome style={{ cursor: this.state.can_go_back ? 'pointer' : '', fontSize: '1.5em', backgroundColor: 'white', color: this.state.can_go_back ? '#000' : '#666', padding: 5 }} name="chevron-left" />
         </span>
         &nbsp;
         <span onClick={this.goForward} >
-          <FontAwesome style={{ cursor: 'pointer', fontSize: '1.5em', backgroundColor: 'white', color: 'black', padding: 5 }} name="chevron-right" />
+          <FontAwesome style={{ cursor: this.state.can_go_forward ? 'pointer' : '', fontSize: '1.5em', backgroundColor: 'white', color: this.state.can_go_forward ? '#000' : '#666', padding: 5 }} name="chevron-right" />
         </span>
-        <span style={{ display: COND(this.state.loading, '', 'none'), background: 'white', color: 'red', float: 'right', position: 'absolute', right: 40, zIndex: 9999 }}>
-          Loading...
-        </span>
+        {
+          COND( this.state.loading,
+                <span style={{ background: 'white', color: '#333', float: 'right', position: 'absolute', right: 40, zIndex: 9999 }}>
+                  <FontAwesome name="spinner" /> Loading...
+                </span>, null)
+        }
       </span>
     )
 
