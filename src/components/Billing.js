@@ -65,7 +65,7 @@ const Billing = React.createClass({
     return wrap(
        <div className="wrapper">
           <h2>You can upgrade or downgrade your plan at any time.</h2>
-          <p>Pssst...want to get a month free? See <a href="#">annual pricing</a>.</p>
+          {/* <p>Pssst...want to get a month free? See <a href="#">annual pricing</a>.</p> */}
           <div className="billing-details">
               <h3>Plan</h3>
               { Plans.map( plan => COND(

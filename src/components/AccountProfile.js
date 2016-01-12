@@ -3,6 +3,11 @@ import FontAwesome from 'react-fontawesome'
 import AccountMenu from './AccountMenu'
 
 const Account = React.createClass({
+  getInitialState () {
+    return {
+      show_token: false
+    }
+  },
   render () {
     return (
       <div>
@@ -22,6 +27,8 @@ const Account = React.createClass({
             <div className="callout">
               <label for="fullName">Full Name</label>
               <input type="text" refs="fullName" name="displayName" value="Sean King" placeholder="e.g. Nikola Tesla"/>
+              <label for="orgName">Company / Org</label>
+              <input type="text" refs="orgName" />
               <label for="emailAddress">Email Address</label>
               <input type="text" refs="emailAddress" name="username" value="sean@functionfoundry.com" placeholder="nikola@altcurrent.com"/>
               <h4><FontAwesome name='lock' />  Change Password</h4>
@@ -32,10 +39,14 @@ const Account = React.createClass({
               <button className="button secondary" type="submit">Save Changes</button>
             </div>
             <hr />
+            <label>Security token <button className="button secondary" onClick={() => this.setState({ show_token: !this.state.show_token })}>{this.state.show_token ? 'hide' : 'show' }</button></label>
+            <textarea rows={6} value={this.state.show_token ? localStorage.token : ''} style={{ display: this.state.show_token ? '' : 'none' }} />
+              
             <label>Remove local security token</label>
             <button className="button secondary" onClick={() => {
-                             localStorage.removeItem('token')
-                             } }>Log out</button>
+                                                          localStorage.removeItem('token');
+                                                          this.props.history.push('/');
+                                                          } }>Log out</button>
             <hr />
             <label>Delete your account and data</label>
             <button className="button secondary" onClick={() => alert('tbd')}>Delete Profile</button>
