@@ -49,6 +49,9 @@ module.exports = {
         "style",
         "css!sass")
     }, {
+      test: /\.json$/,
+      loader: 'json'
+    }, {
         test: /\.md$/,
         loader: 'raw'
     }]
