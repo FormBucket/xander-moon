@@ -7,7 +7,8 @@ const Header = React.createClass({
 
   getInitialState: function() {
     return {
-      user: UserStore.getUser()
+      user: UserStore.getUser(),
+      show: false
     }
   },
 
@@ -24,20 +25,10 @@ const Header = React.createClass({
     if (UserStore.isUserLoggedIn()) {
       topRight = (
         <nav role="navigation">
-          <a href="#" className="navigation-menu-button" id="js-mobile-menu">MENU</a>
-          <ul id="js-navigation-menu" className="navigation-menu show">
-            <li className="nav-link more"><Link to="/">Function Foundry</Link>
-              <ul className="submenu">
-                <li><Link to="/">UXTalent</Link></li>
-                <li><Link to="/">PennyMac</Link></li>
-              </ul>
-            </li>
+          <a href="#" className="navigation-menu-button" onClick={(event) => this.setState({ show: !this.state.show })}>MENU</a>
+          <ul className={"navigation-menu" + (this.state.show ? ' show' : ' hide')}>
             <li className="nav-link"><Link to="/buckets">Buckets</Link></li>
             <li className="nav-link"><Link to="/account/profile">Account</Link></li>
-            <li className="nav-link"><a onClick={() => {
-              localStorage.removeItem('token')
-              this.props.history.push('/')
-            }}>Logout</a></li>
           </ul>
         </nav>
       )

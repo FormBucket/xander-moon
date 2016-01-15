@@ -19,26 +19,21 @@ const Buckets = React.createClass({
 
     return (
       <table className="bucket-list">
-        <thead>
-          <tr>
-            <th>Bucket</th>
-            <th>Submissions</th>
-          </tr>
-        </thead>
-        <tbody>
           {
             this.props.buckets.map(bucket => (
               <tr key={bucket.id}>
                 <td onClick={() => this.props.select(bucket)} >
-                  <h4>
-                    <FontAwesome name={COND(bucket.enabled, 'toggle-on', 'toggle-off')} /> {bucket.name}
-                    {
-                      COND(
-                        bucket.email_to,
-                        <span> <FontAwesome name="envelope-o" /></span>
-                      )
-                    }
-                  </h4>
+                  <FontAwesome name={COND(bucket.enabled, 'toggle-on', 'toggle-off')} />&nbsp;
+                  {bucket.name}
+                </td>
+                <td onClick={() => this.props.select(bucket)} >
+                  http://api.formbucket.com/f/{bucket.id}
+                  {
+                    COND(
+                      bucket.email_to,
+                      <span> <FontAwesome name="envelope-o" /></span>
+                    )
+                  }
                 </td>
                 <td>
                   <button className="secondary" onClick={ () => this.props.show(bucket) }>{bucket.submission_count} Submissions <FontAwesome name='chevron-right' /></button>
@@ -46,7 +41,6 @@ const Buckets = React.createClass({
               </tr>
             ))
           }
-        </tbody>
       </table>
     )
   }

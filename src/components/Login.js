@@ -1,32 +1,40 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 import {signIn} from '../stores/ActionCreator'
+import {COND} from 'functionfoundry'
 
 const Login = React.createClass({
   getInitialState() {
     return {
+      loading: false,
       error: false
     }
   },
   handleClick() {
-
+    this.setState({ loading: true, error: false })
     signIn(
       this.refs.email.value,
       this.refs.password.value
     )
     .then(
       n => {
-        console.log('foo')
         this.props.history.push('/buckets')
       },
       err => {
-        console.log('bar')
-
         this.setState({
+          loading: false,
           error: err
         })
       }
     )
+
+  },
+  handleKeyPress (event) {
+    console.log(event.keyCode);
+    if (event.keyCode === 13) {
+      // enter key pressed
+      this.handleClick()
+    }
 
   },
   render () {
@@ -38,28 +46,36 @@ const Login = React.createClass({
           </div>
         </div>
         <div className="wrapper">
-          <h2>Welcome back!</h2>
+          <div className="half-width">
 
-          <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: this.state.error ? '' : 'none'}}>
-            {this.state.error ? this.state.error.message : ''}
+            <h2>Welcome back!</h2>
+
+            <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: this.state.error ? '' : 'none'}}>
+              {this.state.error ? this.state.error.message : ''}
+            </div>
+
+            <div className="email-signup">
+              <p> Login with your email</p>
+              <label>
+                Email:
+                <input name="email" ref="email" type="email" onKeyUp={this.handleKeyPress} />
+              </label>
+              <label>
+                Password:
+                <input name="password" ref="password" type="password" onKeyUp={this.handleKeyPress} />
+              </label>
+              <input onClick={this.handleClick} type="button" value="Login" disabled={this.state.loading} />
+              {
+                COND(this.state.loading,
+                  <p><FontAwesome name="fa fa-spinner" /> Logging in</p>
+                )
+              }
+            </div>
           </div>
-
-          <div className="email-signup">
-            <p> Login with your email</p>
-            <label>
-              Email:
-              <input name="email" ref="email" type="email" />
-            </label>
-            <label>
-              Password:
-              <input name="password" ref="password" type="password" />
-            </label>
-            <input onClick={this.handleClick} type="button" value="Login" />
         </div>
       </div>
-    </div>
-  )
-}
+    )
+  }
 })
 
 export default Login

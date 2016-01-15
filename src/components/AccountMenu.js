@@ -20,8 +20,6 @@ const AccountMenu = React.createClass({
     return (
       <ul className="page-nav">
         {this.makeTab('Profile')}
-        {this.makeTab('Users')}
-        {this.makeTab('Integrations')}
         {this.makeTab('Billing')}
       </ul>
     )

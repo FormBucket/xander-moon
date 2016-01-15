@@ -196,11 +196,11 @@ export function deleteBucket(bucketId, done) {
   return p
 }
 
-export function loadSubmissionsByBucket(bucket_id, offset, limit) {
+export function loadSubmissionsByBucket(bucket_id, offset, limit, select) {
   console.log('loadSubmissionsByBucket')
   var p = new Promise( (resolve, reject) => {
     console.log('run load submissions', bucket_id, offset, limit)
-    getSubmissionsByBucket(bucket_id, offset, limit)
+    getSubmissionsByBucket(bucket_id, offset, limit, select)
     .then((items) => {
 
       console.log(GET_SUBMISSIONS, items)

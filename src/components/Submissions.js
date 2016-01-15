@@ -8,6 +8,11 @@ import SubmissionsStore from '../stores/Submissions'
 import FontAwesome from 'react-fontawesome'
 import {getQueryParam} from '../stores/webutils'
 
+let color = {
+  disabled: '#BBB',
+  enabled: '#000' 
+}
+
 function wrap(output) {
   return (
     <div>
@@ -25,19 +30,34 @@ function wrap(output) {
 
 const Submissions = React.createClass({
   getInitialState () {
-    console.log(+getQueryParam('l'), +getQueryParam('o'))
-    return {
-      mode: 'list',
+    console.log(+getQueryParam('l'), +getQueryParam('o'), getQueryParam('s'), getQueryParam('m'))
+    var limit = ( +getQueryParam('l') || +getQueryParam('limit') || 50);
+    var offset = ( +getQueryParam('o')  || +getQueryParam('offset') || 0);
+    var initialState = {
+      mode: getQueryParam('m') || getQueryParam('mode') || 'list',
       submissions: undefined,
       loaded: false,
       loading: false,
-      offset: ( +getQueryParam('o') ) || 0,
-      limit: ( +getQueryParam('l') )|| 50
+      offset: offset,
+      limit: limit,
+      select: ( getQueryParam('s') || getQueryParam('select') || 'created_on,data' ),
+      can_go_back: false,
+      can_go_forward: false
     }
+    console.log(initialState)
+    return initialState
   },
 
+  go() {
+    this.props.history.push(`/buckets/${this.props.params.id}/submissions?s=${this.state.select}&m=${this.state.mode}&l=${this.state.limit}&o=${this.state.offset}`)
+  },
+  
   componentDidUpdate(prevProps, prevState) {
-    console.log('match', this.state === prevState )
+    console.log('match', this.state === prevState, this.state, prevState )
+
+      if (this.state !== prevState) {
+        this.go()
+      }
   },
 
   componentDidMount() {
@@ -47,13 +67,15 @@ const Submissions = React.createClass({
 
       Promise.all([
         loadBucket(this.props.params.id),
-        loadSubmissionsByBucket(this.props.params.id, this.state.offset, this.state.limit)
+        loadSubmissionsByBucket(this.props.params.id, this.state.offset, this.state.limit, this.state.select)
       ])
       .then(values => this.setState({
         loading: false,
         loaded: true,
         bucket: values[0],
-        submissions: values[1]
+        submissions: values[1],
+        can_go_forward: (this.state.offset + this.state.limit) < values[0].submission_count,
+        can_go_back: this.state.offset > 0
       }))
       .catch(error => this.setState({ error: error }))
 
@@ -98,23 +120,35 @@ const Submissions = React.createClass({
       this.state.offset
     )
 
+    console.log('test', this.state.offset, this.state.limit, this.state.bucket.submission_count)
+
     if (this.state.offset === newOffset) {
+      //console.log('fail1')
       return
     }
 
+    if (newOffset >= this.state.bucket.submission_count) {
+      //console.log('fail2')
+      return
+    }
+
+    console.log('do it', newOffset, this.state.offset, this.state.limit, this.state.bucket.submission_count)
+    
     this.setState({ loading: true })
     loadSubmissionsByBucket(
       this.props.params.id,
       newOffset,
-      this.state.limit
+      this.state.limit,
+      this.state.select
     )
     .then(submissions => {
       this.setState({
         loading: false,
         offset: newOffset,
-        submissions: submissions
+        submissions: submissions,
+        can_go_back: true, 
+        can_go_forward: (newOffset + this.state.limit) < this.state.bucket.submission_count
       })
-      this.props.history.push(`/buckets/${this.props.params.id}/submissions?l=${this.state.limit}&o=${this.state.offset}`)
     })
     .catch(error => this.setState({ error: error }))
 
@@ -143,16 +177,17 @@ const Submissions = React.createClass({
     loadSubmissionsByBucket(
       this.props.params.id,
       newOffset,
-      this.state.limit
+      this.state.limit,
+      this.state.select
     )
     .then(submissions => {
       this.setState({
         loading: false,
         offset: newOffset,
-        submissions: submissions
+        submissions: submissions,
+        can_go_forward: (newOffset + this.state.limit) < this.state.bucket.submission_count,
+        can_go_back: newOffset > 0
       })
-
-      this.props.history.push(`/buckets/${this.props.params.id}/submissions?l=${this.state.limit}&o=${this.state.offset}`)
     })
     .catch(error => this.setState({ error: error }))
 
@@ -193,26 +228,25 @@ const Submissions = React.createClass({
 
     let pager = (
       <span style={{float:'right' }}>
-        Export: &nbsp;
-        <a href="#">CSV </a> { ' | ' }
-        <a href="#">JSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
-
         Format: &nbsp;
         <a onClick={() => this.setState({mode: 'list'})}>List</a> { ' | ' }
         <a onClick={() => this.setState({mode: 'table'})}>Table</a>{ ' | ' }
         <a onClick={() => this.setState({mode: 'json'})}>JSON</a>&nbsp;&nbsp;&nbsp;&nbsp;
 
-        {this.state.offset+1}-{this.state.offset+this.state.limit < this.state.bucket.submission_count ? this.state.offset+this.state.limit+1 : this.state.bucket.submission_count} of {this.state.bucket.submission_count}&nbsp;&nbsp;&nbsp;&nbsp;
+        {this.state.offset+1}-{this.state.offset+this.state.limit < this.state.bucket.submission_count ? this.state.offset + this.state.limit : this.state.bucket.submission_count} of {this.state.bucket.submission_count}&nbsp;&nbsp;&nbsp;&nbsp;
         <span onClick={this.goBack}>
-          <FontAwesome style={{ cursor: 'pointer', fontSize: '1.5em', backgroundColor: 'white', color: 'black', padding: 5 }} name="chevron-left" />
+          <FontAwesome style={{ cursor: this.state.can_go_back ? 'pointer' : '', fontSize: '1.5em', backgroundColor: 'white', color: this.state.can_go_back ? color.enabled : color.disabled, padding: 5 }} name="chevron-left" />
         </span>
         &nbsp;
         <span onClick={this.goForward} >
-          <FontAwesome style={{ cursor: 'pointer', fontSize: '1.5em', backgroundColor: 'white', color: 'black', padding: 5 }} name="chevron-right" />
+          <FontAwesome style={{ cursor: this.state.can_go_forward ? 'pointer' : '', fontSize: '1.5em', backgroundColor: 'white', color: this.state.can_go_forward ? color.enabled : color.disabled, padding: 5 }} name="chevron-right" />
         </span>
-        <span style={{ display: COND(this.state.loading, '', 'none'), background: 'white', color: 'red', float: 'right', position: 'absolute', right: 40, zIndex: 9999 }}>
-          Loading...
-        </span>
+        {
+          COND( this.state.loading,
+                <span style={{ background: 'white', color: '#333', float: 'right', position: 'absolute', right: 40, zIndex: 9999 }}>
+                  <FontAwesome name="spinner" /> Loading...
+                </span>, null)
+        }
       </span>
     )
 

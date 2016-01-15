@@ -31,7 +31,7 @@ require('../scss/app.scss')
 // Finally, we render a <Router> with some <Route>s.
 // It does all the fancy routing stuff for us.
 render((
-  <Router history={createBrowserHistory()} onUpdate={() => window.prerenderReady = true}>
+  <Router history={createBrowserHistory()}>
     <Route path="/" component={App}>
       <IndexRoute component={Welcome} />
       <Route path="signup" component={Signup} />

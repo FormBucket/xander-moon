@@ -8,11 +8,13 @@ var FontAwesome = require('react-fontawesome');
 const Signup = React.createClass({
   getInitialState() {
     return {
+      loading: false,
       error: false
     }
   },
   handleClick() {
 
+    this.setState({ loading: true, error: false })
     signUp(
       this.refs.name.value,
       this.refs.org.value,
@@ -25,11 +27,20 @@ const Signup = React.createClass({
       },
       err => {
         this.setState({
+          loading: false,
           error: err
         })
       }
     )
 
+  },
+  handleKeyUp (event) {
+    console.log(event.keyCode);
+    if (event.keyCode === 13) {
+      // enter key pressed
+      this.handleClick()
+    }
+                             
   },
   render () {
     return (
@@ -45,14 +56,14 @@ const Signup = React.createClass({
             <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: this.state.error ? '' : 'none'}}>
               {this.state.error ? this.state.error.message : ''}
             </div>
-            <label for="fullName">Full Name</label>
-            <input type="text" ref="name" placeholder="e.g. Nikola Tesla"/>
-            <label for="orgName">Company/Organization Name (Optional)</label>
-            <input type="text" ref="org" placeholder="e.g. Tesla Electric Co."/>
-            <label for="emailAddress">Email Address</label>
-            <input type="text" ref="email" name="email" placeholder="nikola@altcurrent.com"/>
-            <label for="createPassword"><FontAwesome name='lock' /> Create Password</label>
-            <input type="password" ref="password" name="password" />
+            <label htmlFor="fullName">Full Name</label>
+            <input onKeyUp={this.handleKeyUp} type="text" ref="name" placeholder="e.g. Nikola Tesla"/>
+            <label htmlFor="orgName">Company/Organization Name (Optional)</label>
+            <input onKeyUp={this.handleKeyUp} type="text" ref="org" placeholder="e.g. Tesla Electric Co."/>
+            <label htmlFor="emailAddress">Email Address</label>
+            <input onKeyUp={this.handleKeyUp} type="text" ref="email" name="email" placeholder="nikola@altcurrent.com"/>
+            <label htmlFor="createPassword"><FontAwesome name='lock' /> Create Password</label>
+            <input onKeyUp={this.handleKeyUp} type="password" ref="password" name="password" />
             <input onClick={this.handleClick} className="button" type="button" value="Sign Up" />
           </div>
         </div>
