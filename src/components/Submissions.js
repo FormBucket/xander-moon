@@ -8,6 +8,11 @@ import SubmissionsStore from '../stores/Submissions'
 import FontAwesome from 'react-fontawesome'
 import {getQueryParam} from '../stores/webutils'
 
+let color = {
+  disabled: '#BBB',
+  enabled: '#000' 
+}
+
 function wrap(output) {
   return (
     <div>
@@ -230,11 +235,11 @@ const Submissions = React.createClass({
 
         {this.state.offset+1}-{this.state.offset+this.state.limit < this.state.bucket.submission_count ? this.state.offset + this.state.limit : this.state.bucket.submission_count} of {this.state.bucket.submission_count}&nbsp;&nbsp;&nbsp;&nbsp;
         <span onClick={this.goBack}>
-          <FontAwesome style={{ cursor: this.state.can_go_back ? 'pointer' : '', fontSize: '1.5em', backgroundColor: 'white', color: this.state.can_go_back ? '#000' : '#666', padding: 5 }} name="chevron-left" />
+          <FontAwesome style={{ cursor: this.state.can_go_back ? 'pointer' : '', fontSize: '1.5em', backgroundColor: 'white', color: this.state.can_go_back ? color.enabled : color.disabled, padding: 5 }} name="chevron-left" />
         </span>
         &nbsp;
         <span onClick={this.goForward} >
-          <FontAwesome style={{ cursor: this.state.can_go_forward ? 'pointer' : '', fontSize: '1.5em', backgroundColor: 'white', color: this.state.can_go_forward ? '#000' : '#666', padding: 5 }} name="chevron-right" />
+          <FontAwesome style={{ cursor: this.state.can_go_forward ? 'pointer' : '', fontSize: '1.5em', backgroundColor: 'white', color: this.state.can_go_forward ? color.enabled : color.disabled, padding: 5 }} name="chevron-right" />
         </span>
         {
           COND( this.state.loading,

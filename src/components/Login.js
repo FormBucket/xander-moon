@@ -35,7 +35,7 @@ const Login = React.createClass({
       // enter key pressed
       this.handleClick()
     }
-                             
+
   },
   render () {
     return (
@@ -46,32 +46,36 @@ const Login = React.createClass({
           </div>
         </div>
         <div className="wrapper">
-          <h2>Welcome back!</h2>
+          <div className="half-width">
 
-          <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: this.state.error ? '' : 'none'}}>
-            {this.state.error ? this.state.error.message : ''}
+            <h2>Welcome back!</h2>
+
+            <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: this.state.error ? '' : 'none'}}>
+              {this.state.error ? this.state.error.message : ''}
+            </div>
+
+            <div className="email-signup">
+              <p> Login with your email</p>
+              <label>
+                Email:
+                <input name="email" ref="email" type="email" onKeyUp={this.handleKeyPress} />
+              </label>
+              <label>
+                Password:
+                <input name="password" ref="password" type="password" onKeyUp={this.handleKeyPress} />
+              </label>
+              <input onClick={this.handleClick} type="button" value="Login" disabled={this.state.loading} />
+              {
+                COND(this.state.loading,
+                  <p><FontAwesome name="fa fa-spinner" /> Logging in</p>
+                )
+              }
+            </div>
           </div>
-
-          <div className="email-signup">
-            <p> Login with your email</p>
-            <label>
-              Email:
-              <input name="email" ref="email" type="email" onKeyUp={this.handleKeyPress} />
-            </label>
-            <label>
-              Password:
-              <input name="password" ref="password" type="password" onKeyUp={this.handleKeyPress} />
-            </label>
-            <input onClick={this.handleClick} type="button" value="Login" disabled={this.state.loading} />
-            {
-              COND(this.state.loading,
-                   <p><FontAwesome name="fa fa-spinner" /> Logging in</p>)
-            }
         </div>
       </div>
-    </div>
-  )
-}
+    )
+  }
 })
 
 export default Login

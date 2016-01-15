@@ -63,7 +63,7 @@ const Welcome = React.createClass({
       <div>
         <div className="hero">
           <div className="wrapper">
-            <h1>Buckets are Just the Beginning</h1>
+            <h1>Endpoints are Just the Beginning</h1>
             <h2>Turbocharged Automation for Static Site Forms</h2>
             <button onClick={this.handleSeePlans}>See Plans & Pricing</button>
             <div className="features tour">

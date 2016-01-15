@@ -23,7 +23,7 @@ const Account = React.createClass({
         </div>
         <div className="wrapper">
           <div className="half-width">
-            
+
             <div className="callout">
               <label for="fullName">Full Name</label>
               <input type="text" refs="fullName" name="displayName" value="Sean King" placeholder="e.g. Nikola Tesla"/>
@@ -39,14 +39,16 @@ const Account = React.createClass({
               <button className="button secondary" type="submit">Save Changes</button>
             </div>
             <hr />
-            <label>Security token <button className="button secondary" onClick={() => this.setState({ show_token: !this.state.show_token })}>{this.state.show_token ? 'hide' : 'show' }</button></label>
-            <textarea rows={6} value={this.state.show_token ? localStorage.token : ''} style={{ display: this.state.show_token ? '' : 'none' }} />
-              
             <label>Remove local security token</label>
             <button className="button secondary" onClick={() => {
-                                                          localStorage.removeItem('token');
-                                                          this.props.history.push('/');
-                                                          } }>Log out</button>
+                localStorage.removeItem('token');
+                this.props.history.push('/');
+              } }>Log out</button>
+
+            <hr />
+            <label>Security token <button className="button secondary" onClick={() => this.setState({ show_token: !this.state.show_token })}>{this.state.show_token ? 'hide' : 'show' }</button></label>
+            <textarea rows={4} value={this.state.show_token ? localStorage.token : ''} style={{ display: this.state.show_token ? '' : 'none' }} />
+
             <hr />
             <label>Delete your account and data</label>
             <button className="button secondary" onClick={() => alert('tbd')}>Delete Profile</button>
