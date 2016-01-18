@@ -1,12 +1,9 @@
 import React, { PropTypes } from 'react'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
-import {COND} from 'functionfoundry'
-import Plans from '../content/plans.json'
-
-console.log('Plans', Plans)
-
-var PaidPlans = Plans.slice(1, 4)
+import {COND, ISBLANK} from 'functionfoundry'
+import UserStore from '../stores/user'
+import {loadSubscriptionPlans} from '../stores/ActionCreator'
 
 var content = `<h3>Try it out!</h3>
 <form action="https://formbucket.com/f/ff4fu3" method="post">
@@ -19,12 +16,21 @@ var content = `<h3>Try it out!</h3>
 const Welcome = React.createClass({
   getInitialState: () => {
     return {
+      plans: undefined, 
       ghostTextLength: 0,
       ghostText: ''
     }
   },
-  componentDidMount () {
-    
+  componentDidMount() {
+    console.log('test')
+    var cmp = this
+    loadSubscriptionPlans()
+    .then( plans => {
+      console.log('test')
+      console.log('got plans', plans)
+      cmp.setState({ plans: plans })
+    })
+
     this.timerId = setInterval( () => {
 
       this.setState({
@@ -65,7 +71,10 @@ const Welcome = React.createClass({
           <div className="wrapper">
             <h1>Endpoints are Just the Beginning</h1>
             <h2>Turbocharged Automation for Static Site Forms</h2>
-            <button onClick={this.handleSeePlans}>See Plans & Pricing</button>
+            { COND( UserStore.isUserLoggedIn(),
+                    <button onClick={() => this.props.history.push('/buckets')}>Return to your buckets</button>,
+                    <button onClick={this.handleSeePlans}>See Plans & Pricing</button>
+             )}
             <div className="features tour">
               <div className="key-features">
                 <div className="feature fade-in one">
@@ -119,10 +128,10 @@ const Welcome = React.createClass({
           <div id="plans" className="features plans">
             <h2>30-Day Money Back Guarantee on All Plans</h2>
 
-            { PaidPlans.map(plan => (
+            { ISBLANK(this.state.plans) ? "Loading plans..." : this.state.plans.map(plan => (
                 <div key={plan.id} className="pricing-plan">
                   <p>{plan.displayName}</p>
-                  <h3>${plan.monthly_cost}/mo</h3>
+                  <h3>${plan.amount / 100}/mo</h3>
                     <ul>
                       <li>
                       { COND(
@@ -141,16 +150,15 @@ const Welcome = React.createClass({
                         <li><s>File Uploads</s></li>)
                        */}
                     </ul>
-                  <button onClick={() => { localStorage.setItem('plan', plan.code); this.props.history.push('/signup') } } className="signup">Sign Up</button>
+                    { COND( UserStore.isUserLoggedIn(),
+                            '',
+                            <button onClick={() => { localStorage.setItem('plan', plan.id); this.props.history.push('/signup') } } className="signup">Sign Up</button>
+                           ) }
+                      
                 </div>
               ))
             }
 
-          </div>
-          <div className="features free-plan">
-            <p>
-              Need just a basic no-frills contact form? Check out our <strong><a href="#">Free Plan</a></strong> for up to 100 submissions/mo.
-            </p>
           </div>
         </div>
       </div>

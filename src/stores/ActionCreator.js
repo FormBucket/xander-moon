@@ -1,4 +1,5 @@
-import {dispatch} from 'sweetflux'
+import {dispatch} from 'fluxury'
+import {SORT} from 'functionfoundry'
 
 // FIXME: REMOVE DEV HACK
 window.dispatch = dispatch
@@ -8,6 +9,7 @@ import {
   getBucket,
   requestCreateBucket,
   requestUpdateBucket,
+  getSubscriptionPlans,
   getSubmissions,
   getSubmissionsByBucket,
   startSubmissionEventSource,
@@ -17,6 +19,7 @@ import {
 
 import {
   SET_BUCKET,
+  GET_SUBSCRIPTION_PLANS,
   GET_SUBMISSIONS,
   STREAM_SUBMISSION,
   SIGNUP,
@@ -194,6 +197,23 @@ export function deleteBucket(bucketId, done) {
   })
 
   return p
+}
+
+export function loadSubscriptionPlans() {
+  console.log('loadSubscriptionPlans');
+  var p = new Promise( (resolve, reject) => {
+    console.log('test2')
+    getSubscriptionPlans()
+      .then(plans => {
+        var sortedPlans = SORT( plans.map(n => Object.assign({}, n, n.metadata)), 'amount', true)
+        console.log('test3')
+        dispatch(GET_SUBSCRIPTION_PLANS, sortedPlans)
+        resolve(sortedPlans)
+      })
+      .catch( error => reject(error) )
+  });
+
+  return p;
 }
 
 export function loadSubmissionsByBucket(bucket_id, offset, limit, select) {

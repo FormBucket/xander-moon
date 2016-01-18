@@ -1,18 +1,11 @@
-import {createStore} from 'sweetflux'
-import {GET_SUBMISSIONS, STREAM_SUBMISSION} from './actions'
+import {createStore} from 'fluxury'
 
 const SubmissionStore = createStore(
   'Submissions',
   [],
-  (state, action) => {
-    switch (action.type) {
-      case GET_SUBMISSIONS:
-        return action.data
-      case STREAM_SUBMISSION:
-          return [action.data].concat(state)
-      default:
-        return state;
-    }
+  {
+    GET_SUBMISSIONS: (state, action) => action.data,
+    STREAM_SUBMISSION: (state, action) => [action.data].concat(state)
   },
   {
     getSubmissions: (state) => state,

@@ -1,4 +1,4 @@
-import {createStore, dispatch} from 'sweetflux'
+import {createStore, dispatch} from 'fluxury'
 
 const UserStore = createStore(
   'UserStore',
@@ -10,9 +10,11 @@ const UserStore = createStore(
     getProvider: (state) => state.provider,
     getId: (state) => state.auth_id,
     getEmail: (state) => state.email,
-    getName: (state) => state.displayName,
+    getName: (state) => state.display_name,
     getAPIKey: (state) => state.apikey,
     getUser: (state) => state,
+    getPlan: (state) => state.plan,
+    getPaidUntil: (state) => state.paid_until
   }
 )
 
