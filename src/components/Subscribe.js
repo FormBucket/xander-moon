@@ -4,13 +4,13 @@ import UserStore from '../stores/user'
 
 const Subscribe = React.createClass({
   componentDidMount() {
-    if (UserStore.isUserLoggedIn()) {
-      this.props.history.push('/account/billing')
-    }
+    // if (UserStore.isUserLoggedIn() && ) {
+    //   this.props.history.push('/account/billing')
+    // }
   },
   render () {
     return (
-      <Billing nowrap={false} title="Subscribe" />
+      <Billing nowrap={false} title="Subscribe" history={this.props.history} />
 
     )
   }

@@ -18,13 +18,14 @@ const Buckets = React.createClass({
     return {
       buckets: undefined,
       selected_bucket_id: undefined,
-      error: false
+      error: false,
+      user: UserStore.getState()
     }
   },
 
   componentDidUpdate(prevProps, prevState) {
     console.log('match', this.state === prevState )
-    console.log('state', JSON.stringify(this.state, null, 4))
+    //console.log('state', JSON.stringify(this.state, null, 4))
   },
 
   componentDidMount() {
@@ -38,6 +39,7 @@ const Buckets = React.createClass({
 
       // subscribe to future changes
       this.token = BucketStore.addListener(this.handleBucketsChanged)
+      this.token2 = UserStore.addListener(this.handleUserChanged)
 
     }
   },
@@ -45,6 +47,7 @@ const Buckets = React.createClass({
   componentWillUnmount() {
     if (this.token) {
       this.token.remove()
+      this.token2.remove()
     }
   },
 
@@ -63,11 +66,22 @@ const Buckets = React.createClass({
     })
   },
 
+  handleUserChanged() {
+    this.setState({
+      user: UserStore.getState()
+    })
+  },
+
   handleSelect(bucket) {
     console.log('bucket settings click', bucket)
     this.props.history.push('/buckets/' + bucket.id + '/settings')
   },
   render() {
+
+    if ( UserStore.getState() === null || ISBLANK(this.state.buckets) ) {
+      return <div>Loading...</div>
+    }
+
     return (
       <div>
         <div className="page-heading">
@@ -81,7 +95,7 @@ const Buckets = React.createClass({
         <div className="wrapper">
           <div className="callout">
             <button onClick={this.handleNewBucket}><FontAwesome name='plus' /> New Bucket</button>
-            <p>You are using 3 out of 5 available active buckets in <Link to="account/billing">your plan</Link>.</p>
+            <p>You are using {this.state.buckets.length} out of {UserStore.getMaxBuckets()} active buckets in <Link to="account/billing">the {UserStore.getPlan().name}</Link>.</p>
           </div>
         <BucketTable buckets={this.state.buckets}
           selected_bucket_id={this.state.selected_bucket_id}

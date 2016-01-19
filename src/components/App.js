@@ -6,7 +6,9 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import UserStore from '../stores/user'
-import {streamSubmissions} from '../stores/ActionCreator'
+import SubscriptionStore from '../stores/subscription'
+import {streamSubmissions, loadProfile} from '../stores/ActionCreator'
+import {getStripePubKey} from '../stores/webutils'
 
 /* Write some great components about what data
 * this application displays and how it needs to be
@@ -14,6 +16,8 @@ import {streamSubmissions} from '../stores/ActionCreator'
 */
 const App = React.createClass({
   componentDidMount () {
+    loadProfile()
+    .then(n => console.log('app loaded profile:', n))
     // if (UserStore.isUserLoggedIn()) {
     //   this.stream = streamSubmissions();
     // }

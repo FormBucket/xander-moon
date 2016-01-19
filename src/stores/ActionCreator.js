@@ -3,6 +3,7 @@ import {SORT} from 'functionfoundry'
 
 // FIXME: REMOVE DEV HACK
 window.dispatch = dispatch
+window.loadProfile = loadProfile
 
 import {
   getBuckets,
@@ -14,16 +15,18 @@ import {
   getSubmissionsByBucket,
   startSubmissionEventSource,
   requestSignUp,
-  requestSignIn
+  requestSignIn,
+  getProfile
 } from './webutils'
 
 import {
-  SET_BUCKET,
+  SET_BUCKETS,
   GET_SUBSCRIPTION_PLANS,
   GET_SUBMISSIONS,
   STREAM_SUBMISSION,
   SIGNUP,
-  SIGNIN
+  SIGNIN,
+  SET_PROFILE
 } from './actions'
 
 export function signUp(name, org, email, password) {
@@ -107,6 +110,29 @@ export function signIn(email, password) {
   return p;
 }
 
+export function loadProfile() {
+
+  var p = new Promise( (resolve, reject) => {
+
+    getProfile()
+    .then(profile => {
+
+      // publish to stores
+      dispatch(SET_PROFILE, profile)
+
+      // resolve to caller
+      resolve( profile )
+
+    }, (err) => {
+      reject(err)
+    })
+
+  })
+
+  return p
+
+}
+
 export function loadBuckets() {
 
   var p = new Promise( (resolve, reject) => {
@@ -115,7 +141,7 @@ export function loadBuckets() {
     .then((buckets) => {
 
       // publish to stores
-      buckets.forEach(bucket => dispatch(SET_BUCKET, bucket))
+      dispatch(SET_BUCKETS, buckets)
 
       // resolve to caller
       resolve( buckets )
@@ -137,7 +163,7 @@ export function loadBucket(id) {
     getBucket(id)
     .then((bucket) => {
 
-      dispatch(SET_BUCKET, bucket)
+      dispatch(SET_BUCKETS, [bucket])
 
       resolve( bucket )
 
@@ -157,7 +183,7 @@ export function createBucket(bucket={}) {
     .then((result) => {
       bucket.id = result.id
 
-      dispatch(SET_BUCKET, bucket)
+      dispatch(SET_BUCKETS, bucket)
       resolve( bucket )
 
     }, (err) => reject(err) )

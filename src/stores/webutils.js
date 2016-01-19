@@ -9,14 +9,10 @@ import {COND} from 'functionfoundry'
 let server =  COND(
   process.env.NODE_ENV === 'production',
   'https://formbucket-koajs.elasticbeanstalk.com',
-  'https://formbucket-koajs.elasticbeanstalk.com'
-  //'http://localhost:3001'
+  //'https://formbucket-koajs.elasticbeanstalk.com'
+  'http://localhost:3001'
 )
 // let server = "https://formbucket-development.elasticbeanstalk.com"
-
-// FIXME: remove
-window.submit = submit
-window.getBuckets = getBuckets
 
 // reads value from qur
 export function getQueryParam(name) {
@@ -69,9 +65,6 @@ export function getResource(resource) {
 }
 
 export function callResource(method, resource, data) {
-
-  console.log('callResource', 'foo')
-
   return fetch( server + resource, {
     method: method,
     mode: 'cors',
@@ -85,17 +78,14 @@ export function callResource(method, resource, data) {
 }
 
 function postResource(resource, data) {
-  console.log('postResource', resource, data)
   return callResource('POST', resource, data)
 }
 
 function putResource(resource, data) {
-  console.log('putResource', resource, data)
   return callResource('PUT', resource, data)
 }
 
 function deleteResource(resource, data) {
-  console.log('deleteResource', resource, data)
   return callResource('DELETE', resource, data)
 }
 
@@ -192,6 +182,12 @@ export function submit(formId, formData) {
   .then(getJSON)
 }
 
+export function getProfile(){
+  return getResource('/profile')
+  .then(processStatus)
+  .then(getJSON)
+}
+
 export function getSubscriptionPlans() {
   return getResource('/subscription/plans')
    .then( processStatus )
@@ -214,3 +210,42 @@ export function getSubmissionsByBucket(bucket_id, offset, limit, select){
   .then(processStatus)
   .then(getJSON)
 }
+
+export function getStripePubKey(){
+  return getResource('/stripe/pubkey')
+  .then(processStatus)
+  .then(getText)
+}
+
+export function getCharges(){
+  return getResource('/subscription/charges')
+  .then(processStatus)
+  .then(getJSON)
+}
+
+export function getInvoices(){
+  return getResource('/subscription/invoices')
+  .then(processStatus)
+  .then(getJSON)
+}
+
+export function subscribe(token, plan) {
+  return postResource('/subscribe', { token: token, plan: plan })
+  .then(processStatus)
+  .then(getJSON)
+}
+
+export function unsubscribe() {
+  return deleteResource('/subscription')
+  .then(processStatus)
+  .then(getJSON)
+}
+
+// FIXME: remove
+window.submit = submit
+window.getProfile = getProfile
+window.unsubscribe = unsubscribe
+window.getBuckets = getBuckets
+window.getStripePubKey = getStripePubKey
+window.getCharges = getCharges
+window.getInvoices = getInvoices

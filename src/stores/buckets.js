@@ -4,11 +4,10 @@ const BucketStore = createStore(
   'BucketStore',
   [],
   {
-    SET_BUCKET: (state, action) => {
-      var obj = {}
-      obj[action.data.id] = action.data
-      return Object.assign({}, state, obj)
-    },
+    SET_BUCKETS: (state, action) => action.data.reduce( (a, b) => {
+      a[b.id] = b
+      return a
+    }, {}),
     STREAM_SUBMISSION: (state, action) => {
       var bucket = state[action.data.bucket_id]
       bucket.submission_count += 1
