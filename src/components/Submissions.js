@@ -68,7 +68,7 @@ const Submissions = React.createClass({
     this.props.params.offset = (+this.props.params.offset) || 0
     this.props.params.select = this.props.params.select || 'created_on,data'
 
-    this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${this.props.params.offset}/${this.props.params.limit}/${this.props.params.select}`)
+    this.props.history.replace(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${this.props.params.offset}/${this.props.params.limit}/${this.props.params.select}`)
 
   },
 
