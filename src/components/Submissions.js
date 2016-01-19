@@ -33,9 +33,7 @@ const Submissions = React.createClass({
     return {
       submissions: undefined,
       loaded: false,
-      loading: false,
-      can_go_back: false,
-      can_go_forward: false
+      loading: false
     }
   },
 
@@ -56,8 +54,6 @@ const Submissions = React.createClass({
         loaded: true,
         bucket: values[0],
         submissions: values[1],
-        can_go_forward: (this.props.params.offset + this.props.params.limit) < values[0].submission_count,
-        can_go_back: this.props.params.offset > 0,
         first_load: false
       }))
       .catch(error => this.setState({ error: error }))
@@ -100,6 +96,10 @@ const Submissions = React.createClass({
       +this.props.params.offset + +this.props.params.limit,
       +this.props.params.offset
     )
+
+    if (this.props.params.offset === newOffset) {
+      return
+    }
 
     this.setState({ loading: true })
     loadSubmissionsByBucket(
@@ -189,13 +189,13 @@ const Submissions = React.createClass({
         <a style={{ cursor: 'pointer '}} onClick={() => this.props.history.push(`/buckets/${this.props.params.id}/submissions/list/${this.props.params.offset}/${+this.props.params.limit}/${this.props.params.select}`)}>List</a> { ' | ' }
         <a style={{ cursor: 'pointer '}} onClick={() => this.props.history.push(`/buckets/${this.props.params.id}/submissions/json/${this.props.params.offset}/${+this.props.params.limit}/${this.props.params.select}`)}>JSON</a> { ' | ' }
 
-        {+this.props.params.offset+1}-{+this.props.params.offset+this.props.params.limit < this.state.bucket.submission_count ? +this.props.params.offset + +this.props.params.limit : this.state.bucket.submission_count} of {this.state.bucket.submission_count}&nbsp;&nbsp;&nbsp;&nbsp;
+        {(+this.props.params.offset)+1}-{(+this.props.params.offset) + (+this.props.params.limit) < this.state.bucket.submission_count ? (+this.props.params.offset) + (+this.props.params.limit) : this.state.bucket.submission_count} of {this.state.bucket.submission_count}&nbsp;&nbsp;&nbsp;&nbsp;
         <span onClick={this.goBack}>
-          <FontAwesome style={{ cursor: this.state.can_go_back ? 'pointer' : '', fontSize: '1.5em', backgroundColor: 'white', color: this.state.can_go_back ? color.enabled : color.disabled, padding: 5 }} name="chevron-left" />
+          <FontAwesome style={{ cursor: (+this.props.params.offset) > 0 ? 'pointer' : '', fontSize: '1.5em', backgroundColor: 'white', color: +this.props.params.offset > 0 ? color.enabled : color.disabled, padding: 5 }} name="chevron-left" />
         </span>
         &nbsp;
         <span onClick={this.goForward} >
-          <FontAwesome style={{ cursor: this.state.can_go_forward ? 'pointer' : '', fontSize: '1.5em', backgroundColor: 'white', color: this.state.can_go_forward ? color.enabled : color.disabled, padding: 5 }} name="chevron-right" />
+          <FontAwesome style={{ cursor: ((+this.props.params.offset) + (+this.props.params.limit)) < this.state.bucket.submission_count ? 'pointer' : '', fontSize: '1.5em', backgroundColor: 'white', color: ((+this.props.params.offset) + (+this.props.params.limit)) < this.state.bucket.submission_count ? color.enabled : color.disabled, padding: 5 }} name="chevron-right" />
         </span>
         {
           COND( this.state.loading,
