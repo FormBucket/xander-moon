@@ -46,6 +46,7 @@ render((
       <Route path="/buckets" component={Buckets} />
       <Route path="/buckets/:id/settings" component={Bucket} />
       <Route path="/buckets/:id/submissions" component={Submissions} />
+      <Route path="/buckets/:id/submissions/:mode/:offset/:limit/:select" component={Submissions} />
       <Route path="profile" component={Profile} />
       <Route path="thank-you" component={ThankYou} />
       <Route path="support" component={Support} />
