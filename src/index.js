@@ -9,7 +9,7 @@ import UserStore from './stores/user'
 import App from './components/App'
 import Welcome from './components/Welcome'
 import Signup from './components/Signup'
-import Billing from './components/Billing'
+import Subscribe from './components/Subscribe'
 import Login from './components/Login'
 import FAQs from './components/FAQs'
 import API from './components/API'
@@ -35,7 +35,7 @@ render((
     <Route path="/" component={App}>
       <IndexRoute component={Welcome} />
       <Route path="signup" component={Signup} />
-      <Route path="billing" component={Billing} />
+      <Route path="subscribe" component={Subscribe} />
       <Route path="login" component={Login} />
       <Route path="faqs" component={FAQs} />
       <Route path="api" component={API} />
@@ -46,6 +46,7 @@ render((
       <Route path="/buckets" component={Buckets} />
       <Route path="/buckets/:id/settings" component={Bucket} />
       <Route path="/buckets/:id/submissions" component={Submissions} />
+      <Route path="/buckets/:id/submissions/:mode/:offset/:limit/:select" component={Submissions} />
       <Route path="profile" component={Profile} />
       <Route path="thank-you" component={ThankYou} />
       <Route path="support" component={Support} />

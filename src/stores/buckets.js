@@ -1,23 +1,20 @@
-import {createStore} from 'sweetflux'
-import {SET_BUCKET, STREAM_SUBMISSION} from './actions'
+import {createStore} from 'fluxury'
 
 const BucketStore = createStore(
   'BucketStore',
   [],
-  (state, action) => {
-    switch (action.type) {
-      case SET_BUCKET:
-        var obj = {}
-        obj[action.data.id] = action.data
-        return Object.assign({}, state, obj)
-      case STREAM_SUBMISSION: // bump count when submission is streamed
-        var bucket = state[action.data.bucket_id]
-        bucket.submission_count += 1
-        var obj = {}
-        obj[bucket.id] = bucket
-        return Object.assign({}, state, obj)
-      default:
-        return state
+  {
+    SET_BUCKET: (state, action) => {
+      var obj = {}
+      obj[action.data.id] = action.data
+      return Object.assign({}, state, obj)
+    },
+    STREAM_SUBMISSION: (state, action) => {
+      var bucket = state[action.data.bucket_id]
+      bucket.submission_count += 1
+      var obj = {}
+      obj[bucket.id] = bucket
+      return Object.assign({}, state, obj)
     }
   },
   {

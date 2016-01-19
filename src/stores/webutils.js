@@ -4,13 +4,13 @@ Date: 2015-12-14
 
 All of these functions return a promise to get a payload.
 */
-import UserStore from '../stores/user'
 import {COND} from 'functionfoundry'
 
 let server =  COND(
   process.env.NODE_ENV === 'production',
   'https://formbucket-koajs.elasticbeanstalk.com',
-  'http://localhost:3001'
+  'https://formbucket-koajs.elasticbeanstalk.com'
+  //'http://localhost:3001'
 )
 // let server = "https://formbucket-development.elasticbeanstalk.com"
 
@@ -47,7 +47,14 @@ export function getJSON(response) {
 export function getResource(resource) {
 
   if (!localStorage.hasOwnProperty('token')) {
-    throw Error('User has no access token')
+    return fetch( server + resource, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    })
   }
 
   return fetch( server + resource, {
@@ -183,6 +190,12 @@ export function submit(formId, formData) {
   return postResource(`/f/${formId}`, formData )
   .then(processStatus)
   .then(getJSON)
+}
+
+export function getSubscriptionPlans() {
+  return getResource('/subscription/plans')
+   .then( processStatus )
+   .then( getJSON )
 }
 
 /* Send server request to get user's submissions
