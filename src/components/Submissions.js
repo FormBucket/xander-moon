@@ -37,7 +37,7 @@ const Submissions = React.createClass({
     }
   },
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
 
     if (UserStore.isUserLoggedIn()) {
 
@@ -46,8 +46,8 @@ const Submissions = React.createClass({
       console.log('componentWillReceiveProps', this)
 
       Promise.all([
-        loadBucket(this.props.params.id),
-        loadSubmissionsByBucket(this.props.params.id, +this.props.params.offset, +this.props.params.limit, this.props.params.select)
+        loadBucket(nextProps.params.id),
+        loadSubmissionsByBucket(nextProps.params.id, +nextProps.params.offset, +nextProps.params.limit, nextProps.params.select)
       ])
       .then(values => this.setState({
         loading: false,
@@ -101,18 +101,7 @@ const Submissions = React.createClass({
       return
     }
 
-    this.setState({ loading: true })
-    loadSubmissionsByBucket(
-      this.props.params.id,
-      newOffset,
-      +this.props.params.limit,
-      this.props.params.select
-    )
-    .then(submissions => {
-      this.setState({ loading: false })
-      this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${+this.props.params.limit}/${this.props.params.select}`)
-    })
-    .catch(error => this.setState({ loading: false, error: error }))
+    this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${+this.props.params.limit}/${this.props.params.select}`)
 
   },
 
@@ -135,18 +124,7 @@ const Submissions = React.createClass({
       return
     }
 
-    this.setState({ loading: true })
-    loadSubmissionsByBucket(
-      this.props.params.id,
-      newOffset,
-      +this.props.params.limit,
-      this.props.params.select
-    )
-    .then(submissions => {
-      this.setState({ loading: false })
-      this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${+this.props.params.limit}/${this.props.params.select}`)
-    })
-    .catch(error => this.setState({ loading: false, error: error }))
+    this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${+this.props.params.limit}/${this.props.params.select}`)
 
   },
   render () {
