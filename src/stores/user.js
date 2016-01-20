@@ -2,7 +2,7 @@ import {createStore, dispatch} from 'fluxury'
 
 const UserStore = createStore(
   'UserStore',
-  null,
+  {},
   {
     SET_PROFILE: (state, action) => action.data
   }, // store does not support updates
@@ -16,8 +16,7 @@ const UserStore = createStore(
     getAPIKey: (state) => state.apikey,
     getUser: (state) => state,
     getPlan: (state) => state.plan,
-    getPlanId: (state) => state ? (state.plan ? state.plan.id : null) : null,
-    getMaxBuckets: (state) => +state.plan.metadata.max_buckets,
+    getMaxBuckets: (state) => +state.max_buckets,
     getPaidUntil: (state) => state.paid_until
   }
 )

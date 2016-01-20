@@ -1,13 +1,29 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 import AccountMenu from './AccountMenu'
+import UserStore from '../stores/user'
+
 
 const Account = React.createClass({
   getInitialState () {
     return {
-      show_token: false
+      show_token: false,
+      user: UserStore.getState()
     }
   },
+
+  componentDidMount() {
+    this.token = UserStore.addListener(this.handleUserChanged)
+  },
+
+  componentWillUnmount() {
+    this.token.remove()
+  },
+
+  handleUserChanged() {
+    this.setState({ user: UserStore.getState() })
+  },
+
   render () {
     return (
       <div>
@@ -26,11 +42,11 @@ const Account = React.createClass({
 
             <div className="callout">
               <label for="fullName">Full Name</label>
-              <input type="text" refs="fullName" name="displayName" value="Sean King" placeholder="e.g. Nikola Tesla"/>
+              <input type="text" refs="fullName" name="displayName" value={this.state.user.name} placeholder="e.g. Nikola Tesla"/>
               <label for="orgName">Company / Org</label>
               <input type="text" refs="orgName" />
               <label for="emailAddress">Email Address</label>
-              <input type="text" refs="emailAddress" name="username" value="sean@functionfoundry.com" placeholder="nikola@altcurrent.com"/>
+              <input type="text" refs="emailAddress" name="username" value={this.state.user.email} placeholder="nikola@altcurrent.com"/>
               <h4><FontAwesome name='lock' />  Change Password</h4>
               <label for="currentPassword">Current Password</label>
               <input type="password" refs="currentPassword" name="password" />

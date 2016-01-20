@@ -23,7 +23,7 @@ const Signup = React.createClass({
     )
     .then(
       n => {
-        this.props.history.push('/billing')
+        this.props.history.push('/subscribe')
       },
       err => {
         this.setState({
@@ -40,7 +40,7 @@ const Signup = React.createClass({
       // enter key pressed
       this.handleClick()
     }
-                             
+
   },
   render () {
     return (

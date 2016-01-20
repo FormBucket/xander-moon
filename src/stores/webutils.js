@@ -9,8 +9,8 @@ import {COND} from 'functionfoundry'
 let server =  COND(
   process.env.NODE_ENV === 'production',
   'https://formbucket-koajs.elasticbeanstalk.com',
-  'https://formbucket-koajs.elasticbeanstalk.com'
-  //'http://localhost:3001'
+  //'https://formbucket-koajs.elasticbeanstalk.com'
+  'http://localhost:3001'
 )
 // let server = "https://formbucket-development.elasticbeanstalk.com"
 
@@ -229,7 +229,7 @@ export function getInvoices(){
   .then(getJSON)
 }
 
-export function subscribe(token, plan) {
+export function requestSubscribe(token, plan) {
   return postResource('/subscribe', { token: token, plan: plan })
   .then(processStatus)
   .then(getJSON)

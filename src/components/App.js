@@ -7,7 +7,7 @@ import Header from './Header';
 import Footer from './Footer';
 import UserStore from '../stores/user'
 import SubscriptionStore from '../stores/subscription'
-import {streamSubmissions, loadProfile} from '../stores/ActionCreator'
+import {loadProfile, loadSubscriptionPlans} from '../stores/ActionCreator'
 import {getStripePubKey} from '../stores/webutils'
 
 /* Write some great components about what data
@@ -17,10 +17,13 @@ import {getStripePubKey} from '../stores/webutils'
 const App = React.createClass({
   componentDidMount () {
     loadProfile()
-    .then(n => console.log('app loaded profile:', n))
-    // if (UserStore.isUserLoggedIn()) {
-    //   this.stream = streamSubmissions();
-    // }
+    .then(profile => console.log('app loaded profile:', profile))
+
+    loadSubscriptionPlans()
+    .then( plans => {
+      console.log('got plans', plans)
+      cmp.setState({ plans: plans })
+    })
   },
   componentWillUnmount() {
     // if (UserStore.isUserLoggedIn()) {

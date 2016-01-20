@@ -20,7 +20,6 @@ import AccountBilling from './components/AccountBilling'
 import AccountUsers from './components/AccountUsers'
 import Bucket from './components/Bucket'
 import Submissions from './components/Submissions'
-import Profile from './components/Profile'
 import PageNotFound from './components/PageNotFound'
 import ThankYou from './components/ThankYou'
 import Support from './components/Support'
@@ -47,7 +46,6 @@ render((
       <Route path="/buckets/:id/settings" component={Bucket} />
       <Route path="/buckets/:id/submissions" component={Submissions} />
       <Route path="/buckets/:id/submissions/:mode/:offset/:limit/:select" component={Submissions} />
-      <Route path="profile" component={Profile} />
       <Route path="thank-you" component={ThankYou} />
       <Route path="support" component={Support} />
       <Route path="affiliates" component={Affiliates} />

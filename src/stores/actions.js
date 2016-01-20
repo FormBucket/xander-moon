@@ -1,10 +1,3 @@
-export const SET_BUCKETS = 'SET_BUCKETS'
-export const GET_SUBSCRIPTION_PLANS = 'GET_SUBSCRIPTION_PLANS'
-export const GET_SUBMISSIONS = 'GET_SUBMISSIONS'             // receive submissions from server
-export const STREAM_SUBMISSION = 'STREAM_SUBMISSION'         // receive submissions from server
-export const SIGNUP = 'SIGNUP'
-export const SIGNIN = 'SIGNIN'
-export const SET_PROFILE = 'SET_PROFILE'
 
 // Thoughts...
 // export const INIT_USER = 'INIT_USER'                             // load user data from meta tags into store

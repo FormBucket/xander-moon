@@ -19,7 +19,8 @@ const Buckets = React.createClass({
       buckets: undefined,
       selected_bucket_id: undefined,
       error: false,
-      user: UserStore.getState()
+      user: UserStore.getState(),
+      selected_plan: SubscriptionStore.getPlanByName(UserStore.getPlan())
     }
   },
 
@@ -40,6 +41,7 @@ const Buckets = React.createClass({
       // subscribe to future changes
       this.token = BucketStore.addListener(this.handleBucketsChanged)
       this.token2 = UserStore.addListener(this.handleUserChanged)
+      this.token3 = SubscriptionStore.addListener(this.handleSubscriptionChanged)
 
     }
   },
@@ -48,6 +50,7 @@ const Buckets = React.createClass({
     if (this.token) {
       this.token.remove()
       this.token2.remove()
+      this.token3.remove()
     }
   },
 
@@ -62,13 +65,21 @@ const Buckets = React.createClass({
 
   handleBucketsChanged() {
     this.setState({
-      buckets: BucketStore.getBuckets()
+      buckets: BucketStore.getBuckets(),
+      selected_plan: SubscriptionStore.getPlanByName(UserStore.getPlan())
     })
   },
 
   handleUserChanged() {
     this.setState({
-      user: UserStore.getState()
+      user: UserStore.getState(),
+      selected_plan: SubscriptionStore.getPlanByName(UserStore.getPlan())
+    })
+  },
+
+  handleSubscriptionChanged() {
+    this.setState({
+      selected_plan: SubscriptionStore.getPlanByName(UserStore.getPlan())
     })
   },
 
@@ -95,7 +106,7 @@ const Buckets = React.createClass({
         <div className="wrapper">
           <div className="callout">
             <button onClick={this.handleNewBucket}><FontAwesome name='plus' /> New Bucket</button>
-            <p>You are using {this.state.buckets.length} out of {UserStore.getMaxBuckets()} active buckets in <Link to="account/billing">the {UserStore.getPlan().name}</Link>.</p>
+            <p>You are using {this.state.buckets.length} out of {UserStore.getMaxBuckets()} active buckets in <Link to="account/billing">the {this.state.selected_plan.displayName} Plan</Link>.</p>
           </div>
         <BucketTable buckets={this.state.buckets}
           selected_bucket_id={this.state.selected_bucket_id}

@@ -3,13 +3,13 @@ import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 import moment from 'moment'
 import {COND} from 'functionfoundry'
-import {loadSubscriptionPlans} from '../stores/ActionCreator'
-import {subscribe} from '../stores/webutils'
-import StripeCreditCard from './StripeCreditCard'
+import {loadSubscriptionPlans, subscribe} from '../stores/ActionCreator'
+import CreditCardForm from './CreditCardForm'
+import FontAwesome from 'react-fontawesome'
 
 const Billing = React.createClass({
   getInitialState() {
-    var planCode =  UserStore.getPlanId() || localStorage.getItem('plan') || 'fb-pro'
+    var planCode =  UserStore.getPlan() || localStorage.getItem('plan') || 'fb-pro'
     return {
       plans: [],
       selectedPlanCode: planCode,
@@ -169,22 +169,24 @@ const Billing = React.createClass({
     )
 
 
-    let PaymentDetails = (
-      <div key="PaymentDetails">
-        <StripeCreditCard error={this.state.error} ref="credit_card_form" />
-        <p>Your card will be charged ${this.state.selectedPlan.amount / 100}.00 on the {moment().format('Do')} of each month.</p>
-      </div>
-
-    )
-
-
     return wrap(
        <div className="wrapper">
           <h2>You can upgrade or downgrade your plan at any time.</h2>
           {/* <p>Pssst...want to get a month free? See <a href="#">annual pricing</a>.</p> */}
           <div className="billing-details">
             {PlanSelector}
-            {PaymentDetails}
+            <div key="PaymentDetails">
+              <hr/>
+              <div>
+                <h3><FontAwesome name='lock' /> Payment Details</h3>
+                <div style={{ display: this.state.error ? '' : 'none', color: 'red', backgroundColor: 'white', padding: 10, marginBottom: 10 }}>
+                  { this.state.error ? this.state.error.message : null }
+                </div>
+                <CreditCardForm ref="credit_card_form" />
+                <p>Your card will be charged ${this.state.selectedPlan.amount / 100}.00 on the {moment().format('Do')} of each month.</p>
+              </div>
+          </div>
+
             <input onClick={this.handleSave} disabled={this.state.saving} className="button" type="button" value="Save and Finish" />
           </div>
           <div>

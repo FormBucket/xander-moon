@@ -16,18 +16,18 @@ import {
   startSubmissionEventSource,
   requestSignUp,
   requestSignIn,
-  getProfile
+  getProfile,
+  requestSubscribe
 } from './webutils'
 
-import {
-  SET_BUCKETS,
-  GET_SUBSCRIPTION_PLANS,
-  GET_SUBMISSIONS,
-  STREAM_SUBMISSION,
-  SIGNUP,
-  SIGNIN,
-  SET_PROFILE
-} from './actions'
+export const SET_BUCKETS = 'SET_BUCKETS'
+export const SET_BUCKET = 'SET_BUCKET'
+export const GET_SUBSCRIPTION_PLANS = 'GET_SUBSCRIPTION_PLANS'
+export const GET_SUBMISSIONS = 'GET_SUBMISSIONS'             // receive submissions from server
+export const STREAM_SUBMISSION = 'STREAM_SUBMISSION'         // receive submissions from server
+export const SIGNUP = 'SIGNUP'
+export const SIGNIN = 'SIGNIN'
+export const SET_PROFILE = 'SET_PROFILE'
 
 export function signUp(name, org, email, password) {
   var p = new Promise( (resolve, reject) => {
@@ -163,7 +163,7 @@ export function loadBucket(id) {
     getBucket(id)
     .then((bucket) => {
 
-      dispatch(SET_BUCKETS, [bucket])
+      dispatch(SET_BUCKET, bucket)
 
       resolve( bucket )
 
@@ -183,7 +183,7 @@ export function createBucket(bucket={}) {
     .then((result) => {
       bucket.id = result.id
 
-      dispatch(SET_BUCKETS, bucket)
+      dispatch(SET_BUCKET, bucket)
       resolve( bucket )
 
     }, (err) => reject(err) )
@@ -254,6 +254,22 @@ export function loadSubmissionsByBucket(bucket_id, offset, limit, select) {
 
       resolve( items )
 
+    })
+    .catch(error => reject(error))
+
+  })
+
+  return p
+}
+
+export function subscribe(token, plan) {
+  console.log('subscribe')
+  var p = new Promise( (resolve, reject) => {
+
+    requestSubscribe(token, plan)
+    .then(profile => {
+      dispatch(SET_PROFILE, profile)
+      resolve(profile)
     })
     .catch(error => reject(error))
 

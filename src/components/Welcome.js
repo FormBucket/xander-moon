@@ -3,7 +3,7 @@ import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 import {COND, ISBLANK} from 'functionfoundry'
 import UserStore from '../stores/user'
-import {loadSubscriptionPlans} from '../stores/ActionCreator'
+import SubscriptionStore from '../stores/subscription'
 
 var content = `<h3>Try it out!</h3>
 <form action="https://formbucket.com/f/ff4fu3" method="post">
@@ -16,7 +16,7 @@ var content = `<h3>Try it out!</h3>
 const Welcome = React.createClass({
   getInitialState: () => {
     return {
-      plans: undefined, 
+      plans: SubscriptionStore.getPlans(),
       ghostTextLength: 0,
       ghostText: ''
     }
@@ -24,13 +24,9 @@ const Welcome = React.createClass({
   componentDidMount() {
     console.log('test')
     var cmp = this
-    loadSubscriptionPlans()
-    .then( plans => {
-      console.log('test')
-      console.log('got plans', plans)
-      cmp.setState({ plans: plans })
-    })
 
+    this.token = SubscriptionStore.addListener(this.handleSubscriptionChanged)
+    
     this.timerId = setInterval( () => {
 
       this.setState({
@@ -46,11 +42,17 @@ const Welcome = React.createClass({
         clearInterval(this.timerId)
       }
     }, 40)
-      
+
   },
   componentWillUnmount () {
+    this.token.remove()
     clearInterval(this.timerId)
   },
+
+  handleSubscriptionChanged() {
+    this.setState({ plans: SubscriptionStore.getPlans() })
+  },
+  
   handleSeePlans () {
     let currentPos = window.scrollY
     let scrollTo = document.getElementById('plans').offsetTop
@@ -154,7 +156,7 @@ const Welcome = React.createClass({
                             '',
                             <button onClick={() => { localStorage.setItem('plan', plan.id); this.props.history.push('/signup') } } className="signup">Sign Up</button>
                            ) }
-                      
+
                 </div>
               ))
             }
