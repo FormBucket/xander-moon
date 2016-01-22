@@ -26,7 +26,7 @@ const Welcome = React.createClass({
     var cmp = this
 
     this.token = SubscriptionStore.addListener(this.handleSubscriptionChanged)
-    
+
     this.timerId = setInterval( () => {
 
       this.setState({
@@ -52,7 +52,7 @@ const Welcome = React.createClass({
   handleSubscriptionChanged() {
     this.setState({ plans: SubscriptionStore.getPlans() })
   },
-  
+
   handleSeePlans () {
     let currentPos = window.scrollY
     let scrollTo = document.getElementById('plans').offsetTop
@@ -72,7 +72,7 @@ const Welcome = React.createClass({
         <div className="hero">
           <div className="wrapper">
             <h1>Endpoints are Just the Beginning</h1>
-            <h2>Turbocharged Automation for Static Site Forms</h2>
+            <h2>Turbocharged Form Handling and Automation</h2>
             { COND( UserStore.isUserLoggedIn(),
                     <button onClick={() => this.props.history.push('/buckets')}>Return to your buckets</button>,
                     <button onClick={this.handleSeePlans}>See Plans & Pricing</button>
