@@ -383,6 +383,16 @@ label {
   }
 }
 
+/* Use this to create a two thirds page width column that resizes into full width on smaller viewports */
+
+.two-thirds {
+  @include span-columns(8);
+
+  @include media($phablet) {
+    @include span-columns(12);
+  }
+}
+
 .loading {
   text-align: center;
   width: 50px;
