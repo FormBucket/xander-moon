@@ -54,7 +54,6 @@ const Login = React.createClass({
             </div>
 
             <div className="email-signup">
-              <p> Login with your email</p>
               <label>
                 Email:
                 <input name="email" ref="email" type="email" onKeyUp={this.handleKeyPress} />
