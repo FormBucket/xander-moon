@@ -8,7 +8,6 @@ import Footer from './Footer';
 import UserStore from '../stores/user'
 import SubscriptionStore from '../stores/subscription'
 import {loadProfile, loadSubscriptionPlans} from '../stores/ActionCreator'
-import {getStripePubKey} from '../stores/webutils'
 
 /* Write some great components about what data
 * this application displays and how it needs to be

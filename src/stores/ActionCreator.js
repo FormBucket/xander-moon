@@ -6,28 +6,18 @@ window.dispatch = dispatch
 window.loadProfile = loadProfile
 
 import {
-  getBuckets,
-  getBucket,
+  requestBuckets,
+  requestBucket,
   requestCreateBucket,
   requestUpdateBucket,
-  getSubscriptionPlans,
-  getSubmissions,
-  getSubmissionsByBucket,
-  startSubmissionEventSource,
+  requestSubscriptionPlans,
+  requestSubmissions,
+  requestSubmissionsByBucket,
   requestSignUp,
   requestSignIn,
-  getProfile,
+  requestProfile,
   requestSubscribe
 } from './webutils'
-
-export const SET_BUCKETS = 'SET_BUCKETS'
-export const SET_BUCKET = 'SET_BUCKET'
-export const GET_SUBSCRIPTION_PLANS = 'GET_SUBSCRIPTION_PLANS'
-export const GET_SUBMISSIONS = 'GET_SUBMISSIONS'             // receive submissions from server
-export const STREAM_SUBMISSION = 'STREAM_SUBMISSION'         // receive submissions from server
-export const SIGNUP = 'SIGNUP'
-export const SIGNIN = 'SIGNIN'
-export const SET_PROFILE = 'SET_PROFILE'
 
 export function signUp(name, org, email, password) {
   var p = new Promise( (resolve, reject) => {
@@ -47,7 +37,7 @@ export function signUp(name, org, email, password) {
 
             localStorage.setItem('token', result) // save token to localStorage
 
-            dispatch(SIGNUP, {
+            dispatch('signUp', {
               name: name,
               org: org,
               email: email,
@@ -89,7 +79,7 @@ export function signIn(email, password) {
 
             localStorage.setItem('token', result) // save token to localStorage
 
-            dispatch(SIGNIN, {
+            dispatch('signIn', {
               token: result
             })
 
@@ -114,11 +104,11 @@ export function loadProfile() {
 
   var p = new Promise( (resolve, reject) => {
 
-    getProfile()
+    requestProfile()
     .then(profile => {
 
       // publish to stores
-      dispatch(SET_PROFILE, profile)
+      dispatch('setProfile', profile)
 
       // resolve to caller
       resolve( profile )
@@ -137,11 +127,11 @@ export function loadBuckets() {
 
   var p = new Promise( (resolve, reject) => {
 
-    getBuckets()
+    requestBuckets()
     .then((buckets) => {
 
       // publish to stores
-      dispatch(SET_BUCKETS, buckets)
+      dispatch('setBuckets', buckets)
 
       // resolve to caller
       resolve( buckets )
@@ -160,10 +150,10 @@ export function loadBucket(id) {
 
   var p = new Promise( (resolve, reject) => {
 
-    getBucket(id)
+    requestBucket(id)
     .then((bucket) => {
 
-      dispatch(SET_BUCKET, bucket)
+      dispatch('setBucket', bucket)
 
       resolve( bucket )
 
@@ -183,7 +173,7 @@ export function createBucket(bucket={}) {
     .then((result) => {
       bucket.id = result.id
 
-      dispatch(SET_BUCKET, bucket)
+      dispatch('setBucket', bucket)
       resolve( bucket )
 
     }, (err) => reject(err) )
@@ -216,7 +206,7 @@ export function deleteBucket(bucketId, done) {
 
     requestDeleteBucket(bucketId)
     .then(result => {
-      dispatch(BUCKET_DELETED, result)
+      dispatch('deleteBucket', result)
       resolve(result)
     }, (err) => reject(err))
 
@@ -229,11 +219,11 @@ export function loadSubscriptionPlans() {
   console.log('loadSubscriptionPlans');
   var p = new Promise( (resolve, reject) => {
     console.log('test2')
-    getSubscriptionPlans()
+    requestSubscriptionPlans()
       .then(plans => {
         var sortedPlans = SORT( plans.map(n => Object.assign({}, n, n.metadata)), 'amount', true)
         console.log('test3')
-        dispatch(GET_SUBSCRIPTION_PLANS, sortedPlans)
+        dispatch('getSubscriptionPlans', sortedPlans)
         resolve(sortedPlans)
       })
       .catch( error => reject(error) )
@@ -246,11 +236,10 @@ export function loadSubmissionsByBucket(bucket_id, offset, limit, select) {
   console.log('loadSubmissionsByBucket')
   var p = new Promise( (resolve, reject) => {
     console.log('run load submissions', bucket_id, offset, limit)
-    getSubmissionsByBucket(bucket_id, offset, limit, select)
+    requestSubmissionsByBucket(bucket_id, offset, limit, select)
     .then((items) => {
 
-      console.log(GET_SUBMISSIONS, items)
-      dispatch(GET_SUBMISSIONS, items)
+      dispatch('getSubmissions', items)
 
       resolve( items )
 
@@ -268,7 +257,7 @@ export function subscribe(token, plan) {
 
     requestSubscribe(token, plan)
     .then(profile => {
-      dispatch(SET_PROFILE, profile)
+      dispatch('setProfile', profile)
       resolve(profile)
     })
     .catch(error => reject(error))

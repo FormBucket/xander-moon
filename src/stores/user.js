@@ -4,7 +4,7 @@ const UserStore = createStore(
   'UserStore',
   {},
   {
-    SET_PROFILE: (state, action) => action.data
+    setProfile: (state, action) => action.data
   }, // store does not support updates
   {
     isUserLoggedIn: (state) => localStorage.hasOwnProperty('token'),

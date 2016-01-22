@@ -7,7 +7,7 @@ const SubscriptionStore = createStore(
     plans: []
   },
   {
-    GET_SUBSCRIPTION_PLANS: (state, action) => Object.assign({},
+    getSubscriptionPlans: (state, action) => Object.assign({},
       state,
       { plans: action.data })
   },

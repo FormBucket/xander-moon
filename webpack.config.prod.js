@@ -3,13 +3,14 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-  devtool: 'source-map',
   entry: [
     './src/index'
   ],
   externals: {
     'highlight.js': 'hljs',
     'history': 'history',
+    'fluxury': 'fluxury',
+    'functionfoundry': 'FunctionFoundry',
     'immutable': 'Immutable',
     'react': 'React',
     'react-dom': 'ReactDOM',
@@ -18,7 +19,7 @@ module.exports = {
     'moment': 'moment'
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'public', 'assets'),
     filename: 'formbucket.js',
   },
   resolveLoader: {

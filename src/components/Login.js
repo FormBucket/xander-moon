@@ -30,7 +30,6 @@ const Login = React.createClass({
 
   },
   handleKeyPress (event) {
-    console.log(event.keyCode);
     if (event.keyCode === 13) {
       // enter key pressed
       this.handleClick()

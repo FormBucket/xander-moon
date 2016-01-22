@@ -4,13 +4,10 @@ const BucketStore = createStore(
   'BucketStore',
   [],
   {
-    SET_BUCKETS: (state, action) => {
-      console.log('SET_BUCKETS', state, action)
-
+    setBuckets: (state, action) => {
       return action.data
     },
-    SET_BUCKET: (state, action) => {
-      console.log('SET_BUCKET', state, action)
+    setBucket: (state, action) => {
       return (
         state
         .filter(n => n._id !== action.data._id)

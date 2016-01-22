@@ -124,7 +124,7 @@ createBucket({
 name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
 })
 */
-export function getBuckets(){
+export function requestBuckets(){
   return getResource('/buckets')
   .then(processStatus)
   .then(getJSON)
@@ -137,7 +137,7 @@ createBucket({
 name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
 })
 */
-export function getBucket(id){
+export function requestBucket(id){
   return getResource(`/buckets/${id}`)
   .then(processStatus)
   .then(getJSON)
@@ -182,13 +182,13 @@ export function submit(formId, formData) {
   .then(getJSON)
 }
 
-export function getProfile(){
+export function requestProfile(){
   return getResource('/profile')
   .then(processStatus)
   .then(getJSON)
 }
 
-export function getSubscriptionPlans() {
+export function requestSubscriptionPlans() {
   return getResource('/subscription/plans')
    .then( processStatus )
    .then( getJSON )
@@ -199,31 +199,31 @@ export function getSubscriptionPlans() {
 Usage:
 getSubmissions(10, 50)
 */
-export function getSubmissions(offset, limit, select){
+export function requestSubmissions(offset, limit, select){
   return getResource(`/submissions?offset=${+offset}&limit=${+limit}&select=${select}`)
   .then(processStatus)
   .then(getJSON)
 }
 
-export function getSubmissionsByBucket(bucket_id, offset, limit, select){
+export function requestSubmissionsByBucket(bucket_id, offset, limit, select){
   return getResource(`/buckets/${bucket_id}/submissions?offset=${+offset}&limit=${+limit}&select=${select}`)
   .then(processStatus)
   .then(getJSON)
 }
 
-export function getStripePubKey(){
+export function requestStripePubKey(){
   return getResource('/stripe/pubkey')
   .then(processStatus)
   .then(getText)
 }
 
-export function getCharges(){
+export function requestCharges(){
   return getResource('/subscription/charges')
   .then(processStatus)
   .then(getJSON)
 }
 
-export function getInvoices(){
+export function requestInvoices(){
   return getResource('/subscription/invoices')
   .then(processStatus)
   .then(getJSON)
@@ -243,9 +243,9 @@ export function unsubscribe() {
 
 // FIXME: remove
 window.submit = submit
-window.getProfile = getProfile
+window.requestProfile = requestProfile
 window.unsubscribe = unsubscribe
-window.getBuckets = getBuckets
-window.getStripePubKey = getStripePubKey
-window.getCharges = getCharges
-window.getInvoices = getInvoices
+window.requestBuckets = requestBuckets
+window.requestStripePubKey = requestStripePubKey
+window.requestCharges = requestCharges
+window.requestInvoices = requestInvoices

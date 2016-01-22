@@ -21,7 +21,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'formbucket.js',
-    publicPath: '/js/'
+    publicPath: '/assets/'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

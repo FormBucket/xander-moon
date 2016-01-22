@@ -35,7 +35,6 @@ const Signup = React.createClass({
 
   },
   handleKeyUp (event) {
-    console.log(event.keyCode);
     if (event.keyCode === 13) {
       // enter key pressed
       this.handleClick()
