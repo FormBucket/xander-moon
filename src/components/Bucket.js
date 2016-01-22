@@ -57,14 +57,6 @@ const NewBucket = React.createClass({
       return <div>Loading</div>
     }
 
-    var bucket = BucketStore.find( this.props.params.id )
-    console.log('bucket', bucket, this.props.params.id)
-
-
-    if (ISBLANK(bucket)) {
-      return <div>Cannot find bucket</div>
-    }
-
     return (
       <div>
         <div className="page-heading">

@@ -3,6 +3,7 @@ import {SORT} from 'functionfoundry'
 
 // FIXME: REMOVE DEV HACK
 window.dispatch = dispatch
+window.loadProfile = loadProfile
 
 import {
   getBuckets,
@@ -14,17 +15,19 @@ import {
   getSubmissionsByBucket,
   startSubmissionEventSource,
   requestSignUp,
-  requestSignIn
+  requestSignIn,
+  getProfile,
+  requestSubscribe
 } from './webutils'
 
-import {
-  SET_BUCKET,
-  GET_SUBSCRIPTION_PLANS,
-  GET_SUBMISSIONS,
-  STREAM_SUBMISSION,
-  SIGNUP,
-  SIGNIN
-} from './actions'
+export const SET_BUCKETS = 'SET_BUCKETS'
+export const SET_BUCKET = 'SET_BUCKET'
+export const GET_SUBSCRIPTION_PLANS = 'GET_SUBSCRIPTION_PLANS'
+export const GET_SUBMISSIONS = 'GET_SUBMISSIONS'             // receive submissions from server
+export const STREAM_SUBMISSION = 'STREAM_SUBMISSION'         // receive submissions from server
+export const SIGNUP = 'SIGNUP'
+export const SIGNIN = 'SIGNIN'
+export const SET_PROFILE = 'SET_PROFILE'
 
 export function signUp(name, org, email, password) {
   var p = new Promise( (resolve, reject) => {
@@ -107,6 +110,29 @@ export function signIn(email, password) {
   return p;
 }
 
+export function loadProfile() {
+
+  var p = new Promise( (resolve, reject) => {
+
+    getProfile()
+    .then(profile => {
+
+      // publish to stores
+      dispatch(SET_PROFILE, profile)
+
+      // resolve to caller
+      resolve( profile )
+
+    }, (err) => {
+      reject(err)
+    })
+
+  })
+
+  return p
+
+}
+
 export function loadBuckets() {
 
   var p = new Promise( (resolve, reject) => {
@@ -115,7 +141,7 @@ export function loadBuckets() {
     .then((buckets) => {
 
       // publish to stores
-      buckets.forEach(bucket => dispatch(SET_BUCKET, bucket))
+      dispatch(SET_BUCKETS, buckets)
 
       // resolve to caller
       resolve( buckets )
@@ -228,6 +254,22 @@ export function loadSubmissionsByBucket(bucket_id, offset, limit, select) {
 
       resolve( items )
 
+    })
+    .catch(error => reject(error))
+
+  })
+
+  return p
+}
+
+export function subscribe(token, plan) {
+  console.log('subscribe')
+  var p = new Promise( (resolve, reject) => {
+
+    requestSubscribe(token, plan)
+    .then(profile => {
+      dispatch(SET_PROFILE, profile)
+      resolve(profile)
     })
     .catch(error => reject(error))
 

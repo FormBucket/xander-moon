@@ -4,8 +4,6 @@ Collecting and managing data is a science and an art. You need to setup database
 
 The FormBucket API accepts _application/json_ requests via HTTPS and is secured with the recent [IETF Standard 7519 JSON Web Tokens (JWT)](https://tools.ietf.org/html/rfc7519).
 
-Optionally, we encourage public key infrastructure by offering a registry to privately share your public keys. Users that opt into public key infrastructure will benefit from layered encryption that encrypt messages before sending over a TLS transport with trusted certificates.
-
 ## Accounts / profile
 
 The APIs will only respond when presented with a token. Requests that do not include a token or include an invalid token will be denied.

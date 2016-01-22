@@ -4,7 +4,6 @@ import FontAwesome from 'react-fontawesome'
 
 const Buckets = React.createClass({
   render () {
-    console.log('Hello')
     if (ISBLANK(this.props.buckets)) {
       return (
         <div>Loading Buckets...</div>
@@ -19,6 +18,7 @@ const Buckets = React.createClass({
 
     return (
       <table className="bucket-list">
+        <tbody>
           {
             this.props.buckets.map(bucket => (
               <tr key={bucket.id}>
@@ -41,6 +41,7 @@ const Buckets = React.createClass({
               </tr>
             ))
           }
+        </tbody>
       </table>
     )
   }

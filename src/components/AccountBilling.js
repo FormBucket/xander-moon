@@ -18,7 +18,7 @@ const AccountBilling = React.createClass({
             <AccountMenu active="Billing" />
           </div>
         </div>
-        <Billing nowrap={true} />
+        <Billing nowrap={true} history={this.props.history} />
       </div>
     )
   }

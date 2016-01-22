@@ -3,7 +3,9 @@ import {createStore, dispatch} from 'fluxury'
 const UserStore = createStore(
   'UserStore',
   {},
-  (state, action) => state, // store does not support updates
+  {
+    SET_PROFILE: (state, action) => action.data
+  }, // store does not support updates
   {
     isUserLoggedIn: (state) => localStorage.hasOwnProperty('token'),
     canCreateForm: (state) => true,
@@ -14,6 +16,7 @@ const UserStore = createStore(
     getAPIKey: (state) => state.apikey,
     getUser: (state) => state,
     getPlan: (state) => state.plan,
+    getMaxBuckets: (state) => +state.max_buckets,
     getPaidUntil: (state) => state.paid_until
   }
 )
