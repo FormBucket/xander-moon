@@ -65,7 +65,6 @@ const NewBucket = React.createClass({
           </div>
         </div>
         <div className="wrapper">
-          <h3>Bucket ({this.state.id})</h3>
           <div className="bucket-details">
             <div className="section">
               <label htmlFor="bucketName">Name</label>
@@ -143,11 +142,12 @@ const NewBucket = React.createClass({
             </div>
           </div>
           <div className="bucket-preview">
-            <h3>API Preview</h3>
-            <Markdown
-              source={ '```JSON\n' + JSON.stringify(this.state, null, 4) + '\n```' }
-              options={ markdownOptions }>
-            </Markdown>
+            <h3>Quick Use</h3>
+            <div className="editor">
+              <div className="left">
+                <p>http://api.formbucket.com/f/</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

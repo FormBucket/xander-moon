@@ -79,8 +79,7 @@
   p {
     @include span-columns(8);
     margin-top: $base-spacing / 2;
-    float: right;
-    text-align: right;
+    text-align: left;
 
     @include media($phablet) {
       @include span-columns(12);
@@ -96,37 +95,4 @@
   }
 
   @include clearfix;
-}
-
-.bucket-list {
-  border: 0;
-  padding: $base-spacing;
-  background-color: white;
-
-  a {
-  }
-
-  thead {
-    height: 3rem;
-    background-color: $purple;
-    color: $lightest-purple;
-    padding: $base-spacing;
-
-    tr:hover {
-      background-color: $purple;
-    }
-  }
-
-  td, th {
-    padding: $base-spacing;
-    border-bottom: 1px solid rgba($purple,0.1);
-  }
-
-  tr {
-    transition: background-color $base-duration $base-timing;
-  }
-
-  tr:hover {
-    background-color: rgba($light-green,0.1);
-  }
 }

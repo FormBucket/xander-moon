@@ -120,17 +120,12 @@ const Buckets = React.createClass({
             <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: this.state.error ? '' : 'none'}}>
               {this.state.error ? this.state.error.message : ''}
             </div>
-            <label htmlFor="bucketEnabled" style={{ color: 'black', float: 'right' }} className="label-switch">
-              {this.state.mode}
-              <input id="bucketEnabled" type="checkbox" onChange={(event) => this.setState({ mode: this.state.mode === 'table' ? 'list' : 'table' }) } checked={this.state.enabled} />
-              <div className="checkbox"></div>
-            </label>
           </div>
         </div>
         <div className="wrapper">
           <div className="callout">
-            <button onClick={this.handleNewBucket}><FontAwesome name='plus' /> New Bucket</button>
             <p>You are using {this.state.buckets.length} out of {UserStore.getMaxBuckets()} active buckets in <Link to="account/billing">the {this.state.selected_plan.displayName} Plan</Link>.</p>
+            <button onClick={this.handleNewBucket}><FontAwesome name='plus' /> New Bucket</button>
           </div>
           {Buckets}
       </div>

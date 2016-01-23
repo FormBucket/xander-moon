@@ -21,12 +21,18 @@ const Buckets = React.createClass({
           {
             this.props.buckets.map(bucket => (
               <li key={bucket.id} >
-                <FontAwesome name={COND(bucket.enabled, 'toggle-on', 'toggle-off')} />&nbsp;
-                <span onClick={() => this.props.select(bucket)}>
-                  { IF( ISBLANK(bucket.name), bucket.id, bucket.name ) }
-                </span>
-                <button className="secondary" onClick={ () => this.props.show(bucket) }>{bucket.submission_count} Submissions <FontAwesome name='chevron-right' /></button>
-            </li>
+                <div className="bucket-item">
+                  <p>
+                    <FontAwesome className="toggle-switch" name={COND(bucket.enabled, 'toggle-on', 'toggle-off')} />
+                    <span onClick={() => this.props.select(bucket)}>
+                      { IF( ISBLANK(bucket.name), bucket.id, bucket.name ) }
+                    </span>
+                  </p>
+                  <div className="submission-count">
+                    <button className="secondary" onClick={ () => this.props.show(bucket) }>{bucket.submission_count} Submissions <FontAwesome name='chevron-right' /></button>
+                  </div>
+                </div>
+              </li>
             ))
           }
       </ul>
