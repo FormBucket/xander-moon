@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "fluxury": "^0.7.1",
-    "functionfoundry": "^0.6.5",
+    "functionfoundry": "^0.7.3",
     "highlight.js": "^9.0.0",
     "history": "^1.17.0",
     "immutable": "^3.7.5",
