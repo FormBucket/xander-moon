@@ -1,5 +1,5 @@
 // Author: Peter Moresi
-import {COND, NOT, ISBLANK, ISFUNCTION} from 'functionfoundry'
+import {COND, NOT, ISBLANK, ISFUNCTION, IF} from 'functionfoundry'
 import React, { PropTypes } from 'react'
 import {Link} from 'react-router'
 import Markdown from 'react-remarkable'
@@ -12,10 +12,12 @@ import SubmissionsStore from '../stores/Submissions'
 import {loadSubmissionsByBucket, streamSubmissions} from '../stores/ActionCreator'
 
 import BucketTable from './BucketTable'
+import BucketList from './BucketList'
 
 const Buckets = React.createClass({
   getInitialState() {
     return {
+      mode: 'list',
       buckets: undefined,
       selected_bucket_id: undefined,
       error: false,
@@ -87,11 +89,28 @@ const Buckets = React.createClass({
     console.log('bucket settings click', bucket)
     this.props.history.push('/buckets/' + bucket.id + '/settings')
   },
+
+  handleShow(bucket) {
+    console.log('show submissions click', bucket)
+    this.props.history.push('/buckets/' + bucket.id + '/submissions')
+  },
+
   render() {
 
     if ( UserStore.getState() === null || ISBLANK(this.state.buckets) ) {
       return <div>Loading...</div>
     }
+
+    let Buckets = IF(this.state.mode === 'table',
+    <BucketTable buckets={this.state.buckets}
+      selected_bucket_id={this.state.selected_bucket_id}
+      select={this.handleSelect}
+      show={this.handleShow}/>,
+    <BucketList buckets={this.state.buckets}
+      selected_bucket_id={this.state.selected_bucket_id}
+      select={this.handleSelect}
+      show={this.handleShow}/>
+    )
 
     return (
       <div>
@@ -101,6 +120,11 @@ const Buckets = React.createClass({
             <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: this.state.error ? '' : 'none'}}>
               {this.state.error ? this.state.error.message : ''}
             </div>
+            <label htmlFor="bucketEnabled" style={{ color: 'black', float: 'right' }} className="label-switch">
+              {this.state.mode}
+              <input id="bucketEnabled" type="checkbox" onChange={(event) => this.setState({ mode: this.state.mode === 'table' ? 'list' : 'table' }) } checked={this.state.enabled} />
+              <div className="checkbox"></div>
+            </label>
           </div>
         </div>
         <div className="wrapper">
@@ -108,18 +132,7 @@ const Buckets = React.createClass({
             <button onClick={this.handleNewBucket}><FontAwesome name='plus' /> New Bucket</button>
             <p>You are using {this.state.buckets.length} out of {UserStore.getMaxBuckets()} active buckets in <Link to="account/billing">the {this.state.selected_plan.displayName} Plan</Link>.</p>
           </div>
-        <BucketTable buckets={this.state.buckets}
-          selected_bucket_id={this.state.selected_bucket_id}
-          select={this.handleSelect}
-          show={(bucket) => {
-            console.log('show submissions click', bucket)
-            this.props.history.push('/buckets/' + bucket.id + '/submissions')
-
-            // this.setState({ selected_bucket_id: bucket.id })
-            // this.setState({ selected_bucket: bucket })
-            // this.setState({ submissions: undefined })
-            // loadSubmissionsByBucket(bucket.id, 0, 50) // load first 50 submissions
-          }}/>
+          {Buckets}
       </div>
     </div>
   )

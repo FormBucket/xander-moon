@@ -1,4 +1,4 @@
-import {COND, EQ, NOT, ISBLANK} from 'functionfoundry'
+import {IF, COND, EQ, NOT, ISBLANK} from 'functionfoundry'
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 
@@ -24,7 +24,7 @@ const Buckets = React.createClass({
               <tr key={bucket.id}>
                 <td onClick={() => this.props.select(bucket)} >
                   <FontAwesome name={COND(bucket.enabled, 'toggle-on', 'toggle-off')} />&nbsp;
-                  {bucket.name}
+                  { IF( ISBLANK(bucket.name), bucket.id, bucket.name ) }
                 </td>
                 <td onClick={() => this.props.select(bucket)} >
                   http://api.formbucket.com/f/{bucket.id}
