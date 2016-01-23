@@ -104,7 +104,7 @@ const NewBucket = React.createClass({
               </label>
               <div className="autoresponder-wrapper" style={{ display: this.state.auto_responder ? '' : 'none' } }>
                 <label htmlFor="fromEmail">From</label>
-                <input type="text" ref="auto_responder_from" placeholder="sean@functionfoundry.com"
+                <input type="text" ref="auto_responder_from" placeholder={UserStore.getEmail()}
                   onChange={(e) => this.setState({ auto_responder: Object.assign({}, this.state.auto_responder, { from: e.target.value } ) })}
                   defaultValue={ this.state.auto_responder ? this.state.auto_responder.from : '' }
                   />
