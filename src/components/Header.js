@@ -12,12 +12,17 @@ const Header = React.createClass({
     }
   },
 
+  handleSeePlans() {
+    this.props.history.push('/subscribe')
+  },
+
   render () {
+
     var topRight = (
       <nav role="navigation">
         <a href="#" className="navigation-menu-button" id="js-mobile-menu">MENU</a>
         <ul id="js-navigation-menu" className="navigation-menu show">
-          <li className="nav-link"><Link onClick={this.handleSeePlans}>Sign Up</Link></li>
+          <li className="nav-link"><a href="#" onClick={this.handleSeePlans}>Sign Up</a></li>
           <li className="nav-link"><Link to="login">Login</Link></li>
         </ul>
       </nav>
