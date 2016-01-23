@@ -55,7 +55,7 @@ const Buckets = React.createClass({
   },
 
   handleNewBucket(event) {
-    createBucket()
+    createBucket({ enabled: true })
     .then( result => {
       console.log('createdBucket with', result)
       this.props.history.push('/buckets/' + result.id + '/settings')
