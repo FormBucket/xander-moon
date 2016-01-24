@@ -5,13 +5,14 @@ const UserStore = createStore(
   'UserStore',
   {},
   {
-    setProfile: (state, action) => action.data
+    setProfile: (state, action) => action.data,
+    clearProfile: () => {}
   }, // store does not support updates
   {
     isUserLoggedIn: (state) => localStorage.hasOwnProperty('token'),
+    isLoaded: (state) => typeof state.email !== 'undefined',
     canCreateForm: (state) => true,
     getProvider: (state) => state.provider,
-    getId: (state) => state.auth_id,
     getEmail: (state) => state.email,
     getName: (state) => state.display_name,
     getAPIKey: (state) => state.apikey,

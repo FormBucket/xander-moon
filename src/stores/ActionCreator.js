@@ -15,6 +15,7 @@ import {
   requestSubmissionsByBucket,
   requestSignUp,
   requestSignIn,
+  requestUpdateUser,
   requestProfile,
   requestSubscribe,
   unsubscribe
@@ -45,6 +46,35 @@ export function signUp(name, org, email, password) {
             })
 
             resolve(result)
+          }
+        )
+      } else {
+        response.json().then(
+          result => reject(result)
+        )
+      }
+
+    }, (error) => reject(error))
+
+  })
+
+  return p;
+
+}
+
+export function updateUser(updates) {
+  var p = new Promise( (resolve, reject) => {
+    requestUpdateUser(updates)
+    .then(response => {
+
+      if (response.status === 200 || response.status === 0) {
+
+        response.json().then(
+          user => {
+
+            dispatch('setProfile', user)
+            resolve(user)
+
           }
         )
       } else {
