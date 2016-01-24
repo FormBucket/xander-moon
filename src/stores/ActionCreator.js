@@ -253,7 +253,7 @@ export function loadSubmissionsByBucket(bucket_id, offset, limit, select) {
 }
 
 export function subscribe(token, plan) {
-  console.log('subscribe')
+  console.log('subscribe', token, plan)
   var p = new Promise( (resolve, reject) => {
 
     requestSubscribe(token, plan)

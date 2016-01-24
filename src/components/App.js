@@ -24,9 +24,6 @@ const App = React.createClass({
       cmp.setState({ plans: plans })
     })
 
-    if (localStorage.hasOwnProperty('defaultBucket') === false) {
-      localStorage.setItem('defaultBucket', 'ff4fu3')
-    }
   },
   componentWillUnmount() {
     // if (UserStore.isUserLoggedIn()) {

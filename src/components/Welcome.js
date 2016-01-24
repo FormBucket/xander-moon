@@ -22,8 +22,9 @@ const Welcome = React.createClass({
     }
   },
   componentDidMount() {
-    console.log('test')
     var cmp = this
+
+    localStorage.setItem('defaultBucket', 'ff4fu3')
 
     this.token = SubscriptionStore.addListener(this.handleSubscriptionChanged)
 

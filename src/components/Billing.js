@@ -4,6 +4,7 @@ import markdownOptions from './markdown-options'
 import moment from 'moment'
 import {COND} from 'functionfoundry'
 import {loadSubscriptionPlans, subscribe} from '../stores/ActionCreator'
+import {requestStripePubKey} from '../stores/webutils'
 import CreditCardForm from './CreditCardForm'
 import FontAwesome from 'react-fontawesome'
 
@@ -28,11 +29,11 @@ const Billing = React.createClass({
 
     this.setState({ saving: true })
 
-    getStripePubKey().then(
+    requestStripePubKey().then(
       key => Promise.resolve(Stripe.setPublishableKey(key))
     )
     .then(() => {
-
+      console.log('foo')
 
       if (!Stripe.card.validateCardNumber(cardNumber)) {
         this.setState({

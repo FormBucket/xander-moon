@@ -11,7 +11,7 @@ const Account = React.createClass({
     return {
       show_token: false,
       user: UserStore.getState(),
-      active: false //UserStore.getPlan().length > 0
+      active: UserStore.getPlan() && UserStore.getPlan().length > 0
     }
   },
 
@@ -24,7 +24,10 @@ const Account = React.createClass({
   },
 
   handleUserChanged() {
-    this.setState({ user: UserStore.getState() })
+    this.setState({
+      user: UserStore.getState(),
+      active: UserStore.getPlan() && UserStore.getPlan().length > 0
+    })
   },
 
   handleDelete() {
