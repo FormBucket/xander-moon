@@ -18,7 +18,8 @@ const Login = React.createClass({
     )
     .then(
       n => {
-        this.props.history.push('/buckets')
+        loadProfile()
+        .then(() => this.props.history.push('/buckets'))
       },
       err => {
         this.setState({

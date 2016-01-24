@@ -20,7 +20,7 @@ const App = React.createClass({
 
     loadSubscriptionPlans()
     .then( plans => {
-      console.log('got plans', plans)
+      // console.log('got plans', plans)
       cmp.setState({ plans: plans })
     })
 

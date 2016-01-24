@@ -33,8 +33,8 @@ const NewBucket = React.createClass({
   },
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('match', this.state === prevState )
-    console.log('state', JSON.stringify(this.state, null, 4))
+    // console.log('match', this.state === prevState )
+    // console.log('state', JSON.stringify(this.state, null, 4))
   },
 
   toggleAutoResponder(e) {
@@ -79,14 +79,14 @@ const NewBucket = React.createClass({
               <h3>Name</h3>
               <input type="text" id="bucketName" ref="bucketName" placeholder="e.g. Beta Signups" autoFocus={focus} onChange={ (e) => this.setState({ name: e.target.value }) } defaultValue={this.state.name} />
               <label htmlFor="bucketEnabled" className="label-switch"> Status
-                <input id="bucketEnabled" type="checkbox" onChange={(event) => this.setState({ enabled: event.target.checked }) } checked={this.state.enabled} />
+                <input id="bucketEnabled" type="checkbox" onClick={(event) => this.setState({ enabled: event.target.checked }) } checked={this.state.enabled} />
                 <div className="checkbox"></div>
               </label>
             </div>
             <div className="section">
               <h3>Actions</h3>
               <label htmlFor="redirectURL">Redirect URL</label>
-              <input type="text" id="redirectURL" ref="redirectURL"  onChange={ (e) => this.setState({ redirect_url: e.target.value }) }  defaultValue={this.state.redirect_url} />
+              <input type="text" id="redirectURL" ref="redirectURL"  onClick={ (e) => this.setState({ redirect_url: e.target.value }) }  defaultValue={this.state.redirect_url} />
               <label>Webhooks</label>
               { ISARRAY(this.state.webhooks) ?
                 this.state.webhooks.map( (webhook, i) => (
@@ -105,7 +105,7 @@ const NewBucket = React.createClass({
                 <a style={{ cursor: 'pointer' }} onClick={() => this.setState({webhooks: this.state.webhooks ? this.state.webhooks.concat(['']) : [''] })}><FontAwesome name='plus' /> Add webhook</a>
               </div>
               <label>
-                <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" onChange={this.toggleAutoResponder} checked={ this.state.auto_responder }/>
+                <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" onClick={this.toggleAutoResponder} checked={ this.state.auto_responder }/>
                 Automatically send an email to bucket submitters
               </label>
               <div className="autoresponder-wrapper" style={{ display: this.state.auto_responder ? '' : 'none' } }>
@@ -132,15 +132,15 @@ const NewBucket = React.createClass({
             </div>
             <h3>Notifications</h3>
             <label>
-              <input type="radio" name="email_to" value="none" onClick={() => this.setState({ email_to: false })}  checked={ !this.state.email_to } />
+              <input type="radio" onClick={() => this.setState({ email_to: false })}  checked={ this.state.email_to === false } />
               Do not send notifications
             </label>
             <label>
-              <input type="radio" name="email_to" ref="sendSubmissions" value="default" onClick={() => this.setState({ email_to: true })} checked={ this.state.email_to === true } />
+              <input type="radio" onClick={() => this.setState({ email_to: true })} checked={ this.state.email_to === true } />
               Send notifications to {UserStore.getEmail()}
             </label>
             <label>
-              <input type="radio" name="email_to" ref="ccSubmissions" value="custom" onClick={() => this.setState({ email_to: this.refs.additionalEmails.value })} checked={ typeof this.state.email_to === 'string' }/>
+              <input type="radio" onClick={() => this.setState({ email_to: '' + this.refs.additionalEmails.value })} checked={ typeof this.state.email_to === 'string' }/>
               Send notifications to:
               <textarea disabled={typeof this.state.email_to === 'string' ? false : true} className="cc-emails" ref="additionalEmails" placeholder="Separate addresses by comma" onChange={(e) => this.setState({ email_to: e.target.value })} defaultValue={ typeof this.state.email_to === 'string' ? this.state.email_to : '' }></textarea>
             </label>

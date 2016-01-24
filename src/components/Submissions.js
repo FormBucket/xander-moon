@@ -43,7 +43,7 @@ const Submissions = React.createClass({
 
       this.setState({ loading: true })
 
-      console.log('componentWillReceiveProps', this)
+      // console.log('componentWillReceiveProps', this)
 
       Promise.all([
         loadBucket(nextProps.params.id),
@@ -70,17 +70,19 @@ const Submissions = React.createClass({
 
     this.props.history.replace(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${this.props.params.offset}/${this.props.params.limit}/${this.props.params.select}`)
 
+    window.scrollTo(0, 0)
+    
   },
 
   handleBucketsChanged: function() {
-    console.log('handleSubmissionsChanged')
+    // console.log('handleSubmissionsChanged')
     this.setState( {
       bucket: BucketStore.find(this.props.params.id)
     })
   },
 
   handleSubmissionsChanged: function() {
-    console.log('handleSubmissionsChanged', this.props.params.id, SubmissionsStore.getSubmissions())
+    // console.log('handleSubmissionsChanged', this.props.params.id, SubmissionsStore.getSubmissions())
     this.setState( {
       submissions: SubmissionsStore.getSubmissions()
     })
@@ -90,7 +92,7 @@ const Submissions = React.createClass({
     if (this.state.loading) {
       return
     }
-    console.log('goForward')
+    // console.log('goForward')
     var newOffset = COND(
       +this.props.params.offset + +this.props.params.limit <= this.state.bucket.submission_count,
       +this.props.params.offset + +this.props.params.limit,
@@ -101,7 +103,6 @@ const Submissions = React.createClass({
     if (this.props.params.offset === newOffset ||
       newOffset >= this.state.bucket.submission_count
     ) {
-      console.log('goo')
       return
     }
 
@@ -115,7 +116,7 @@ const Submissions = React.createClass({
       return
     }
 
-    console.log('goBack')
+    // console.log('goBack')
     var newOffset = COND(
       +this.props.params.offset - +this.props.params.limit > 0,
       +this.props.params.offset - +this.props.params.limit,
@@ -133,7 +134,7 @@ const Submissions = React.createClass({
   },
   render () {
 
-    console.log('render', this, this.state )
+    // console.log('render', this, this.state )
 
     if (EQ(this.state.loaded, false)) {
       return (
@@ -208,7 +209,7 @@ const Submissions = React.createClass({
       </span>
     )
 
-    console.log(this.props.params.mode)
+    // console.log(this.props.params.mode)
 
     if (EQ(this.props.params.mode, 'list')) {
       return wrap(

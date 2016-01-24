@@ -22,9 +22,9 @@ const Buckets = React.createClass({
             this.props.buckets.map(bucket => (
               <li key={bucket.id} >
                 <div className="bucket-item">
-                  <p>
+                  <p onClick={() => this.props.select(bucket)}>
                     <FontAwesome className="toggle-switch" name={COND(bucket.enabled, 'toggle-on', 'toggle-off')} />
-                    <span onClick={() => this.props.select(bucket)}>
+                    <span>
                       { IF( ISBLANK(bucket.name), bucket.id, bucket.name ) }
                     </span>
                   </p>

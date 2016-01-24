@@ -10,9 +10,8 @@ let server =  COND(
   process.env.NODE_ENV === 'production',
   'https://api.formbucket.com',
   'https://api.formbucket.com'
-  //'http://localhost:3001'
+  // 'http://localhost:3001'
 )
-// let server = "https://formbucket-development.elasticbeanstalk.com"
 
 // reads value from qur
 export function getQueryParam(name) {
@@ -117,6 +116,20 @@ export function requestSignUp(user) {
 
 }
 
+export function requestUpdateUser(user) {
+
+  return fetch( server + '/profile', {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Accept': 'application/json',
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${localStorage.token}`
+    },
+    body: JSON.stringify(user)
+  })
+
+}
 /* Send server request to get user's Forms
 
 Usage:
