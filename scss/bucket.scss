@@ -104,9 +104,24 @@
   @include span-columns(5);
   @include shift(1);
 
+  .quick-use {
+    padding: 0 $base-spacing;
+    border: 1px solid $purple;
+    border-radius: $base-border-radius;
+    background-color: white;
+    @include animation(pulse .75s ease-in-out 1);
+    @include animation-delay(.25s);
+  }
+
   @include media($tablet) {
     @include span-columns(12);
     @include shift(0);
     text-align: center;
   }
+}
+
+@keyframes pulse {
+  0% {transform: scale(1);}
+  50% {transform: scale(1.25);}
+  100% {transform: scale(1);}
 }

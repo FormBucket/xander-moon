@@ -150,10 +150,12 @@ const NewBucket = React.createClass({
             <h3>Quick Use</h3>
             <p>Copy and paste the markup below into your project, replacing the example inputs with your own.</p>
             <div className="bucket-editor">
-              <Markdown
-                source={ '```HTML\n' + makeHTMLForm(this.state.id) + '\n```' }
-                options={ markdownOptions }
-                />
+              <div className="quick-use">
+                <Markdown
+                  source={ '```HTML\n' + makeHTMLForm(this.state.id) + '\n```' }
+                  options={ markdownOptions }
+                  />
+              </div>
             </div>
           </div>
         </div>
