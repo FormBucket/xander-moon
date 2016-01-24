@@ -178,13 +178,16 @@ const Billing = React.createClass({
           this.props.hideHeading && !this.state.active,
           <div>
             Subscription is not active.
+          </div>,
+          <div>
+            You are enrolled in the <strong>{UserStore.getPlanName()}</strong> until {moment(UserStore.getState().valid_until).format('MMM Do')}.
           </div>
         )}
         { this.state.plans.map( plan => IF(
           this.state.active && this.state.selectedPlanCode === plan.id,
           <div key={plan.id} className="selected-plan">
             <label>
-              <input type="radio" class="radio" name="radio_button" value="radio_1" checked/> {plan.displayName}
+              <input type="radio" className="radio" name="radio_button" value="radio_1" checked/> {plan.displayName}
                 <span className="pill">Selected!</span>
             </label>
           </div>,
@@ -200,7 +203,9 @@ const Billing = React.createClass({
 
     return wrap(
        <div className="wrapper">
-          { IF(this.props.hideHeading, undefined, <h2>You can upgrade or downgrade your plan at any time.</h2>)}
+          { IF(this.props.hideHeading,
+            undefined,
+            <h2>You can upgrade or downgrade your plan at any time.</h2>)}
 
 
           {/* <p>Pssst...want to get a month free? See <a href="#">annual pricing</a>.</p> */}

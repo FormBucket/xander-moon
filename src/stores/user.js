@@ -1,4 +1,5 @@
 import {createStore, dispatch} from 'fluxury'
+import SubscriptionStore from './subscription'
 
 const UserStore = createStore(
   'UserStore',
@@ -16,6 +17,7 @@ const UserStore = createStore(
     getAPIKey: (state) => state.apikey,
     getUser: (state) => state,
     getPlan: (state) => state.plan,
+    getPlanName: (state) => SubscriptionStore.getPlanByName(state.plan) ? SubscriptionStore.getPlanByName(state.plan).name : undefined,
     getMaxBuckets: (state) => +state.max_buckets,
     getPaidUntil: (state) => state.paid_until
   }

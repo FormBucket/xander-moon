@@ -70,6 +70,8 @@ const Submissions = React.createClass({
 
     this.props.history.replace(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${this.props.params.offset}/${this.props.params.limit}/${this.props.params.select}`)
 
+    window.scrollTo(0, 0)
+    
   },
 
   handleBucketsChanged: function() {
