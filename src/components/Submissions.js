@@ -97,7 +97,11 @@ const Submissions = React.createClass({
       +this.props.params.offset
     )
 
-    if (this.props.params.offset === newOffset) {
+    // console.log('foo2', this.props.params.offset, newOffset, this.state.submissions.length, this.state.bucket.submission_count)
+    if (this.props.params.offset === newOffset ||
+      newOffset >= this.state.bucket.submission_count
+    ) {
+      console.log('goo')
       return
     }
 
