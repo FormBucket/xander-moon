@@ -69,8 +69,6 @@ const NewBucket = React.createClass({
             <div className="section">
               <label htmlFor="bucketName">Name</label>
               <input type="text" id="bucketName" ref="bucketName" placeholder="e.g. Beta Signups" autoFocus={focus} onChange={ (e) => this.setState({ name: e.target.value }) } defaultValue={this.state.name} />
-            </div>
-            <div className="section">
               <label htmlFor="bucketEnabled" className="label-switch"> Enabled
                 <input id="bucketEnabled" type="checkbox" onChange={(event) => this.setState({ enabled: event.target.checked }) } checked={this.state.enabled} />
                 <div className="checkbox"></div>
@@ -123,23 +121,21 @@ const NewBucket = React.createClass({
                 </span>
               </div>
             </div>
-            <div className="section">
-              <h3>Notifications</h3>
-              <label>
-                <input type="radio" name="email_to" value="none" onClick={() => this.setState({ email_to: false })}  checked={ !this.state.email_to } />
-                Do not send notifications
-              </label>
-              <label>
-                <input type="radio" name="email_to" ref="sendSubmissions" value="default" onClick={() => this.setState({ email_to: true })} checked={ this.state.email_to === true } />
-                Send notifications to {UserStore.getEmail()}
-              </label>
-              <label>
-                <input type="radio" name="email_to" ref="ccSubmissions" value="custom" onClick={() => this.setState({ email_to: this.refs.additionalEmails.value })} checked={ typeof this.state.email_to === 'string' }/>
-                Send notifications to:
-                <textarea disabled={typeof this.state.email_to === 'string' ? false : true} className="cc-emails" ref="additionalEmails" placeholder="Separate addresses by comma" onChange={(e) => this.setState({ email_to: e.target.value })} defaultValue={ typeof this.state.email_to === 'string' ? this.state.email_to : '' }></textarea>
-              </label>
-              <input type="button" className="button" onClick={this.onSave} value="Update Settings" />
-            </div>
+            <h3>Notifications</h3>
+            <label>
+              <input type="radio" name="email_to" value="none" onClick={() => this.setState({ email_to: false })}  checked={ !this.state.email_to } />
+              Do not send notifications
+            </label>
+            <label>
+              <input type="radio" name="email_to" ref="sendSubmissions" value="default" onClick={() => this.setState({ email_to: true })} checked={ this.state.email_to === true } />
+              Send notifications to {UserStore.getEmail()}
+            </label>
+            <label>
+              <input type="radio" name="email_to" ref="ccSubmissions" value="custom" onClick={() => this.setState({ email_to: this.refs.additionalEmails.value })} checked={ typeof this.state.email_to === 'string' }/>
+              Send notifications to:
+              <textarea disabled={typeof this.state.email_to === 'string' ? false : true} className="cc-emails" ref="additionalEmails" placeholder="Separate addresses by comma" onChange={(e) => this.setState({ email_to: e.target.value })} defaultValue={ typeof this.state.email_to === 'string' ? this.state.email_to : '' }></textarea>
+            </label>
+            <input type="button" className="button" onClick={this.onSave} value="Update Settings" />
           </div>
           <div className="bucket-preview">
             <h3>Quick Use</h3>
