@@ -57,18 +57,18 @@ const Account = React.createClass({
         <div className="wrapper">
           <div className="half-width">
             <div className="section">
-              <label for="fullName">Full Name</label>
+              <label htmlFor="fullName">Full Name</label>
               <input type="text" refs="fullName" name="displayName" value={this.state.user.name} placeholder="e.g. Nikola Tesla"/>
-              <label for="orgName">Company / Org</label>
+              <label htmlFor="orgName">Company / Org</label>
               <input type="text" refs="orgName" />
-              <label for="emailAddress">Email Address</label>
+              <label htmlFor="emailAddress">Email Address</label>
               <input type="text" refs="emailAddress" name="username" value={this.state.user.email} placeholder="nikola@altcurrent.com"/>
             </div>
             <div className="section">
               <h4><FontAwesome name='lock' />  Change Password</h4>
-              <label for="currentPassword">Current Password</label>
+              <label htmlFor="currentPassword">Current Password</label>
               <input type="password" refs="currentPassword" name="password" />
-              <label for="newPassword">New Password</label>
+              <label htmlFor="newPassword">New Password</label>
               <input type="password" refs="newPassword" name="password" />
               <button className="button secondary" onClick={this.handleSave}>Save Changes</button>
             </div>
