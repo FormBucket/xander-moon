@@ -93,10 +93,7 @@ const Account = React.createClass({
               <input type="text" ref="org" defaultValue={this.state.user.org} />
               <label htmlFor="emailAddress">Email Address</label>
               <input type="text" ref="email" name="username" defaultValue={this.state.user.email} placeholder="nikola@altcurrent.com"/>
-            </div>
-            <div className="section">
-              <h4><FontAwesome name='lock' />  Change Password (optional)</h4>
-              <label htmlFor="password">New Password</label>
+              <label htmlFor="password"><FontAwesome name='lock' /> Change Password</label>
               <input type="password" ref="password" defaultValue="" />
               <button disabled={this.state.saving} className="button secondary" onClick={this.handleSave}>Save Changes</button>
             </div>
@@ -106,7 +103,6 @@ const Account = React.createClass({
                 dispatch('clearProfile');
                 this.props.history.push('/');
               } }>Log out</button>
-              <hr />
               <label>Security token <button className="button secondary" onClick={() => this.setState({ show_token: !this.state.show_token })}>{this.state.show_token ? 'hide' : 'show' }</button></label>
               <textarea rows={4} value={this.state.show_token ? localStorage.token : ''} style={{ display: this.state.show_token ? '' : 'none' }} />
 
