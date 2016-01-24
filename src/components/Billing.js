@@ -90,7 +90,7 @@ const Billing = React.createClass({
           console.log( 'User', result.stripe_customer_id, 'is now subscribed to', result.stripe_subscription_id )
 
           // FIXME: What to do after user subscription is saved?
-          this.props.history.push('/buckets')
+          this.props.history.push(this.props.redirect || '/buckets')
 
         })
 

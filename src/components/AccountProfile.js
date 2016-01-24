@@ -86,7 +86,7 @@ const Account = React.createClass({
               </div>,
               <div>
                 <hr />
-                Subscription is not active. <Link to="account/billing">Sign up</Link>
+                Subscription is not active. <Link to="account/billing">Activate Subscription</Link>
               </div>
             )}
             {/* <hr />
