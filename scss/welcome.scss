@@ -30,10 +30,6 @@
   box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.20);
   text-align: center;
   border-bottom: 1px solid white;
-}
-
-.tour {
-  border-radius: 3px 3px 0 0;
 
   .key-features {
 
@@ -48,6 +44,10 @@
       }
     }
   }
+}
+
+.tour {
+  border-radius: 3px 3px 0 0;
 }
 
 @include keyframes(fadeIn) {

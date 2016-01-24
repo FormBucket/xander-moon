@@ -404,8 +404,13 @@ label {
   border-bottom: 1px solid $purple;
 }
 
-.loading {
+.flash {
   text-align: center;
+  width: 100%;
+}
+
+.loading {
+  margin-top: $base-spacing;
   width: 50px;
 }
 

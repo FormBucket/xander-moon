@@ -137,31 +137,51 @@ const Submissions = React.createClass({
 
     if (EQ(this.state.loaded, false)) {
       return (
-        <div>Loading...</div>
+        <div className="wrapper">
+          <div className="flash">
+            <img className="loading" src="/img/loading.gif" alt="Loading..." />
+          </div>
+        </div>
       )
     }
 
     if (ISBLANK(this.props.params.id)) {
       return (
-        <div>ERROR: No bucket selected!</div>
+        <div className="wrapper">
+          <div className="flash">
+            ERROR: No bucket selected!
+          </div>
+        </div>
       )
     }
 
     if (ISBLANK(this.state.bucket)) {
       return (
-        <div>ERROR: Cannot find bucket!</div>
+        <div className="wrapper">
+          <div className="flash">
+            ERROR: Cannot find bucket!
+          </div>
+        </div>
       )
     }
 
     if (ISBLANK(this.state.submissions)) {
       return (
-        <div>Loading...</div>
+        <div className="wrapper">
+          <div className="flash">
+            <img className="loading" src="/img/loading.gif" alt="Loading..." />
+          </div>
+        </div>
       )
     }
 
     if (EQ(this.state.submissions.length, 0)) {
       return (
-        <div>No Submissions Yet!</div>
+        <div className="wrapper">
+          <div className="flash">
+            No Submissions Yet!
+          </div>
+        </div>
       )
     }
 
