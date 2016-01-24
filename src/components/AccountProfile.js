@@ -48,8 +48,8 @@ const Account = React.createClass({
       org: this.refs.org.value,
       email: this.refs.email.value,
       password: this.refs.password.value
-    }).then(user => {
-      console.log(user)
+    })
+    .then(user => {
       this.setState({
         saving: false,
         flash: 'Saved'
@@ -58,11 +58,16 @@ const Account = React.createClass({
       setTimeout(() => this.setState({ flash: undefined }), 2000)
 
     })
+    .catch(error => this.setState({
+      saving: false,
+      flash: 'Error saving'
+    }))
+
   },
 
   render () {
-
-    if (!UserStore.isLoaded()) {
+    console.log(this.state)
+    if (!this.state.user || !this.state.user.email) {
       return <div>Loading...</div>
     }
 
@@ -101,29 +106,29 @@ const Account = React.createClass({
                 dispatch('clearProfile');
                 this.props.history.push('/');
               } }>Log out</button>
-            <hr />
-            <label>Security token <button className="button secondary" onClick={() => this.setState({ show_token: !this.state.show_token })}>{this.state.show_token ? 'hide' : 'show' }</button></label>
-            <textarea rows={4} value={this.state.show_token ? localStorage.token : ''} style={{ display: this.state.show_token ? '' : 'none' }} />
+              <hr />
+              <label>Security token <button className="button secondary" onClick={() => this.setState({ show_token: !this.state.show_token })}>{this.state.show_token ? 'hide' : 'show' }</button></label>
+              <textarea rows={4} value={this.state.show_token ? localStorage.token : ''} style={{ display: this.state.show_token ? '' : 'none' }} />
 
-            { /*IF(this.state.active,
-              <div>
+              { /*IF(this.state.active,
+                <div>
                 <hr />
                 <label>Stop billing and unsubscribe from this service</label>
                 <button className="button secondary" onClick={this.handleDelete}>Cancel Subscription</button>
-              </div>,
-              <div>
+                </div>,
+                <div>
                 <hr />
                 Subscription is not active. <Link to="account/billing">Activate Subscription</Link>
+                </div>
+                ) */}
+                {/* <hr />
+                <label>Download account archive</label>
+                <button className="button secondary" onClick={() => alert('tbd')}>Download Archive</button> */}
               </div>
-            ) */}
-            {/* <hr />
-            <label>Download account archive</label>
-            <button className="button secondary" onClick={() => alert('tbd')}>Download Archive</button> */}
+            </div>
           </div>
-        </div>
-      </div>
-    )
-  }
-})
+        )
+      }
+    })
 
-  export default Account
+    export default Account
