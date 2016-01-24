@@ -2,13 +2,16 @@ import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 import AccountMenu from './AccountMenu'
 import UserStore from '../stores/user'
-
+import {deleteAccount} from '../stores/ActionCreator'
+import {IF} from 'functionfoundry'
+import {Link} from 'react-router'
 
 const Account = React.createClass({
   getInitialState () {
     return {
       show_token: false,
-      user: UserStore.getState()
+      user: UserStore.getState(),
+      active: false //UserStore.getPlan().length > 0
     }
   },
 
@@ -22,6 +25,13 @@ const Account = React.createClass({
 
   handleUserChanged() {
     this.setState({ user: UserStore.getState() })
+  },
+
+  handleDelete() {
+    deleteAccount()
+    .then(n => {
+      this.setState({ active: false })
+    })
   },
 
   render () {
@@ -65,9 +75,17 @@ const Account = React.createClass({
             <label>Security token <button className="button secondary" onClick={() => this.setState({ show_token: !this.state.show_token })}>{this.state.show_token ? 'hide' : 'show' }</button></label>
             <textarea rows={4} value={this.state.show_token ? localStorage.token : ''} style={{ display: this.state.show_token ? '' : 'none' }} />
 
-            <hr />
-            <label>Delete your account and data</label>
-            <button className="button secondary" onClick={() => alert('tbd')}>Delete Profile</button>
+            { IF(this.state.active,
+              <div>
+                <hr />
+                <label>Stop billing and unsubscribe from this service</label>
+                <button className="button secondary" onClick={this.handleDelete}>Cancel Subscription</button>
+              </div>,
+              <div>
+                <hr />
+                Subscription is not active. <Link to="account/billing">Sign up</Link>
+              </div>
+            )}
             {/* <hr />
             <label>Download account archive</label>
             <button className="button secondary" onClick={() => alert('tbd')}>Download Archive</button> */}

@@ -16,7 +16,8 @@ import {
   requestSignUp,
   requestSignIn,
   requestProfile,
-  requestSubscribe
+  requestSubscribe,
+  unsubscribe
 } from './webutils'
 
 export function signUp(name, org, email, password) {
@@ -258,6 +259,22 @@ export function subscribe(token, plan) {
     requestSubscribe(token, plan)
     .then(profile => {
       dispatch('setProfile', profile)
+      resolve(profile)
+    })
+    .catch(error => reject(error))
+
+  })
+
+  return p
+}
+
+export function deleteAccount() {
+  console.log('deleteAccount')
+  var p = new Promise( (resolve, reject) => {
+    console.log('unsubscribe')
+    unsubscribe()
+    .then(profile => {
+      dispatch('deleteAccount', profile)
       resolve(profile)
     })
     .catch(error => reject(error))
