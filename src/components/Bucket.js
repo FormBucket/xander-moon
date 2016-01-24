@@ -67,7 +67,7 @@ const NewBucket = React.createClass({
         <div className="wrapper">
           <div className="bucket-details">
             <div className="section">
-              <label htmlFor="bucketName">Name</label>
+              <h3>Name</h3>
               <input type="text" id="bucketName" ref="bucketName" placeholder="e.g. Beta Signups" autoFocus={focus} onChange={ (e) => this.setState({ name: e.target.value }) } defaultValue={this.state.name} />
               <label htmlFor="bucketEnabled" className="label-switch"> Status
                 <input id="bucketEnabled" type="checkbox" onChange={(event) => this.setState({ enabled: event.target.checked }) } checked={this.state.enabled} />
@@ -139,8 +139,14 @@ const NewBucket = React.createClass({
           </div>
           <div className="bucket-preview">
             <h3>Quick Use</h3>
-            <div className="editor">
-              <p>http://api.formbucket.com/f/</p>
+            <p>Copy and paste the markup below into your project, replacing the example inputs with your own.</p>
+            <div className="bucket-editor">
+              <textarea>
+                <form action="https://formbucket.com/f/ff4fu3" method="post">
+                  <input type="text" name="example" placeholder="Example"/>
+                  <button type="submit">Submit</button>
+                </form>
+              </textarea>
             </div>
           </div>
         </div>
