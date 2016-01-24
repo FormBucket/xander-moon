@@ -7,6 +7,15 @@ import {COND, ISARRAY, ISBLANK} from 'functionfoundry'
 import UserStore from '../stores/user'
 import {loadBucket, updateBucket} from '../stores/ActionCreator'
 
+function makeHTMLForm(id) {
+  return `\`\`\`js
+<form action="https://api.formbucket.com/f/${id}" method="post">
+  <input type="text" name="example" placeholder="Example"/>
+  <button type="submit">Submit</button>
+</form>
+\`\`\``
+}
+
 const NewBucket = React.createClass({
 
   getInitialState: function() {
@@ -141,12 +150,10 @@ const NewBucket = React.createClass({
             <h3>Quick Use</h3>
             <p>Copy and paste the markup below into your project, replacing the example inputs with your own.</p>
             <div className="bucket-editor">
-              <textarea>
-                <form action="https://formbucket.com/f/ff4fu3" method="post">
-                  <input type="text" name="example" placeholder="Example"/>
-                  <button type="submit">Submit</button>
-                </form>
-              </textarea>
+              <Markdown
+                source={ makeHTMLForm(this.state.id) }
+                options={ markdownOptions }
+                />
             </div>
           </div>
         </div>
