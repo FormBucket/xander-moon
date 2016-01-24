@@ -398,6 +398,12 @@ label {
   }
 }
 
+.section {
+  margin-bottom: $base-spacing;
+  padding-bottom: $base-spacing * 2;
+  border-bottom: 1px solid $purple;
+}
+
 .loading {
   text-align: center;
   width: 50px;

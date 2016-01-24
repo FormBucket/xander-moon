@@ -39,14 +39,15 @@ const Account = React.createClass({
         </div>
         <div className="wrapper">
           <div className="half-width">
-
-            <div className="callout">
+            <div className="section">
               <label for="fullName">Full Name</label>
               <input type="text" refs="fullName" name="displayName" value={this.state.user.name} placeholder="e.g. Nikola Tesla"/>
               <label for="orgName">Company / Org</label>
               <input type="text" refs="orgName" />
               <label for="emailAddress">Email Address</label>
               <input type="text" refs="emailAddress" name="username" value={this.state.user.email} placeholder="nikola@altcurrent.com"/>
+            </div>
+            <div className="section">
               <h4><FontAwesome name='lock' />  Change Password</h4>
               <label for="currentPassword">Current Password</label>
               <input type="password" refs="currentPassword" name="password" />
@@ -54,7 +55,6 @@ const Account = React.createClass({
               <input type="password" refs="newPassword" name="password" />
               <button className="button secondary" type="submit">Save Changes</button>
             </div>
-            <hr />
             <label>Remove local security token</label>
             <button className="button secondary" onClick={() => {
                 localStorage.removeItem('token');

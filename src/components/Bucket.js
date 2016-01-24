@@ -69,7 +69,7 @@ const NewBucket = React.createClass({
             <div className="section">
               <label htmlFor="bucketName">Name</label>
               <input type="text" id="bucketName" ref="bucketName" placeholder="e.g. Beta Signups" autoFocus={focus} onChange={ (e) => this.setState({ name: e.target.value }) } defaultValue={this.state.name} />
-              <label htmlFor="bucketEnabled" className="label-switch"> Enabled
+              <label htmlFor="bucketEnabled" className="label-switch"> Status
                 <input id="bucketEnabled" type="checkbox" onChange={(event) => this.setState({ enabled: event.target.checked }) } checked={this.state.enabled} />
                 <div className="checkbox"></div>
               </label>
@@ -140,9 +140,7 @@ const NewBucket = React.createClass({
           <div className="bucket-preview">
             <h3>Quick Use</h3>
             <div className="editor">
-              <div className="left">
-                <p>http://api.formbucket.com/f/</p>
-              </div>
+              <p>http://api.formbucket.com/f/</p>
             </div>
           </div>
         </div>
