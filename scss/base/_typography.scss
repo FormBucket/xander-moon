@@ -36,8 +36,8 @@ p {
 }
 
 a {
-  color: $action-color;
-  text-decoration: none;
+  color: $dark-purple;
+  text-decoration: underline;
   transition: color $base-duration $base-timing;
 
   &:active,
