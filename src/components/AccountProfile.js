@@ -68,9 +68,9 @@ const Account = React.createClass({
             <hr />
             <label>Delete your account and data</label>
             <button className="button secondary" onClick={() => alert('tbd')}>Delete Profile</button>
-            <hr />
+            {/* <hr />
             <label>Download account archive</label>
-            <button className="button secondary" onClick={() => alert('tbd')}>Download Archive</button>
+            <button className="button secondary" onClick={() => alert('tbd')}>Download Archive</button> */}
           </div>
         </div>
       </div>
