@@ -8,12 +8,10 @@ import UserStore from '../stores/user'
 import {loadBucket, updateBucket} from '../stores/ActionCreator'
 
 function makeHTMLForm(id) {
-  return `\`\`\`js
-<form action="https://api.formbucket.com/f/${id}" method="post">
-  <input type="text" name="example" placeholder="Example"/>
+  return (`<form action="https://api.formbucket.com/f/${id}" method="post">
+  <input type="text" name="example" placeholder="Example />
   <button type="submit">Submit</button>
-</form>
-\`\`\``
+</form>`)
 }
 
 const NewBucket = React.createClass({
@@ -29,6 +27,8 @@ const NewBucket = React.createClass({
     loadBucket(this.props.params.id)
     .then(bucket => this.setState( Object.assign( { loaded: true}, bucket ) ))
     .catch(err => this.setState( { error: err } ))
+
+    localStorage.setItem('defaultBucket', this.props.params.id)
 
   },
 
@@ -151,7 +151,7 @@ const NewBucket = React.createClass({
             <p>Copy and paste the markup below into your project, replacing the example inputs with your own.</p>
             <div className="bucket-editor">
               <Markdown
-                source={ makeHTMLForm(this.state.id) }
+                source={ '```HTML\n' + makeHTMLForm(this.state.id) + '\n```' }
                 options={ markdownOptions }
                 />
             </div>

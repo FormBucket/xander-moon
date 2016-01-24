@@ -32,7 +32,7 @@ const Welcome = React.createClass({
       this.setState({
         ghostTextLength: this.state.ghostTextLength+2,
         ghostMarkup: content.substring(0, this.state.ghostTextLength+2 ),
-        ghostText: '```html\n' + content.substring(0, this.state.ghostTextLength+2 ) + '\n```'
+        ghostText: '```HTML\n' + content.substring(0, this.state.ghostTextLength+2 ) + '\n```'
       })
 
       if (this.state.ghostTextLength+2 > content.length) {
