@@ -33,8 +33,8 @@ const NewBucket = React.createClass({
   },
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('match', this.state === prevState )
-    console.log('state', JSON.stringify(this.state, null, 4))
+    // console.log('match', this.state === prevState )
+    // console.log('state', JSON.stringify(this.state, null, 4))
   },
 
   toggleAutoResponder(e) {

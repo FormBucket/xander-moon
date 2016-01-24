@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 import AccountMenu from './AccountMenu'
 import UserStore from '../stores/user'
-import {deleteAccount} from '../stores/ActionCreator'
+import {deleteAccount, updateProfile} from '../stores/ActionCreator'
 import {IF} from 'functionfoundry'
 import {Link} from 'react-router'
 
@@ -37,6 +37,10 @@ const Account = React.createClass({
     })
   },
 
+  handleSave() {
+    updateProfile()
+  },
+
   render () {
     return (
       <div>
@@ -66,7 +70,7 @@ const Account = React.createClass({
               <input type="password" refs="currentPassword" name="password" />
               <label for="newPassword">New Password</label>
               <input type="password" refs="newPassword" name="password" />
-              <button className="button secondary" type="submit">Save Changes</button>
+              <button className="button secondary" onClick={this.handleSave}>Save Changes</button>
             </div>
             <label>Remove local security token</label>
             <button className="button secondary" onClick={() => {
@@ -78,7 +82,7 @@ const Account = React.createClass({
             <label>Security token <button className="button secondary" onClick={() => this.setState({ show_token: !this.state.show_token })}>{this.state.show_token ? 'hide' : 'show' }</button></label>
             <textarea rows={4} value={this.state.show_token ? localStorage.token : ''} style={{ display: this.state.show_token ? '' : 'none' }} />
 
-            { IF(this.state.active,
+            { /*IF(this.state.active,
               <div>
                 <hr />
                 <label>Stop billing and unsubscribe from this service</label>
@@ -88,7 +92,7 @@ const Account = React.createClass({
                 <hr />
                 Subscription is not active. <Link to="account/billing">Activate Subscription</Link>
               </div>
-            )}
+            ) */}
             {/* <hr />
             <label>Download account archive</label>
             <button className="button secondary" onClick={() => alert('tbd')}>Download Archive</button> */}

@@ -22,7 +22,6 @@ import {
 
 export function signUp(name, org, email, password) {
   var p = new Promise( (resolve, reject) => {
-    console.log('foo')
     requestSignUp({
         name: name,
         org: org,
@@ -64,7 +63,6 @@ export function signUp(name, org, email, password) {
 
 export function signIn(email, password) {
   var p = new Promise( (resolve, reject) => {
-    console.log('foo')
     requestSignIn({
         email: email,
         password: password
@@ -75,8 +73,6 @@ export function signIn(email, password) {
 
         response.text().then(
           result => {
-
-            console.log(result, typeof result )
 
             localStorage.setItem('token', result) // save token to localStorage
 
@@ -217,13 +213,12 @@ export function deleteBucket(bucketId, done) {
 }
 
 export function loadSubscriptionPlans() {
-  console.log('loadSubscriptionPlans');
+  // console.log('loadSubscriptionPlans');
   var p = new Promise( (resolve, reject) => {
-    console.log('test2')
+
     requestSubscriptionPlans()
       .then(plans => {
         var sortedPlans = SORT( plans.map(n => Object.assign({}, n, n.metadata)), 'amount', true)
-        console.log('test3')
         dispatch('getSubscriptionPlans', sortedPlans)
         resolve(sortedPlans)
       })
@@ -234,9 +229,9 @@ export function loadSubscriptionPlans() {
 }
 
 export function loadSubmissionsByBucket(bucket_id, offset, limit, select) {
-  console.log('loadSubmissionsByBucket')
+  // console.log('loadSubmissionsByBucket')
   var p = new Promise( (resolve, reject) => {
-    console.log('run load submissions', bucket_id, offset, limit)
+    // console.log('run load submissions', bucket_id, offset, limit)
     requestSubmissionsByBucket(bucket_id, offset, limit, select)
     .then((items) => {
 
@@ -253,7 +248,7 @@ export function loadSubmissionsByBucket(bucket_id, offset, limit, select) {
 }
 
 export function subscribe(token, plan) {
-  console.log('subscribe', token, plan)
+  // console.log('subscribe', token, plan)
   var p = new Promise( (resolve, reject) => {
 
     requestSubscribe(token, plan)
@@ -269,9 +264,9 @@ export function subscribe(token, plan) {
 }
 
 export function deleteAccount() {
-  console.log('deleteAccount')
+  // console.log('deleteAccount')
   var p = new Promise( (resolve, reject) => {
-    console.log('unsubscribe')
+    // console.log('unsubscribe')
     unsubscribe()
     .then(profile => {
       dispatch('deleteAccount', profile)

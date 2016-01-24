@@ -27,7 +27,7 @@ const Buckets = React.createClass({
   },
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('match', this.state === prevState )
+    // console.log('match', this.state === prevState )
     //console.log('state', JSON.stringify(this.state, null, 4))
   },
 
@@ -59,7 +59,7 @@ const Buckets = React.createClass({
   handleNewBucket(event) {
     createBucket({ enabled: true })
     .then( result => {
-      console.log('createdBucket with', result)
+      // console.log('createdBucket with', result)
       this.props.history.push('/buckets/' + result.id + '/settings')
     })
     .catch( err => this.setState( { error: err } ))
@@ -86,12 +86,12 @@ const Buckets = React.createClass({
   },
 
   handleSelect(bucket) {
-    console.log('bucket settings click', bucket)
+    // console.log('bucket settings click', bucket)
     this.props.history.push('/buckets/' + bucket.id + '/settings')
   },
 
   handleShow(bucket) {
-    console.log('show submissions click', bucket)
+    // console.log('show submissions click', bucket)
     this.props.history.push('/buckets/' + bucket.id + '/submissions')
   },
 
