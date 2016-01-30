@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import {COND, NOT, EQ, OR, ISBLANK} from 'functionfoundry'
+import {COND, NOT, EQ, OR, IF, ISBLANK} from 'functionfoundry'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 import {loadBucket, loadSubmissionsByBucket} from '../stores/ActionCreator'
@@ -9,23 +9,23 @@ import FontAwesome from 'react-fontawesome'
 import {getQueryParam} from '../stores/webutils'
 
 let color = {
-  disabled: '#BBB',
-  enabled: '#000'
+  disabled: 'gray',
+  enabled: '$purple'
 }
 
-function wrap(output) {
-  return (
-    <div>
-      <div className="page-heading">
-        <div className="wrapper">
-          <h1>Submissions</h1>
-        </div>
-      </div>
-      <div className="wrapper">
-        {output}
-      </div>
-    </div>
-  )
+function wrap(headingText, output) {
+ return (
+   <div>
+     <div className="page-heading">
+       <div className="wrapper">
+         <h1>{headingText}</h1>
+       </div>
+     </div>
+     <div className="wrapper">
+       {output}
+     </div>
+   </div>
+ )
 }
 
 const Submissions = React.createClass({
@@ -71,7 +71,7 @@ const Submissions = React.createClass({
     this.props.history.replace(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${this.props.params.offset}/${this.props.params.limit}/${this.props.params.select}`)
 
     window.scrollTo(0, 0)
-    
+
   },
 
   handleBucketsChanged: function() {
@@ -187,56 +187,67 @@ const Submissions = React.createClass({
     }
 
     let pager = (
-      <span style={{float:'right' }}>
-        Format: &nbsp;
-        <a style={{ cursor: 'pointer '}} onClick={() => this.props.history.push(`/buckets/${this.props.params.id}/submissions/list/${this.props.params.offset}/${+this.props.params.limit}/${this.props.params.select}`)}>List</a> { ' | ' }
-        <a style={{ cursor: 'pointer '}} onClick={() => this.props.history.push(`/buckets/${this.props.params.id}/submissions/json/${this.props.params.offset}/${+this.props.params.limit}/${this.props.params.select}`)}>JSON</a> { ' | ' }
+      <div>
+        <p className="format">
+          <strong>Showing {(+this.props.params.offset)+1}-{(+this.props.params.offset) + (+this.props.params.limit) < this.state.bucket.submission_count ? (+this.props.params.offset) + (+this.props.params.limit) : this.state.bucket.submission_count} of {this.state.bucket.submission_count}</strong>
+        </p>
+        <div className="pagination">
+          <p>
+            <button style={{ cursor: (+this.props.params.offset) > 0 ? 'pointer' : 'auto', marginRight: '1.5em', color: +this.props.params.offset > 0 ? color.enabled : color.disabled, borderColor: +this.props.params.offset > 0 ? color.enabled : color.disabled}} onClick={this.goBack}>
+              <FontAwesome name="chevron-left" /> Prev
+            </button>
 
-        {(+this.props.params.offset)+1}-{(+this.props.params.offset) + (+this.props.params.limit) < this.state.bucket.submission_count ? (+this.props.params.offset) + (+this.props.params.limit) : this.state.bucket.submission_count} of {this.state.bucket.submission_count}&nbsp;&nbsp;&nbsp;&nbsp;
-        <span onClick={this.goBack}>
-          <FontAwesome style={{ cursor: (+this.props.params.offset) > 0 ? 'pointer' : '', fontSize: '1.5em', backgroundColor: 'white', color: +this.props.params.offset > 0 ? color.enabled : color.disabled, padding: 5 }} name="chevron-left" />
-        </span>
-        &nbsp;
-        <span onClick={this.goForward} >
-          <FontAwesome style={{ cursor: ((+this.props.params.offset) + (+this.props.params.limit)) < this.state.bucket.submission_count ? 'pointer' : '', fontSize: '1.5em', backgroundColor: 'white', color: ((+this.props.params.offset) + (+this.props.params.limit)) < this.state.bucket.submission_count ? color.enabled : color.disabled, padding: 5 }} name="chevron-right" />
-        </span>
-        {
-          COND( this.state.loading,
-                <span style={{ background: 'white', color: '#333', float: 'right', position: 'absolute', right: 200, zIndex: 9999 }}>
-                  <FontAwesome name="spinner" /> Loading...
-                </span>, null)
-        }
-      </span>
+            <button onClick={this.goForward} style={{ cursor: ((+this.props.params.limit)) < this.state.bucket.submission_count ? 'pointer' : 'auto', color: ((+this.props.params.offset) + (+this.props.params.limit)) < this.state.bucket.submission_count ? color.enabled : color.disabled}}>
+              Next <FontAwesome name="chevron-right" />
+            </button>
+          </p>
+          {
+            COND( this.state.loading,
+                  <span style={{ background: 'white', color: '#333', float: 'right', position: 'absolute', right: 200, zIndex: 9999 }}>
+                    <FontAwesome name="spinner" /> Loading...
+                  </span>, null)
+          }
+        </div>
+      </div>
     )
+    var headingText = IF(
+     this.state.bucket.name && this.state.bucket.name.trim().length > 0,
+     this.state.bucket.name,
+     this.state.bucket.id
+   )
 
     // console.log(this.props.params.mode)
 
     if (EQ(this.props.params.mode, 'list')) {
-      return wrap(
+      return wrap(headingText,
         <div>
-          <div style={{ padding: 25, background: '#666', color: 'white' }}>
-            {this.state.bucket.name}
+          <div className="callout-controls">
             {pager}
           </div>
-          {this.state.submissions.map( (submission, i) => (
-            <div style={{border: '1px solid black', margin: 10, background: 'white'}} key={i}>
-              <div>
-                <span>{submission.created_on.substring(0, 16).replace('T', ' at ')}</span>
-              </div>
-              {Object.keys(submission.data).map( (key, j) => (
-                <div key={i + '|' + j}>
-                  <strong>{key}</strong>
-                  <span>: {submission.data[key].toString()}</span>
+          <ul className="bucket-list">
+            {this.state.submissions.map( (submission, i) => (
+              <li key={submission.id} >
+                <div className="bucket-item" key={i}>
+                  <span>Submitted {submission.created_on.substring(0, 16).replace('T', ' at ')}</span>
+                  {Object.keys(submission.data).map( (key, j) => (
+                    <div key={i + '|' + j}>
+                      <strong>{key}</strong>
+                      <span>: {submission.data[key].toString()}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          ))}
+              </li>
+            ))}
+          </ul>
+          <div className="callout-controls">
+            {pager}
+          </div>
         </div>
       )
     }
 
     if (EQ(this.props.params.mode, 'table')) {
-      return wrap(
+      return wrap(headingText,
         <div>
           Do the table mode
           {pager}
@@ -245,7 +256,7 @@ const Submissions = React.createClass({
     }
 
     if (EQ(this.props.params.mode, 'json')) {
-      return wrap(
+      return wrap(headingText,
         <table className="bucket-list">
           <thead>
             <tr>

@@ -18,18 +18,30 @@ const NewBucket = React.createClass({
 
   getInitialState: function() {
     return {
-      loaded: false
+      loaded: false,
+      user: UserStore.getState()
     };
   },
 
-  componentWillMount() {
+  componentDidMount() {
 
     loadBucket(this.props.params.id)
     .then(bucket => this.setState( Object.assign( { loaded: true}, bucket ) ))
     .catch(err => this.setState( { error: err } ))
 
     localStorage.setItem('defaultBucket', this.props.params.id)
+    this.token = UserStore.addListener(this.handleUserChanged)
+  },
 
+  componentWillUnmount() {
+    this.token.remove()
+  },
+
+  handleUserChanged() {
+    this.setState({
+      user: UserStore.getState(),
+      active: UserStore.getPlan() && UserStore.getPlan().length > 0
+    })
   },
 
   componentDidUpdate(prevProps, prevState) {
@@ -110,9 +122,9 @@ const NewBucket = React.createClass({
               </label>
               <div className="autoresponder-wrapper" style={{ display: this.state.auto_responder ? '' : 'none' } }>
                 <label htmlFor="fromEmail">From</label>
-                <input type="text" ref="auto_responder_from" placeholder={UserStore.getEmail()}
+                <input type="text" ref="auto_responder_from"
                   onChange={(e) => this.setState({ auto_responder: Object.assign({}, this.state.auto_responder, { from: e.target.value } ) })}
-                  defaultValue={ this.state.auto_responder ? this.state.auto_responder.from : '' }
+                  defaultValue={ this.state.auto_responder ? this.state.auto_responder.from : this.state.user.email }
                   />
                 <label htmlFor="subject">Subject</label>
                 <input type="text" ref="auto_responder_subject" placeholder="Thanks!"

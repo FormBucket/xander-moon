@@ -2,6 +2,7 @@
   border: 0;
   border-radius: $base-border-radius;
   background-color: white;
+  margin-bottom: $base-spacing;
 
   a {
   }
@@ -41,4 +42,41 @@
 
 .toggle-switch {
   margin-right: $base-spacing / 2;
+}
+
+.callout-controls {
+  padding: $base-spacing;
+  border: 1px solid $purple;
+  border-radius: $base-border-radius;
+  margin-bottom: $base-spacing;
+
+  .format {
+    @include span-columns(8);
+    margin-top: $base-spacing;
+    text-align: left;
+
+    @include media($phablet) {
+      @include span-columns(12);
+      text-align: center;
+    }
+  }
+
+  .pagination {
+    @include span-columns(4);
+    margin-top: $base-spacing / 2;
+    text-align: right;
+
+    @include media($phablet) {
+      width: 100%;
+      text-align: center;
+    }
+
+    button {
+      border: 1px solid $purple;
+      background: none;
+      color: $purple;
+    }
+  }
+
+  @include clearfix;
 }
