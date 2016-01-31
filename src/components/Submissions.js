@@ -137,13 +137,6 @@ const Submissions = React.createClass({
 
   render () {
 
-    // console.log('render', this, this.state )
-    var offset = +this.props.params.offset,
-    limit = +this.props.params.limit,
-    total = this.state.bucket.submission_count,
-    from = offset+1,
-    to = IF(offset + limit < total, offset + limit, total)
-
     if (EQ(this.state.loaded, false)) {
       return (
         <div className="wrapper">
@@ -193,6 +186,12 @@ const Submissions = React.createClass({
         </div>
       )
     }
+
+    var offset = +this.props.params.offset,
+    limit = +this.props.params.limit,
+    total = this.state.bucket.submission_count,
+    from = offset+1,
+    to = IF(offset + limit < total, offset + limit, total)
 
     let pager = (key) => (
       <div key={key}>
