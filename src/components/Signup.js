@@ -12,6 +12,10 @@ const Signup = React.createClass({
       error: false
     }
   },
+  componentDidMount() {
+    // ensure user is scrolled to top
+    window.scrollTo(0, 0)
+  },
   handleClick() {
 
     this.setState({ loading: true, error: false })

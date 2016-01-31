@@ -6,6 +6,10 @@ var content = require('../content/api.md');
 
 // API Documentation
 const API = React.createClass({
+  componentDidMount() {
+    // ensure user is scrolled to top
+    window.scrollTo(0, 0)
+  },
   render () {
     return (
       <div>

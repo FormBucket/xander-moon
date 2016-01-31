@@ -5,6 +5,10 @@ import markdownOptions from './markdown-options'
 var content = require('../content/FAQs.md');
 
 const FAQs = React.createClass({
+  componentDidMount() {
+    // ensure user is scrolled to top
+    window.scrollTo(0, 0)
+  },
   render () {
     return (
       <div>
