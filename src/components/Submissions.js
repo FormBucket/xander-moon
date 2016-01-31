@@ -201,7 +201,7 @@ const Submissions = React.createClass({
         <div className="pagination">
           <p>
             <button onClick={this.goBack} style={{
-                cursor: offset > 0 ? 'pointer' : 'auto',
+                cursor: IF(offset > 0, 'pointer', 'auto'),
                 marginRight: '1.5em',
                 color: IF(offset > 0, color.enabled, color.disabled),
                 borderColor: IF(offset > 0, color.enabled, color.disabled) }}>
@@ -282,7 +282,7 @@ const Submissions = React.createClass({
               <th>
                 { this.state.bucket.name }
 
-                {pager}
+                {pager('top')}
               </th>
             </tr>
           </thead>
