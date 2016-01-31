@@ -10,7 +10,7 @@ import {getQueryParam} from '../stores/webutils'
 
 let color = {
   disabled: 'gray',
-  enabled: '$purple'
+  enabled: 'purple'
 }
 
 function wrap(headingText, output) {
@@ -89,52 +89,60 @@ const Submissions = React.createClass({
   },
 
   goForward (event) {
+    var offset = +this.props.params.offset,
+    limit = +this.props.params.limit
+
     if (this.state.loading) {
       return
     }
     // console.log('goForward')
     var newOffset = COND(
-      +this.props.params.offset + +this.props.params.limit <= this.state.bucket.submission_count,
-      +this.props.params.offset + +this.props.params.limit,
-      +this.props.params.offset
+      offset + limit <= this.state.bucket.submission_count,
+      offset + limit,
+      offset
     )
 
-    // console.log('foo2', this.props.params.offset, newOffset, this.state.submissions.length, this.state.bucket.submission_count)
-    if (this.props.params.offset === newOffset ||
-      newOffset >= this.state.bucket.submission_count
-    ) {
+    if (offset === newOffset || newOffset >= this.state.bucket.submission_count) {
       return
     }
 
-    this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${+this.props.params.limit}/${this.props.params.select}`)
-
+    this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${limit}/${this.props.params.select}`)
   },
 
   goBack (event) {
+
+    var offset = +this.props.params.offset,
+    limit = +this.props.params.limit
 
     if (this.state.loading) {
       return
     }
 
     // console.log('goBack')
-    var newOffset = COND(
-      +this.props.params.offset - +this.props.params.limit > 0,
-      +this.props.params.offset - +this.props.params.limit,
+    var newOffset = IF(
+      offset - limit > 0,
+      offset - limit,
       0
     )
 
     if (OR(
-      +this.props.params.offset === newOffset,
-      +this.props.params.offset >= this.state.bucket.submission_count) ) {
+      offset === newOffset,
+      offset >= this.state.bucket.submission_count) ) {
       return
     }
 
-    this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${+this.props.params.limit}/${this.props.params.select}`)
+    this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${limit}/${this.props.params.select}`)
 
   },
+
   render () {
 
     // console.log('render', this, this.state )
+    var offset = +this.props.params.offset,
+    limit = +this.props.params.limit,
+    total = this.state.bucket.submission_count,
+    from = offset+1,
+    to = IF(offset + limit < total, offset + limit, total)
 
     if (EQ(this.state.loaded, false)) {
       return (
@@ -186,26 +194,38 @@ const Submissions = React.createClass({
       )
     }
 
-    let pager = (
-      <div>
+    let pager = (key) => (
+      <div key={key}>
         <p className="format">
-          <strong>Showing {(+this.props.params.offset)+1}-{(+this.props.params.offset) + (+this.props.params.limit) < this.state.bucket.submission_count ? (+this.props.params.offset) + (+this.props.params.limit) : this.state.bucket.submission_count} of {this.state.bucket.submission_count}</strong>
+          <strong>Showing {from}-{to} of {total}</strong>
         </p>
         <div className="pagination">
           <p>
-            <button style={{ cursor: (+this.props.params.offset) > 0 ? 'pointer' : 'auto', marginRight: '1.5em', color: +this.props.params.offset > 0 ? color.enabled : color.disabled, borderColor: +this.props.params.offset > 0 ? color.enabled : color.disabled}} onClick={this.goBack}>
+            <button onClick={this.goBack} style={{
+                cursor: offset > 0 ? 'pointer' : 'auto',
+                marginRight: '1.5em',
+                color: IF(offset > 0, color.enabled, color.disabled),
+                borderColor: IF(offset > 0, color.enabled, color.disabled) }}>
               <FontAwesome name="chevron-left" /> Prev
             </button>
 
-            <button onClick={this.goForward} style={{ cursor: ((+this.props.params.limit)) < this.state.bucket.submission_count ? 'pointer' : 'auto', color: ((+this.props.params.offset) + (+this.props.params.limit)) < this.state.bucket.submission_count ? color.enabled : color.disabled}}>
+            <button onClick={this.goForward} style={{
+                cursor: IF(to < total, 'pointer', 'auto'),
+                color: IF(offset + limit < total, color.enabled, color.disabled) }}>
               Next <FontAwesome name="chevron-right" />
             </button>
           </p>
           {
-            COND( this.state.loading,
-                  <span style={{ background: 'white', color: '#333', float: 'right', position: 'absolute', right: 200, zIndex: 9999 }}>
-                    <FontAwesome name="spinner" /> Loading...
-                  </span>, null)
+            IF( this.state.loading,
+                <span style={{
+                    background: 'white',
+                    color: '#333',
+                    float: 'right',
+                    position: 'absolute',
+                    right: 200,
+                    zIndex: 9999 }}>
+                  <FontAwesome name="spinner" /> Loading...
+                </span>, null)
           }
         </div>
       </div>
@@ -222,7 +242,7 @@ const Submissions = React.createClass({
       return wrap(headingText,
         <div>
           <div className="callout-controls">
-            {pager}
+            {pager('top')}
           </div>
           <ul className="bucket-list">
             {this.state.submissions.map( (submission, i) => (
@@ -240,7 +260,7 @@ const Submissions = React.createClass({
             ))}
           </ul>
           <div className="callout-controls">
-            {pager}
+            {pager('bottom')}
           </div>
         </div>
       )
