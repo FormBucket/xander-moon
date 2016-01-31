@@ -31,18 +31,18 @@ const Welcome = React.createClass({
     this.timerId = setInterval( () => {
 
       this.setState({
-        ghostTextLength: this.state.ghostTextLength+2,
-        ghostMarkup: content.substring(0, this.state.ghostTextLength+2 ),
-        ghostText: '```HTML\n' + content.substring(0, this.state.ghostTextLength+2 ) + '\n```'
+        ghostTextLength: this.state.ghostTextLength+4,
+        ghostMarkup: content.substring(0, this.state.ghostTextLength+4 ),
+        ghostText: '```HTML\n' + content.substring(0, this.state.ghostTextLength+4 ) + '\n```'
       })
 
-      if (this.state.ghostTextLength+2 > content.length) {
+      if (this.state.ghostTextLength+4 > content.length) {
         this.setState({
           ghostText: this.state.ghostText + '\n<span class="blinking-cursor" />'
         })
         clearInterval(this.timerId)
       }
-    }, 40)
+    }, 80)
 
   },
   componentWillUnmount () {
