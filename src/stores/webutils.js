@@ -27,7 +27,8 @@ export function processStatus(response) {
   if (response.status === 200 || response.status === 0) {
     return Promise.resolve(response);
   } else {
-    return Promise.reject(new Error(response.statusText));
+    return response.text()
+    .then(text => Promise.reject(new Error(text)));
   }
 }
 
@@ -114,6 +115,12 @@ export function requestSignUp(user) {
     body: JSON.stringify(user)
   })
 
+}
+
+export function token(){
+  return getResource('/token')
+  .then(processStatus)
+  .then(getJSON)
 }
 
 export function requestUpdateUser(user) {
@@ -225,7 +232,7 @@ export function requestSubmissionsByBucket(bucket_id, offset, limit, select){
 }
 
 export function requestStripePubKey(){
-  return getResource('/stripe/pubkey')
+  return getResource('/stripe/pk')
   .then(processStatus)
   .then(getText)
 }
@@ -262,3 +269,4 @@ window.requestBuckets = requestBuckets
 window.requestStripePubKey = requestStripePubKey
 window.requestCharges = requestCharges
 window.requestInvoices = requestInvoices
+window.token = token
