@@ -9,7 +9,7 @@ import {COND} from 'functionfoundry'
 let server =  COND(
   process.env.NODE_ENV === 'production',
   'https://api.formbucket.com',
-  'https://api.formbucket.com'
+  'https://red.formbucket.com'
   // 'http://localhost:3001'
 )
 

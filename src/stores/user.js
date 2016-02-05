@@ -6,6 +6,7 @@ const UserStore = createStore(
   {},
   {
     setProfile: (state, action) => action.data,
+    cancelSubscription: (state, action) => action.data,
     clearProfile: () => { return {} }
   }, // store does not support updates
   {

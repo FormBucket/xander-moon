@@ -293,13 +293,13 @@ export function subscribe(token, plan) {
   return p
 }
 
-export function deleteAccount() {
-  // console.log('deleteAccount')
+export function cancelSubscription() {
+  // console.log('cancelSubscription')
   var p = new Promise( (resolve, reject) => {
     // console.log('unsubscribe')
     unsubscribe()
     .then(profile => {
-      dispatch('deleteAccount', profile)
+      dispatch('cancelSubscription', profile)
       resolve(profile)
     })
     .catch(error => reject(error))

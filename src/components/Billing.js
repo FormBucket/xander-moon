@@ -4,7 +4,7 @@ import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 import moment from 'moment'
 import {IF} from 'functionfoundry'
-import {loadSubscriptionPlans, subscribe, deleteAccount} from '../stores/ActionCreator'
+import {loadSubscriptionPlans, subscribe, cancelSubscription} from '../stores/ActionCreator'
 import {requestStripePubKey} from '../stores/webutils'
 import CreditCardForm from './CreditCardForm'
 import FontAwesome from 'react-fontawesome'
@@ -139,7 +139,7 @@ const Billing = React.createClass({
   },
 
   handleCancelSubscription() {
-    deleteAccount()
+    cancelSubscription()
     .then(n => {
       this.setState({ active: false })
     })

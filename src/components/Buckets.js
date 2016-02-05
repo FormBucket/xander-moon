@@ -124,7 +124,12 @@ const Buckets = React.createClass({
         </div>
         <div className="wrapper">
           <div className="callout">
-            <p>You are using {this.state.buckets.length} out of {UserStore.getMaxBuckets()} active buckets in <Link to="account/billing">the {this.state.selected_plan.displayName} Plan</Link>.</p>
+            {
+              IF(this.state.user.valid_until,
+                <p>You are using {this.state.buckets.length} out of {UserStore.getMaxBuckets()} active buckets in <Link to="account/billing">the {this.state.selected_plan.displayName} Plan</Link>.</p>,
+                <p>You do not have an <Link to="account/billing">active subscription</Link>.</p>
+              )
+            }
             <button onClick={this.handleNewBucket}><FontAwesome name='plus' /> New Bucket</button>
           </div>
           {Buckets}
