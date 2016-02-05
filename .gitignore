@@ -5,11 +5,3 @@ dist
 npm-debug.log
 
 *.zip
-
-public/css/formbucket.css
-
-public/js/formbucket.js
-
-public/assets/formbucket.css
-
-public/assets/formbucket.js
