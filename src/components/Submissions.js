@@ -7,6 +7,7 @@ import BucketStore from '../stores/buckets'
 import SubmissionsStore from '../stores/Submissions'
 import FontAwesome from 'react-fontawesome'
 import {getQueryParam} from '../stores/webutils'
+import DownloadToolbar from 'react-download-toolbar'
 
 let color = {
   disabled: 'gray',
@@ -191,7 +192,12 @@ const Submissions = React.createClass({
     limit = +this.props.params.limit,
     total = this.state.bucket.submission_count,
     from = offset+1,
-    to = IF(offset + limit < total, offset + limit, total)
+    to = IF(offset + limit < total, offset + limit, total),
+    headingText = IF(
+      this.state.bucket.name && this.state.bucket.name.trim().length > 0,
+      this.state.bucket.name,
+      this.state.bucket.id
+    )
 
     let pager = (key) => (
       <div key={key}>
@@ -213,6 +219,17 @@ const Submissions = React.createClass({
                 color: IF(offset + limit < total, color.enabled, color.disabled) }}>
               Next <FontAwesome name="chevron-right" />
             </button>
+            {'    '}
+            <DownloadToolbar
+            filename={`${headingText}-${from}-${to}.json`}
+            formats={[
+              { format: 'json',
+                label: <FontAwesome name="save" />
+              }
+            ]}
+            export={() => {
+              return JSON.stringify(SubmissionsStore.getState())
+            }}/>
           </p>
           {
             IF( this.state.loading,
@@ -229,11 +246,7 @@ const Submissions = React.createClass({
         </div>
       </div>
     )
-    var headingText = IF(
-     this.state.bucket.name && this.state.bucket.name.trim().length > 0,
-     this.state.bucket.name,
-     this.state.bucket.id
-   )
+
 
     // console.log(this.props.params.mode)
 
