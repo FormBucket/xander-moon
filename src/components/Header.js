@@ -12,14 +12,22 @@ const Header = React.createClass({
     }
   },
 
+  handleLinkClick() {
+    this.setState({ show: false })
+  },
+
   render () {
 
     var topRight = (
       <nav role="navigation">
         <a href="#" className="navigation-menu-button" onClick={(event) => this.setState({ show: !this.state.show })}>MENU</a>
         <ul id="js-navigation-menu" className={"navigation-menu" + (this.state.show ? ' show' : ' hide')}>
-          <li className="nav-link"><Link to="signup">Sign Up</Link></li>
-          <li className="nav-link"><Link to="login">Login</Link></li>
+          <li className="nav-link">
+            <Link to="signup" onClick={this.handleLinkClick}>Sign Up</Link>
+          </li>
+          <li className="nav-link">
+            <Link to="login" onClick={this.handleLinkClick}>Login</Link>
+          </li>
         </ul>
       </nav>
     )
@@ -29,8 +37,12 @@ const Header = React.createClass({
         <nav role="navigation">
           <a href="#" className="navigation-menu-button" onClick={(event) => this.setState({ show: !this.state.show })}>MENU</a>
           <ul className={"navigation-menu" + (this.state.show ? ' show' : ' hide')}>
-            <li className="nav-link"><Link to="/buckets">Buckets</Link></li>
-            <li className="nav-link"><Link to="/account/profile">Account</Link></li>
+            <li className="nav-link">
+              <Link to="/buckets" onClick={this.handleLinkClick}>Buckets</Link>
+            </li>
+            <li className="nav-link">
+              <Link to="/account/profile" onClick={this.handleLinkClick}>Account</Link>
+            </li>
           </ul>
         </nav>
       )
