@@ -46,6 +46,7 @@
     "moment": "^2.10.6",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
+    "react-download-link": "^0.1.0",
     "react-download-toolbar": "^1.0.1",
     "react-fontawesome": "^0.3.3",
     "react-remarkable": "^1.1.1",

@@ -9,8 +9,8 @@ import {COND} from 'functionfoundry'
 let server =  COND(
   process.env.NODE_ENV === 'production',
   'https://api.formbucket.com',
-  'https://red.formbucket.com'
-  // 'http://localhost:3001'
+  // 'https://red.formbucket.com'
+  'http://localhost:3001'
 )
 
 // reads value from qur
@@ -231,6 +231,12 @@ export function requestSubmissionsByBucket(bucket_id, offset, limit, select){
   .then(getJSON)
 }
 
+export function exportSubmissionsByBucket(bucket_id, format='csv'){
+  return getResource(`/buckets/${bucket_id}/submissions.${format}`)
+  .then(processStatus)
+  .then(res => res.text())
+}
+
 export function requestStripePubKey(){
   return getResource('/stripe/pk')
   .then(processStatus)
@@ -270,3 +276,4 @@ window.requestStripePubKey = requestStripePubKey
 window.requestCharges = requestCharges
 window.requestInvoices = requestInvoices
 window.token = token
+window.exportSubmissionsByBucket = exportSubmissionsByBucket

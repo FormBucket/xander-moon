@@ -7,7 +7,7 @@ import BucketStore from '../stores/buckets'
 import SubmissionsStore from '../stores/Submissions'
 import FontAwesome from 'react-fontawesome'
 import {getQueryParam} from '../stores/webutils'
-import DownloadToolbar from 'react-download-toolbar'
+import DownloadLink from 'react-download-link'
 
 let color = {
   disabled: 'gray',
@@ -220,16 +220,22 @@ const Submissions = React.createClass({
               Next <FontAwesome name="chevron-right" />
             </button>
             {'    '}
-            <DownloadToolbar
+
+            <DownloadLink
             filename={`${headingText}-${from}-${to}.json`}
-            formats={[
-              { format: 'json',
-                label: <FontAwesome name="save" />
-              }
-            ]}
+            label="Save"
             export={() => {
-              return JSON.stringify(SubmissionsStore.getState())
+              return JSON.stringify(SubmissionsStore.getState(), null, 4)
             }}/>
+
+            <DownloadLink
+            filename={`${headingText}.json`}
+            label="Export"
+            export={() => {
+              return exportSubmissionsByBucket('grXT623', 'json')
+            }}/>
+
+
           </p>
           {
             IF( this.state.loading,

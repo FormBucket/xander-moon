@@ -16,7 +16,7 @@ const Header = React.createClass({
 
     var topRight = (
       <nav role="navigation">
-        <a href="#" className="navigation-menu-button" id="js-mobile-menu">MENU</a>
+        <a href="#" className="navigation-menu-button" onClick={(event) => this.setState({ show: !this.state.show })}>MENU</a>
         <ul id="js-navigation-menu" className={"navigation-menu" + (this.state.show ? ' show' : ' hide')}>
           <li className="nav-link"><Link to="signup">Sign Up</Link></li>
           <li className="nav-link"><Link to="login">Login</Link></li>
