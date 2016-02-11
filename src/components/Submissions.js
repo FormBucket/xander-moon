@@ -221,19 +221,19 @@ const Submissions = React.createClass({
             </button>
             {'    '}
 
-            <DownloadLink
-            filename={`${headingText}-${from}-${to}.json`}
-            label="Save"
-            export={() => {
-              return JSON.stringify(SubmissionsStore.getState(), null, 4)
-            }}/>
-
-            <DownloadLink
-            filename={`${headingText}.json`}
-            label="Export"
-            export={() => {
-              return exportSubmissionsByBucket('grXT623', 'json')
-            }}/>
+            // <DownloadLink
+            // filename={`${headingText}-${from}-${to}.json`}
+            // label="Save"
+            // export={() => {
+            //   return JSON.stringify(SubmissionsStore.getState(), null, 4)
+            // }}/>
+            //
+            // <DownloadLink
+            // filename={`${headingText}.json`}
+            // label="Export"
+            // export={() => {
+            //   return exportSubmissionsByBucket('grXT623', 'json')
+            // }}/>
 
 
           </p>
