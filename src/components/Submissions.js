@@ -221,7 +221,7 @@ const Submissions = React.createClass({
             </button>
             {'    '}
 
-            /*<DownloadLink
+            {/*<DownloadLink
             filename={`${headingText}-${from}-${to}.json`}
             label="Save"
             export={() => {
@@ -233,7 +233,7 @@ const Submissions = React.createClass({
             label="Export"
             export={() => {
               return exportSubmissionsByBucket('grXT623', 'json')
-            }}/>*/
+            }}/>*/}
 
 
           </p>
