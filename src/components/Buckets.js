@@ -8,7 +8,6 @@ import FontAwesome from 'react-fontawesome'
 import {loadBuckets, createBucket} from '../stores/ActionCreator'
 import UserStore from '../stores/user'
 import BucketStore from '../stores/buckets'
-import SubmissionsStore from '../stores/Submissions'
 import {loadSubmissionsByBucket, streamSubmissions} from '../stores/ActionCreator'
 
 import BucketTable from './BucketTable'
@@ -41,18 +40,18 @@ const Buckets = React.createClass({
       .catch( (err) => this.setState({ error: err }))
 
       // subscribe to future changes
-      this.token = BucketStore.addListener(this.handleBucketsChanged)
-      this.token2 = UserStore.addListener(this.handleUserChanged)
-      this.token3 = SubscriptionStore.addListener(this.handleSubscriptionChanged)
+      this.token = BucketStore.subscribe(this.handleBucketsChanged)
+      this.token2 = UserStore.subscribe(this.handleUserChanged)
+      this.token3 = SubscriptionStore.subscribe(this.handleSubscriptionChanged)
 
     }
   },
 
   componentWillUnmount() {
     if (this.token) {
-      this.token.remove()
-      this.token2.remove()
-      this.token3.remove()
+      this.token()
+      this.token2()
+      this.token3()
     }
   },
 
@@ -124,12 +123,7 @@ const Buckets = React.createClass({
         </div>
         <div className="wrapper">
           <div className="callout">
-            {
-              IF(this.state.user.valid_until,
-                <p>You are using {this.state.buckets.length} out of {UserStore.getMaxBuckets()} active buckets in <Link to="account/billing">the {this.state.selected_plan.displayName} Plan</Link>.</p>,
-                <p>You do not have an <Link to="account/billing">active subscription</Link>.</p>
-              )
-            }
+	    <p>Buckets are a container to store form submissions.</p>
             <button onClick={this.handleNewBucket}><FontAwesome name='plus' /> New Bucket</button>
           </div>
           {Buckets}

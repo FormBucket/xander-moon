@@ -1,3 +1,7 @@
+## Why is free?
+
+The application is free for basic usage. In the future we plan to add premium features.
+
 ## Can I export my form data?
 
 Yup, click the “gear” icon next to your form name. Click the “Export” tab. You can either export a CSV to get a snapshot of the latest collection of submissions for your form. Or, you can use the FormBucket API to query your form’s submission data if HTTP and JSON are more your thing.
@@ -30,5 +34,3 @@ Awesome. Now let the submissions roll in! Every time a submission comes through,
   </h1>
 </form>
 ```
-
-[I'm an inline-style link](login)

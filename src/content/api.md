@@ -13,7 +13,7 @@ The token must be provided via an HTTP Header named _Authorization_ that contain
 With the fetch API you can call with:
 
 ```js
-fetch('https://stream.formbucket.com/signup', {
+fetch('https://api.formbucket.com/signup', {
   method: 'POST',
   headers: {
     ContentType: 'application/json'
@@ -33,7 +33,7 @@ let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NjhkZjZjMGM4ZDVhZm
 This token must be presented to access data APIs.
 
 ```js
-fetch('https://stream.formbucket.com/buckets', {
+fetch('https://api.formbucket.com/buckets', {
   method: 'GET',
   headers: {
     ContentType: 'application/json',
@@ -47,7 +47,7 @@ fetch('https://stream.formbucket.com/buckets', {
 A returning user may obtain a new token by presenting their username and password.
 
 ```js
-fetch('https://stream.formbucket.com/login', {
+fetch('https://api.formbucket.com/login', {
   method: 'POST',
   headers: {
     ContentType: 'application/json',
@@ -66,7 +66,7 @@ Users may choose from fixed or variable sized buckets. The fixed size buckets wi
 ### Get a list of your buckets
 
 ```curl
-GET https://stream.formbucket.com/buckets
+GET https://api.formbucket.com/buckets
 ```
 
 #### Example Response
@@ -91,7 +91,7 @@ GET https://stream.formbucket.com/buckets
 ### Get a bucket
 
 ```curl
-GET https://stream.formbucket.com/buckets/:id
+GET https://api.formbucket.com/buckets/:id
 ```
 
 #### Parameters
@@ -126,7 +126,7 @@ sort            | object        | __Required__. An object that describes the sor
 ### Create a new bucket
 
 ```curl
-POST https://stream.formbucket.com/buckets
+POST https://api.formbucket.com/buckets
 ```
 
 #### Parameters

@@ -27,7 +27,7 @@ const Signup = React.createClass({
     )
     .then(
       n => {
-        this.props.history.push('/subscribe')
+        this.props.history.push('/buckets')
       },
       err => {
         this.setState({

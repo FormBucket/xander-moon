@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
-import AccountMenu from './AccountMenu'
 import UserStore from '../stores/user'
 import {deleteAccount, updateUser} from '../stores/ActionCreator'
 import {IF} from 'functionfoundry'
@@ -77,11 +76,6 @@ const Account = React.createClass({
         <div className="page-heading">
           <div className="wrapper">
             <h1>Account</h1>
-          </div>
-        </div>
-        <div className="page-nav-container">
-          <div className="wrapper">
-            <AccountMenu active="profile" />
           </div>
         </div>
         <div className="wrapper">

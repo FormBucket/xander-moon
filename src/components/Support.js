@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 
-var content = require('../content/Support.md');
+var content = require('../content/support.md')
 
 const Support = React.createClass({
   render () {

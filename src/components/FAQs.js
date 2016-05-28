@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 
-var content = require('../content/FAQs.md');
+var content = require('../content/faqs.md');
 
 const FAQs = React.createClass({
   componentDidMount() {
