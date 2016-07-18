@@ -1,21 +1,21 @@
-import {IF, COND, EQ, NOT, ISBLANK} from 'functionfoundry'
+import {branch, eq, isBlank} from 'functionfoundry'
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 
 const Buckets = React.createClass({
   render () {
-    if (ISBLANK(this.props.buckets)) {
+    if (isBlank(this.props.buckets)) {
       return (
         <div>Loading Buckets...</div>
       )
     }
 
-    if (EQ(this.props.buckets.length, 0)) {
+    if (eq(this.props.buckets.length, 0)) {
       return (
         <div>You have no buckets. There was never a better time to make one! Get started now.</div>
       )
     }
-
+    console.log('debug', this.props);
     return (
       <ul className="bucket-list">
           {
@@ -23,9 +23,9 @@ const Buckets = React.createClass({
               <li key={bucket.id} >
                 <div className="bucket-item">
                   <p onClick={() => this.props.select(bucket)}>
-                    <FontAwesome className="toggle-switch" name={COND(bucket.enabled, 'toggle-on', 'toggle-off')} />
+                    <FontAwesome className="toggle-switch" name={branch(bucket.enabled, 'toggle-on', 'toggle-off')} />
                     <span>
-                      { IF( ISBLANK(bucket.name), bucket.id, bucket.name ) }
+                      { branch( isBlank(bucket.name), bucket.id, bucket.name ) }
                     </span>
                   </p>
                   <div className="submission-count">

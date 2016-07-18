@@ -1,5 +1,4 @@
 import {createStore} from 'fluxury'
-import {ISBLANK} from 'functionfoundry'
 
 const SubscriptionStore = createStore(
   'Subscriptions',
@@ -19,8 +18,5 @@ const SubscriptionStore = createStore(
     }
   }
 )
-
-// FIXME: remove
-window.SubscriptionStore = SubscriptionStore
 
 export default SubscriptionStore

@@ -1,4 +1,4 @@
-import {IF, COND, EQ, NOT, ISBLANK} from 'functionfoundry'
+import {branch as IF, eq as EQ, not as NOT, isblank as ISBLANK} from 'functionfoundry'
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 
@@ -23,13 +23,13 @@ const Buckets = React.createClass({
             this.props.buckets.map(bucket => (
               <tr key={bucket.id}>
                 <td onClick={() => this.props.select(bucket)} >
-                  <FontAwesome name={COND(bucket.enabled, 'toggle-on', 'toggle-off')} />&nbsp;
+                  <FontAwesome name={IF(bucket.enabled, 'toggle-on', 'toggle-off')} />&nbsp;
                   { IF( ISBLANK(bucket.name), bucket.id, bucket.name ) }
                 </td>
                 <td onClick={() => this.props.select(bucket)} >
                   http://api.formbucket.com/f/{bucket.id}
                   {
-                    COND(
+                    IF(
                       bucket.email_to,
                       <span> <FontAwesome name="envelope-o" /></span>
                     )

@@ -3,14 +3,13 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
+  devtool: 'cheap-module-eval-source-map',
   entry: [
     './src/index'
   ],
   externals: {
     'highlight.js': 'hljs',
     'history': 'history',
-    'fluxury': 'fluxury',
-    'functionfoundry': 'FunctionFoundry',
     'immutable': 'Immutable',
     'react': 'React',
     'react-dom': 'ReactDOM',
@@ -32,11 +31,11 @@ module.exports = {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        warnings: false
-      }
-    }),
+//    new webpack.optimize.UglifyJsPlugin({
+//      compressor: {
+//        warnings: false
+//      }
+ //   }),
     new ExtractTextPlugin('formbucket.css')
   ],
   module: {

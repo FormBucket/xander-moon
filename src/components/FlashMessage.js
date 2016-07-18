@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react'
-import {IF} from 'functionfoundry'
+import {branch} from 'functionfoundry'
 
 const FlashMessage = React.createClass({
   render () {
-    return IF(this.props.text && typeof this.props.text === 'string',
+    return branch(this.props.text && typeof this.props.text === 'string',
       // you won't miss the giant red box. Now here is your chance to change the color of the beast.
       //
       <div style={{

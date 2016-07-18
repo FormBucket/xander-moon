@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
-import {COND, ISBLANK} from 'functionfoundry'
+import {branch} from 'functionfoundry'
 import UserStore from '../stores/user'
 
 var content = `<h3>Try it out!</h3>
-<form action="https://api.formbucket.com/f/ff4fu3" method="post">
+<form action="https://red.formbucket.com/f/GfBPQs1" method="post">
   <input type="text" name="name" placeholder="Name"/>
   <input type="text" name="email" placeholder="Email"/>
   <textarea name="message" placeholder="Message"></textarea>
@@ -19,8 +19,8 @@ const Welcome = React.createClass({
         <div className="hero">
           <div className="wrapper">
             <h1>Endpoints are Just the Beginning</h1>
-            <h2>Turbocharged Form Handling and Automation</h2>
-            { COND( UserStore.isUserLoggedIn(),
+	    <h2>Groovy Form Handling and Automation for Static Sites</h2>
+            { branch( UserStore.isUserLoggedIn(),
                     <button onClick={() => this.props.history.push('/buckets')}>Return to your buckets</button>,
                     <button onClick={() => this.history.push('/signup')}>Sign up for free</button>
              )}

@@ -1,3 +1,4 @@
+const PORT = process.env.PORT || 3000;
 var path = require('path');
 var express = require('express');
 var webpack = require('webpack');
@@ -20,11 +21,11 @@ app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(3000, 'localhost', function(err) {
+app.listen(PORT, function(err) {
   if (err) {
     console.log(err);
     return;
   }
 
-  console.log('Listening at http://localhost:3000');
+  console.log('Listening at http://localhost:' + PORT);
 });

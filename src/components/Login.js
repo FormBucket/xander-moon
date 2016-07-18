@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 import {signIn} from '../stores/ActionCreator'
-import {COND} from 'functionfoundry'
+import {branch} from 'functionfoundry'
 
 const Login = React.createClass({
   getInitialState() {
@@ -65,7 +65,7 @@ const Login = React.createClass({
               </label>
               <input onClick={this.handleClick} type="button" value="Login" disabled={this.state.loading} />
               {
-                COND(this.state.loading,
+                branch(this.state.loading,
                   <p><FontAwesome name="fa fa-spinner" /> Logging in</p>
                 )
               }

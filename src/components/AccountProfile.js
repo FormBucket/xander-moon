@@ -1,34 +1,27 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
-import UserStore from '../stores/user'
-import {deleteAccount, updateUser} from '../stores/ActionCreator'
-import {IF} from 'functionfoundry'
 import {Link} from 'react-router'
 import FlashMessage from './FlashMessage'
+import {requestProfile, requestUpdateUser} from '../stores/webutils'
 
 const Account = React.createClass({
   getInitialState () {
     return {
       show_token: false,
-      user: UserStore.getState(),
-      active: UserStore.getPlan() && UserStore.getPlan().length > 0,
       flash: undefined
     }
   },
 
   componentDidMount() {
-    this.token = UserStore.addListener(this.handleUserChanged)
+      requestProfile()
+      .then( profile => this.setState({ user: profile }) )
   },
 
   componentWillUnmount() {
-    this.token.remove()
+
   },
 
   handleUserChanged() {
-    this.setState({
-      user: UserStore.getState(),
-      active: UserStore.getPlan() && UserStore.getPlan().length > 0
-    })
   },
 
   handleDelete() {
@@ -42,7 +35,8 @@ const Account = React.createClass({
     console.log('need to save', this)
 
     this.setState({ saving: true })
-    updateUser({
+    requestUpdateUser({
+      id: this.state.user.id,
       name: this.refs.name.value,
       org: this.refs.org.value,
       email: this.refs.email.value,

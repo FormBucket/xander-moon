@@ -1,5 +1,5 @@
 import {dispatch} from 'fluxury'
-import {SORT} from 'functionfoundry'
+import {sort} from 'functionfoundry'
 
 // FIXME: REMOVE DEV HACK
 window.dispatch = dispatch
@@ -84,7 +84,7 @@ export function updateUser(updates) {
       }
 
     }, (error) => reject(error))
-
+y
   })
 
   return p;
@@ -135,6 +135,7 @@ export function loadProfile() {
     .then(profile => {
 
       // publish to stores
+      console.log('setProfile', profile)
       dispatch('setProfile', profile)
 
       // resolve to caller
@@ -248,7 +249,7 @@ export function loadSubscriptionPlans() {
 
     requestSubscriptionPlans()
       .then(plans => {
-        var sortedPlans = SORT( plans.map(n => Object.assign({}, n, n.metadata)), 'amount', true)
+        var sortedPlans = sort( plans.map(n => Object.assign({}, n, n.metadata)), 'amount', true)
         dispatch('getSubscriptionPlans', sortedPlans)
         resolve(sortedPlans)
       })

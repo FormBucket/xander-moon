@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react'
-import {COND, NOT, EQ, OR, IF, ISBLANK} from 'functionfoundry'
+import {branch, eq, or, isBlank} from 'functionfoundry'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
-import {loadBucket, loadSubmissionsByBucket} from '../stores/ActionCreator'
+import {requestBucket, requestSubmissionsByBucket} from '../stores/webutils'
 import BucketStore from '../stores/buckets'
 import SubmissionsStore from '../stores/submissions'
 import FontAwesome from 'react-fontawesome'
 import {getQueryParam} from '../stores/webutils'
-import DownloadLink from 'react-download-link'
+//import DownloadLink from 'react-download-link'
 
 let color = {
   disabled: 'gray',
@@ -47,8 +47,8 @@ const Submissions = React.createClass({
       // console.log('componentWillReceiveProps', this)
 
       Promise.all([
-        loadBucket(nextProps.params.id),
-        loadSubmissionsByBucket(nextProps.params.id, +nextProps.params.offset, +nextProps.params.limit, nextProps.params.select)
+        requestBucket(nextProps.params.id),
+        requestSubmissionsByBucket(nextProps.params.id, +nextProps.params.offset, +nextProps.params.limit, nextProps.params.select)
       ])
       .then(values => this.setState({
         loading: false,
@@ -97,7 +97,7 @@ const Submissions = React.createClass({
       return
     }
     // console.log('goForward')
-    var newOffset = COND(
+    var newOffset = branch(
       offset + limit <= this.state.bucket.submission_count,
       offset + limit,
       offset
@@ -120,13 +120,13 @@ const Submissions = React.createClass({
     }
 
     // console.log('goBack')
-    var newOffset = IF(
+    var newOffset = branch(
       offset - limit > 0,
       offset - limit,
       0
     )
 
-    if (OR(
+    if (or(
       offset === newOffset,
       offset >= this.state.bucket.submission_count) ) {
       return
@@ -138,7 +138,7 @@ const Submissions = React.createClass({
 
   render () {
 
-    if (EQ(this.state.loaded, false)) {
+    if (eq(this.state.loaded, false)) {
       return (
         <div className="wrapper">
           <div className="flash">
@@ -148,7 +148,7 @@ const Submissions = React.createClass({
       )
     }
 
-    if (ISBLANK(this.props.params.id)) {
+    if (isBlank(this.props.params.id)) {
       return (
         <div className="wrapper">
           <div className="flash">
@@ -158,7 +158,7 @@ const Submissions = React.createClass({
       )
     }
 
-    if (ISBLANK(this.state.bucket)) {
+    if (isBlank(this.state.bucket)) {
       return (
         <div className="wrapper">
           <div className="flash">
@@ -168,7 +168,7 @@ const Submissions = React.createClass({
       )
     }
 
-    if (ISBLANK(this.state.submissions)) {
+    if (isBlank(this.state.submissions)) {
       return (
         <div className="wrapper">
           <div className="flash">
@@ -178,7 +178,7 @@ const Submissions = React.createClass({
       )
     }
 
-    if (EQ(this.state.submissions.length, 0)) {
+    if (eq(this.state.submissions.length, 0)) {
       return (
         <div className="wrapper">
           <div className="flash">
@@ -192,8 +192,8 @@ const Submissions = React.createClass({
     limit = +this.props.params.limit,
     total = this.state.bucket.submission_count,
     from = offset+1,
-    to = IF(offset + limit < total, offset + limit, total),
-    headingText = IF(
+    to = branch(offset + limit < total, offset + limit, total),
+    headingText = branch(
       this.state.bucket.name && this.state.bucket.name.trim().length > 0,
       this.state.bucket.name,
       this.state.bucket.id
@@ -207,16 +207,16 @@ const Submissions = React.createClass({
         <div className="pagination">
           <p>
             <button onClick={this.goBack} style={{
-                cursor: IF(offset > 0, 'pointer', 'auto'),
+                cursor: branch(offset > 0, 'pointer', 'auto'),
                 marginRight: '1.5em',
-                color: IF(offset > 0, color.enabled, color.disabled),
-                borderColor: IF(offset > 0, color.enabled, color.disabled) }}>
+                color: branch(offset > 0, color.enabled, color.disabled),
+                borderColor: branch(offset > 0, color.enabled, color.disabled) }}>
               <FontAwesome name="chevron-left" /> Prev
             </button>
 
             <button onClick={this.goForward} style={{
-                cursor: IF(to < total, 'pointer', 'auto'),
-                color: IF(offset + limit < total, color.enabled, color.disabled) }}>
+                cursor: branch(to < total, 'pointer', 'auto'),
+                color: branch(offset + limit < total, color.enabled, color.disabled) }}>
               Next <FontAwesome name="chevron-right" />
             </button>
             {'    '}
@@ -238,7 +238,7 @@ const Submissions = React.createClass({
 
           </p>
           {
-            IF( this.state.loading,
+            branch( this.state.loading,
                 <span style={{
                     background: 'white',
                     color: '#333',
@@ -254,9 +254,9 @@ const Submissions = React.createClass({
     )
 
 
-    // console.log(this.props.params.mode)
+    console.log(this.state, this.props)
 
-    if (EQ(this.props.params.mode, 'list')) {
+    if (eq(this.props.params.mode, 'list')) {
       return wrap(headingText,
         <div>
           <div className="callout-controls">
@@ -284,7 +284,7 @@ const Submissions = React.createClass({
       )
     }
 
-    if (EQ(this.props.params.mode, 'table')) {
+    if (eq(this.props.params.mode, 'table')) {
       return wrap(headingText,
         <div>
           Do the table mode
@@ -293,7 +293,7 @@ const Submissions = React.createClass({
       )
     }
 
-    if (EQ(this.props.params.mode, 'json')) {
+    if (eq(this.props.params.mode, 'json')) {
       return wrap(headingText,
         <table className="bucket-list">
           <thead>

@@ -61,8 +61,8 @@ const Signup = React.createClass({
             </div>
             <label htmlFor="fullName">Full Name</label>
             <input onKeyUp={this.handleKeyUp} type="text" ref="name" placeholder="e.g. Nikola Tesla"/>
-            <label htmlFor="orgName">Company/Organization Name (Optional)</label>
-            <input onKeyUp={this.handleKeyUp} type="text" ref="org" placeholder="e.g. Tesla Electric Co."/>
+            <label style={{ display: 'none' }} htmlFor="orgName">Company/Organization Name (Optional)</label>
+            <input style={{ display: 'none' }} onKeyUp={this.handleKeyUp} type="text" ref="org" placeholder="e.g. Tesla Electric Co."/>
             <label htmlFor="emailAddress">Email Address</label>
             <input onKeyUp={this.handleKeyUp} type="text" ref="email" name="email" placeholder="nikola@altcurrent.com"/>
             <label htmlFor="createPassword"><FontAwesome name='lock' /> Create Password</label>

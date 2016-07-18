@@ -33,7 +33,7 @@ let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NjhkZjZjMGM4ZDVhZm
 This token must be presented to access data APIs.
 
 ```js
-fetch('https://api.formbucket.com/buckets', {
+fetch('https://api.formbucket.com/buckets.json', {
   method: 'GET',
   headers: {
     ContentType: 'application/json',
@@ -47,7 +47,7 @@ fetch('https://api.formbucket.com/buckets', {
 A returning user may obtain a new token by presenting their username and password.
 
 ```js
-fetch('https://api.formbucket.com/login', {
+fetch('https://api.formbucket.com/signin', {
   method: 'POST',
   headers: {
     ContentType: 'application/json',
@@ -66,7 +66,7 @@ Users may choose from fixed or variable sized buckets. The fixed size buckets wi
 ### Get a list of your buckets
 
 ```curl
-GET https://api.formbucket.com/buckets
+GET https://api.formbucket.com/buckets.json
 ```
 
 #### Example Response
@@ -91,7 +91,7 @@ GET https://api.formbucket.com/buckets
 ### Get a bucket
 
 ```curl
-GET https://api.formbucket.com/buckets/:id
+GET https://api.formbucket.com/buckets/:id.json
 ```
 
 #### Parameters
@@ -126,7 +126,7 @@ sort            | object        | __Required__. An object that describes the sor
 ### Create a new bucket
 
 ```curl
-POST https://api.formbucket.com/buckets
+POST https://api.formbucket.com/buckets.json
 ```
 
 #### Parameters
@@ -164,7 +164,7 @@ When an error occurs:
 ### Update a bucket
 
 ```curl
-PUT https://api.formbucket.com/buckets
+PUT https://api.formbucket.com/buckets/:id.json
 ```
 
 #### Parameters
@@ -185,7 +185,7 @@ Submissions are actual form data entered by the users of your bucket.
 ### Get all submissions in a bucket
 
 ```curl
-GET https://api.formbucket.com/buckets/:id/submissions?limit=10&offset=0&sort=%7Bcreated_on:%20-1%7D
+GET https://api.formbucket.com/buckets/:id/submissions.json?limit=10&offset=0&sort=%7Bcreated_on:%20-1%7D
 ```
 
 #### Parameters
@@ -219,7 +219,7 @@ POST https://api.formbucket.com/buckets/:id/submissions
 ```
 or use the alias
 ```curl
-POST https://api.formbucket.com/:id
+POST https://api.formbucket.com/f/:id
 ```
 
 
@@ -229,7 +229,7 @@ The form may include any field needed to meet your data collection requirement.
 
 ### Delete a submission
 
-DELETE https://www.FormBucket.com/submissions/:id
+DELETE https://www.FormBucket.com/buckets/:bucket_id/submissions/:submission_id
 
  ## HTTP Status Codes
 

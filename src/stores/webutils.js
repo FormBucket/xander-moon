@@ -4,12 +4,12 @@ Date: 2015-12-14
 
 All of these functions return a promise to get a payload.
 */
-import {COND} from 'functionfoundry'
+import {branch} from 'functionfoundry'
 
-let server =  COND(
+let server =  branch(
   process.env.NODE_ENV === 'production',
   'https://red.formbucket.com',
-  'http://localhost:3001'
+  'https://red.formbucket.com'
 )
 
 // reads value from qur
@@ -124,7 +124,7 @@ export function token(){
 
 export function requestUpdateUser(user) {
 
-  return fetch( server + '/profile', {
+  return fetch( server + '/profile.json', {
     method: 'PUT',
     mode: 'cors',
     headers: {
@@ -134,6 +134,8 @@ export function requestUpdateUser(user) {
     },
     body: JSON.stringify(user)
   })
+  .then(processStatus)
+  .then(res => res.json() )
 
 }
 /* Send server request to get user's Forms
@@ -144,7 +146,7 @@ name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required
 })
 */
 export function requestBuckets(){
-  return getResource('/buckets')
+  return getResource('/buckets.json')
   .then(processStatus)
   .then(getJSON)
 }
@@ -157,7 +159,7 @@ name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required
 })
 */
 export function requestBucket(id){
-  return getResource(`/buckets/${id}`)
+  return getResource(`/buckets/${id}.json`)
   .then(processStatus)
   .then(getJSON)
 }
@@ -170,7 +172,7 @@ name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required
 })
 */
 export function requestCreateBucket(data){
-  return postResource('/buckets', data)
+  return postResource('/buckets.json', data)
   .then(processStatus)
   .then(getJSON)
 }
@@ -201,8 +203,10 @@ export function submit(formId, formData) {
   .then(getJSON)
 }
 
+window.submit = submit
+
 export function requestProfile(){
-  return getResource('/profile')
+  return getResource('/profile.json')
   .then(processStatus)
   .then(getJSON)
 }
@@ -219,13 +223,13 @@ Usage:
 getSubmissions(10, 50)
 */
 export function requestSubmissions(offset, limit, select){
-  return getResource(`/submissions?offset=${+offset}&limit=${+limit}&select=${select}`)
+  return getResource(`/submissions.json?offset=${+offset}&limit=${+limit}&select=${select}`)
   .then(processStatus)
   .then(getJSON)
 }
 
 export function requestSubmissionsByBucket(bucket_id, offset, limit, select){
-  return getResource(`/buckets/${bucket_id}/submissions?offset=${+offset}&limit=${+limit}&select=${select}`)
+  return getResource(`/buckets/${bucket_id}/submissions.json?offset=${+offset}&limit=${+limit}&select=${select}`)
   .then(processStatus)
   .then(getJSON)
 }
@@ -265,14 +269,3 @@ export function unsubscribe() {
   .then(processStatus)
   .then(getJSON)
 }
-
-// FIXME: remove
-window.submit = submit
-window.requestProfile = requestProfile
-window.unsubscribe = unsubscribe
-window.requestBuckets = requestBuckets
-window.requestStripePubKey = requestStripePubKey
-window.requestCharges = requestCharges
-window.requestInvoices = requestInvoices
-window.token = token
-window.exportSubmissionsByBucket = exportSubmissionsByBucket

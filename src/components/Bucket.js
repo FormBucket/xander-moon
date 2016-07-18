@@ -3,9 +3,9 @@ import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
-import {COND, ISARRAY, ISBLANK} from 'functionfoundry'
+import {branch, isArray, isBlank} from 'functionfoundry'
 import UserStore from '../stores/user'
-import {loadBucket, updateBucket} from '../stores/ActionCreator'
+import {requestBucket, requestUpdateBucket} from '../stores/webutils'
 
 function makeHTMLForm(id) {
   return (`<form action="https://api.formbucket.com/f/${id}" method="post">
@@ -25,16 +25,16 @@ const NewBucket = React.createClass({
 
   componentDidMount() {
 
-    loadBucket(this.props.params.id)
+    requestBucket(this.props.params.id)
     .then(bucket => this.setState( Object.assign( { loaded: true}, bucket ) ))
     .catch(err => this.setState( { error: err } ))
 
     localStorage.setItem('defaultBucket', this.props.params.id)
-    this.token = UserStore.addListener(this.handleUserChanged)
+    this.remove = UserStore.subscribe(this.handleUserChanged)
   },
 
   componentWillUnmount() {
-    this.token.remove()
+    this.remove()
   },
 
   handleUserChanged() {
@@ -60,7 +60,7 @@ const NewBucket = React.createClass({
   onSave (e) {
     var bucket = this.state
 
-    updateBucket( bucket )
+    requestUpdateBucket( bucket )
     .then(result => this.props.history.push('/buckets'))
     .catch(err => {
       console.log('ERROR', err)
@@ -77,6 +77,7 @@ const NewBucket = React.createClass({
     if (!this.state.loaded) {
       return <div>Loading</div>
     }
+    console.log(this.state)
 
     return (
       <div>
@@ -98,9 +99,9 @@ const NewBucket = React.createClass({
             <div className="section">
               <h3>Actions</h3>
               <label htmlFor="redirectURL">Redirect URL</label>
-              <input type="text" id="redirectURL" ref="redirectURL"  onClick={ (e) => this.setState({ redirect_url: e.target.value }) }  defaultValue={this.state.redirect_url} />
+              <input type="text" id="redirectURL" ref="redirectURL"  onChange={ (e) => this.setState({ redirect_url: e.target.value }) }  defaultValue={this.state.redirect_url} />
               <label>Webhooks</label>
-              { ISARRAY(this.state.webhooks) ?
+              { isArray(this.state.webhooks) ?
                 this.state.webhooks.map( (webhook, i) => (
                   <div key={i} >
                     <a style={{ position: 'relative', float: 'right', right: '-30px', top: '42px', paddingTop: 5, paddingBottom: 5, paddingRight: 7, paddingLeft: 7, marginTop: -40, color: 'red', backgroundColor: 'white', cursor: 'pointer' }}
@@ -144,7 +145,7 @@ const NewBucket = React.createClass({
             </div>
             <h3>Notifications</h3>
             <label>
-              <input type="radio" onClick={() => this.setState({ email_to: false })}  checked={ this.state.email_to === false } />
+              <input type="radio" onChange={() => this.setState({ email_to: false })}  checked={ this.state.email_to === false } />
               Do not send notifications
             </label>
             <label>
