@@ -23,13 +23,13 @@ const Header = React.createClass({
         <a href="#" className="navigation-menu-button" onClick={(event) => this.setState({ show: !this.state.show })}>MENU</a>
         <ul id="js-navigation-menu" className={"navigation-menu" + (this.state.show ? ' show' : ' hide')}>
           <li className="nav-link">
-	    <Link to="api">API</Link>
+	    <Link to="/api">API</Link>
           </li>
           <li className="nav-link">
-            <Link to="signup" onClick={this.handleLinkClick}>Sign Up</Link>
+            <Link to="/signup" onClick={this.handleLinkClick}>Sign Up</Link>
           </li>
           <li className="nav-link">
-            <Link to="login" onClick={this.handleLinkClick}>Login</Link>
+            <Link to="/login" onClick={this.handleLinkClick}>Login</Link>
           </li>
         </ul>
       </nav>
@@ -41,7 +41,7 @@ const Header = React.createClass({
           <a href="#" className="navigation-menu-button" onClick={(event) => this.setState({ show: !this.state.show })}>MENU</a>
           <ul className={"navigation-menu" + (this.state.show ? ' show' : ' hide')}>
             <li className="nav-link">
-	      <Link to="api">API</Link>
+	      <Link to="/api">API</Link>
             </li>
             <li className="nav-link">
               <Link to="/buckets" onClick={this.handleLinkClick}>Buckets</Link>

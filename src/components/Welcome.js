@@ -4,11 +4,11 @@ import markdownOptions from './markdown-options'
 import {branch} from 'functionfoundry'
 import UserStore from '../stores/user'
 
-var content = `<h3>Try it out!</h3>
-<form action="https://red.formbucket.com/f/GfBPQs1" method="post">
-  <input type="text" name="name" placeholder="Name"/>
-  <input type="text" name="email" placeholder="Email"/>
-  <textarea name="message" placeholder="Message"></textarea>
+var content = `<h3>What's on your mind?</h3>
+<form action="https://api.formbucket.com/f/homepage" method="post">
+  <input type="text" name="name" placeholder="Your name"/>
+  <input type="text" name="email" placeholder="Your email"/>
+  <textarea name="message" placeholder="Share your feedback, comments or issues"></textarea>
   <button type="submit">Send!</button>
 </form>`
 
@@ -22,7 +22,7 @@ const Welcome = React.createClass({
 	    <h2>Groovy Form Handling and Automation for Static Sites</h2>
             { branch( UserStore.isUserLoggedIn(),
                     <button onClick={() => this.props.history.push('/buckets')}>Return to your buckets</button>,
-                    <button onClick={() => this.history.push('/signup')}>Sign up for free</button>
+                    <button onClick={() => this.props.history.push('/signup')}>Sign up for free</button>
              )}
              <div className="features tour">
                <div className="editor">

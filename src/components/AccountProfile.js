@@ -77,8 +77,8 @@ const Account = React.createClass({
             <div className="section">
               <label htmlFor="fullName">Full Name</label>
               <input type="text" ref="name" name="displayName" defaultValue={this.state.user.name} placeholder="e.g. Nikola Tesla"/>
-              <label htmlFor="orgName">Company / Org</label>
-              <input type="text" ref="org" defaultValue={this.state.user.org} />
+              {/*<label htmlFor="orgName">Company / Org</label>
+              <in$put type="text" ref="org" defaultValue={this.state.user.org} />*/}
               <label htmlFor="emailAddress">Email Address</label>
               <input type="text" ref="email" name="username" defaultValue={this.state.user.email} placeholder="nikola@altcurrent.com"/>
               <label htmlFor="password"><FontAwesome name='lock' /> Change Password</label>

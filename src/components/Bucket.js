@@ -4,8 +4,7 @@ import markdownOptions from './markdown-options'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
 import {branch, isArray, isBlank} from 'functionfoundry'
-import UserStore from '../stores/user'
-import {requestBucket, requestUpdateBucket} from '../stores/webutils'
+import {requestBucket, requestProfile, requestUpdateBucket} from '../stores/webutils'
 
 function makeHTMLForm(id) {
   return (`<form action="https://api.formbucket.com/f/${id}" method="post">
@@ -18,30 +17,18 @@ const NewBucket = React.createClass({
 
   getInitialState: function() {
     return {
-      loaded: false,
-      user: UserStore.getState()
+      loaded: false
     };
   },
 
   componentDidMount() {
 
-    requestBucket(this.props.params.id)
-    .then(bucket => this.setState( Object.assign( { loaded: true}, bucket ) ))
+    Promise.all([
+      requestBucket(this.props.params.id),
+      requestProfile() ])
+    .then( result => this.setState( Object.assign( { loaded: true }, result[0], { user: result[1] } ) ))
     .catch(err => this.setState( { error: err } ))
 
-    localStorage.setItem('defaultBucket', this.props.params.id)
-    this.remove = UserStore.subscribe(this.handleUserChanged)
-  },
-
-  componentWillUnmount() {
-    this.remove()
-  },
-
-  handleUserChanged() {
-    this.setState({
-      user: UserStore.getState(),
-      active: UserStore.getPlan() && UserStore.getPlan().length > 0
-    })
   },
 
   componentDidUpdate(prevProps, prevState) {
@@ -77,7 +64,6 @@ const NewBucket = React.createClass({
     if (!this.state.loaded) {
       return <div>Loading</div>
     }
-    console.log(this.state)
 
     return (
       <div>

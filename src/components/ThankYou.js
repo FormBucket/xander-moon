@@ -9,11 +9,11 @@ export default PageNotFound = React.createClass({
       <div>
         <div className="page-heading">
           <div className="wrapper">
-            <h1>Thank you</h1>
+            <h1>Message received!</h1>
           </div>
         </div>
         <div className="wrapper">
-          <h2>We will be in touch soon.</h2>
+	  <button onClick={() => this.props.history.push('/signup')}>Make your own forms</button><br/><br/>
           <img src="/img/awesome.gif" alt="bucketkitty" />
         </div>
       </div>

@@ -8,7 +8,7 @@ import {branch} from 'functionfoundry'
 
 let server =  branch(
   process.env.NODE_ENV === 'production',
-  'https://red.formbucket.com',
+  'https://api.formbucket.com',
   'https://red.formbucket.com'
 )
 
