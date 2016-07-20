@@ -40,9 +40,22 @@ fetch('https://api.formbucket.com/buckets.json', {
     Authorization: `Bearer ${token}`
   },
 })
-.then(res => res.text())
-.then(token => console.log(`Your token is ${token}`))
+.then(res => res.json())
+.then(buckets => console.log(buckets))
 ```
+
+To access the API with jQuery use code:
+
+```js
+$.ajax({
+  url: "https://api.formbucket.com/buckets.json",
+  success: function(data, status) {
+    return console.log("The returned data", data);
+  },
+  beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Bearer ' + token); } 
+});
+```
+
 
 A returning user may obtain a new token by presenting their username and password.
 

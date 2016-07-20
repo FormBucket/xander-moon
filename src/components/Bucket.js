@@ -8,7 +8,7 @@ import {requestBucket, requestProfile, requestUpdateBucket} from '../stores/webu
 
 function makeHTMLForm(id) {
   return (`<form action="https://api.formbucket.com/f/${id}" method="post">
-  <input type="text" name="example" placeholder="Example />
+  <input type="text" name="example" placeholder="Example" />
   <button type="submit">Submit</button>
 </form>`)
 }
@@ -136,7 +136,7 @@ const NewBucket = React.createClass({
             </label>
             <label>
               <input type="radio" onClick={() => this.setState({ email_to: true })} checked={ this.state.email_to === true } />
-              Send notifications to {UserStore.getEmail()}
+              Send notifications to {this.state.user.email}
             </label>
             <label>
               <input type="radio" onClick={() => this.setState({ email_to: '' + this.refs.additionalEmails.value })} checked={ typeof this.state.email_to === 'string' }/>
