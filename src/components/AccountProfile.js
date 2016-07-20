@@ -38,7 +38,7 @@ const Account = React.createClass({
     requestUpdateUser({
       id: this.state.user.id,
       name: this.refs.name.value,
-      org: this.refs.org.value,
+//      org: this.refs.org.value,
       email: this.refs.email.value,
       password: this.refs.password.value
     })
