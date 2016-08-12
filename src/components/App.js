@@ -5,7 +5,6 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import {loadProfile} from '../stores/webutils'
 
 /* Write some great components about what data
 * this application displays and how it needs to be

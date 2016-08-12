@@ -14,6 +14,7 @@ import Login from './components/Login'
 import FAQs from './components/FAQs'
 import API from './components/API'
 import Terms from './components/Terms'
+import ContactUs from './components/ContactUs'
 import Privacy from './components/Privacy'
 import Buckets from './components/Buckets'
 import AccountProfile from './components/AccountProfile'
@@ -42,6 +43,7 @@ render((
       <Route path="api" component={API} />
       <Route path="terms" component={Terms} />
       <Route path="privacy-policy" component={Privacy} />
+      <Route path="contact-us" component={ContactUs} />
       <Route path="account/profile" component={AccountProfile} />
       <Route path="account/integrations" component={AccountIntegrations} />
       <Route path="account/billing" component={AccountBilling} />
