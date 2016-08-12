@@ -13,6 +13,8 @@ import Subscribe from './components/Subscribe'
 import Login from './components/Login'
 import FAQs from './components/FAQs'
 import API from './components/API'
+import Terms from './components/Terms'
+import Privacy from './components/Privacy'
 import Buckets from './components/Buckets'
 import AccountProfile from './components/AccountProfile'
 import AccountIntegrations from './components/AccountIntegrations'
@@ -38,6 +40,8 @@ render((
       <Route path="login" component={Login} />
       <Route path="faqs" component={FAQs} />
       <Route path="api" component={API} />
+      <Route path="terms" component={Terms} />
+      <Route path="privacy-policy" component={Privacy} />
       <Route path="account/profile" component={AccountProfile} />
       <Route path="account/integrations" component={AccountIntegrations} />
       <Route path="account/billing" component={AccountBilling} />

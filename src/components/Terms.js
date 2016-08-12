@@ -4,8 +4,8 @@ import markdownOptions from './markdown-options'
 
 var content = require('../content/terms.md');
 
-// terms Documentation
-const terms = React.createClass({
+// Terms Documentation
+const Terms = React.createClass({
   componentDidMount() {
     // ensure user is scrolled to top
     window.scrollTo(0, 0)
@@ -15,7 +15,7 @@ const terms = React.createClass({
       <div>
         <div className="page-heading">
           <div className="wrapper">
-            <h1>Terms of Service ("Terms")</h1>
+            <h1>Terms</h1>
           </div>
         </div>
         <div className="wrapper">
@@ -29,4 +29,4 @@ const terms = React.createClass({
   }
 })
 
-export default terms
+export default Terms

@@ -27,7 +27,7 @@
     "express": "^4.13.3",
     "extract-text-webpack-plugin": "^0.9.1",
     "json-loader": "^0.5.4",
-    "node-sass": "^3.6.0",
+    "node-sass": "^3.7.0",
     "raw-loader": "^0.5.1",
     "rimraf": "^2.4.3",
     "sass-loader": "^3.1.2",

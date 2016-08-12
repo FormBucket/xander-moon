@@ -7,8 +7,11 @@ const Footer = React.createClass({
     return (
       <div className="footer">
       <p>
-        &copy; 2015-2016 FormBucket.com
+        &copy; 2015-2016 <a href="https://websitehq.com">WebsiteHQ, LLC</a>
       </p>
+      <div>
+       <a href="/terms">Terms</a> | <a href="/privacy-policy">Privacy Policy</a>
+      </div>
       <div id="version">
         Version {version}
       </div>
