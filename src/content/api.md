@@ -1,8 +1,41 @@
-## Powering static websites is our mission.
-
-Collecting and managing data is a science and an art. You need to setup databases and install scripts. Protecting against spammers and bots is a risk and applications developed by friendly business partners can create DOS attacks. Our services helps you to create endpoints, access your data in real time, view, visualize, analyze, protect and monitor your data.  
-
 The FormBucket API accepts _application/json_ requests via HTTPS and is secured with the recent [IETF Standard 7519 JSON Web Tokens (JWT)](https://tools.ietf.org/html/rfc7519).
+
+## Submit form with AJAX
+
+Unless you specify our server will assume that your request is a regular submission and will redirect the user to a new page.
+
+If you want to keep the user on the same page then you change some of the headers of the request.
+
+Here is an example with jQuery:
+
+```js
+$.ajax({
+  type: 'POST',
+  headers : {
+    'Access-Control-Request-Headers:': 'content-type',
+    'Access-Control-Request-Method': 'POST',
+    'accepts' : 'application/json',
+    'content-type': 'application/json',
+  },
+  url: 'https://api.formbucket.com/f/CPaseeA',
+  data: { name: 'John', email: 'John@Smith.com', Message: 'You guys are awesome!'}
+})
+```
+
+Or use the fetch API:
+
+```js
+fetch( 'https://api.formbucket.com/f/CPaseeA', {
+  method: 'post',
+  mode: 'cors',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ name: 'John', email: 'John@Smith.com', Message: 'You guys are awesome!'})
+})
+```
+
 
 ## Accounts / profile
 
@@ -52,7 +85,7 @@ $.ajax({
   success: function(data, status) {
     return console.log("The returned data", data);
   },
-  beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Bearer ' + token); } 
+  beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Bearer ' + token); }
 });
 ```
 

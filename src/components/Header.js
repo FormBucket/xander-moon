@@ -41,7 +41,7 @@ const Header = React.createClass({
           <a href="#" className="navigation-menu-button" onClick={(event) => this.setState({ show: !this.state.show })}>MENU</a>
           <ul className={"navigation-menu" + (this.state.show ? ' show' : ' hide')}>
             <li className="nav-link">
-	      <Link to="/api">API</Link>
+	            <Link to="/about">About us</Link>
             </li>
             <li className="nav-link">
               <Link to="/buckets" onClick={this.handleLinkClick}>Buckets</Link>

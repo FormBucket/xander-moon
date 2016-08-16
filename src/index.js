@@ -12,6 +12,7 @@ import Signup from './components/Signup'
 import Subscribe from './components/Subscribe'
 import Login from './components/Login'
 import FAQs from './components/FAQs'
+import About from './components/About'
 import API from './components/API'
 import Terms from './components/Terms'
 import ContactUs from './components/ContactUs'
@@ -40,6 +41,7 @@ render((
       <Route path="subscribe" component={Subscribe} />
       <Route path="login" component={Login} />
       <Route path="faqs" component={FAQs} />
+      <Route path="about" component={About} />
       <Route path="api" component={API} />
       <Route path="terms" component={Terms} />
       <Route path="privacy-policy" component={Privacy} />
