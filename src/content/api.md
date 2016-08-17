@@ -10,15 +10,15 @@ Here is an example with jQuery:
 
 ```js
 $.ajax({
+  url: 'https://api.formbucket.com/f/CPaseeA',
   type: 'POST',
+  crossDomain: true,
   headers : {
-    'Access-Control-Request-Headers:': 'content-type',
-    'Access-Control-Request-Method': 'POST',
-    'accepts' : 'application/json',
+    'accept' : 'application/json',
     'content-type': 'application/json',
   },
-  url: 'https://api.formbucket.com/f/CPaseeA',
-  data: { name: 'John', email: 'John@Smith.com', Message: 'You guys are awesome!'}
+  dataType: 'json',
+  data: JSON.stringify({ name: 'John', email: 'John@Smith.com', Message: 'You guys are awesome!'})
 })
 ```
 
