@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 import {Link} from 'react-router'
 import FlashMessage from './FlashMessage'
-import {requestProfile, requestUpdateUser} from '../stores/webutils'
+import {requestProfile, requestUpdateUser, requestDestroyAccount} from '../stores/webutils'
 
 const Account = React.createClass({
   getInitialState () {
@@ -24,11 +24,14 @@ const Account = React.createClass({
   handleUserChanged() {
   },
 
-  handleDelete() {
-    deleteAccount()
-    .then(n => {
-      this.setState({ active: false })
-    })
+  handleDeleteAccount() {
+    if (confirm("Your account and data will be gone forever. Continue?")) {
+      requestDestroyAccount()
+      .then(n => {
+        localStorage.removeItem('token');
+        this.props.history.push('/')
+      })
+    }
   },
 
   handleSave() {
@@ -88,12 +91,12 @@ const Account = React.createClass({
             <label>Remove local security token</label>
             <button className="button secondary" onClick={() => {
                 localStorage.removeItem('token');
-                dispatch('clearProfile');
                 this.props.history.push('/');
               } }>Log out</button>
               <label>Security token <button className="button secondary" onClick={() => this.setState({ show_token: !this.state.show_token })}>{this.state.show_token ? 'hide' : 'show' }</button></label>
               <textarea rows={4} value={this.state.show_token ? localStorage.token : ''} style={{ display: this.state.show_token ? '' : 'none' }} />
-
+              <label>Delete my account (cannot be undone)</label>
+              <button onClick={this.handleDeleteAccount} className="button secondary">Destroy Account</button>
               { /*IF(this.state.active,
                 <div>
                 <hr />

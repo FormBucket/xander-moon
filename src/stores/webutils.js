@@ -9,7 +9,7 @@ import {branch} from 'functionfoundry'
 let server =  branch(
   process.env.NODE_ENV === 'production',
   'https://api.formbucket.com',
-  'https://red.formbucket.com'
+  'http://localhost:3002'
 )
 
 // reads value from qur
@@ -203,8 +203,6 @@ export function submit(formId, formData) {
   .then(getJSON)
 }
 
-window.submit = submit
-
 export function requestProfile(){
   return getResource('/profile.json')
   .then(processStatus)
@@ -266,6 +264,12 @@ export function requestSubscribe(token, plan) {
 
 export function unsubscribe() {
   return deleteResource('/subscription')
+  .then(processStatus)
+  .then(getJSON)
+}
+
+export function requestDestroyAccount(bucketId){
+  return deleteResource('/account')
   .then(processStatus)
   .then(getJSON)
 }
