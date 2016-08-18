@@ -9,7 +9,7 @@ import {branch} from 'functionfoundry'
 let server =  branch(
   process.env.NODE_ENV === 'production',
   'https://api.formbucket.com',
-  'http://localhost:3002'
+  'https://api.formbucket.com'
 )
 
 // reads value from qur

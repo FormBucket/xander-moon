@@ -69,14 +69,13 @@ const Login = React.createClass({
                 <input name="password" ref="password" type="password" onKeyUp={this.handleKeyPress} />
               </label>
               <input onClick={this.handleClick} type="button" value="Login" disabled={this.state.loading} />
+              <a className="pull-right" href="javascript:void(0)" onClick={this.handleClickReset}>Forgot your password?</a>
               {
                 branch(this.state.loading,
                   <p><FontAwesome name="fa fa-spinner" /> Logging in</p>
                 )
               }
             </div>
-
-            <a href="javascript:void(0)" onClick={this.handleClickReset} type="button">Reset password</a>
           </div>
         </div>
       </div>
