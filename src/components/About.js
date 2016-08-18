@@ -15,14 +15,16 @@ const about = React.createClass({
       <div>
         <div className="page-heading">
           <div className="wrapper">
-            <h1>About us</h1>
+            <h1>About</h1>
           </div>
         </div>
         <div className="wrapper">
-          <Markdown
-            source={ content }
-            options={ markdownOptions }
-            />
+          <div className="two-thirds">
+            <Markdown
+              source={ content }
+              options={ markdownOptions }
+              />
+          </div>
         </div>
       </div>
     )

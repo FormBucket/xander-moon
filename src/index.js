@@ -46,7 +46,7 @@ render((
       <Route path="api" component={API} />
       <Route path="terms" component={Terms} />
       <Route path="privacy-policy" component={Privacy} />
-      <Route path="contact-us" component={ContactUs} />
+      <Route path="contact" component={ContactUs} />
       <Route path="account/profile" component={AccountProfile} />
       <Route path="account/integrations" component={AccountIntegrations} />
       <Route path="account/billing" component={AccountBilling} />

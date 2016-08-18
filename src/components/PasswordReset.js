@@ -62,7 +62,7 @@ const Login = React.createClass({
       <div>
         <div className="page-heading">
           <div className="wrapper">
-            <h1>Forgot password?</h1>
+            <h1>Password Reset</h1>
           </div>
         </div>
         <div className="wrapper">

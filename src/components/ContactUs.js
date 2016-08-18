@@ -19,10 +19,12 @@ const Contact = React.createClass({
           </div>
         </div>
         <div className="wrapper">
-          <Markdown
-            source={ content }
-            options={ markdownOptions }
-            />
+          <div className="two-thirds">
+            <Markdown
+              source={ content }
+              options={ markdownOptions }
+              />
+          </div>
         </div>
       </div>
     )
