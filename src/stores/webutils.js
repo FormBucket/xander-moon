@@ -273,3 +273,15 @@ export function requestDestroyAccount(bucketId){
   .then(processStatus)
   .then(getJSON)
 }
+
+export function requestPasswordReset(email){
+  return getResource('/password_reset?email=' + email)
+  .then(processStatus)
+  .then(getJSON)
+}
+
+export function requestPasswordResetUpdate(email, temp_password, password){
+  return postResource('/password_reset', { email, temp_password, password})
+  .then(processStatus)
+  .then(getJSON)
+}

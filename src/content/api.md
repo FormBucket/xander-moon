@@ -17,7 +17,6 @@ $.ajax({
     'accept' : 'application/json',
     'content-type': 'application/json',
   },
-  dataType: 'json',
   data: JSON.stringify({ name: 'John', email: 'John@Smith.com', Message: 'You guys are awesome!'})
 })
 ```

@@ -8,7 +8,7 @@ window.checkHomepageForm = function() {
     var name = document.getElementsByName('name')[0].value
     var email = document.getElementsByName('email')[0].value
     var message = document.getElementsByName('message')[0].value
-    
+
     if (!name) {
 	v = false;
 	document.getElementsByName('name')[0].style.border = '1px red solid'
@@ -31,7 +31,7 @@ window.checkHomepageForm = function() {
     }
 
     return v;
-} 
+}
 
 var content = `<h3>What's on your mind?</h3>
 <form onsubmit="return checkHomepageForm()" action="https://api.formbucket.com/f/homepage" method="post">
@@ -49,7 +49,7 @@ const Welcome = React.createClass({
     }
   },
   componentDidMount () {
-    
+
     this.timerId = setInterval( () => {
 
       this.setState({
@@ -65,7 +65,7 @@ const Welcome = React.createClass({
         clearInterval(this.timerId)
       }
     }, 20)
-      
+
   },
   componentWillUnmount () {
     clearInterval(this.timerId)
@@ -80,7 +80,7 @@ const Welcome = React.createClass({
 	    <h2>Groovy Form Handling and Automation for Static Sites</h2>
             { branch( localStorage.hasOwnProperty('token'),
                     <button onClick={() => this.props.history.push('/buckets')}>Return to your buckets</button>,
-                    <button onClick={() => this.props.history.push('/signup')}>Sign up for free</button>
+                    <button onClick={() => this.props.history.push('/signup')}>Sign up today</button>
              )}
              <div className="features tour">
                <div className="editor">

@@ -28,6 +28,7 @@ import PageNotFound from './components/PageNotFound'
 import ThankYou from './components/ThankYou'
 import Support from './components/Support'
 import Affiliates from './components/Affiliates'
+import PasswordReset from './components/PasswordReset'
 
 require('../scss/app.scss')
 
@@ -57,6 +58,7 @@ render((
       <Route path="thank-you" component={ThankYou} />
       <Route path="support" component={Support} />
       <Route path="affiliates" component={Affiliates} />
+      <Route path="password_reset" component={PasswordReset} />
       <Route path="*" component={PageNotFound} />
     </Route>
   </Router>

@@ -30,6 +30,11 @@ const Login = React.createClass({
     )
 
   },
+
+  handleClickReset() {
+    this.props.history.push('/password_reset')
+  },
+
   handleKeyPress (event) {
     if (event.keyCode === 13) {
       // enter key pressed
@@ -70,6 +75,8 @@ const Login = React.createClass({
                 )
               }
             </div>
+
+            <a href="javascript:void(0)" onClick={this.handleClickReset} type="button">Reset password</a>
           </div>
         </div>
       </div>
