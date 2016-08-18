@@ -8,6 +8,18 @@
   button, .button {
     width: 100%;
   }
+
+  .button-delete {
+    background-color: $delete-color;
+  }
+
+  .button-delete:active, .button-delete:focus {
+    background-color: darken($delete-color, 20%);
+  }
+
+  .button-delete:hover {
+    background-color: darken($delete-color, 10%);
+  }
 }
 
 .autoresponder {

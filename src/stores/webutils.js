@@ -6,11 +6,10 @@ All of these functions return a promise to get a payload.
 */
 import {branch} from 'functionfoundry'
 
-let server =  branch(
-  process.env.NODE_ENV === 'production',
-  'https://api.formbucket.com',
-  'https://api.formbucket.com'
-)
+let server = 'https://api.formbucket.com'
+
+// uncomment for server testing. never commit uncommented.
+// server = 'http://localhost:3002'
 
 // reads value from qur
 export function getQueryParam(name) {
@@ -190,11 +189,15 @@ export function requestUpdateBucket(bucket){
   .then(getJSON)
 }
 
+// window.requestUpdateBucket = requestUpdateBucket
+
 export function requestDeleteBucket(bucketId){
   return deleteResource('/buckets/' + bucketId)
   .then(processStatus)
   .then(getJSON)
 }
+
+// window.requestDeleteBucket = requestDeleteBucket
 
 
 export function submit(formId, formData) {
@@ -202,6 +205,8 @@ export function submit(formId, formData) {
   .then(processStatus)
   .then(getJSON)
 }
+
+// window.submit = submit
 
 export function requestProfile(){
   return getResource('/profile.json')
@@ -232,10 +237,14 @@ export function requestSubmissionsByBucket(bucket_id, offset, limit, select){
   .then(getJSON)
 }
 
-export function exportSubmissionsByBucket(bucket_id, format='csv'){
-  return getResource(`/buckets/${bucket_id}/submissions.${format}`)
+export function requestBucketExport(bucket_id, format='json'){
+  return getResource(`/export/${bucket_id}.${format}`)
   .then(processStatus)
   .then(res => res.text())
+}
+
+export function requestDownloadFile(key) {
+  window.location.href = server + '/download/' + key
 }
 
 export function requestStripePubKey(){

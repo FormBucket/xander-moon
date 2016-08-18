@@ -4,7 +4,11 @@ import markdownOptions from './markdown-options'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
 import {branch, isArray, isBlank} from 'functionfoundry'
-import {requestBucket, requestProfile, requestUpdateBucket} from '../stores/webutils'
+import {
+  requestBucket, requestProfile,
+  requestUpdateBucket, requestDeleteBucket,
+  requestBucketExport, requestDownloadFile }
+from '../stores/webutils'
 
 function makeHTMLForm(id) {
   return (`<form action="https://api.formbucket.com/f/${id}" method="post">
@@ -53,6 +57,27 @@ const NewBucket = React.createClass({
       console.log('ERROR', err)
       this.setState({ error: err })
     })
+  },
+
+  onDelete(e) {
+    var bucket = this.state
+
+    if (!confirm("This will delete the bucket and all your submissions. Continue?")) {
+      return;
+    }
+
+    requestDeleteBucket( bucket.id )
+    .then(result => this.props.history.push('/buckets'))
+    .catch(err => {
+      console.log('ERROR', err)
+      this.setState({ error: err })
+    })
+  },
+
+  onDownload() {
+    console.log('ff')
+    requestBucketExport(this.state.id)
+    .then(result => requestDownloadFile(result))
   },
 
   render () {
@@ -144,6 +169,13 @@ const NewBucket = React.createClass({
               <textarea disabled={typeof this.state.email_to === 'string' ? false : true} className="cc-emails" ref="additionalEmails" placeholder="Separate addresses by comma" onChange={(e) => this.setState({ email_to: e.target.value })} defaultValue={ typeof this.state.email_to === 'string' ? this.state.email_to : '' }></textarea>
             </label>
             <input type="button" className="button" onClick={this.onSave} value="Update Settings" />
+
+            <h3>Download Submissions</h3>
+            <input type="button" className="button" onClick={this.onDownload} value="Download" />
+
+            <h3>Delete Bucket</h3>
+            <input type="button" className="button button-delete" onClick={this.onDelete} value="Destroy Bucket" />
+
           </div>
           <div className="bucket-preview">
             <h3>Quick Use</h3>
