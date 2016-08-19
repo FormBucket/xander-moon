@@ -33,11 +33,11 @@ window.checkHomepageForm = function() {
     return v;
 }
 
-var content = `<h3>What's on your mind?</h3>
+var content = `<h3>Tell us something...</h3>
 <form onsubmit="return checkHomepageForm()" action="https://api.formbucket.com/f/homepage" method="post">
   <input type="text" name="name" placeholder="Your name"/>
   <input type="text" name="email" placeholder="Your email"/>
-  <textarea name="message" placeholder="Share your feedback, comments or issues"></textarea>
+  <textarea name="message" placeholder="What’s your biggest frustration with form handling and automation?"></textarea>
   <button type="submit">Send!</button>
 </form>`
 
