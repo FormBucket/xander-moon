@@ -6,7 +6,7 @@ All of these functions return a promise to get a payload.
 */
 import {branch} from 'functionfoundry'
 
-let server = 'https://api.formbucket.com'
+export let server = 'https://api.formbucket.com'
 
 // uncomment for server testing. never commit uncommented.
 // server = 'http://localhost:3002'

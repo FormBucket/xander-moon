@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 import {branch, isEmail} from 'functionfoundry'
+import {server} from '../stores/webutils'
 
 window.checkHomepageForm = function() {
     var v = true;
@@ -34,7 +35,7 @@ window.checkHomepageForm = function() {
 }
 
 var content = `<h3>Tell us something...</h3>
-<form onsubmit="return checkHomepageForm()" action="https://api.formbucket.com/f/homepage" method="post">
+<form method="post" action="${server}/f/homepage" onsubmit="return checkHomepageForm()">
   <input type="text" name="name" placeholder="Your name"/>
   <input type="text" name="email" placeholder="Your email"/>
   <textarea name="message" placeholder="What’s your biggest frustration with form handling and automation?"></textarea>
@@ -64,7 +65,7 @@ const Welcome = React.createClass({
         })
         clearInterval(this.timerId)
       }
-    }, 20)
+    }, 6)
 
   },
   componentWillUnmount () {
