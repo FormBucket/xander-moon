@@ -15,7 +15,7 @@ const Buckets = React.createClass({
         <div>You have no buckets. There was never a better time to make one! Get started now.</div>
       )
     }
-    console.log('debug', this.props);
+
     return (
       <ul className="bucket-list">
           {

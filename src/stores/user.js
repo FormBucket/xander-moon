@@ -1,5 +1,11 @@
 import {createStore, dispatch} from 'fluxury'
 import SubscriptionStore from './subscription'
+import decode from './decodeJWT'
+import moment from 'moment'
+
+if ( decode().exp < moment().unix() ) {
+  localStorage.removeItem('token')
+}
 
 const UserStore = createStore(
   'UserStore',
@@ -10,7 +16,7 @@ const UserStore = createStore(
     clearProfile: () => { return {} }
   }, // store does not support updates
   {
-    isUserLoggedIn: (state) => localStorage.hasOwnProperty('token'),
+    isUserLoggedIn: (state) => decode().exp > moment().unix(),
     isLoaded: (state) => typeof state.email !== 'undefined',
     canCreateForm: (state) => true,
     getProvider: (state) => state.provider,
@@ -24,8 +30,5 @@ const UserStore = createStore(
     getPaidUntil: (state) => state.paid_until
   }
 )
-
-// FIXME: REMOVE DEV HACK
-window.UserStore = UserStore
 
 export default UserStore

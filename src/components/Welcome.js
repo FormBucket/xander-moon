@@ -5,33 +5,33 @@ import {branch, isEmail} from 'functionfoundry'
 import {server} from '../stores/webutils'
 
 window.checkHomepageForm = function() {
-    var v = true;
-    var name = document.getElementsByName('name')[0].value
-    var email = document.getElementsByName('email')[0].value
-    var message = document.getElementsByName('message')[0].value
+  var v = true;
+  var name = document.getElementsByName('name')[0].value
+  var email = document.getElementsByName('email')[0].value
+  var message = document.getElementsByName('message')[0].value
 
-    if (!name) {
-	v = false;
-	document.getElementsByName('name')[0].style.border = '1px red solid'
-    } else {
-	document.getElementsByName('name')[0].style.border = ''
-    }
+  if (!name) {
+    v = false;
+    document.getElementsByName('name')[0].style.border = '1px red solid'
+  } else {
+    document.getElementsByName('name')[0].style.border = ''
+  }
 
-    if (!email || !isEmail(email)) {
-	v = false;
-	document.getElementsByName('email')[0].style.border = '1px red solid'
-    } else {
-	document.getElementsByName('email')[0].style.border = ''
-    }
+  if (!email || !isEmail(email)) {
+    v = false;
+    document.getElementsByName('email')[0].style.border = '1px red solid'
+  } else {
+    document.getElementsByName('email')[0].style.border = ''
+  }
 
-    if (!message) {
-	v = false;
-	document.getElementsByName('message')[0].style.border = '1px red solid'
-    } else {
-    	document.getElementsByName('message')[0].style.border = ''
-    }
+  if (!message) {
+    v = false;
+    document.getElementsByName('message')[0].style.border = '1px red solid'
+  } else {
+    document.getElementsByName('message')[0].style.border = ''
+  }
 
-    return v;
+  return v;
 }
 
 var content = `<h3>Tell us something...</h3>

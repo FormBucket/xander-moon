@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
-import {signIn} from '../stores/ActionCreator'
+import {signIn, loadProfile} from '../stores/ActionCreator'
 import {branch} from 'functionfoundry'
 
 const Login = React.createClass({

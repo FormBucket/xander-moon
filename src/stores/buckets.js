@@ -25,7 +25,4 @@ const BucketStore = createStore(
   }
 )
 
-// FIXME: REMOVE DEV HACK
-window.BucketStore = BucketStore
-
 export default BucketStore

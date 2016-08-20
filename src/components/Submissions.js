@@ -3,6 +3,7 @@ import {branch, eq, or, isBlank} from 'functionfoundry'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 import {requestBucket, requestSubmissionsByBucket} from '../stores/webutils'
+import UserStore from '../stores/user'
 import BucketStore from '../stores/buckets'
 import SubmissionsStore from '../stores/submissions'
 import FontAwesome from 'react-fontawesome'
@@ -254,7 +255,7 @@ const Submissions = React.createClass({
     )
 
 
-    console.log(this.state, this.props)
+    // console.log(this.state, this.props)
 
     if (eq(this.props.params.mode, 'list')) {
       return wrap(headingText,

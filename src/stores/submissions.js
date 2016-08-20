@@ -11,7 +11,4 @@ const SubmissionStore = createStore(
   }
 )
 
-// FIXME: remove
-window.SubmissionStore = SubmissionStore
-
 export default SubmissionStore

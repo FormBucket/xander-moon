@@ -3,25 +3,15 @@ import FontAwesome from 'react-fontawesome'
 import {Link} from 'react-router'
 import FlashMessage from './FlashMessage'
 import {requestProfile, requestUpdateUser, requestDestroyAccount} from '../stores/webutils'
+import decode from '../stores/decodeJWT'
 
 const Account = React.createClass({
   getInitialState () {
     return {
       show_token: false,
-      flash: undefined
+      flash: undefined,
+      user: decode()
     }
-  },
-
-  componentDidMount() {
-      requestProfile()
-      .then( profile => this.setState({ user: profile }) )
-  },
-
-  componentWillUnmount() {
-
-  },
-
-  handleUserChanged() {
   },
 
   handleDeleteAccount() {
@@ -35,7 +25,6 @@ const Account = React.createClass({
   },
 
   handleSave() {
-    console.log('need to save', this)
 
     this.setState({ saving: true })
     requestUpdateUser({
@@ -62,7 +51,7 @@ const Account = React.createClass({
   },
 
   render () {
-    console.log(this.state)
+
     if (!this.state.user || !this.state.user.email) {
       return <div>Loading...</div>
     }

@@ -6,7 +6,7 @@ Unless you specify our server will assume that your request is a regular submiss
 
 If you want to keep the user on the same page then you change some of the headers of the request.
 
-Here is an example with jQuery:
+### Post JSON Data with jQuery
 
 ```js
 $.ajax({
@@ -14,21 +14,38 @@ $.ajax({
   type: 'POST',
   crossDomain: true,
   headers : {
-    'accept' : 'application/json',
+    'accept' : 'application/javascript',
     'content-type': 'application/json',
   },
-  data: JSON.stringify({ name: 'John', email: 'John@Smith.com', Message: 'You guys are awesome!'})
+  data: JSON.stringify({
+    name: 'John', email: 'John@Smith.com',
+    Message: 'You guys are awesome!'
+  })
 })
 ```
 
-Or use the fetch API:
+### Post Form Data with jQuery
+
+```js
+$.ajax({
+  url: 'https://api.formbucket.com/f/CPaseeA',
+  type: 'POST',
+  crossDomain: true,
+  headers : {
+    'accept' : 'application/javascript',
+  },
+  data: $('#myform').serialize()
+})
+```
+
+### Post JSON data with fetch
 
 ```js
 fetch( 'https://api.formbucket.com/f/CPaseeA', {
   method: 'post',
   mode: 'cors',
   headers: {
-    Accept: 'application/json',
+    'accept' : 'application/javascript',
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({ name: 'John', email: 'John@Smith.com', Message: 'You guys are awesome!'})

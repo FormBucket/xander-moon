@@ -30,7 +30,7 @@ const Buckets = React.createClass({
       // load the buckets
       requestBuckets()
       .then( (buckets) => this.setState({ buckets: buckets }) )
-      .catch( (err) => this.setState({ error: err }))
+      .catch( (err) => this.setState({ buckets: [], error: err }))
     }
   },
 
@@ -40,7 +40,6 @@ const Buckets = React.createClass({
   handleNewBucket(event) {
     requestCreateBucket({ enabled: true })
     .then( result => {
-      console.log('createdBucket with', result)
       this.props.history.push('/buckets/' + result.id + '/settings')
     })
     .catch( err => this.setState( { error: err } ))
@@ -78,17 +77,17 @@ const Buckets = React.createClass({
         <div className="page-heading">
           <div className="wrapper">
             <h1>Buckets</h1>
-            <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: this.state.error ? '' : 'none'}}>
-              {this.state.error ? this.state.error.message : ''}
-            </div>
           </div>
         </div>
         <div className="wrapper">
           <div className="callout">
-	    <p>Buckets are a container to store form submissions.</p>
-            <button onClick={this.handleNewBucket}><FontAwesome name='plus' /> New Bucket</button>
+	           <p>Buckets are a container to store form submissions.</p>
+             <button onClick={this.handleNewBucket}><FontAwesome name='plus' /> New Bucket</button>
           </div>
-          {Buckets}
+          <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: this.state.error ? '' : 'none'}}>
+            {this.state.error ? this.state.error.message : ''}
+          </div>
+          {this.state.error ? undefined : Buckets}
       </div>
     </div>
   )

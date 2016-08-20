@@ -83,6 +83,10 @@
   margin: $base-spacing 0;
   border-radius: 3px;
 
+  pre {
+    overflow: hidden;
+  }
+
   .left {
     @include span-columns(8);
     min-height: 18rem;
