@@ -6,13 +6,11 @@ layout: static.html
 ---
 ## Overview
 
-The guide will show you how to collect email addresses with **$.ajax**.
+Let's image that you want to setup email collection for your awesome site. You need a form to collect the emails. You don't want the user to leave the page and you are comfortable with jQuery so you want to **$.ajax**. This guide will show you how to do it.
 
-See this code in action and join our [newsletter](/newsletter/).
+[See this code in action and join our newsletter](/newsletter/).
 
-Our API supports two data formats for form submissions `forms` and `json`.
-
-Let's image that you want to setup a simple email collection for your new sites awesome newsletter. First you are going to need a form to collect the addresses.
+Here is a simple example of how you might setup your markup.
 
 ```html
 <form id="newsletter-form"
@@ -25,13 +23,20 @@ Let's image that you want to setup a simple email collection for your new sites 
 </form>
 ```
 
-Being the awesome web designer you are going to use CSS (or maybe even SCSS) to style your form and make it look pixel perfect on your beautifully designed site.
+As an awesome web designer you are going to use CSS (or maybe even SCSS) to style the form on your beautifully designed site. We don't cover how to style the form in this tutorial but we know you can make it look pixel perfect.
 
-## Submitting data
+Now let's get on to the hard stuff...
 
-FormBucket's API accepts data in two formats: `form` and `json`. For simple use case you probably want to use form. For advanced use case you may prefer to opt into our JSON API.
+## Collecting the data
+
+FormBucket's API accepts data in two formats: `form` and `json`. For simple use case like this one you probably want to use form. For advanced use case you may prefer to opt into our JSON API.
 
 ### Option 1 - Post Form Data with jQuery
+
+Here is the complete script. It includes an outer function that runs after the
+page is loaded and it adds an event handler for our form that prevents the default
+action (e.g. leaving the page). It also includes some validations so that people
+don't send you blank values.
 
 ```js
 $(function() {
@@ -74,7 +79,7 @@ $(function() {
 
 ### Option 2 - Post JSON Data with jQuery
 
-To send JSON data you can change the AJAX code to:
+If you want to use our JSON API then you could change the AJAX call to the following. This example uses the powerful (and somewhat cryptic) `reduce` function but you can build the JSON content any way that you prefer.
 
 ```js
 $.ajax({

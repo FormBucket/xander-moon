@@ -100,10 +100,9 @@
       <div class="wrapper">
         <div class="two-thirds">
           <h2 id="overview">Overview</h2>
-<p>The guide will show you how to collect email addresses with <strong>$.ajax</strong>.</p>
-<p>See this code in action and join our <a href="/newsletter/">newsletter</a>.</p>
-<p>Our API supports two data formats for form submissions <code>forms</code> and <code>json</code>.</p>
-<p>Let&#39;s image that you want to setup a simple email collection for your new sites awesome newsletter. First you are going to need a form to collect the addresses.</p>
+<p>Let&#39;s image that you want to setup email collection for your awesome site. You need a form to collect the emails. You don&#39;t want the user to leave the page and you are comfortable with jQuery so you want to <strong>$.ajax</strong>. This guide will show you how to do it.</p>
+<p><a href="/newsletter/">See this code in action and join our newsletter</a>.</p>
+<p>Here is a simple example of how you might setup your markup.</p>
 <pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-title">form</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"newsletter-form"</span>
       <span class="hljs-attribute">action</span>=<span class="hljs-value">"post"</span>
       <span class="hljs-attribute">method</span>=<span class="hljs-value">"http://api.formbucket.com/f/MyBucketId"</span>&gt;</span>
@@ -113,10 +112,15 @@
   <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"submit"</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"Join Newsletter"</span> /&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">form</span>&gt;</span></code></pre>
 
-<p>Being the awesome web designer you are going to use CSS (or maybe even SCSS) to style your form and make it look pixel perfect on your beautifully designed site.</p>
-<h2 id="submitting-data">Submitting data</h2>
-<p>FormBucket&#39;s API accepts data in two formats: <code>form</code> and <code>json</code>. For simple use case you probably want to use form. For advanced use case you may prefer to opt into our JSON API.</p>
+<p>As an awesome web designer you are going to use CSS (or maybe even SCSS) to style the form on your beautifully designed site. We don&#39;t cover how to style the form in this tutorial but we know you can make it look pixel perfect.</p>
+<p>Now let&#39;s get on to the hard stuff...</p>
+<h2 id="collecting-the-data">Collecting the data</h2>
+<p>FormBucket&#39;s API accepts data in two formats: <code>form</code> and <code>json</code>. For simple use case like this one you probably want to use form. For advanced use case you may prefer to opt into our JSON API.</p>
 <h3 id="option-1-post-form-data-with-jquery">Option 1 - Post Form Data with jQuery</h3>
+<p>Here is the complete script. It includes an outer function that runs after the
+page is loaded and it adds an event handler for our form that prevents the default
+action (e.g. leaving the page). It also includes some validations so that people
+don&#39;t send you blank values.</p>
 <pre><code class="hljs js">$(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
   $(<span class="hljs-string">'#newsletter-form'</span>).submit(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) </span>{
     event.preventDefault();
@@ -155,7 +159,7 @@
 });</code></pre>
 
 <h3 id="option-2-post-json-data-with-jquery">Option 2 - Post JSON Data with jQuery</h3>
-<p>To send JSON data you can change the AJAX code to:</p>
+<p>If you want to use our JSON API then you could change the AJAX call to the following. This example uses the powerful (and somewhat cryptic) <code>reduce</code> function but you can build the JSON content any way that you prefer.</p>
 <pre><code class="hljs js">$.ajax({
   url: <span class="hljs-string">'https://api.formbucket.com/f/CPaseeA'</span>,
   type: <span class="hljs-string">'POST'</span>,
