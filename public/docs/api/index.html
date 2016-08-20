@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>FormBucket.com - API Docs</title>
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63770314-10', 'auto');
+  ga('send', 'pageview');
+
+  </script>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="google-site-verification" content="c242Hf9YyeiK5d9ElD3r4JPDEmCMs7FUBAzcK-WpAtE" />
+
+  <!-- prerender support -->
+  <meta name="fragment" content="!">
+
+  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/solarized_light.min.css">
+  <link rel="stylesheet" href="/assets/formbucket.css">
+
+  <!-- favicons -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+  <link rel="manifest" href="/img/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+</head>
+<body>
+  <div id="root">
+    <header class="navigation" role="banner">
+      <div class="navigation-wrapper">
+        <a href="/" class="logo">
+          <img src="/img/logo.svg" alt="FormBucket" />
+        </a>
+
+      </div>
+    </header>
+    <div class="main">
+      <div class="page-heading">
+        <div class="wrapper">
+          <h1>FormBucket API</h1>
+        </div>
+      </div>
+      <div class="wrapper">
+        <div class="two-thirds">
+          <p>The FormBucket API accepts <em>application/json</em> requests via HTTPS and is secured with the recent <a href="https://tools.ietf.org/html/rfc7519">IETF Standard 7519 JSON Web Tokens (JWT)</a>.</p>
+<p>The API code examples use the fetch API. Please checkout <a href="https://jakearchibald.com/2015/thats-so-fetch/">That&#39;s so fetch</a> and <a href="https://github.com/github/fetch">Github&#39;s polyfill</a> for more information.</p>
+<h2 id="submit-forms">Submit forms</h2>
+<p>Our API accepts data in two formats: form and JSON.</p>
+<h3 id="form-data">Form data</h3>
+<pre><code class="hljs js">fetch( <span class="hljs-string">'https://api.formbucket.com/f/CPaseeA'</span>, {
+  method: <span class="hljs-string">'post'</span>,
+  mode: <span class="hljs-string">'cors'</span>,
+  headers: {
+    <span class="hljs-string">'accept'</span> : <span class="hljs-string">'application/javascript'</span>,
+  },
+  body: jQuery(<span class="hljs-string">'#my-form'</span>).serialize()
+})</code></pre>
+
+<h3 id="json-data">JSON data</h3>
+<pre><code class="hljs js">fetch( <span class="hljs-string">'https://api.formbucket.com/f/CPaseeA'</span>, {
+  method: <span class="hljs-string">'post'</span>,
+  mode: <span class="hljs-string">'cors'</span>,
+  headers: {
+    <span class="hljs-string">'accept'</span> : <span class="hljs-string">'application/javascript'</span>,
+    <span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'application/json'</span>,
+  },
+  body: <span class="hljs-built_in">JSON</span>.stringify({
+    name: <span class="hljs-string">'John'</span>,
+    email: <span class="hljs-string">'John@Smith.com'</span>,
+    message: <span class="hljs-string">'You guys are awesome!'</span>
+  })
+})</code></pre>
+
+
+<h2 id="accounts-profile">Accounts / profile</h2>
+<p>The APIs will only respond when presented with a token. Requests that do not include a token or include an invalid token will be denied.</p>
+<p>The token must be provided via an HTTP Header named <em>Authorization</em> that contains the value <em>Bearer {token}</em>.</p>
+<p>With the fetch API you can call with:</p>
+<pre><code class="hljs js">fetch(<span class="hljs-string">'https://api.formbucket.com/signup'</span>, {
+  method: <span class="hljs-string">'POST'</span>,
+  mode: <span class="hljs-string">'cors,'</span>,
+  headers: {
+    ContentType: <span class="hljs-string">'application/json'</span>
+  },
+  body: <span class="hljs-built_in">JSON</span>.stringify({
+    email: <span class="hljs-string">'you@domain.com'</span>,
+    password: <span class="hljs-string">'shhhh'</span>
+  })
+})
+.then(res =&gt; res.text())
+.then(token =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Your token is <span class="hljs-subst">${token}</span>`</span>))</code></pre>
+
+<p>Upon successful signup the user is issued a token.</p>
+<pre><code class="hljs js"><span class="hljs-keyword">let</span> token = <span class="hljs-string">'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NjhkZjZjMGM4ZDVhZmQxYTJkMDVmMzMiLCJvcmdOYW1lIjoiIiwiZW1haWwiOiJmb29AZm9vMS5jb20iLCJpYXQiOjE0NTIyNDUxNTA2NjN9.NP-6XQGZdpDJfRW8r-gHdeCGmyhKCFSGSUmA3pCiUMY'</span></code></pre>
+
+<p>A returning user may obtain a new token by presenting their user name and password.</p>
+<pre><code class="hljs js">fetch(<span class="hljs-string">'https://api.formbucket.com/signin'</span>, {
+  method: <span class="hljs-string">'POST'</span>,
+  mode: <span class="hljs-string">'cors,'</span>,
+  headers: {
+    ContentType: <span class="hljs-string">'application/json'</span>,
+  },
+  body: <span class="hljs-built_in">JSON</span>.stringify({
+    email: <span class="hljs-string">'you@domain.com'</span>,
+    password: <span class="hljs-string">'shhhh'</span>
+  })
+})
+.then(res =&gt; res.text())
+.then(token =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Your token is <span class="hljs-subst">${token}</span>`</span>))</code></pre>
+
+<h2 id="buckets">Buckets</h2>
+<p>Users may choose from fixed or variable sized buckets. The fixed size buckets will overwrite the oldest submissions.</p>
+<h3 id="get-a-list-of-your-buckets">Get a list of your buckets</h3>
+<pre><code class="hljs js">fetch(<span class="hljs-string">'https://api.formbucket.com/buckets.json'</span>, {
+  method: <span class="hljs-string">'GET'</span>,
+  mode: <span class="hljs-string">'cors,'</span>,
+  headers: {
+    ContentType: <span class="hljs-string">'application/json'</span>,
+    Authorization: <span class="hljs-string">`Bearer <span class="hljs-subst">${token}</span>`</span>
+  },
+})
+.then(res =&gt; res.json())
+.then(buckets =&gt; <span class="hljs-built_in">console</span>.log(buckets))</code></pre>
+
+<h4 id="example-response">Example Response</h4>
+<pre><code class="hljs JSON">[
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"6h86zo"</span></span>,
+    "<span class="hljs-attribute">enabled</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"Contact Form"</span></span>,
+    "<span class="hljs-attribute">submission_count</span>": <span class="hljs-value"><span class="hljs-number">417</span>
+  </span>},
+  {
+    "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"5g75oz"</span></span>,
+    "<span class="hljs-attribute">enabled</span>": <span class="hljs-value"><span class="hljs-literal">false</span></span>,
+    "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"Product Interest Form"</span></span>,
+    "<span class="hljs-attribute">submission_count</span>": <span class="hljs-value"><span class="hljs-number">142</span>
+  </span>}
+]</code></pre>
+
+<h3 id="get-a-bucket">Get a bucket</h3>
+<pre><code class="hljs js">fetch(<span class="hljs-string">'https://api.formbucket.com/buckets/:id.json'</span>, {
+  method: <span class="hljs-string">'GET'</span>,
+  mode: <span class="hljs-string">'cors,'</span>,
+  headers: {
+    ContentType: <span class="hljs-string">'application/json'</span>,
+    Authorization: <span class="hljs-string">`Bearer <span class="hljs-subst">${token}</span>`</span>
+  },
+})
+.then(res =&gt; res.json())
+.then(bucket =&gt; <span class="hljs-built_in">console</span>.log(bucket))</code></pre>
+
+<h4 id="parameters">Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>limit</td>
+<td>number</td>
+<td><strong>Optional</strong>. The maximum number of buckets to return in a single call. The default is 50.</td>
+</tr>
+<tr>
+<td>offset</td>
+<td>number</td>
+<td><strong>Optional</strong>. The number of records to skip before returning rows. Applied after sorting. The default is 0.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>object</td>
+<td><strong>Required</strong>. An object that describes the sort options. The default is <strong>{ created_on: -1 }</strong>.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-response">Example Response</h4>
+<pre><code class="hljs JSON">{
+  "<span class="hljs-attribute">_id</span>": <span class="hljs-value"><span class="hljs-string">"57b80f4a400d0f911f3eac42"</span></span>,
+  "<span class="hljs-attribute">enabled</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
+  "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"WRtqGDc"</span></span>,
+  "<span class="hljs-attribute">user_id</span>": <span class="hljs-value"><span class="hljs-string">"578d7bd16b4125721efbbd83"</span></span>,
+  "<span class="hljs-attribute">submission_count</span>": <span class="hljs-value"><span class="hljs-number">13</span></span>,
+  "<span class="hljs-attribute">name</span>": <span class="hljs-value"><span class="hljs-string">"Newsletter"</span></span>,
+  "<span class="hljs-attribute">updated_on</span>": <span class="hljs-value"><span class="hljs-string">"2016-08-20T18:08:05.560Z"</span>
+</span>}</code></pre>
+
+<h3 id="create-a-new-bucket">Create a new bucket</h3>
+<pre><code class="hljs js">fetch(<span class="hljs-string">'https://api.formbucket.com/buckets.json'</span>, {
+  method: <span class="hljs-string">'POST'</span>,
+  mode: <span class="hljs-string">'cors,'</span>,
+  headers: {
+    ContentType: <span class="hljs-string">'application/json'</span>,
+    Authorization: <span class="hljs-string">`Bearer <span class="hljs-subst">${token}</span>`</span>
+  },
+})
+.then(res =&gt; res.json())
+.then(bucket =&gt; <span class="hljs-built_in">console</span>.log(bucket))</code></pre>
+
+<h4 id="parameters">Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bucket</td>
+<td>object</td>
+<td><strong>Optional</strong>. An object containing bucket settings. This object is whitelisted on the server to enforce the fields.</td>
+</tr>
+</tbody>
+</table>
+<p>The field whitelist include:</p>
+<pre><code>1. name : string
+2. enabled : boolean
+3. webhooks : array
+4. email_to: (boolean | string)
+5. auto_responder: ( false | object )
+  1. from : string
+  2. subject : string
+  3. body: string
+6. redirect_url : string
+</code></pre><h4 id="example-responses">Example Responses</h4>
+<p>When the bucket is successfully created:</p>
+<pre><code class="hljs JSON">{ "<span class="hljs-attribute">success</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>, "<span class="hljs-attribute">id</span>": <span class="hljs-value"><span class="hljs-string">"KfdHERM"</span></span>}</code></pre>
+
+<p>When an error occurs:</p>
+<pre><code class="hljs JSON">{ "<span class="hljs-attribute">error</span>": <span class="hljs-value"><span class="hljs-string">"apikey is required."</span> </span>}</code></pre>
+
+<h3 id="update-a-bucket">Update a bucket</h3>
+<pre><code class="hljs js">fetch(<span class="hljs-string">'https://api.formbucket.com/buckets.json'</span>, {
+  method: <span class="hljs-string">'POST'</span>,
+  mode: <span class="hljs-string">'cors,'</span>,
+  headers: {
+    ContentType: <span class="hljs-string">'application/json'</span>,
+    Authorization: <span class="hljs-string">`Bearer <span class="hljs-subst">${token}</span>`</span>
+  },
+  data: <span class="hljs-built_in">JSON</span>.string({...})
+})
+.then(res =&gt; res.json())
+.then(bucket =&gt; <span class="hljs-built_in">console</span>.log(bucket))</code></pre>
+
+<h4 id="parameters">Parameters</h4>
+<p>Accepts same parameters used to create a bucket.</p>
+<h3 id="delete-a-bucket">Delete a bucket</h3>
+<pre><code class="hljs js">fetch(<span class="hljs-string">'https://api.formbucket.com/buckets/:id'</span>, {
+  method: <span class="hljs-string">'DELETE'</span>,
+  mode: <span class="hljs-string">'cors,'</span>,
+  headers: {
+    ContentType: <span class="hljs-string">'application/json'</span>,
+    Authorization: <span class="hljs-string">`Bearer <span class="hljs-subst">${token}</span>`</span>
+  },
+  data: <span class="hljs-built_in">JSON</span>.string({...})
+})
+.then(res =&gt; res.json())
+.then(bucket =&gt; <span class="hljs-built_in">console</span>.log(bucket))</code></pre>
+
+<p><strong>WARNING.</strong> Your bucket and data are gone forever.</p>
+<h2 id="submissions">Submissions</h2>
+<p>Submissions are actual form data entered by the users of your bucket.</p>
+<h3 id="get-all-submissions-in-a-bucket">Get all submissions in a bucket</h3>
+<pre><code>GET https:<span class="hljs-regexp">//api</span>.formbucket.com/buckets/:id/submissions.json?limit=<span class="hljs-number">10</span>&amp;offset=<span class="hljs-number">0</span>&amp;<span class="hljs-keyword">sort</span>=<span class="hljs-variable">%7Bcreated_on</span>:<span class="hljs-variable">%20</span>-<span class="hljs-number">1</span><span class="hljs-variable">%7D</span></code></pre>
+
+<h4 id="parameters">Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>integer</td>
+<td><strong>Required</strong>. The id of the bucket. This parameter is in the URL.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>integer</td>
+<td><strong>Optional</strong>. Restrict the number of submissions returned by the request. Default to 100.</td>
+</tr>
+<tr>
+<td>offset</td>
+<td>integer</td>
+<td><strong>Optional</strong>. Offset the result to enable paging. To keep it simple the first record is 1 and the last record is the number of submissions. Records are sorted by the time received.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>object</td>
+<td><strong>Optional</strong>.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="example-response">Example Response</h4>
+<pre><code class="hljs JSON">[{
+  "<span class="hljs-attribute">_id</span>": <span class="hljs-value"><span class="hljs-string">"55a7281db501a6987ed5c354"</span></span>,
+  "<span class="hljs-attribute">subject</span>": <span class="hljs-value"><span class="hljs-string">"Customer request"</span></span>,
+  "<span class="hljs-attribute">message</span>": <span class="hljs-value"><span class="hljs-string">"Thanks for doing this. I really appreciate man."</span>
+</span>},{
+  "<span class="hljs-attribute">_id</span>": <span class="hljs-value"><span class="hljs-string">"43b7281db501a6987ed5c354"</span></span>,
+  "<span class="hljs-attribute">subject</span>": <span class="hljs-value"><span class="hljs-string">"Help"</span></span>,
+  "<span class="hljs-attribute">message</span>": <span class="hljs-value"><span class="hljs-string">"I'm interested in hiring you for a project. Please contact me."</span>
+</span>}]</code></pre>
+
+<h3 id="create-a-new-submission">Create a new submission</h3>
+<pre><code><span class="hljs-constant">POST</span> <span class="hljs-symbol">https:</span>/<span class="hljs-regexp">/api.formbucket.com/buckets</span><span class="hljs-regexp">/:id/submissions</span></code></pre>
+or use the alias
+<pre><code>POST <span class="hljs-string">https:</span><span class="hljs-comment">//api.formbucket.com/f/:id</span></code></pre>
+
+
+<h4 id="parameters">Parameters</h4>
+<p>The form may include any field needed to meet your data collection requirement.</p>
+<h3 id="delete-a-submission">Delete a submission</h3>
+<p>DELETE <a href="https://www.FormBucket.com/buckets/:bucket_id/submissions/:submission_id">https://www.FormBucket.com/buckets/:bucket_id/submissions/:submission_id</a></p>
+<h2 id="http-status-codes">HTTP Status Codes</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>  200</td>
+<td>Success</td>
+</tr>
+<tr>
+<td>  400</td>
+<td>Bad Request</td>
+</tr>
+<tr>
+<td>  401</td>
+<td>Unauthorized</td>
+</tr>
+<tr>
+<td>  403</td>
+<td>Forbidden</td>
+</tr>
+<tr>
+<td>  404</td>
+<td>Not Found</td>
+</tr>
+<tr>
+<td>  422</td>
+<td>Unprocessable Entity</td>
+</tr>
+<tr>
+<td>  500</td>
+<td>Unexpected system error</td>
+</tr>
+</tbody>
+</table>
+
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <p>
+        &copy; 2015-2016 <a href="https://websitehq.com">WebsiteHQ, LLC</a>
+      </p>
+      <div>
+        <a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="/terms">Terms</a> | <a href="/privacy-policy">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

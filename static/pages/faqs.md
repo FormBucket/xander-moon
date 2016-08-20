@@ -1,3 +1,9 @@
+---
+layout: layout.html
+heading: FAQs
+date: 2012-08-20
+layout: static.html
+---
 ## Why is free?
 
 The application is free for basic usage. In the future we plan to add premium features.

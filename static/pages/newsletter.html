@@ -1,0 +1,58 @@
+---
+title: How to submit with jQuery
+heading: Join our newsletter
+date: 2012-08-20
+layout: static.html
+---
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<p>
+  Learn how to <a href="/guides/collect-emails-for-newsletter-with-jquery-and-ajax/">build your own email collection<a>.
+</p>
+
+<div>
+<form id="newsletter-form"
+      method="post"
+      action="https://api.formbucket.com/f/WRtqGDc">
+  <input type="email"
+         name="email"
+         placeholder="Enter you email...">
+  <input type="submit" value="Join Newsletter" />
+</form>
+<script>
+$(function() {
+  $('#newsletter-form').submit(function(event) {
+    event.preventDefault();
+
+    var formEl = $(this);
+    var submitButton = $('input[type=submit]', formEl);
+
+    if ($("input[name='email']").val() === '') {
+      alert('Please enter an email address')
+      return
+    }
+
+    $.ajax({
+      url: formEl.prop('action'),
+      type: 'POST',
+      crossDomain: true,
+      headers : {
+        'accept' : 'application/javascript',
+      },
+      data: $('#newsletter-form').serialize(),
+      beforeSend: function() {
+        submitButton.prop('disabled', 'disabled');
+      }
+    })
+    .done(function(response) {
+      // You will do something WAY BETTER than alert
+      // because you are an awesome designer.
+      alert('Thanks for joining our newsletter!')
+    })
+    .fail(function(response) {
+      alert('Oh no! Something went wrong!')
+      submitButton.prop('disabled', false);
+    })
+
+  });
+});
+</script>

@@ -11,12 +11,6 @@ import Welcome from './components/Welcome'
 import Signup from './components/Signup'
 import Subscribe from './components/Subscribe'
 import Login from './components/Login'
-import FAQs from './components/FAQs'
-import About from './components/About'
-import API from './components/API'
-import Terms from './components/Terms'
-import ContactUs from './components/ContactUs'
-import Privacy from './components/Privacy'
 import Buckets from './components/Buckets'
 import AccountProfile from './components/AccountProfile'
 import AccountIntegrations from './components/AccountIntegrations'
@@ -25,9 +19,6 @@ import AccountUsers from './components/AccountUsers'
 import Bucket from './components/Bucket'
 import Submissions from './components/Submissions'
 import PageNotFound from './components/PageNotFound'
-import ThankYou from './components/ThankYou'
-import Support from './components/Support'
-import Affiliates from './components/Affiliates'
 import PasswordReset from './components/PasswordReset'
 
 require('../scss/app.scss')
@@ -41,12 +32,6 @@ render((
       <Route path="signup" component={Signup} />
       <Route path="subscribe" component={Subscribe} />
       <Route path="login" component={Login} />
-      <Route path="faqs" component={FAQs} />
-      <Route path="about" component={About} />
-      <Route path="api" component={API} />
-      <Route path="terms" component={Terms} />
-      <Route path="privacy-policy" component={Privacy} />
-      <Route path="contact" component={ContactUs} />
       <Route path="account/profile" component={AccountProfile} />
       <Route path="account/integrations" component={AccountIntegrations} />
       <Route path="account/billing" component={AccountBilling} />
@@ -55,9 +40,6 @@ render((
       <Route path="/buckets/:id/settings" component={Bucket} />
       <Route path="/buckets/:id/submissions" component={Submissions} />
       <Route path="/buckets/:id/submissions/:mode/:offset/:limit/:select" component={Submissions} />
-      <Route path="thank-you" component={ThankYou} />
-      <Route path="support" component={Support} />
-      <Route path="affiliates" component={Affiliates} />
       <Route path="password_reset" component={PasswordReset} />
       <Route path="*" component={PageNotFound} />
     </Route>

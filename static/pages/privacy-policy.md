@@ -1,3 +1,9 @@
+---
+title: FormBucket.com - Privacy Policy
+heading: Privacy Policy
+date: 2012-08-20
+layout: static.html
+---
 This privacy policy has been compiled to better serve those who are concerned with how their 'Personally identifiable information' (PII) is being used online. PII, as used in US privacy law and information security, is information that can be used on its own or with other information to identify, contact, or locate a single person, or to identify an individual in context. Please read our privacy policy carefully to get a clear understanding of how we collect, use, protect or otherwise handle your Personally Identifiable Information in accordance with our website.
 
 ## What personal information do we collect from the people that visit our blog, website or app?
@@ -8,7 +14,7 @@ When ordering or registering on our site, as appropriate, you may be asked to en
 
 We collect information from you when you register on our site, fill out a form or enter information on our site.
 
-Provide us with feedback on our products or services 
+Provide us with feedback on our products or services
 How do we use your information?
 
 We may use the information we collect from you when you register, sign up for our newsletter, respond to a survey or marketing communication, surf the website, or use certain other site features in the following ways:
@@ -35,7 +41,7 @@ No way! Cookies are so 1999 and this site was built for 2016 and beyond. This si
 
 ## Third-party disclosure
 
-We do not sell, trade, or otherwise transfer to outside parties your personally identifiable information unless we provide users with advance notice. This does not include website hosting partners and other parties who assist us in operating our website, conducting our business, or serving our users, so long as those parties agree to keep this information confidential. We may also release information when it's release is appropriate to comply with the law, enforce our site policies, or protect ours or others' rights, property or safety. 
+We do not sell, trade, or otherwise transfer to outside parties your personally identifiable information unless we provide users with advance notice. This does not include website hosting partners and other parties who assist us in operating our website, conducting our business, or serving our users, so long as those parties agree to keep this information confidential. We may also release information when it's release is appropriate to comply with the law, enforce our site policies, or protect ours or others' rights, property or safety.
 
 However, non-personally identifiable visitor information may be provided to other parties for marketing, advertising, or other uses.
 

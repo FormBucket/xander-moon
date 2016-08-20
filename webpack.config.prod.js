@@ -8,11 +8,8 @@ module.exports = {
   ],
   externals: {
     'highlight.js': 'hljs',
-    'history': 'history',
-    'immutable': 'Immutable',
     'react': 'React',
     'react-dom': 'ReactDOM',
-    'react-router': 'ReactRouter',
     'remarkable': 'Remarkable',
     'moment': 'moment'
   },

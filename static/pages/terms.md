@@ -1,5 +1,9 @@
-# Terms of Service ("Terms")
-
+---
+title: FormBucket.com - Terms of Service
+heading: Terms of Service
+date: 2012-08-20
+layout: static.html
+---
 Please read these Terms of Service ("Terms", "Terms of Service") carefully before using the https://formbucket.com website (the "Service") operated by WebsiteHQ, LLC ("us", "we", or "our").
 
 Your access to and use of the Service is conditioned upon your acceptance of and compliance with these Terms. These Terms apply to all visitors, users and others who wish to access or use the Service.

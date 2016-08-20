@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>How to submit with jQuery</title>
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63770314-10', 'auto');
+  ga('send', 'pageview');
+
+  </script>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="google-site-verification" content="c242Hf9YyeiK5d9ElD3r4JPDEmCMs7FUBAzcK-WpAtE" />
+
+  <!-- prerender support -->
+  <meta name="fragment" content="!">
+
+  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/solarized_light.min.css">
+  <link rel="stylesheet" href="/assets/formbucket.css">
+
+  <!-- favicons -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+  <link rel="manifest" href="/img/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+</head>
+<body>
+  <div id="root">
+    <header class="navigation" role="banner">
+      <div class="navigation-wrapper">
+        <a href="/" class="logo">
+          <img src="/img/logo.svg" alt="FormBucket" />
+        </a>
+
+      </div>
+    </header>
+    <div class="main">
+      <div class="page-heading">
+        <div class="wrapper">
+          <h1>Collect emails with jQuery and AJAX</h1>
+        </div>
+      </div>
+      <div class="wrapper">
+        <div class="two-thirds">
+          <h2 id="overview">Overview</h2>
+<p>The guide will show you how to collect email addresses with <strong>$.ajax</strong>.</p>
+<p>See this code in action and join our <a href="/newsletter/">newsletter</a>.</p>
+<p>Our API supports two data formats for form submissions <code>forms</code> and <code>json</code>.</p>
+<p>Let&#39;s image that you want to setup a simple email collection for your new sites awesome newsletter. First you are going to need a form to collect the addresses.</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-title">form</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"newsletter-form"</span>
+      <span class="hljs-attribute">action</span>=<span class="hljs-value">"post"</span>
+      <span class="hljs-attribute">method</span>=<span class="hljs-value">"http://api.formbucket.com/f/MyBucketId"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"email"</span>
+         <span class="hljs-attribute">name</span>=<span class="hljs-value">"email"</span>
+         <span class="hljs-attribute">placeholder</span>=<span class="hljs-value">"Enter you email..."</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"submit"</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"Join Newsletter"</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">form</span>&gt;</span></code></pre>
+
+<p>Being the awesome web designer you are going to use CSS (or maybe even SCSS) to style your form and make it look pixel perfect on your beautifully designed site.</p>
+<h2 id="submitting-data">Submitting data</h2>
+<p>FormBucket&#39;s API accepts data in two formats: <code>form</code> and <code>json</code>. For simple use case you probably want to use form. For advanced use case you may prefer to opt into our JSON API.</p>
+<h3 id="option-1-post-form-data-with-jquery">Option 1 - Post Form Data with jQuery</h3>
+<pre><code class="hljs js">$(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  $(<span class="hljs-string">'#newsletter-form'</span>).submit(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) </span>{
+    event.preventDefault();
+
+    <span class="hljs-keyword">var</span> formEl = $(<span class="hljs-keyword">this</span>);
+    <span class="hljs-keyword">var</span> submitButton = $(<span class="hljs-string">'input[type=submit]'</span>, formEl);
+
+    <span class="hljs-keyword">if</span> ($(<span class="hljs-string">"input[name='email']"</span>).val() === <span class="hljs-string">''</span>) {
+      alert(<span class="hljs-string">'Please enter an email address'</span>)
+      <span class="hljs-keyword">return</span>
+    }
+
+    $.ajax({
+      url: formEl.prop(<span class="hljs-string">'action'</span>),
+      type: <span class="hljs-string">'POST'</span>,
+      crossDomain: <span class="hljs-literal">true</span>,
+      headers : {
+        <span class="hljs-string">'accept'</span> : <span class="hljs-string">'application/javascript'</span>,
+      },
+      data: $(<span class="hljs-string">'#newsletter-form'</span>).serialize(),
+      beforeSend: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        submitButton.prop(<span class="hljs-string">'disabled'</span>, <span class="hljs-string">'disabled'</span>);
+      }
+    })
+    .done(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">response</span>) </span>{
+      <span class="hljs-comment">// You will do something WAY BETTER than alert</span>
+      <span class="hljs-comment">// because you are an awesome designer.</span>
+      alert(<span class="hljs-string">'Thanks for joining our newsletter!'</span>)
+    })
+    .fail(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">response</span>) </span>{
+      alert(<span class="hljs-string">'Oh no! Something went wrong!'</span>)
+      submitButton.prop(<span class="hljs-string">'disabled'</span>, <span class="hljs-literal">false</span>);
+    })
+
+  });
+});</code></pre>
+
+<h3 id="option-2-post-json-data-with-jquery">Option 2 - Post JSON Data with jQuery</h3>
+<p>To send JSON data you can change the AJAX code to:</p>
+<pre><code class="hljs js">$.ajax({
+  url: <span class="hljs-string">'https://api.formbucket.com/f/CPaseeA'</span>,
+  type: <span class="hljs-string">'POST'</span>,
+  crossDomain: <span class="hljs-literal">true</span>,
+  headers : {
+    <span class="hljs-string">'accept'</span> : <span class="hljs-string">'application/javascript'</span>,
+    <span class="hljs-string">'content-type'</span>: <span class="hljs-string">'application/json'</span>
+  },
+  data: $(<span class="hljs-string">'#newsletter-form'</span>)
+  .serializeArray()
+  .reduce(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">p,v</span>)</span>{ p[v.name] = v.value; <span class="hljs-keyword">return</span> p }, {});
+})</code></pre>
+
+<p>Hope you found this helpful!</p>
+
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <p>
+        &copy; 2015-2016 <a href="https://websitehq.com">WebsiteHQ, LLC</a>
+      </p>
+      <div>
+        <a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="/terms">Terms</a> | <a href="/privacy-policy">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

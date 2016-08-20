@@ -1,44 +1,31 @@
+---
+title: FormBucket.com - API Docs
+heading: FormBucket API
+date: 2012-08-20
+layout: static.html
+---
 The FormBucket API accepts _application/json_ requests via HTTPS and is secured with the recent [IETF Standard 7519 JSON Web Tokens (JWT)](https://tools.ietf.org/html/rfc7519).
 
-## Submit form with AJAX
+The API code examples use the fetch API. Please checkout [That's so fetch](https://jakearchibald.com/2015/thats-so-fetch/) and [Github's polyfill](https://github.com/github/fetch) for more information.
 
-Unless you specify our server will assume that your request is a regular submission and will redirect the user to a new page.
+## Submit forms
 
-If you want to keep the user on the same page then you change some of the headers of the request.
+Our API accepts data in two formats: form and JSON.
 
-### Post JSON Data with jQuery
+### Form data
 
 ```js
-$.ajax({
-  url: 'https://api.formbucket.com/f/CPaseeA',
-  type: 'POST',
-  crossDomain: true,
-  headers : {
+fetch( 'https://api.formbucket.com/f/CPaseeA', {
+  method: 'post',
+  mode: 'cors',
+  headers: {
     'accept' : 'application/javascript',
-    'content-type': 'application/json',
   },
-  data: JSON.stringify({
-    name: 'John', email: 'John@Smith.com',
-    Message: 'You guys are awesome!'
-  })
+  body: jQuery('#my-form').serialize()
 })
 ```
 
-### Post Form Data with jQuery
-
-```js
-$.ajax({
-  url: 'https://api.formbucket.com/f/CPaseeA',
-  type: 'POST',
-  crossDomain: true,
-  headers : {
-    'accept' : 'application/javascript',
-  },
-  data: $('#myform').serialize()
-})
-```
-
-### Post JSON data with fetch
+### JSON data
 
 ```js
 fetch( 'https://api.formbucket.com/f/CPaseeA', {
@@ -48,7 +35,11 @@ fetch( 'https://api.formbucket.com/f/CPaseeA', {
     'accept' : 'application/javascript',
     'Content-Type': 'application/json',
   },
-  body: JSON.stringify({ name: 'John', email: 'John@Smith.com', Message: 'You guys are awesome!'})
+  body: JSON.stringify({
+    name: 'John',
+    email: 'John@Smith.com',
+    message: 'You guys are awesome!'
+  })
 })
 ```
 
@@ -64,10 +55,14 @@ With the fetch API you can call with:
 ```js
 fetch('https://api.formbucket.com/signup', {
   method: 'POST',
+  mode: 'cors,',
   headers: {
     ContentType: 'application/json'
   },
-  body: JSON.stringify({ email: 'you@domain.com', password: 'shhhh' })
+  body: JSON.stringify({
+    email: 'you@domain.com',
+    password: 'shhhh'
+  })
 })
 .then(res => res.text())
 .then(token => console.log(`Your token is ${token}`))
@@ -79,43 +74,19 @@ Upon successful signup the user is issued a token.
 let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NjhkZjZjMGM4ZDVhZmQxYTJkMDVmMzMiLCJvcmdOYW1lIjoiIiwiZW1haWwiOiJmb29AZm9vMS5jb20iLCJpYXQiOjE0NTIyNDUxNTA2NjN9.NP-6XQGZdpDJfRW8r-gHdeCGmyhKCFSGSUmA3pCiUMY'
 ```
 
-This token must be presented to access data APIs.
-
-```js
-fetch('https://api.formbucket.com/buckets.json', {
-  method: 'GET',
-  headers: {
-    ContentType: 'application/json',
-    Authorization: `Bearer ${token}`
-  },
-})
-.then(res => res.json())
-.then(buckets => console.log(buckets))
-```
-
-To access the API with jQuery use code:
-
-```js
-$.ajax({
-  url: "https://api.formbucket.com/buckets.json",
-  success: function(data, status) {
-    return console.log("The returned data", data);
-  },
-  beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Bearer ' + token); }
-});
-```
-
-
-A returning user may obtain a new token by presenting their username and password.
+A returning user may obtain a new token by presenting their user name and password.
 
 ```js
 fetch('https://api.formbucket.com/signin', {
   method: 'POST',
+  mode: 'cors,',
   headers: {
     ContentType: 'application/json',
-    Authorization: `Bearer ${token}`
   },
-  body: JSON.stringify({ email: 'you@domain.com', password: 'shhhh' })
+  body: JSON.stringify({
+    email: 'you@domain.com',
+    password: 'shhhh'
+  })
 })
 .then(res => res.text())
 .then(token => console.log(`Your token is ${token}`))
@@ -127,8 +98,17 @@ Users may choose from fixed or variable sized buckets. The fixed size buckets wi
 
 ### Get a list of your buckets
 
-```curl
-GET https://api.formbucket.com/buckets.json
+```js
+fetch('https://api.formbucket.com/buckets.json', {
+  method: 'GET',
+  mode: 'cors,',
+  headers: {
+    ContentType: 'application/json',
+    Authorization: `Bearer ${token}`
+  },
+})
+.then(res => res.json())
+.then(buckets => console.log(buckets))
 ```
 
 #### Example Response
@@ -152,8 +132,17 @@ GET https://api.formbucket.com/buckets.json
 
 ### Get a bucket
 
-```curl
-GET https://api.formbucket.com/buckets/:id.json
+```js
+fetch('https://api.formbucket.com/buckets/:id.json', {
+  method: 'GET',
+  mode: 'cors,',
+  headers: {
+    ContentType: 'application/json',
+    Authorization: `Bearer ${token}`
+  },
+})
+.then(res => res.json())
+.then(bucket => console.log(bucket))
 ```
 
 #### Parameters
@@ -168,27 +157,29 @@ sort            | object        | __Required__. An object that describes the sor
 
 ```JSON
 {
-  "loaded": true,
-  "_id": "568e05fec7738ff3a349c62e",
-  "id": "KfdHERM",
-  "user_id": "568df6c0c8d5afd1a2d05f33",
-  "name": "Test Bucket",
-  "updated_on": "2016-01-08T00:41:19.732Z",
+  "_id": "57b80f4a400d0f911f3eac42",
   "enabled": true,
-  "email_to": true,
-  "auto_responder": {
-      "from": "me@domain.com",
-      "subject": "Thanks!",
-      "body": "I appreciate your response. I will reply as soon as possible. Thanks!"
-  },
-  "submission_count": 5747
+  "id": "WRtqGDc",
+  "user_id": "578d7bd16b4125721efbbd83",
+  "submission_count": 13,
+  "name": "Newsletter",
+  "updated_on": "2016-08-20T18:08:05.560Z"
 }
 ```
 
 ### Create a new bucket
 
-```curl
-POST https://api.formbucket.com/buckets.json
+```js
+fetch('https://api.formbucket.com/buckets.json', {
+  method: 'POST',
+  mode: 'cors,',
+  headers: {
+    ContentType: 'application/json',
+    Authorization: `Bearer ${token}`
+  },
+})
+.then(res => res.json())
+.then(bucket => console.log(bucket))
 ```
 
 #### Parameters
@@ -225,8 +216,18 @@ When an error occurs:
 
 ### Update a bucket
 
-```curl
-PUT https://api.formbucket.com/buckets/:id.json
+```js
+fetch('https://api.formbucket.com/buckets.json', {
+  method: 'POST',
+  mode: 'cors,',
+  headers: {
+    ContentType: 'application/json',
+    Authorization: `Bearer ${token}`
+  },
+  data: JSON.string({...})
+})
+.then(res => res.json())
+.then(bucket => console.log(bucket))
 ```
 
 #### Parameters
@@ -235,10 +236,21 @@ Accepts same parameters used to create a bucket.
 
 ### Delete a bucket
 
-```curls
-DELETE https://api.formbucket.com/buckets/:id
+```js
+fetch('https://api.formbucket.com/buckets/:id', {
+  method: 'DELETE',
+  mode: 'cors,',
+  headers: {
+    ContentType: 'application/json',
+    Authorization: `Bearer ${token}`
+  },
+  data: JSON.string({...})
+})
+.then(res => res.json())
+.then(bucket => console.log(bucket))
 ```
-__WARNING.__ The Bucket and data are gone and cannot be recovered.
+
+__WARNING.__ Your bucket and data are gone forever.
 
 ## Submissions
 

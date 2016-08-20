@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>FormBucket - Powerful forms for static sites</title>
+  <title>FormBucket.com - Guides</title>
 
   <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
   ga('create', 'UA-63770314-10', 'auto');
   ga('send', 'pageview');
@@ -30,8 +30,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/solarized_light.min.css">
   <link rel="stylesheet" href="/assets/formbucket.css">
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-
   <!-- favicons -->
   <link rel="apple-touch-icon" sizes="57x57" href="/img/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="/img/apple-icon-60x60.png">
@@ -53,35 +51,44 @@
 
 </head>
 <body>
-  <form id="newsletter-signup" action="https://api.formbucket.com/f/WRtqGDc" method="POST" accept-charset="UTF-8">
-    <input type="hidden" name="utf8" value="✓">
-    <input name="email" type="email">
-    <input value="Submit" type="submit">
-  </form>
-  <script>
-  $(function() {
-    $('#newsletter-signup').submit(function(event) {
-      event.preventDefault();
+  <div id="root">
+    <header class="navigation" role="banner">
+      <div class="navigation-wrapper">
+        <a href="/" class="logo">
+          <img src="/img/logo.svg" alt="FormBucket" />
+        </a>
 
-      var formEl = $(this);
-      var submitButton = $('input[type=submit]', formEl);
+      </div>
+    </header>
+    <div class="main">
+      <div class="page-heading">
+        <div class="wrapper">
+          <h1>FormBucket API</h1>
+        </div>
+      </div>
+      <div class="wrapper">
+        <div class="two-thirds">
+          <p>More guides will be coming soon.</p>
+<h2 id="docs">Docs</h2>
+<ul>
+<li><a href="/docs/api">API Docs</a></li>
+</ul>
+<h2 id="guides">Guides</h2>
+<ul>
+<li><a href="/guides/collect-emails-for-newsletter-with-jquery-and-ajax">Collect emails with jQuery and AJAX</a></li>
+</ul>
 
-      $.ajax({
-        type: 'POST',
-        url: formEl.prop('action'),
-        headers: {
-          accept: 'application/json',
-          'content-type': 'application/json',
-        },
-        data: JSON.stringify({ test: 1 }),
-        beforeSend: function() {
-          submitButton.prop('disabled', 'disabled');
-        }
-      }).done(function(data) {
-        submitButton.prop('disabled', false);
-      });
-    });
-  });
-  </script>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <p>
+        &copy; 2015-2016 <a href="https://websitehq.com">WebsiteHQ, LLC</a>
+      </p>
+      <div>
+        <a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="/terms">Terms</a> | <a href="/privacy-policy">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
