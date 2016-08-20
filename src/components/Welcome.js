@@ -78,7 +78,7 @@ const Welcome = React.createClass({
         <div className="hero">
           <div className="wrapper">
             <h1>Endpoints are Just the Beginning</h1>
-	          <h2>Simple Form Handling and Automation for Static Sites</h2>
+	          <h2>Form Handling and Automation for Web Designers and Developers</h2>
             { branch( localStorage.hasOwnProperty('token'),
                     <button onClick={() => this.props.history.push('/buckets')}>Return to your buckets</button>,
                     <button onClick={() => this.props.history.push('/signup')}>Sign up today</button>
