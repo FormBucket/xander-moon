@@ -75,8 +75,12 @@ const NewBucket = React.createClass({
   },
 
   onDownload() {
-    console.log('ff')
     requestBucketExport(this.state.id)
+    .then(result => requestDownloadFile(result))
+  },
+
+  onDownloadCSV() {
+    requestBucketExport(this.state.id, 'csv')
     .then(result => requestDownloadFile(result))
   },
 
@@ -183,8 +187,13 @@ const NewBucket = React.createClass({
               </div>
             </div>
             <p>
+              <a href="javascript:void(0)" onClick={this.onDownloadCSV} >
+                Export all Submissions to CSV
+              </a>
+            </p>
+            <p>
               <a href="javascript:void(0)" onClick={this.onDownload} >
-                Export all Submissions
+                Export all Submissions to JSON
               </a>
             </p>
             <p>
