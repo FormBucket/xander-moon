@@ -183,12 +183,12 @@ const NewBucket = React.createClass({
               </div>
             </div>
             <p>
-              <a onClick={this.onDownload} >
+              <a href="javascript:void(0)" onClick={this.onDownload} >
                 Export all Submissions
               </a>
             </p>
             <p>
-              <a onClick={this.onDelete} >
+              <a href="javascript:void(0)" onClick={this.onDelete} >
                 Delete this Bucket
               </a>
             </p>
