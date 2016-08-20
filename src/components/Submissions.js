@@ -20,7 +20,7 @@ function wrap(headingText, output) {
    <div>
      <div className="page-heading">
        <div className="wrapper">
-         <h1>{headingText}</h1>
+         <h1>{headingText} Submissions</h1>
        </div>
      </div>
      <div className="wrapper">
@@ -207,7 +207,7 @@ const Submissions = React.createClass({
         </p>
         <div className="pagination">
           <p>
-            <button onClick={this.goBack} style={{
+            <button className="secondary" onClick={this.goBack} style={{
                 cursor: branch(offset > 0, 'pointer', 'auto'),
                 marginRight: '1.5em',
                 color: branch(offset > 0, color.enabled, color.disabled),
@@ -215,7 +215,7 @@ const Submissions = React.createClass({
               <FontAwesome name="chevron-left" /> Prev
             </button>
 
-            <button onClick={this.goForward} style={{
+            <button className="secondary" onClick={this.goForward} style={{
                 cursor: branch(to < total, 'pointer', 'auto'),
                 color: branch(offset + limit < total, color.enabled, color.disabled) }}>
               Next <FontAwesome name="chevron-right" />

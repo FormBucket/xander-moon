@@ -168,13 +168,7 @@ const NewBucket = React.createClass({
               Send notifications to:
               <textarea disabled={typeof this.state.email_to === 'string' ? false : true} className="cc-emails" ref="additionalEmails" placeholder="Separate addresses by comma" onChange={(e) => this.setState({ email_to: e.target.value })} defaultValue={ typeof this.state.email_to === 'string' ? this.state.email_to : '' }></textarea>
             </label>
-            <input type="button" className="button" onClick={this.onSave} value="Update Settings" />
-
-            <h3>Download Submissions</h3>
-            <input type="button" className="button" onClick={this.onDownload} value="Download" />
-
-            <h3>Delete Bucket</h3>
-            <input type="button" className="button button-delete" onClick={this.onDelete} value="Destroy Bucket" />
+            <input type="button" className="button" onClick={this.onSave} value="Save Settings" />
 
           </div>
           <div className="bucket-preview">
@@ -188,6 +182,16 @@ const NewBucket = React.createClass({
                   />
               </div>
             </div>
+            <p>
+              <a onClick={this.onDownload} >
+                Export all Submissions
+              </a>
+            </p>
+            <p>
+              <a onClick={this.onDelete} >
+                Delete this Bucket
+              </a>
+            </p>
           </div>
         </div>
       </div>

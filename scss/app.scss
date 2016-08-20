@@ -309,7 +309,7 @@ header.navigation {
 
     @include media($phablet) {
       font-size: $base-font-size * 1.25;
-      font-weight: 700;
+      font-weight: 400;
     }
   }
 }
