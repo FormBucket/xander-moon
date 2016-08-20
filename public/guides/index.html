@@ -60,8 +60,8 @@
           <img src="/img/logo.svg" alt="FormBucket" />
         </a>
         <nav id="nav-logged-out" role="navigation">
-          <a href="#" class="navigation-menu-button" onClick={(event) => this.setState({ show: !this.state.show })}>MENU</a>
-          <ul id="js-navigation-menu" class={"navigation-menu" + (this.state.show ? ' show' : ' hide')}>
+          <a href="#" class="navigation-menu-button">MENU</a>
+          <ul id="js-navigation-menu" class="navigation-menu">
             <li class="nav-link">
                <a href="/guides">Guides</a>
             </li>
@@ -74,8 +74,8 @@
           </ul>
         </nav>
         <nav id="nav-logged-in" role="navigation" style="display: none">
-          <a href="#" class="navigation-menu-button" onClick={(event) => this.setState({ show: !this.state.show })}>MENU</a>
-          <ul class={"navigation-menu" + (this.state.show ? ' show' : ' hide')}>
+          <a href="#" class="navigation-menu-button">MENU</a>
+          <ul class="navigation-menu">
             <li class="nav-link">
                <a href="/guides">Guides</a>
             </li>
