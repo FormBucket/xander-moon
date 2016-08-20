@@ -96,4 +96,4 @@ $.ajax({
 })
 ```
 
-Hope you found this helpful!
+Hope you found this helpful! If so please tell us (and your friends) on [Twitter @formbucket](https://twitter.com/FormBucket). Thanks!
