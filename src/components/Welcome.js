@@ -81,7 +81,7 @@ const Welcome = React.createClass({
 	          <h2>Form Handling and Automation for Web Designers and Developers</h2>
             { branch( localStorage.hasOwnProperty('token'),
                     <button onClick={() => this.props.history.push('/buckets')}>Return to your buckets</button>,
-                    <button onClick={() => this.props.history.push('/signup')}>Sign up today</button>
+                    <button onClick={() => this.props.history.push('/signup')}>Get Started</button>
              )}
              <div className="features tour">
                <div className="editor">

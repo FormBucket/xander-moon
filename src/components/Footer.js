@@ -6,6 +6,9 @@ const Footer = React.createClass({
   render () {
     return (
       <div className="footer">
+        <Link to="/" className="logo">
+          <img src="/img/logo-purple.svg" alt="FormBucket" />
+        </Link>
         <p>
           &copy; 2015-2016 <a href="https://websitehq.com">WebsiteHQ, LLC</a>
       </p>

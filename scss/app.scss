@@ -351,6 +351,8 @@ button, .button, input[type="button"] {
   background-color: transparent;
   border: 1px solid $purple;
   color: $purple;
+  text-shadow: none;
+  box-shadow: none;
 }
 
 .secondary:hover, .secondary:active {
