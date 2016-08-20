@@ -51,13 +51,44 @@
 
 </head>
 <body>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
   <div id="root">
+    <div>
     <header class="navigation" role="banner">
       <div class="navigation-wrapper">
         <a href="/" class="logo">
           <img src="/img/logo.svg" alt="FormBucket" />
         </a>
-
+        <nav id="nav-logged-out" role="navigation">
+          <a href="#" class="navigation-menu-button" onClick={(event) => this.setState({ show: !this.state.show })}>MENU</a>
+          <ul id="js-navigation-menu" class={"navigation-menu" + (this.state.show ? ' show' : ' hide')}>
+            <li class="nav-link">
+               <a href="/guides">Guides</a>
+            </li>
+            <li class="nav-link">
+              <a href="/signup" onClick={this.handleLinkClick}>Sign Up</a>
+            </li>
+            <li class="nav-link">
+              <a href="/login" onClick={this.handleLinkClick}>Login</a>
+            </li>
+          </ul>
+        </nav>
+        <nav id="nav-logged-in" role="navigation" style="display: none">
+          <a href="#" class="navigation-menu-button" onClick={(event) => this.setState({ show: !this.state.show })}>MENU</a>
+          <ul class={"navigation-menu" + (this.state.show ? ' show' : ' hide')}>
+            <li class="nav-link">
+               <a href="/guides">Guides</a>
+            </li>
+            <li class="nav-link">
+              <a href="/buckets" onClick={this.handleLinkClick}>Buckets</a>
+            </li>
+            <li class="nav-link">
+              <a href="/account/profile" onClick={this.handleLinkClick}>Account</a>
+            </li>
+          </ul>
+        </nav>
+        <!-- Script will hide/show the correct menu -->
+        <script src="/assets/nav.js"></script>
       </div>
     </header>
     <div class="main">
@@ -162,6 +193,7 @@ support@retentiontab.com and we will promptly remove you from ALL correspondence
       <div>
         <a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="/terms">Terms</a> | <a href="/privacy-policy">Privacy Policy</a>
       </div>
+    </div>
     </div>
   </div>
 </body>

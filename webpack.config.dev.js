@@ -11,13 +11,13 @@ module.exports = {
     'remarkable': 'Remarkable',
     'moment': 'moment'
   },
-  entry: [
-    'webpack-hot-middleware/client',
-    './src/index'
-  ],
+  entry: {
+    formbucket: ['webpack-hot-middleware/client', './src/index'],
+    nav: ['webpack-hot-middleware/client', './src/nav']
+  },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'formbucket.js',
+    filename: '[name].js',
     publicPath: '/assets/'
   },
   plugins: [

@@ -3,9 +3,10 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-  entry: [
-    './src/index'
-  ],
+  entry: {
+    formbucket: './src/index',
+    nav: './src/nav'
+  },
   externals: {
     'highlight.js': 'hljs',
     'react': 'React',
@@ -15,7 +16,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'public', 'assets'),
-    filename: 'formbucket.js',
+    filename: '[name].js',
   },
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
