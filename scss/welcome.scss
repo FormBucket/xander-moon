@@ -112,6 +112,10 @@
       margin: 0 0 10px 0;
     }
 
+    button {
+      margin-bottom: 0;
+    }
+
     @include media($phablet) {
       @include span-columns(12);
       margin-bottom: $base-spacing;
