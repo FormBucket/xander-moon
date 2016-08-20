@@ -23,7 +23,8 @@
 
   button {
     margin-bottom: $base-spacing * 3;
-    box-shadow: 0px 2px 2px rgba(0, 184, 94, 1);
+    text-shadow: 0px -1px 1px rgba(0, 184, 94, 1);
+    box-shadow: 0px 1px 2px rgba(0, 184, 94, 1);
   }
 }
 
