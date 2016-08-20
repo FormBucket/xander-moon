@@ -13,4 +13,6 @@ watcher.on('change', function(path, stats) {
   run()
 });
 
+console.log('catch up')
+run()
 console.log('watching...')
