@@ -117,7 +117,7 @@ const Welcome = React.createClass({
                 <div className="copy">
                   <h3>Custom Automation</h3>
                   <p>
-                    Redirect users to any URL, send autoresponder emails and add unlimited webhooks.
+                    Redirect to any URL, send autoresponders, and add unlimited webhooks.
                   </p>
                 </div>
               </div>
