@@ -97,15 +97,10 @@ const Signup = React.createClass({
             <input onKeyUp={this.handleKeyUp} type="text" ref="email" name="email" placeholder="nikola@altcurrent.com"/>
             <label htmlFor="createPassword"><FontAwesome name='lock' /> Create Password</label>
             <input onKeyUp={this.handleKeyUp} type="password" ref="password" name="password" />
-              <label htmlFor="accepted" style={{ color: this.state.enforce_accepted ? 'red' : '' }}>
-                <input id="accepted" type="checkbox" onClick={(event) => this.setState({ accepted: event.target.checked }) } checked={this.state.accepted} />
-                I agree to the <a href="/terms" target="blank">Terms of Service</a> and <a href="/privacy-policy" target="blank">Privacy Policy</a>.
-              </label>
-              <label htmlFor="optedIn">
-                <input id="optedIn" type="checkbox" onClick={(event) => this.setState({ optedin: event.target.checked }) } checked={this.state.optedin} />
-                I'd like to receive the incredible FormBucket newsletter.
-              </label>
             <input onClick={this.handleClick} className="button" type="button" value="Sign Up" />
+            <p className="muted">
+              By clicking "SIGN UP" you agree to our <a href="/terms" target="blank">Terms of Service</a> and <a href="/privacy-policy" target="blank">Privacy Policy</a>, and also agree to receive occasional updates from us by email.
+            </p>
           </div>
         </div>
       </div>

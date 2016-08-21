@@ -381,7 +381,6 @@ label {
   }
 
   p {
-    text-transform: uppercase;
 
     @include media($phablet);
       text-align: center;
