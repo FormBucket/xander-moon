@@ -32,7 +32,9 @@
   }
 }
 
-.muted {
+p.muted {
   margin-top: $base-spacing;
   opacity: 0.8;
+  font-size: 0.9em;
+  text-transform: none;
 }

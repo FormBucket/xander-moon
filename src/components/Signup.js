@@ -12,7 +12,7 @@ const Signup = React.createClass({
       loading: false,
       error: false,
       accepted: false,
-      enforce_accepted: false
+      optedIn: false
     }
   },
   componentDidMount() {
@@ -41,19 +41,13 @@ const Signup = React.createClass({
       return;
     }
 
-    if (this.state.accepted === false) {
-      this.setState({ error: { message: 'Must accept terms'}, enforce_accepted: true })
-      return;
-    }
-
     this.setState({ loading: true, error: false })
+
     signUp(
       this.refs.name.value,
       this.refs.org.value,
       this.refs.email.value,
-      this.refs.password.value,
-      this.state.accepted,
-      this.state.optedin
+      this.refs.password.value
     )
     .then(
       n => {
@@ -86,7 +80,7 @@ const Signup = React.createClass({
         <div className="wrapper">
           <h2>Let's make some forms!</h2>
           <div className="half-width">
-            <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: this.state.error ? '' : 'none'}}>
+            <div className="error-message">
               {this.state.error ? this.state.error.message : ''}
             </div>
             <label htmlFor="fullName">Full Name</label>
@@ -99,7 +93,7 @@ const Signup = React.createClass({
             <input onKeyUp={this.handleKeyUp} type="password" ref="password" name="password" />
             <input onClick={this.handleClick} className="button" type="button" value="Sign Up" />
             <p className="muted">
-              By clicking "SIGN UP" you agree to our <a href="/terms" target="blank">Terms of Service</a> and <a href="/privacy-policy" target="blank">Privacy Policy</a>, and also agree to receive occasional updates from us by email.
+              By clicking "SIGN UP" you agree to our <a href="/terms" target="blank">Terms of Service</a> and <a href="/privacy-policy" target="blank">Privacy Policy</a> and also agree to receive news and tips via email.
             </p>
           </div>
         </div>
