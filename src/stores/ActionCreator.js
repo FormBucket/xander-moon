@@ -17,13 +17,15 @@ import {
   unsubscribe
 } from './webutils'
 
-export function signUp(name, org, email, password) {
+export function signUp(name, org, email, password, accepted, optedIn) {
   var p = new Promise( (resolve, reject) => {
     requestSignUp({
         name: name,
         org: org,
         email: email,
-        password: password
+        password: password,
+        accepted: accepted,
+        optedIn: optedIn
     })
     .then(response => {
 
