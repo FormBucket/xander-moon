@@ -7,6 +7,10 @@ body {
   color: $purple;
 }
 
+a {
+  cursor: pointer;
+}
+
 /* Layout Elements */
 .wrapper {
   @include clearfix;
@@ -433,6 +437,7 @@ label {
 }
 
 /* page elements */
+@import "account";
 @import "api";
 @import "faqs";
 @import "login";
@@ -446,4 +451,12 @@ label {
 /* utilities */
 .pull-right {
   float: right;
+}
+
+.danger {
+  color: red;
+}
+
+.danger:hover {
+  color: red;
 }

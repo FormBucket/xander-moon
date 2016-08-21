@@ -1,0 +1,11 @@
+.account-sidebar {
+  text-align: right;
+
+  @include span-columns(6);
+
+  @include media($phablet) {
+    @include span-columns(12);
+    margin-top: $base-spacing;
+    text-align: center;
+  }
+}
