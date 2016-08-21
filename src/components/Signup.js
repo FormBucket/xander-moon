@@ -3,13 +3,16 @@ import {Link} from 'react-router'
 import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 import {signUp} from '../stores/ActionCreator'
+import {isEmail} from 'functionfoundry'
 
 var FontAwesome = require('react-fontawesome');
 const Signup = React.createClass({
   getInitialState() {
     return {
       loading: false,
-      error: false
+      error: false,
+      accepted: false,
+      enforce_accepted: false
     }
   },
   componentDidMount() {
@@ -17,6 +20,31 @@ const Signup = React.createClass({
     window.scrollTo(0, 0)
   },
   handleClick() {
+
+    if (this.refs.name.value.length === 0) {
+      this.setState({ error: { message: 'Must provide name'} })
+      return;
+    }
+
+    if (this.refs.email.value.length === 0) {
+      this.setState({ error: { message: 'Must provide email'} })
+      return;
+    }
+
+    if (!isEmail(this.refs.email.value)) {
+      this.setState({ error: { message: 'Must provide valid email'} })
+      return;
+    }
+
+    if (this.refs.password.value.length === 0) {
+      this.setState({ error: { message: 'Must provide password'} })
+      return;
+    }
+
+    if (this.state.accepted === false) {
+      this.setState({ error: { message: 'Must accept terms'}, enforce_accepted: true })
+      return;
+    }
 
     this.setState({ loading: true, error: false })
     signUp(
@@ -69,7 +97,7 @@ const Signup = React.createClass({
             <input onKeyUp={this.handleKeyUp} type="text" ref="email" name="email" placeholder="nikola@altcurrent.com"/>
             <label htmlFor="createPassword"><FontAwesome name='lock' /> Create Password</label>
             <input onKeyUp={this.handleKeyUp} type="password" ref="password" name="password" />
-              <label htmlFor="accepted">
+              <label htmlFor="accepted" style={{ color: this.state.enforce_accepted ? 'red' : '' }}>
                 <input id="accepted" type="checkbox" onClick={(event) => this.setState({ accepted: event.target.checked }) } checked={this.state.accepted} />
                 I agree to the <a href="/terms" target="blank">Terms of Service</a> and <a href="/privacy-policy" target="blank">Privacy Policy</a>.
               </label>
