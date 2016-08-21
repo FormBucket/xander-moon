@@ -3,6 +3,7 @@ import Markdown from 'react-remarkable'
 import markdownOptions from './markdown-options'
 import {branch, isEmail} from 'functionfoundry'
 import {server} from '../stores/webutils'
+import UserStore from '../stores/user'
 
 window.checkHomepageForm = function() {
   var v = true;
@@ -79,7 +80,7 @@ const Welcome = React.createClass({
           <div className="wrapper">
             <h1>Endpoints are Just the Beginning</h1>
 	          <h2>Form Handling and Automation for Web Designers and Developers</h2>
-            { branch( localStorage.hasOwnProperty('token'),
+            { branch( UserStore.isUserLoggedIn(),
                     <button onClick={() => this.props.history.push('/buckets')}>Return to your buckets</button>,
                     <button onClick={() => this.props.history.push('/signup')}>Get Started</button>
              )}
