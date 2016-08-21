@@ -80,7 +80,7 @@ const Signup = React.createClass({
         <div className="wrapper">
           <h2>Let's make some forms!</h2>
           <div className="half-width">
-            {this.state.error ? <div className="error-message">this.state.error.message</div> : ''}
+            {this.state.error ? <div className="error-message">{this.state.error.message}</div> : ''}
             <label htmlFor="fullName">Full Name</label>
             <input onKeyUp={this.handleKeyUp} type="text" ref="name" placeholder="e.g. Nikola Tesla"/>
             <label style={{ display: 'none' }} htmlFor="orgName">Company/Organization Name (Optional)</label>
