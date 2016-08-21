@@ -7,9 +7,9 @@
   "scripts": {
     "clean": "rimraf dist",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
-    "build:static": "node static/index",
+    "build:static": "node static/index && cp -r img/ public/img/",
     "build": "npm run clean && npm run build:webpack && npm run build:static",
-    "start": "rm -rf public/assets/*.js && node devServer.js",
+    "start": "rm -rf public/assets/*.js && npm run build:static && node devServer.js",
     "start:static": "cd public && http-server . -p 3000",
     "watch:static": "cd static && node watch",
     "lint": "eslint src"
