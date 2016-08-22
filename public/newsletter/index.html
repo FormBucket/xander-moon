@@ -94,32 +94,32 @@
     <div class="main">
       <div class="page-heading">
         <div class="wrapper">
-          <h1>Join our newsletter</h1>
+          <h1>Get the FormBucket Newsletter</h1>
         </div>
       </div>
       <div class="wrapper">
         <div class="two-thirds">
           <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <p>
-  Learn how to <a href="/guides/collect-emails-for-newsletter-with-jquery-and-ajax/">build your own email collection<a>.
+  Learn how to <a href="/guides/collect-emails-for-newsletter-with-jquery-and-ajax/">build your own signup form</a> with FormBucket.
 </p>
 
 <div>
-<form id="newsletter-form"
+<form id="subscribe"
       method="post"
       action="https://api.formbucket.com/f/WRtqGDc">
   <input type="email"
          name="email"
-         placeholder="Enter you email...">
-  <input type="submit" value="Join Newsletter" />
+         placeholder="Enter your email...">
+  <input type="submit" value="Get the Newsletter" />
 </form>
 <script>
 $(function() {
-  $('#newsletter-form').submit(function(event) {
+  $('#subscribe').submit(function(event) {
     event.preventDefault();
 
-    var formEl = $(this);
-    var submitButton = $('input[type=submit]', formEl);
+    var subscribeForm = $(this);
+    var subscribeButton = $('input[type=submit]', subscribeForm);
 
     if ($("input[name='email']").val() === '') {
       alert('Please enter an email address')
@@ -127,25 +127,25 @@ $(function() {
     }
 
     $.ajax({
-      url: formEl.prop('action'),
+      url: subscribeForm.prop('action'),
       type: 'POST',
       crossDomain: true,
       headers : {
         'accept' : 'application/javascript',
       },
-      data: $('#newsletter-form').serialize(),
+      data: $('#subscribe').serialize(),
       beforeSend: function() {
-        submitButton.prop('disabled', 'disabled');
+        subscribeButton.prop('disabled', 'disabled');
       }
     })
     .done(function(response) {
       // You will do something WAY BETTER than alert
       // because you are an awesome designer.
-      alert('Thanks for joining our newsletter!')
+      alert('Thanks for subscribing!')
     })
     .fail(function(response) {
-      alert('Oh no! Something went wrong!')
-      submitButton.prop('disabled', false);
+      alert('Dang, something went wrong!')
+      subscribeButton.prop('disabled', false);
     })
 
   });

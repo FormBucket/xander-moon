@@ -94,39 +94,39 @@
     <div class="main">
       <div class="page-heading">
         <div class="wrapper">
-          <h1>Collect emails with jQuery and AJAX</h1>
+          <h1>Create a Signup Form with jQuery and AJAX</h1>
         </div>
       </div>
       <div class="wrapper">
         <div class="two-thirds">
           <h2 id="overview">Overview</h2>
-<p>Let&#39;s image that you want to setup email collection for your awesome site. You need a form to collect the emails. You don&#39;t want the user to leave the page and you are comfortable with jQuery so you want to <strong>$.ajax</strong>. This guide will show you how to do it.</p>
-<p><a href="/newsletter/">See this code in action and join our newsletter</a>.</p>
-<p>Here is a simple example of how you might setup your markup.</p>
-<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-title">form</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"newsletter-form"</span>
+<p>In this tutorial we&#39;ll show you how to set up a simple newsletter signup form to capture emails using FormBucket, jQuery and AJAX. When visitors submit the form, you can keep them on the same page and display a message that they&#39;ve been added to the list (or not if there was a problem).</p>
+<p>Check out the <a href="/newsletter/"><strong>Live Demo</strong></a> (and sign up for the spectacular FormBucket newsletter).</p>
+<p>Here is the basic markup for our form.</p>
+<pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-title">form</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"subscribe"</span>
       <span class="hljs-attribute">action</span>=<span class="hljs-value">"post"</span>
       <span class="hljs-attribute">method</span>=<span class="hljs-value">"http://api.formbucket.com/f/MyBucketId"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"email"</span>
          <span class="hljs-attribute">name</span>=<span class="hljs-value">"email"</span>
-         <span class="hljs-attribute">placeholder</span>=<span class="hljs-value">"Enter you email..."</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"submit"</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"Join Newsletter"</span> /&gt;</span>
+         <span class="hljs-attribute">placeholder</span>=<span class="hljs-value">"Enter your email..."</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"submit"</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"Get the Newsletter"</span> /&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">form</span>&gt;</span></code></pre>
 
-<p>As an awesome web designer you are going to use CSS (or maybe even SCSS) to style the form on your beautifully designed site. We don&#39;t cover how to style the form in this tutorial but we know you can make it look pixel perfect.</p>
+<p>As an awesome web designer you are going to use your own pixel perfect CSS (or maybe even SCSS) to style the form, so we won&#39;t cover that in this tutorial.</p>
 <p>Now let&#39;s get on to the hard stuff...</p>
 <h2 id="collecting-the-data">Collecting the data</h2>
-<p>FormBucket&#39;s API accepts data in two formats: <code>form</code> and <code>json</code>. For simple use case like this one you probably want to use form. For advanced use case you may prefer to opt into our JSON API.</p>
+<p>FormBucket&#39;s API accepts data in two formats: <code>form</code> and <code>json</code>. For simple use case like this one, you probably want to use form. For advanced use case you may prefer to opt into our <a href="http://localhost:3000/docs/api/">JSON API</a>.</p>
 <h3 id="option-1-post-form-data-with-jquery">Option 1 - Post Form Data with jQuery</h3>
-<p>Here is the complete script. It includes an outer function that runs after the
-page is loaded and it adds an event handler for our form that prevents the default
+<p>The complete script includes an outer function that runs after the
+page is loaded, and it adds an event handler for our form that prevents the default
 action (e.g. leaving the page). It also includes some validations so that people
 don&#39;t send you blank values.</p>
 <pre><code class="hljs js">$(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-  $(<span class="hljs-string">'#newsletter-form'</span>).submit(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) </span>{
+  $(<span class="hljs-string">'#subscribe'</span>).submit(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) </span>{
     event.preventDefault();
 
-    <span class="hljs-keyword">var</span> formEl = $(<span class="hljs-keyword">this</span>);
-    <span class="hljs-keyword">var</span> submitButton = $(<span class="hljs-string">'input[type=submit]'</span>, formEl);
+    <span class="hljs-keyword">var</span> subscribeForm = $(<span class="hljs-keyword">this</span>);
+    <span class="hljs-keyword">var</span> subscribeButton = $(<span class="hljs-string">'input[type=submit]'</span>, subscribeForm);
 
     <span class="hljs-keyword">if</span> ($(<span class="hljs-string">"input[name='email']"</span>).val() === <span class="hljs-string">''</span>) {
       alert(<span class="hljs-string">'Please enter an email address'</span>)
@@ -134,32 +134,32 @@ don&#39;t send you blank values.</p>
     }
 
     $.ajax({
-      url: formEl.prop(<span class="hljs-string">'action'</span>),
+      url: subscribeForm.prop(<span class="hljs-string">'action'</span>),
       type: <span class="hljs-string">'POST'</span>,
       crossDomain: <span class="hljs-literal">true</span>,
       headers : {
         <span class="hljs-string">'accept'</span> : <span class="hljs-string">'application/javascript'</span>,
       },
-      data: $(<span class="hljs-string">'#newsletter-form'</span>).serialize(),
+      data: $(<span class="hljs-string">'#subscribe'</span>).serialize(),
       beforeSend: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-        submitButton.prop(<span class="hljs-string">'disabled'</span>, <span class="hljs-string">'disabled'</span>);
+        subscribeButton.prop(<span class="hljs-string">'disabled'</span>, <span class="hljs-string">'disabled'</span>);
       }
     })
     .done(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">response</span>) </span>{
       <span class="hljs-comment">// You will do something WAY BETTER than alert</span>
       <span class="hljs-comment">// because you are an awesome designer.</span>
-      alert(<span class="hljs-string">'Thanks for joining our newsletter!'</span>)
+      alert(<span class="hljs-string">'Thanks for subscribing!'</span>)
     })
     .fail(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">response</span>) </span>{
-      alert(<span class="hljs-string">'Oh no! Something went wrong!'</span>)
-      submitButton.prop(<span class="hljs-string">'disabled'</span>, <span class="hljs-literal">false</span>);
+      alert(<span class="hljs-string">'Dang, something went wrong!'</span>)
+      subscribeButton.prop(<span class="hljs-string">'disabled'</span>, <span class="hljs-literal">false</span>);
     })
 
   });
 });</code></pre>
 
 <h3 id="option-2-post-json-data-with-jquery">Option 2 - Post JSON Data with jQuery</h3>
-<p>If you want to use our JSON API then you could change the AJAX call to the following. This example uses the powerful (and somewhat cryptic) <code>reduce</code> function but you can build the JSON content any way that you prefer.</p>
+<p>If you want to use our JSON API, then you could change the AJAX call to the following. This example uses the powerful (and somewhat cryptic) <code>reduce</code> function, but you can build the JSON content any way you like.</p>
 <pre><code class="hljs js">$.ajax({
   url: <span class="hljs-string">'https://api.formbucket.com/f/CPaseeA'</span>,
   type: <span class="hljs-string">'POST'</span>,
@@ -168,7 +168,7 @@ don&#39;t send you blank values.</p>
     <span class="hljs-string">'accept'</span> : <span class="hljs-string">'application/javascript'</span>,
     <span class="hljs-string">'content-type'</span>: <span class="hljs-string">'application/json'</span>
   },
-  data: $(<span class="hljs-string">'#newsletter-form'</span>)
+  data: $(<span class="hljs-string">'#subscribe'</span>)
   .serializeArray()
   .reduce(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">p,v</span>)</span>{ p[v.name] = v.value; <span class="hljs-keyword">return</span> p }, {});
 })</code></pre>
