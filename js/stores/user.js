@@ -11,6 +11,9 @@ const UserStore = createStore(
   'UserStore',
   {},
   {
+    setToken: (state, token) => {
+      localStorage.setItem('token', token)
+    },
     setProfile: (state, data) => data,
     cancelSubscription: (state, data) => data,
     clearProfile: () => { return {} }

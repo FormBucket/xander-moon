@@ -7,23 +7,7 @@ import UserStore from '../stores/user'
 
 window.checkHomepageForm = function() {
   var v = true;
-  var name = document.getElementsByName('name')[0].value
-  var email = document.getElementsByName('email')[0].value
   var message = document.getElementsByName('message')[0].value
-
-  if (!name) {
-    v = false;
-    document.getElementsByName('name')[0].style.border = '1px red solid'
-  } else {
-    document.getElementsByName('name')[0].style.border = ''
-  }
-
-  if (!email || !isEmail(email)) {
-    v = false;
-    document.getElementsByName('email')[0].style.border = '1px red solid'
-  } else {
-    document.getElementsByName('email')[0].style.border = ''
-  }
 
   if (!message) {
     v = false;
@@ -35,12 +19,11 @@ window.checkHomepageForm = function() {
   return v;
 }
 
-var content = `<h3>Tell us something...</h3>
-<form method="post" action="${server}/f/homepage" onsubmit="return checkHomepageForm()">
-  <input type="text" name="name" placeholder="Your name"/>
-  <input type="text" name="email" placeholder="Your email"/>
-  <textarea name="message" placeholder="What’s your biggest frustration with form handling and automation?"></textarea>
-  <button type="submit">Send!</button>
+var content = `<label>What will you do without a programmer?</label>
+<form method="post" action="${server}/f/homepage"
+onsubmit="return checkHomepageForm()">
+  <textarea name="message" rows="7"></textarea>
+  <button class="secondary pull-right" type="submit">Submit</button>
 </form>`
 
 const Welcome = React.createClass({
@@ -78,12 +61,13 @@ const Welcome = React.createClass({
       <div>
         <div className="hero">
           <div className="wrapper">
-            <h1>Endpoints are Just the Beginning</h1>
-	          <h2>Form Handling and Automation for Web Designers and Developers</h2>
+            <h1>Powering Forms for Web Designers</h1>
+	          <h2>Capture submissions and automate without a programmer</h2>
             { branch( UserStore.isUserLoggedIn(),
                     <button onClick={() => this.props.history.push('/buckets')}>Return to your buckets</button>,
                     <button onClick={() => this.props.history.push('/signup')}>Get Started</button>
              )}
+             <p><a href="#how-it-works">How It Works</a></p>
              <div className="features tour">
                <div className="editor">
                  <div className="left">
@@ -102,38 +86,146 @@ const Welcome = React.createClass({
         </div>
         <div className="wrapper">
           <div className="features">
-            <div className="key-features">
-              <div className="feature fade-in one">
-                <img className="icon" src="/img/icon-markup.svg" alt="raw html" />
-                <div className="copy">
-                  <h3>Bare Metal Markup</h3>
-                  <p>
-                    Hosted endpoints for your forms.
-                    Your markup, your CSS. We take care of the rest.
-                  </p>
-                </div>
+            <img src="/img/dealwithit.svg" alt="Deal with it" />
+            <h2>Manage Forms Like a Boss</h2>
+            <p>You know HTML and CSS. But programming a backend to handle form submissions? Yikes.</p>
+            <p className="lead">With FormBucket, it's a piece of cake. Your clients and coworkers will think you've become a full-stack programmer overnight!</p>
+            <div className="feature">
+              <div className="icon">
+                <img src="/img/bunny.svg" alt="Magic Endpoints" />
               </div>
-              <div className="feature fade-in two">
-                <img className="icon" src="/img/icon-rules.svg" alt="raw html" />
-                <div className="copy">
-                  <h3>Custom Automation</h3>
-                  <p>
-                    Redirect to any URL, send autoresponders, and add unlimited webhooks.
-                  </p>
-                </div>
+              <div className="copy">
+                <h3>Magic Endpoints</h3>
+                <p>
+                  Use our magic endpoints in your form and <em>abracadabra</em>...now you've got a complete backend for handling and automating submissions. Say goodbye to terrible embeds and iframes!
+                </p>
               </div>
-              <div className="feature fade-in three">
-                <img className="icon" src="/img/icon-submissions.svg" alt="raw html" />
-                <div className="copy">
-                  <h3>Submissions Manager</h3>
-                  <p>
-                    Submissions get delivered to your inbox and stored in a dashboard with export options.
-                  </p>
-                </div>
+            </div>
+            <div className="feature">
+              <div className="icon">
+                <img src="/img/laptop.svg" alt="Full Control" />
+              </div>
+              <div className="copy">
+                <h3>100% Your HTML and CSS</h3>
+                <p>
+                  Build and style forms as you normally do, then simply paste in your endpoints. No more maddening CSS overrides!
+                </p>
+              </div>
+            </div>
+            <div className="feature">
+              <div className="icon">
+                <img src="/img/heart.svg" alt="Full Control" />
+              </div>
+              <div className="copy">
+                <h3>Better UX</h3>
+                <p>
+                  Redirect users to any URL after submitting your form, or use advanced AJAX post options to keep them on the same page. Send email autoresponders with full Markdown formatting.
+                </p>
+              </div>
+            </div>
+            <div className="feature">
+              <div className="icon">
+                <img src="/img/robot.svg" alt="Endless Automation" />
+              </div>
+              <div className="copy">
+                <h3>Limitless Automation</h3>
+                <p>
+                  Capturing submissions is just the tip of the iceberg! Route form data to any other application with unlimited webhooks.
+                </p>
+              </div>
+            </div>
+            <div className="feature">
+              <div className="icon">
+                <img src="/img/bell.svg" alt="Notifications" />
+              </div>
+              <div className="copy">
+                <h3>Notifications</h3>
+                <p>
+                  Send customizable email notifications to yourself or multiple recipients when new submissions come in.
+                </p>
+              </div>
+            </div>
+            <div className="feature">
+              <div className="icon">
+                <img src="/img/shield.svg" alt="Spam Protection" />
+              </div>
+              <div className="copy">
+                <h3>Spam Protection</h3>
+                <p>
+                  Your forms are defended with advanced Spam detection, filtering and rate limiting.
+                </p>
+              </div>
+            </div>
+            <div className="feature">
+              <div className="icon">
+                <img src="/img/list.svg" alt="Submissions Manager" />
+              </div>
+              <div className="copy">
+                <h3>Submissions Manager</h3>
+                <p>
+                  Submissions are safely stored in a searchable dashboard with export options.
+                </p>
               </div>
             </div>
           </div>
-
+        </div>
+        <div className="wrapper">
+          <div className="problems">
+            <h2>Now when they say...</h2>
+            <div className="problem">
+              <div className="person">
+                <img src="/img/jane.svg" alt="Jane" />
+              </div>
+              <div className="quote">
+                <p>
+                  "We need a new landing page for our upcoming campaign, with a form that collects contact info and notifies Sales when new leads come in."
+                </p>
+              </div>
+            </div>
+            <div className="problem">
+              <div className="person">
+                <img src="/img/dick.svg" alt="Dick" />
+              </div>
+              <div className="quote">
+                <p>
+                  "We need to add a form to our support page that will autorespond to customers, create a new ticket in ZenDesk and post to Slack."
+                </p>
+              </div>
+            </div>
+            <div className="problem">
+              <div className="person">
+                <img src="/img/tracy.svg" alt="Tracy" />
+              </div>
+              <div className="quote">
+                <p>
+                  "We need a beautiful newsletter subscription box that will automatically add new subscribers to MailChimp and send a thank you email."
+                </p>
+              </div>
+            </div>
+            <div className="problem">
+              <h2>You can say...</h2>
+            </div>
+            <div className="problem">
+              <div className="quote">
+                <p>
+                  "No problem."
+                </p>
+              </div>
+              <div className="person">
+                <img src="/img/designer.svg" alt="Dick" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="wrapper">
+          <div className="clincher">
+            <h2>You're already a great designer</h2>
+            <p>Now you can be great at managing forms too!</p>
+              { branch( UserStore.isUserLoggedIn(),
+                      <button onClick={() => this.props.history.push('/buckets')}>Return to your buckets</button>,
+                      <button onClick={() => this.props.history.push('/signup')}>Get Started</button>
+               )}
+          </div>
         </div>
       </div>
     )

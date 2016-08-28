@@ -11,6 +11,7 @@ import {
   requestSubmissionsByBucket,
   requestSignUp,
   requestSignIn,
+  requestToken,
   requestUpdateUser,
   requestProfile,
   requestSubscribe,
@@ -43,7 +44,7 @@ export function signUp(name, org, email, password, accepted, optedIn) {
               token: result
             })
 
-            resolve(result)
+            resolve()
           }
         )
       } else {
@@ -90,39 +91,18 @@ y
 }
 
 export function signIn(email, password) {
-  var p = new Promise( (resolve, reject) => {
-    requestSignIn({
-        email: email,
-        password: password
-    })
-    .then(response => {
 
-      if (response.status === 200 || response.status === 0) {
-
-        response.text().then(
-          result => {
-
-            localStorage.setItem('token', result) // save token to localStorage
-
-            dispatch('signIn', {
-              token: result
-            })
-
-            resolve(result)
-          }
-        )
-      } else {
-
-        response.json().then(
-          result => reject(result)
-        )
-      }
-
-    }, (error) => reject(error))
-
+  return requestSignIn({
+      email: email,
+      password: password
   })
+  .then(accessCode => requestToken(accessCode))
+  .then(token => {
+    dispatch('setToken', token)
+    return Promise.resolve()
+  })
+  .catch((error) => reject(error))
 
-  return p;
 }
 
 export function loadProfile() {

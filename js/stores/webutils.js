@@ -98,6 +98,8 @@ export function requestSignIn(user) {
     },
     body: JSON.stringify(user)
   })
+  .then(processStatus)
+  .then(getText)
 
 }
 
@@ -115,10 +117,10 @@ export function requestSignUp(user) {
 
 }
 
-export function token(){
-  return getResource('/token')
+export function requestToken(code){
+  return postResource('/token/', { code } )
   .then(processStatus)
-  .then(getJSON)
+  .then(getText)
 }
 
 export function requestUpdateUser(user) {

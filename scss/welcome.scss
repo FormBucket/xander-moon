@@ -14,70 +14,152 @@
     color: $lightest-purple;
     margin: 0;
     padding-bottom: $base-spacing;
-    text-shadow: 0px 1px 2px rgba(62, 34, 128, 1);
-    font-weight: 300;
+    text-shadow: 0px 2px 2px rgba(62, 34, 128, 1);
+
+    @include media($phablet) {
+      margin-top: $base-spacing;
+    }
   }
   h3 {
     margin: 0;
   }
 
   button {
-    margin-bottom: $base-spacing * 3;
+    margin-bottom: $base-spacing;
+    font-size: $base-font-size * 1.5;
+  }
+
+  a {
+    color: white;
+    text-shadow: 0px 2px 2px rgba(62, 34, 128, 1);
   }
 }
 
 .features {
   @include span-columns(12);
-  background-color: white;
   padding: $base-spacing;
+  background: white;
   box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.20);
   text-align: center;
   border-bottom: 1px solid white;
 
-  .key-features {
-
     .feature {
-      @include span-columns(4);
+      @include clearfix;
+      @include span-columns(8);
+      @include shift(2);
       text-align: center;
-      opacity: 0;
+      border-bottom: 1px dashed $lightest-purple;
+      margin-bottom: $base-spacing;
+      padding-bottom: $base-spacing;
 
       @include media($phablet) {
         @include span-columns(12);
+        @include shift(0);
         margin-bottom: $base-spacing;
       }
+
+      .icon {
+        @include span-columns(3);
+
+        @include media($phablet) {
+          @include span-columns(4);
+          @include shift(4);
+        }
+      }
+
+      .copy {
+        @include span-columns(8);
+        @include shift(1);
+        text-align: left;
+
+        @include media($phablet) {
+          @include span-columns(12);
+          @include shift(0);
+          text-align: center;
+        }
+
+        h3 {
+          margin-top: 0;
+        }
+      }
+    }
+
+  .lead {
+    @include span-columns(8);
+    @include shift(2);
+    margin-bottom: $base-spacing;
+    padding-bottom: $base-spacing;
+    border-bottom: 1px dashed $lightest-purple;
+
+    @include media($phablet) {
+      @include span-columns(12);
+      @include shift(0);
+    }
+
+    .warning {
+      font-size: $base-font-size / 1.25;
+      text-transform: uppercase;
+      color: white;
+      background-color: $purple;
+      padding-left: $base-spacing / 4;
+      padding-right: $base-spacing / 4;
+      padding-top: $base-spacing / 6;
+      padding-bottom: $base-spacing / 6;
+      border-radius: $base-border-radius;
     }
   }
 }
 
+.problems {
+  @include span-columns(12);
+  padding: $base-spacing;
+  text-align: center;
+
+    .problem {
+      @include clearfix;
+      @include span-columns(8);
+      @include shift(2);
+      text-align: center;
+      border-bottom: none;
+      margin-bottom: $base-spacing;
+      padding-bottom: $base-spacing;
+
+      @include media($phablet) {
+        @include span-columns(12);
+        @include shift(0);
+        margin-bottom: $base-spacing;
+      }
+
+      .person {
+        @include span-columns(3);
+
+        @include media($phablet) {
+          @include span-columns(4);
+          @include shift(4);
+        }
+      }
+
+      .quote {
+        @include span-columns(8);
+        @include shift(1);
+        text-align: left;
+        background: white;
+        padding: $base-spacing;
+        border-radius: $base-border-radius * 3;
+        border: 1px solid $lightest-purple;
+
+        @include media($phablet) {
+          @include span-columns(12);
+          @include shift(0);
+          text-align: center;
+        }
+      }
+    }
+  }
+
 .tour {
+  margin-top: $base-spacing * 3;
   border-radius: 3px 3px 0 0;
-}
-
-@include keyframes(fadeIn) {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.fade-in {
-  @include animation(fadeIn 0.7s ease-in);
-  @include animation-iteration-count(1);
-  @include animation-fill-mode(forwards);
-}
-
-.fade-in.one {
-  @include animation-delay(0.1s);
-}
-
-.fade-in.two {
-  @include animation-delay(0.4s);
-}
-
-.fade-in.three {
-  @include animation-delay(0.7s);
 }
 
 .editor {
@@ -114,6 +196,7 @@
 
     button {
       margin-bottom: 0;
+      font-size: $base-font-size;
     }
 
     @include media($phablet) {
@@ -175,6 +258,18 @@
   }
   li:last-child {
     border-bottom: none;
+  }
+}
+
+.clincher {
+  @include clearfix;
+  @include outer-container;
+  @include span-columns(12);
+  padding: $base-spacing;
+  text-align: center;
+
+  h2 {
+    margin: 0;
   }
 }
 
