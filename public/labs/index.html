@@ -106,58 +106,111 @@
 </p>
 
 <form action="https://api.formbucket.com/f/itZEOJd" method="post">
-  <h3>How would you describe yourself?</h3>
-  <div class="form-left">
-    <label for="job-description">I'm a...</label>
-    <select id="job-description" name="Job Description">
-      <option>Web Designer</option>
-      <option>Front-End Developer</option>
-      <option>Magical Designer/Developer Unicorn</option>
-      <option>Static Site Developer</option>
-      <option>Something Else</option>
-    </select>
+  <div class="section">
+    <h3>How would you describe yourself?</h3>
+    <div class="form-section">
+      <div class="form-left">
+        <label for="job-description">I'm a...</label>
+        <select id="job-description" name="Job Description">
+          <option>Web Designer</option>
+          <option>Front-End Developer</option>
+          <option>Magical Designer/Developer Unicorn</option>
+          <option>Static Site Developer</option>
+          <option>Something Else</option>
+        </select>
+      </div>
+      <div class="form-right">
+        <label for="job-description">at a...</label>
+        <select id="employer" name="Employer">
+          <option>Big Company</option>
+          <option>Startup</option>
+          <option>Agency</option>
+          <option>Freelance/Self-Employed</option>
+          <option>Academic or Non-Profit Organization</option>
+        </select>
+      </div>
+    </div>
   </div>
-  <div class="form-right">
-  <label for="job-description">at a...</label>
-    <select id="employer" name="Employer">
-      <option>Big Company</option>
-      <option>Startup</option>
-      <option>Agency</option>
-      <option>Freelance/Self-Employed</option>
-      <option>Academic or Non-Profit Organization</option>
-    </select>
+  <div class="section">
+    <h3>What types of forms do you create (or want to create)?</h3>
+    <div class="form-section">
+      <div class="form-left">
+        <label for="lead-forms">
+          <input id="lead-forms" name="Lead Generation Forms" type="checkbox"> Lead Generation
+        </label>
+        <label for="order-forms">
+          <input id="order-forms" name="Order Forms" type="checkbox"> Order Forms
+        </label>
+        <label for="event-forms">
+          <input id="event-forms" name="Event Registration Forms" type="checkbox"> Event Registration
+        </label>
+        <label for="authentication-forms">
+          <input id="authentication-forms" name="Authentication Forms" type="checkbox"> Authentication
+        </label>
+      </div>
+      <div class="form-right">
+        <label for="internal-forms">
+          <input id="internal-forms" name="Internal Process Forms" type="checkbox"> Internal Process Forms
+        </label>
+        <label for="survey-forms">
+          <input id="survey-forms" name="Surveys" type="checkbox"> Surveys and Questionnaires
+        </label>
+        <label for="contact-forms">
+          <input id="contact-forms" name="Contact Forms" type="checkbox"> Contact Forms
+        </label>
+      </div>
+    </div>
+    <label for="other-forms">
+      <input id="other-forms" name="Other Forms" type="checkbox"> Other
+    </label>
+    <textarea id="other-forms-details" name="Other Forms Details" placeholder="Please describe..."></textarea>
   </div>
+  <div class="section">
+    <h3>Which of these features would you pay for?</h3>
+    <div class="form-section">
+      <div class="form-left">
+        <label for="advanced-spam">
+          <input id="advanced-spam" name="Advanced Spam Protection" type="checkbox"> Advanced Spam Protection
+        </label>
+        <label for="file-uploads">
+          <input id="file-uploads" name="File Uploads" type="checkbox"> File Uploads
+        </label>
+        <label for="accept-payments">
+          <input id="accept-payments" name="Accept Payments" type="checkbox"> Accept Payments
+        </label>
+        <label for="form-builder">
+          <input id="form-builder" name="HTML Form Builder" type="checkbox"> Form Markup Generator
+        </label>
+        <label for="form-validations">
+          <input id="form-validations" name="Form Validations" type="checkbox"> Field Validations
+        </label>
+      </div>
+      <div class="form-right">
+        <label for="wysiwyg-autoresponders">
+          <input id="wysiwyg-autoresponders" name="WYSIWYG Autoresponders" type="checkbox"> WYSIWYG Autoresponders
+        </label>
+        <label for="wysiwyg-notifications">
+          <input id="wysiwyg-notifications" name="WYSIWYG Notifications" type="checkbox"> WYSIWYG Notifications
+        </label>
+        <label for="form-analytics">
+          <input id="form-analytics" name="Form Analytics" type="checkbox"> Form Analytics
+        </label>
+        <label for="team-access">
+          <input id="team-access" name="Team Access" type="checkbox"> Team/Multi-User Access
+        </label>
+        <label for="whitelabel-submissions">
+          <input id="whitelabel-submissions" name="Whitelabel Submissions" type="checkbox"> Whitelabel/Branded on your domain
+        </label>
+      </div>
+    </div>
 
-  <h3>What types of forms do you create (or want to create)?</h3>
-  <label for="lead-forms">
-    <input id="lead-forms" name="Lead Generation Forms" type="checkbox"> Lead Generation
-  </label>
-  <label for="order-forms">
-    <input id="order-forms" name="Order Forms" type="checkbox"> Order Forms
-  </label>
-  <label for="event-forms">
-    <input id="event-forms" name="Event Registration Forms" type="checkbox"> Event Registration
-  </label>
-  <label for="authentication-forms">
-    <input id="authentication-forms" name="Authentication Forms" type="checkbox"> Authentication
-  </label>
-  <label for="internal-forms">
-    <input id="internal-forms" name="Internal Process Forms" type="checkbox"> Internal Process Forms
-  </label>
-  <label for="survey-forms">
-    <input id="survey-forms" name="Surveys" type="checkbox"> Surveys and Questionnaires
-  </label>
-  <label for="contact-forms">
-    <input id="contact-forms" name="Contact Forms" type="checkbox"> Contact Forms
-  </label>
-  <label for="other-forms">
-    <input id="other-forms" name="Other Forms" type="checkbox"> Other
-  </label>
-  <textarea id="other-forms-details" name="Other Forms Details" placeholder="Please describe..."></textarea>
-
+    <label for="other-features">
+      <input id="other-features" name="Other Features" type="checkbox"> Other
+    </label>
+    <textarea id="other-features-details" name="Other Features Details" placeholder="Please describe..."></textarea>
+  </div>
   <h3>What would you love to do with forms without needing a programmer?</h3>
   <textarea id="no-programmer" name="No Programmer" placeholder="Please describe..."></textarea>
-
   <input type="submit" value="Submit" />
 </form>
 
