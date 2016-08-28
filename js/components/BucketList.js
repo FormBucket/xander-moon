@@ -12,7 +12,7 @@ const Buckets = React.createClass({
 
     if (eq(this.props.buckets.length, 0)) {
       return (
-        <div>You have no buckets. There was never a better time to make one! Get started now.</div>
+        <div>You have no buckets. There was never a better time to make one!</div>
       )
     }
 

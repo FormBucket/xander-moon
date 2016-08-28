@@ -114,11 +114,21 @@ export function requestSignUp(user) {
     },
     body: JSON.stringify(user)
   })
+  .then(processStatus)
+  .then(getText)
 
 }
 
 export function requestToken(code){
-  return postResource('/token/', { code } )
+  return fetch( server + '/token', {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Accept': 'application/json',
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({ code })
+  })
   .then(processStatus)
   .then(getText)
 }

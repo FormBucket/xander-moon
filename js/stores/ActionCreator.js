@@ -19,75 +19,26 @@ import {
 } from './webutils'
 
 export function signUp(name, org, email, password, accepted, optedIn) {
-  var p = new Promise( (resolve, reject) => {
-    requestSignUp({
-        name: name,
-        org: org,
-        email: email,
-        password: password,
-        accepted: accepted,
-        optedIn: optedIn
-    })
-    .then(response => {
 
-      if (response.status === 200 || response.status === 0) {
-
-        response.text().then(
-          result => {
-
-            localStorage.setItem('token', result) // save token to localStorage
-
-            dispatch('signUp', {
-              name: name,
-              org: org,
-              email: email,
-              token: result
-            })
-
-            resolve()
-          }
-        )
-      } else {
-        response.json().then(
-          result => reject(result)
-        )
-      }
-
-    }, (error) => reject(error))
-
+  return requestSignUp({
+      name: name,
+      org: org,
+      email: email,
+      password: password,
+      accepted: accepted,
+      optedIn: optedIn
   })
-
-  return p;
+  .then(accessCode => requestToken(accessCode))
+  .then(token => {
+    dispatch('setToken', token)
+    return Promise.resolve()
+  })
+  .catch((error) => Promise.reject(error))
 
 }
 
 export function updateUser(updates) {
-  var p = new Promise( (resolve, reject) => {
-    requestUpdateUser(updates)
-    .then(response => {
-
-      if (response.status === 200 || response.status === 0) {
-
-        response.json().then(
-          user => {
-
-            dispatch('setProfile', user)
-            resolve(user)
-
-          }
-        )
-      } else {
-        response.json().then(
-          result => reject(result)
-        )
-      }
-
-    }, (error) => reject(error))
-y
-  })
-
-  return p;
-
+  return requestUpdateUser(updates)
 }
 
 export function signIn(email, password) {
@@ -101,31 +52,25 @@ export function signIn(email, password) {
     dispatch('setToken', token)
     return Promise.resolve()
   })
-  .catch((error) => reject(error))
+  .catch((error) => Promise.reject(error))
 
 }
 
 export function loadProfile() {
 
-  var p = new Promise( (resolve, reject) => {
+  return requestProfile()
+  .then(profile => {
 
-    requestProfile()
-    .then(profile => {
+    // publish to stores
+    dispatch('setProfile', profile)
 
-      // publish to stores
-      // console.log('setProfile', profile)
-      dispatch('setProfile', profile)
-
-      // resolve to caller
-      resolve( profile )
-
-    }, (err) => {
-      reject(err)
-    })
+    // resolve to caller
+    return Promise.resolve( profile )
 
   })
-
-  return p
+  .catch((err) => {
+    return Promise.reject(err)
+  })
 
 }
 

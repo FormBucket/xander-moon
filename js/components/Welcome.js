@@ -5,7 +5,7 @@ import {branch, isEmail} from 'functionfoundry'
 import {server} from '../stores/webutils'
 import UserStore from '../stores/user'
 
-window.checkHomepageForm = function() {
+window.validateForm = function() {
   var v = true;
   var message = document.getElementsByName('message')[0].value
 
@@ -19,12 +19,27 @@ window.checkHomepageForm = function() {
   return v;
 }
 
-var content = `<label>What will you do without a programmer?</label>
+var content = `<h3>Try it out!</h3>
 <form method="post" action="${server}/f/homepage"
-onsubmit="return checkHomepageForm()">
-  <textarea name="message" rows="7"></textarea>
-  <button class="secondary pull-right" type="submit">Submit</button>
+onsubmit="return validateForm()">
+  <label>Name</label>
+  <input type="text" name="name" />
+  <label>Email</label>
+  <input type="text" name="email" />
+  <label>What will you create with a magic backend?</label>
+  <textarea name="message"></textarea>
+  <button class="secondary" type="submit">Send!</button>
 </form>`
+
+// var content = `<h3>Try it out!</h3>
+// <form method="post" action="${server}/f/homepage"
+// onsubmit="return validateForm()">
+//   <input type="text" name="name" placeholder="Your name">
+//   <input type="text" name="email" placeholder="Your email">
+//   <textarea name="message" rows="4"
+//     placeholder="What will you create with a magic backend?"></textarea>
+//   <button class="secondary" type="submit">Send!</button>
+// </form>`
 
 const Welcome = React.createClass({
   getInitialState: () => {
