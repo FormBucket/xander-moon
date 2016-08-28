@@ -1,31 +1,44 @@
-const PORT = process.env.PORT || 3000;
-var path = require('path');
-var express = require('express');
+var koa = require('koa');
+var app = koa();
+var serveViews = require('koa-front-matter-views');
+var serve = require('koa-static');
+var send = require('koa-send');
+var accesslog = require('koa-accesslog');
+var _ = require('koa-route');
+
+app.use(accesslog());
+
 var webpack = require('webpack');
-var config = require('./webpack.config.dev');
+var webpackConfig = require('./webpack.config.dev.js');
+var compiler = webpack(webpackConfig);
+var hotMiddleware = require("webpack-hot-middleware")(compiler);
 
-var app = express();
-var compiler = webpack(config);
+var webpackMiddleware = require("koa-webpack-dev-middleware");
+app.use(webpackMiddleware(compiler, {
+  noInfo: false,
+  lazy: false,
+  publicPath: webpackConfig.output.publicPath
+}))
 
-app.use(express.static('public'));
-app.use(express.static('node_modules/highlight.js/styles'));
-
-app.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: true,
-  publicPath: config.output.publicPath
-}));
-
-app.use(require('webpack-hot-middleware')(compiler));
-
-app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.use(function* (next) {
+  yield hotMiddleware.bind(null, this.req, this.res);
+  yield next;
 });
 
-app.listen(PORT, function(err) {
-  if (err) {
-    console.log(err);
-    return;
-  }
+app.use( _.get('/assets/formbucket.css', function*() {
+  console.log('foo')
+  this.redirect('/assets/styles.js')
+}))
 
-  console.log('Listening at http://localhost:' + PORT);
-});
+// serve generate pages
+app.use(serveViews({ defaults: { __DEV__: true }}))
+
+// serve static assets
+app.use(serve('.'));
+
+// serve the index.html page
+app.use(function *(){
+  yield this.serveView('index')
+})
+
+app.listen(3000);

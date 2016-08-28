@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 
 import { Router, Route, Link, IndexRoute } from 'react-router'
-import createBrowserHistory from 'history/lib/createBrowserHistory'
+import { browserHistory } from 'react-router'
 
 import UserStore from './stores/user'
 
@@ -26,7 +26,7 @@ require('../scss/app.scss')
 // Finally, we render a <Router> with some <Route>s.
 // It does all the fancy routing stuff for us.
 render((
-  <Router history={createBrowserHistory()}>
+  <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={Welcome} />
       <Route path="signup" component={Signup} />
