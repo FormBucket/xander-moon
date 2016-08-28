@@ -7,8 +7,8 @@ export default {
       try {
         // Custom hack for homepage
         var tweaked = hljs.highlight(lang, str).value.replace(
-          '<span class="hljs-string">"https://api.formbucket.com/f/' + localStorage.defaultBucket + '"</span>',
-          '<span class="hljs-string">"<span class="hljs-highlight">https://api.formbucket.com/f/' + localStorage.defaultBucket + '</span>"</span>' );
+          '<span class="hljs-string">"' + process.env.FORMBUCKET_API_SERVER + '/f/homepage"</span>',
+          '<span class="hljs-string">"<span class="hljs-highlight">' + process.env.FORMBUCKET_API_SERVER + '/f/homepage</span>"</span>' );
 
         return tweaked;
       } catch (err) {}

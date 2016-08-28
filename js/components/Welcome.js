@@ -20,8 +20,9 @@ window.validateForm = function() {
 }
 
 var content = `<h3>Try it out!</h3>
-<form method="post" action="${server}/f/homepage"
-onsubmit="return validateForm()">
+<form method="post"
+  action="${server}/f/homepage"
+  onsubmit="return validateForm()">
   <label>Name</label>
   <input type="text" name="name" />
   <label>Email</label>
