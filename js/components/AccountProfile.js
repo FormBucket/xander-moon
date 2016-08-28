@@ -3,15 +3,19 @@ import FontAwesome from 'react-fontawesome'
 import {Link} from 'react-router'
 import FlashMessage from './FlashMessage'
 import {requestProfile, requestUpdateUser, requestDestroyAccount} from '../stores/webutils'
-import decode from '../stores/decodeJWT'
 
 const Account = React.createClass({
   getInitialState () {
     return {
       show_token: false,
-      flash: undefined,
-      user: decode()
+      flash: undefined
     }
+  },
+
+  componentDidMount() {
+    console.log('foo')
+    requestProfile()
+    .then((user) => { console.log(user); this.setState({ user: user }) })
   },
 
   handleDeleteAccount() {
