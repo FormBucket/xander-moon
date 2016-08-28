@@ -61,8 +61,8 @@ const Welcome = React.createClass({
       <div>
         <div className="hero">
           <div className="wrapper">
-            <h1>Powering Forms for Web Designers</h1>
-	          <h2>Capture submissions and automate without a programmer</h2>
+            <h1>A Magic Backend for Web Designers</h1>
+	          <h2>Capture and automate form submissions with zero programming</h2>
             { branch( UserStore.isUserLoggedIn(),
                     <button onClick={() => this.props.history.push('/buckets')}>Return to your buckets</button>,
                     <button onClick={() => this.props.history.push('/signup')}>Get Started</button>
