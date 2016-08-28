@@ -2,7 +2,6 @@ var Metalsmith  = require('metalsmith');
 var markdown    = require('metalsmith-markdown');
 var layouts     = require('metalsmith-layouts');
 var permalinks  = require('metalsmith-permalinks');
-var metallic = require('metalsmith-metallic');
 
 var s = new Date()
 console.log('Metalsmith go')
@@ -16,7 +15,6 @@ Metalsmith(__dirname)
   .source('./pages')
   .destination('./public')
   .clean(false)
-  .use(metallic())
   .use(markdown())
   .use(permalinks())
   .use(layouts({
