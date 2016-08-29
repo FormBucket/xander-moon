@@ -28,7 +28,7 @@ const Nav = React.createClass({
               <Link to="/buckets" onClick={this.handleLinkClick}>Buckets</Link>
             </li>
             <li className="nav-link">
-              <Link to="/account/profile" onClick={this.handleLinkClick}>Account</Link>
+              <Link to="/account" onClick={this.handleLinkClick}>Account</Link>
             </li>
           </ul>
         </nav>

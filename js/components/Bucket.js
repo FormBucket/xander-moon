@@ -4,6 +4,7 @@ import markdownOptions from './markdown-options'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
 import {branch, isArray, isBlank} from 'functionfoundry'
+import UserStore from '../stores/user'
 import {
   requestBucket, requestProfile,
   requestUpdateBucket, requestDeleteBucket,
@@ -26,6 +27,10 @@ const NewBucket = React.createClass({
   },
 
   componentDidMount() {
+
+    if (!UserStore.isUserLoggedIn()) {
+      this.props.history.push('/login')
+    }
 
     Promise.all([
       requestBucket(this.props.params.id),
@@ -54,7 +59,7 @@ const NewBucket = React.createClass({
     requestUpdateBucket( bucket )
     .then(result => this.props.history.push('/buckets'))
     .catch(err => {
-      console.log('ERROR', err)
+      // console.log('ERROR', err)
       this.setState({ error: err })
     })
   },

@@ -39,28 +39,29 @@ const Submissions = React.createClass({
     }
   },
 
+  componentWillMount() {
+    if (!UserStore.isUserLoggedIn()) {
+      this.props.history.push('/login')
+    }
+  },
+
   componentWillReceiveProps(nextProps) {
 
-    if (UserStore.isUserLoggedIn()) {
+    this.setState({ loading: true })
 
-      this.setState({ loading: true })
+    Promise.all([
+      requestBucket(nextProps.params.id),
+      requestSubmissionsByBucket(nextProps.params.id, +nextProps.params.offset, +nextProps.params.limit, nextProps.params.select)
+    ])
+    .then(values => this.setState({
+      loading: false,
+      loaded: true,
+      bucket: values[0],
+      submissions: values[1],
+      first_load: false
+    }))
+    .catch(error => this.setState({ error: error }))
 
-      // console.log('componentWillReceiveProps', this)
-
-      Promise.all([
-        requestBucket(nextProps.params.id),
-        requestSubmissionsByBucket(nextProps.params.id, +nextProps.params.offset, +nextProps.params.limit, nextProps.params.select)
-      ])
-      .then(values => this.setState({
-        loading: false,
-        loaded: true,
-        bucket: values[0],
-        submissions: values[1],
-        first_load: false
-      }))
-      .catch(error => this.setState({ error: error }))
-
-    }
   },
 
   componentWillMount() {
@@ -84,7 +85,6 @@ const Submissions = React.createClass({
   },
 
   handleSubmissionsChanged: function() {
-    // console.log('handleSubmissionsChanged', this.props.params.id, SubmissionsStore.getSubmissions())
     this.setState( {
       submissions: SubmissionsStore.getSubmissions()
     })

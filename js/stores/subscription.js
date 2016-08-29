@@ -1,10 +1,6 @@
 import {createStore} from 'fluxury'
 
 const SubscriptionStore = createStore(
-  'Subscriptions',
-  {
-    plans: []
-  },
   {
     getSubscriptionPlans: (state, action) => Object.assign({},
       state,

@@ -76,24 +76,18 @@ export function loadProfile() {
 
 export function loadBuckets() {
 
-  var p = new Promise( (resolve, reject) => {
+  return requestBuckets()
+      .then((buckets) => {
 
-    requestBuckets()
-    .then((buckets) => {
+        // publish to stores
+        dispatch('setBuckets', buckets)
 
-      // publish to stores
-      dispatch('setBuckets', buckets)
+        // resolve to caller
+        resolve( buckets )
 
-      // resolve to caller
-      resolve( buckets )
-
-    }, (err) => {
-      reject(err)
-    })
-
-  })
-
-  return p
+      }, (err) => {
+        reject(err)
+      })
 
 }
 

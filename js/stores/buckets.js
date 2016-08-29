@@ -1,9 +1,9 @@
 import {createStore} from 'fluxury'
 
 const BucketStore = createStore(
-  'BucketStore',
-  [],
+  // Action handlers
   {
+    getInitialState: () => {},
     setBuckets: (state, action) => {
       return action.data
     },
@@ -15,6 +15,7 @@ const BucketStore = createStore(
       )
     }
   },
+  // Selectors
   {
     getBuckets: (state) => state ? Object.keys(state).reduce( (a,b) => a.concat([state[b]]), []) : [], // convert list to array
     find: (state, id) => {

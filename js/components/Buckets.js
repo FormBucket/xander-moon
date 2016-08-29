@@ -21,20 +21,17 @@ const Buckets = React.createClass({
     }
   },
 
-  componentDidUpdate(prevProps, prevState) {
-  },
-
   componentDidMount() {
 
-    if (UserStore.isUserLoggedIn()) {
-      // load the buckets
-      requestBuckets()
-      .then( (buckets) => this.setState({ buckets: buckets }) )
-      .catch( (err) => this.setState({ buckets: [], error: err }))
+    if (!UserStore.isUserLoggedIn()) {
+      this.props.history.push('/login')
     }
-  },
 
-  componentWillUnmount() {
+    // load the buckets
+    requestBuckets()
+    .then( (buckets) => this.setState({ buckets: buckets }) )
+    .catch( (err) => this.setState({ buckets: [], error: err }))
+
   },
 
   handleNewBucket(event) {

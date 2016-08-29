@@ -26,7 +26,6 @@ app.use(function* (next) {
 });
 
 app.use( _.get('/assets/formbucket.css', function*() {
-  console.log('foo')
   this.redirect('/assets/styles.js')
 }))
 

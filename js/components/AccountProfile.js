@@ -13,9 +13,12 @@ const Account = React.createClass({
   },
 
   componentDidMount() {
-    console.log('foo')
     requestProfile()
-    .then((user) => { console.log(user); this.setState({ user: user }) })
+    .then((user) => this.setState({ user: user }))
+    .catch((error) => {
+      localStorage.removeItem('token');
+      this.props.history.push('/')
+    })
   },
 
   handleDeleteAccount() {

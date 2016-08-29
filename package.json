@@ -50,6 +50,7 @@
     "webpack-hot-middleware": "^2.12.2"
   },
   "dependencies": {
+    "fluxury": "^2.0.0",
     "functionfoundry": "^0.10.24",
     "koa-front-matter-views": "^2.0.5",
     "moment": "^2.14.1",

@@ -74,7 +74,7 @@ const Billing = React.createClass({
 
         if (status !== 200) {
           // got back error from Stripe
-          console.log('error', status, response.error )
+          // console.log('error', status, response.error )
           this.setState({ error: response.error, saving: false })
           return
         }

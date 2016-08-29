@@ -13,8 +13,6 @@ import Subscribe from './components/Subscribe'
 import Login from './components/Login'
 import Buckets from './components/Buckets'
 import AccountProfile from './components/AccountProfile'
-import AccountIntegrations from './components/AccountIntegrations'
-import AccountBilling from './components/AccountBilling'
 import AccountUsers from './components/AccountUsers'
 import Bucket from './components/Bucket'
 import Submissions from './components/Submissions'
@@ -32,10 +30,7 @@ render((
       <Route path="signup" component={Signup} />
       <Route path="subscribe" component={Subscribe} />
       <Route path="login" component={Login} />
-      <Route path="account/profile" component={AccountProfile} />
-      <Route path="account/integrations" component={AccountIntegrations} />
-      <Route path="account/billing" component={AccountBilling} />
-      <Route path="account/users" component={AccountUsers} />
+      <Route path="account" component={AccountProfile} />
       <Route path="/buckets" component={Buckets} />
       <Route path="/buckets/:id/settings" component={Bucket} />
       <Route path="/buckets/:id/submissions" component={Submissions} />

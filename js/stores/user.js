@@ -1,36 +1,33 @@
 import {createStore, dispatch} from 'fluxury'
 import SubscriptionStore from './subscription'
-import decode from './decodeJWT'
 import moment from 'moment'
+import {decodeJWT} from 'functionfoundry'
 
-if ( decode().exp < moment().unix() ) {
-  localStorage.removeItem('token')
+var token;
+
+// read the expiration from the token
+function readExp() {
+  try {
+    return decodeJWT(localStorage.token || '').exp
+  } catch(e) {
+    return -1
+  }
+}
+
+if (readExp() < moment().unix()) {
+    localStorage.removeItem('token')
 }
 
 const UserStore = createStore(
-  'UserStore',
-  {},
   {
     setToken: (state, token) => {
       localStorage.setItem('token', token)
     },
-    setProfile: (state, data) => data,
-    cancelSubscription: (state, data) => data,
-    clearProfile: () => { return {} }
+    setProfile: (state, data) => data
   }, // store does not support updates
   {
-    isUserLoggedIn: (state) => decode().exp > moment().unix(),
-    isLoaded: (state) => typeof state.email !== 'undefined',
-    canCreateForm: (state) => true,
-    getProvider: (state) => state.provider,
-    getEmail: (state) => state.email,
-    getName: (state) => state.display_name,
-    getAPIKey: (state) => state.apikey,
-    getUser: (state) => state,
-    getPlan: (state) => state.plan,
-    getPlanName: (state) => SubscriptionStore.getPlanByName(state.plan) ? SubscriptionStore.getPlanByName(state.plan).name : undefined,
-    getMaxBuckets: (state) => +state.max_buckets,
-    getPaidUntil: (state) => state.paid_until
+    isUserLoggedIn: (state) => readExp() > moment().unix(),
+    getPlanName: (state) => SubscriptionStore.getPlanByName(state.plan) ? SubscriptionStore.getPlanByName(state.plan).name : undefined
   }
 )
 
