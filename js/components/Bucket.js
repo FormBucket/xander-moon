@@ -41,7 +41,7 @@ const NewBucket = React.createClass({
         { loaded: true },
         result[0],
         { user: result[1], auto_responder_content: result[0].auto_responder ?
-          RichTextEditor.createValueFromString(result[0].auto_responder.body, 'html') :
+          RichTextEditor.createValueFromString(result[0].auto_responder.body, 'markdown') :
           RichTextEditor.createEmptyValue()}
     )))
     .catch(err => this.setState( { error: err } ))
@@ -57,7 +57,7 @@ const NewBucket = React.createClass({
     this.setState( { auto_responder : e.target.checked ? {
       from: this.refs.auto_responder_from.value,
       subject: this.refs.auto_responder_subject.value,
-      body: this.state.auto_responder_content.toString('html') } : false
+      body: this.state.auto_responder_content.toString('markdown') } : false
     })
   },
 
@@ -103,7 +103,7 @@ const NewBucket = React.createClass({
     this.setState({
       auto_responder_content: value,
       auto_responder: Object.assign(
-        {}, this.state.auto_responder, { body: value.toString('html') }
+        {}, this.state.auto_responder, { body: value.toString('markdown') }
       )
     });
 
