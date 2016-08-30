@@ -4,305 +4,153 @@ Date: 2015-12-14
 
 All of these functions return a promise to get a payload.
 */
-import {branch} from 'functionfoundry'
+let version = `/v1`
+let apiRoot = process.env.FORMBUCKET_API_SERVER + version
 
-export let server = process.env.FORMBUCKET_API_SERVER
+console.log('apiRoot', apiRoot)
 
-// uncomment for server testing. never commit uncommented.
-// server = 'http://localhost:3002'
+import {
+  getResource,
+  postResource,
+  putResource,
+  deleteResource,
+  getText,
+  postText,
+  putText,
+  deleteText,
+  getJSON,
+  postJSON,
+  putJSON,
+  deleteJSON
+} from './fetch-helpers'
 
-// reads value from qur
-export function getQueryParam(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-
-// generic function to detect common HTTP error codes. Credit to Mozilla.
-export function processStatus(response) {
-  // status "0" to handle local files fetching (e.g. Cordova/Phonegap etc.)
-  if (response.status === 200 || response.status === 0) {
-    return Promise.resolve(response);
-  } else {
-    return response.text()
-    .then(text => Promise.reject(new Error(text)));
-  }
-}
-
-export function getText(response) {
-  return response.text();
-}
-
-export function getJSON(response) {
-  return response.json();
-}
-
-export function getResource(resource) {
-
-  if (!localStorage.hasOwnProperty('token')) {
-    return fetch( server + resource, {
-      method: 'GET',
-      mode: 'cors',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    })
-  }
-
-  return fetch( server + resource, {
-    method: 'GET',
-    mode: 'cors',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.token}`
-    }
-  })
-}
-
-export function callResource(method, resource, data) {
-  return fetch( server + resource, {
-    method: method,
-    mode: 'cors',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.token}`
-    },
-    body: JSON.stringify(data)
-  })
-}
-
-function postResource(resource, data) {
-  return callResource('POST', resource, data)
-}
-
-function putResource(resource, data) {
-  return callResource('PUT', resource, data)
-}
-
-function deleteResource(resource, data) {
-  return callResource('DELETE', resource, data)
-}
-
-export function requestSignIn(user) {
-
-  return fetch( server + '/signin', {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-      'Accept': 'application/json',
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify(user)
-  })
-  .then(processStatus)
-  .then(getText)
-
-}
-
-export function requestSignUp(user) {
-
-  return fetch( server + '/signup', {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-      'Accept': 'application/json',
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify(user)
-  })
-  .then(processStatus)
-  .then(getText)
-
-}
-
-export function requestToken(code){
-  return fetch( server + '/token', {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-      'Accept': 'application/json',
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify({ code })
-  })
-  .then(processStatus)
-  .then(getText)
-}
-
-export function requestUpdateUser(user) {
-
-  return fetch( server + '/profile.json', {
-    method: 'PUT',
-    mode: 'cors',
-    headers: {
-      'Accept': 'application/json',
-      'content-type': 'application/json',
-      'Authorization': `Bearer ${localStorage.token}`
-    },
-    body: JSON.stringify(user)
-  })
-  .then(processStatus)
-  .then(res => res.json() )
-
-}
-/* Send server request to get user's Forms
-
-Usage:
-createBucket({
-name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
-})
-*/
-export function requestBuckets(){
-  return getResource('/buckets.json')
-  .then(processStatus)
-  .then(getJSON)
-}
-
-/* Send server request to get a specific Buckets
-
-Usage:
-createBucket({
-name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
-})
-*/
-export function requestBucket(id){
-  return getResource(`/buckets/${id}.json`)
-  .then(processStatus)
-  .then(getJSON)
-}
-
-/* Send server request to create new bucket
-
-Usage:
-createBucket({
-name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
-})
-*/
-export function requestCreateBucket(data){
-  return postResource('/buckets.json', data)
-  .then(processStatus)
-  .then(getJSON)
-}
-
-/* Send server request to update existing bucket
-
-Usage:
-updateBucket({
-name: 'test2', enabled: true, email_to: 'test@test8.com', webhooks: [], required_fields: []
-})
-*/
-export function requestUpdateBucket(bucket){
-  return putResource( '/buckets/' + bucket.id, bucket )
-  .then(processStatus)
-  .then(getJSON)
-}
-
-// window.requestUpdateBucket = requestUpdateBucket
-
-export function requestDeleteBucket(bucketId){
-  return deleteResource('/buckets/' + bucketId)
-  .then(processStatus)
-  .then(getJSON)
-}
-
-// window.requestDeleteBucket = requestDeleteBucket
-
-
+/* Submit a form */
 export function submit(formId, formData) {
-  return postResource(`/f/${formId}`, formData )
-  .then(processStatus)
-  .then(getJSON)
+  return postJSON( `${apiRoot}/f/${formId}`, formData )
 }
 
-// window.submit = submit
+/* Request user signin and receive access code */
+export function requestSignIn(user) {
+  return postText( `${apiRoot}/signin`, user )
+}
 
+/* Request user signup and receive access code */
+export function requestSignUp(user) {
+  return postText( `${apiRoot}/signup`, user )
+}
+
+/* Exchange access code for JWT */
+export function requestToken(code){
+  return postText( `${apiRoot}/token`, { code } )
+}
+
+/* Update user profile settings */
+export function requestUpdateUser(user) {
+  return postJSON( `${apiRoot}/profile.json`, user)
+}
+
+/* Send server request to get user`s Forms */
+export function requestBuckets(){
+  return getJSON( `${apiRoot}/buckets.json`)
+}
+
+/* Send server request to get a bucket settings */
+export function requestBucket(id){
+  return getJSON( `${apiRoot}/buckets/${id}.json`)
+}
+
+/* Send server request to create new bucket */
+export function requestCreateBucket(data){
+  return postJSON( `${apiRoot}/buckets.json`, data)
+}
+
+/* Send server request to update existing bucket */
+export function requestUpdateBucket(bucket){
+  return putJSON( `${apiRoot}/buckets/` + bucket.id, bucket )
+}
+
+/* Send server request to delete bucket and all related data */
+export function requestDeleteBucket(bucketId){
+  return deleteJSON( `${apiRoot}/buckets/` + bucketId)
+}
+
+/* Send server request to get user profile */
 export function requestProfile(){
-  return getResource('/profile.json')
-  .then(processStatus)
-  .then(getJSON)
+  return getJSON( `${apiRoot}/profile.json`)
 }
 
+/* Send server request to get subscription plans */
 export function requestSubscriptionPlans() {
-  return getResource('/subscription/plans')
-   .then( processStatus )
-   .then( getJSON )
+  return getJSON( `${apiRoot}/subscription/plans` )
 }
 
-/* Send server request to get user's submissions
-
-Usage:
-getSubmissions(10, 50)
-*/
-export function requestSubmissions(offset, limit, select){
-  return getResource(`/submissions.json?offset=${+offset}&limit=${+limit}&select=${select}`)
-  .then(processStatus)
-  .then(getJSON)
+/* Send server request to get user`s submissions */
+export function requestSubmissionsByBucket(bucket_id, offset, limit, select, q){
+  return getJSON( `${apiRoot}/buckets/${bucket_id}/submissions/${+offset}/${+limit}/${select}.json?${q ? `q=${q}` : null }` )
 }
 
-export function requestSubmissionsByBucket(bucket_id, offset, limit, select){
-  return getResource(`/buckets/${bucket_id}/submissions.json?offset=${+offset}&limit=${+limit}&select=${select}`)
-  .then(processStatus)
-  .then(getJSON)
+/* Send server request to get download key */
+export function requestBucketExport(bucket_id, format=`json`){
+  return getText( `${apiRoot}/export/${bucket_id}.${format}` )
 }
 
-export function requestBucketExport(bucket_id, format='json'){
-  return getResource(`/export/${bucket_id}.${format}`)
-  .then(processStatus)
-  .then(res => res.text())
-}
-
+/* Force download of file using key */
 export function requestDownloadFile(key) {
-  window.location.href = server + '/download/' + key
+  window.location.href = `${apiRoot}/download/${key}`
 }
 
+/* Get the stripe publishable key */
 export function requestStripePubKey(){
-  return getResource('/stripe/pk')
-  .then(processStatus)
-  .then(getText)
+  return getText(`${apiRoot}/stripe/pk`)
 }
 
+/* Get the user charges */
 export function requestCharges(){
-  return getResource('/subscription/charges')
-  .then(processStatus)
-  .then(getJSON)
+  return getJSON(`${apiRoot}/subscription/charges`)
 }
 
+/* Get the the user's invoices */
 export function requestInvoices(){
-  return getResource('/subscription/invoices')
-  .then(processStatus)
-  .then(getJSON)
+  return getJSON(`${apiRoot}/subscription/invoices`)
 }
 
+/* Send request to subscribe user to plan */
 export function requestSubscribe(token, plan) {
-  return postResource('/subscribe', { token: token, plan: plan })
-  .then(processStatus)
-  .then(getJSON)
+  return postJSON(`${apiRoot}/subscribe`, { token: token, plan: plan })
 }
 
-export function unsubscribe() {
-  return deleteResource('/subscription')
-  .then(processStatus)
-  .then(getJSON)
+/* Send request to unsubscribe user to plan */
+export function requestUnsubscribe() {
+  return deleteJSON(`${apiRoot}/subscription`)
 }
 
+/* Send request to destroy users account */
 export function requestDestroyAccount(bucketId){
-  return deleteResource('/account')
-  .then(processStatus)
-  .then(getJSON)
+  return deleteJSON(`${apiRoot}/account`)
 }
 
+/* Send request to reset user's password */
 export function requestPasswordReset(email){
-  return getResource('/password_reset?email=' + email)
-  .then(processStatus)
-  .then(getJSON)
+  return getJSON(`${apiRoot}/password_reset?email=` + email)
 }
 
+/* Send request to update user with new password */
 export function requestPasswordResetUpdate(email, temp_password, password){
-  return postResource('/password_reset', { email, temp_password, password})
-  .then(processStatus)
-  .then(getJSON)
+  return getJSON(`${apiRoot}/password_reset`, { email, temp_password, password})
+}
+
+export function requestBucketCountByUser() {
+  return getJSON(`${apiRoot}/bucket_count_by_user.json` )
+}
+
+export function requestSubmissionCountByBucket() {
+  return getJSON(`${apiRoot}/submission_count_by_bucket.json` )
+}
+
+export function requestBucketCount() {
+  return getText(`${apiRoot}/bucket_count.json` )
+}
+
+export function requestUserCount() {
+  return getText(`${apiRoot}/user_count.json` )
 }

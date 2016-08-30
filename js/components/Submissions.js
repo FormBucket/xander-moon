@@ -51,13 +51,14 @@ const Submissions = React.createClass({
 
     Promise.all([
       requestBucket(nextProps.params.id),
-      requestSubmissionsByBucket(nextProps.params.id, +nextProps.params.offset, +nextProps.params.limit, nextProps.params.select)
+      requestSubmissionsByBucket(nextProps.params.id, +nextProps.params.offset, +nextProps.params.limit, nextProps.params.select, nextProps.location.query.q)
     ])
     .then(values => this.setState({
       loading: false,
       loaded: true,
       bucket: values[0],
-      submissions: values[1],
+      total: values[1].total,
+      submissions: values[1].items,
       first_load: false
     }))
     .catch(error => this.setState({ error: error }))
@@ -71,7 +72,15 @@ const Submissions = React.createClass({
     this.props.params.offset = (+this.props.params.offset) || 0
     this.props.params.select = this.props.params.select || 'created_on,data'
 
-    this.props.history.replace(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${this.props.params.offset}/${this.props.params.limit}/${this.props.params.select}`)
+    var url = `/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${this.props.params.offset}/${this.props.params.limit}/${this.props.params.select}`
+
+    console.log(this.props)
+
+    if (this.props.location.query.q) {
+      this.props.history.replace(url + '?q=' + this.props.location.query.q)
+    } else {
+      this.props.history.replace(url)
+    }
 
     window.scrollTo(0, 0)
 
@@ -90,6 +99,11 @@ const Submissions = React.createClass({
     })
   },
 
+  search (event) {
+    var url = `/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${this.props.params.offset}/${this.props.params.limit}/${this.props.params.select}?q=${this.refs.q.value}`
+    this.props.history.push(url)
+  },
+
   goForward (event) {
     var offset = +this.props.params.offset,
     limit = +this.props.params.limit
@@ -99,12 +113,12 @@ const Submissions = React.createClass({
     }
     // console.log('goForward')
     var newOffset = branch(
-      offset + limit <= this.state.bucket.submission_count,
+      offset + limit <= this.state.total,
       offset + limit,
       offset
     )
 
-    if (offset === newOffset || newOffset >= this.state.bucket.submission_count) {
+    if (offset === newOffset || newOffset >= this.state.total) {
       return
     }
 
@@ -129,7 +143,7 @@ const Submissions = React.createClass({
 
     if (or(
       offset === newOffset,
-      offset >= this.state.bucket.submission_count) ) {
+      offset >= this.state.total) ) {
       return
     }
 
@@ -138,6 +152,8 @@ const Submissions = React.createClass({
   },
 
   render () {
+
+    console.log(this.state)
 
     if (eq(this.state.loaded, false)) {
       return (
@@ -179,19 +195,9 @@ const Submissions = React.createClass({
       )
     }
 
-    if (eq(this.state.submissions.length, 0)) {
-      return (
-        <div className="wrapper">
-          <div className="flash">
-            No Submissions Yet!
-          </div>
-        </div>
-      )
-    }
-
     var offset = +this.props.params.offset,
     limit = +this.props.params.limit,
-    total = this.state.bucket.submission_count,
+    total = this.state.total,
     from = offset+1,
     to = branch(offset + limit < total, offset + limit, total),
     headingText = branch(
@@ -260,6 +266,12 @@ const Submissions = React.createClass({
     if (eq(this.props.params.mode, 'list')) {
       return wrap(headingText,
         <div>
+          <table>
+            <tr>
+              <td style={{ padding: 10 }}><input onKeyUp={(e) => branch(event.keyCode === 13, () => this.search())} ref="q" /></td>
+              <td style={{ padding: 10 }}><button onClick={this.search} className="pull">Search</button></td>
+            </tr>
+          </table>
           <div className="callout-controls">
             {pager('top')}
           </div>

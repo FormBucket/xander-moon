@@ -13,11 +13,12 @@ import Subscribe from './components/Subscribe'
 import Login from './components/Login'
 import Buckets from './components/Buckets'
 import AccountProfile from './components/AccountProfile'
-import AccountUsers from './components/AccountUsers'
 import Bucket from './components/Bucket'
 import Submissions from './components/Submissions'
 import PageNotFound from './components/PageNotFound'
 import PasswordReset from './components/PasswordReset'
+
+import UserReport from './components/UserReport'
 
 require('../scss/app.scss')
 
@@ -31,11 +32,12 @@ render((
       <Route path="subscribe" component={Subscribe} />
       <Route path="login" component={Login} />
       <Route path="account" component={AccountProfile} />
-      <Route path="/buckets" component={Buckets} />
-      <Route path="/buckets/:id/settings" component={Bucket} />
-      <Route path="/buckets/:id/submissions" component={Submissions} />
-      <Route path="/buckets/:id/submissions/:mode/:offset/:limit/:select" component={Submissions} />
+      <Route path="buckets" component={Buckets} />
+      <Route path="buckets/:id/settings" component={Bucket} />
+      <Route path="buckets/:id/submissions" component={Submissions} />
+      <Route path="buckets/:id/submissions/:mode/:offset/:limit/:select" component={Submissions} />
       <Route path="password_reset" component={PasswordReset} />
+      <Route path="admin/user_report" component={UserReport} />
       <Route path="*" component={PageNotFound} />
     </Route>
   </Router>
