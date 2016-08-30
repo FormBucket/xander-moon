@@ -100,86 +100,86 @@
       <div class="wrapper">
         <div class="two-thirds">
           <p>The FormBucket API accepts <em>application/json</em> requests via HTTPS and is secured with the recent <a href="https://tools.ietf.org/html/rfc7519">IETF Standard 7519 JSON Web Tokens (JWT)</a>.</p>
-<p>The API code examples use the fetch API. Please checkout <a href="https://jakearchibald.com/2015/thats-so-fetch/">That&#39;s so fetch</a> and <a href="https://github.com/github/fetch">Github&#39;s polyfill</a> for more information.</p>
-<h2 id="submit-forms">Submit forms</h2>
+<p>The API code examples use the fetch API. Please checkout <a href="https://jakearchibald.com/2015/thats-so-fetch/">That's so fetch</a> and <a href="https://github.com/github/fetch">Github's polyfill</a> for more information.</p>
+<h2>Submit forms</h2>
 <p>Our API accepts data in two formats: form and JSON.</p>
-<h3 id="form-data">Form data</h3>
-<pre><code class="lang-js">fetch( &#39;https://api.formbucket.com/f/CPaseeA&#39;, {
-  method: &#39;post&#39;,
-  mode: &#39;cors&#39;,
+<h3>Form data</h3>
+<pre><code class="language-js">fetch( 'https://api.formbucket.com/f/CPaseeA', {
+  method: 'post',
+  mode: 'cors',
   headers: {
-    &#39;accept&#39; : &#39;application/javascript&#39;,
+    'accept' : 'application/javascript',
   },
-  body: jQuery(&#39;#my-form&#39;).serialize()
+  body: jQuery('#my-form').serialize()
 })
 </code></pre>
-<h3 id="json-data">JSON data</h3>
-<pre><code class="lang-js">fetch( &#39;https://api.formbucket.com/f/CPaseeA&#39;, {
-  method: &#39;post&#39;,
-  mode: &#39;cors&#39;,
+<h3>JSON data</h3>
+<pre><code class="language-js">fetch( 'https://api.formbucket.com/f/CPaseeA', {
+  method: 'post',
+  mode: 'cors',
   headers: {
-    &#39;accept&#39; : &#39;application/javascript&#39;,
-    &#39;Content-Type&#39;: &#39;application/json&#39;,
+    'accept' : 'application/javascript',
+    'Content-Type': 'application/json',
   },
   body: JSON.stringify({
-    name: &#39;John&#39;,
-    email: &#39;John@Smith.com&#39;,
-    message: &#39;You guys are awesome!&#39;
+    name: 'John',
+    email: 'John@Smith.com',
+    message: 'You guys are awesome!'
   })
 })
 </code></pre>
-<h2 id="accounts-profile">Accounts / profile</h2>
+<h2>Accounts / profile</h2>
 <p>The APIs will only respond when presented with a token. Requests that do not include a token or include an invalid token will be denied.</p>
 <p>The token must be provided via an HTTP Header named <em>Authorization</em> that contains the value <em>Bearer {token}</em>.</p>
 <p>With the fetch API you can call with:</p>
-<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/v1/signup&#39;, {
-  method: &#39;POST&#39;,
-  mode: &#39;cors,&#39;,
+<pre><code class="language-js">fetch('https://api.formbucket.com/v1/signup', {
+  method: 'POST',
+  mode: 'cors,',
   headers: {
-    ContentType: &#39;application/json&#39;
+    ContentType: 'application/json'
   },
   body: JSON.stringify({
-    email: &#39;you@domain.com&#39;,
-    password: &#39;shhhh&#39;
+    email: 'you@domain.com',
+    password: 'shhhh'
   })
 })
 .then(res =&gt; res.text())
 .then(token =&gt; console.log(`Your token is ${token}`))
 </code></pre>
 <p>Upon successful signup the user is issued a token.</p>
-<pre><code class="lang-js">let token = &#39;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NjhkZjZjMGM4ZDVhZmQxYTJkMDVmMzMiLCJvcmdOYW1lIjoiIiwiZW1haWwiOiJmb29AZm9vMS5jb20iLCJpYXQiOjE0NTIyNDUxNTA2NjN9.NP-6XQGZdpDJfRW8r-gHdeCGmyhKCFSGSUmA3pCiUMY&#39;
+<pre><code class="language-js">let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NjhkZjZjMGM4ZDVhZmQxYTJkMDVmMzMiLCJvcmdOYW1lIjoiIiwiZW1haWwiOiJmb29AZm9vMS5jb20iLCJpYXQiOjE0NTIyNDUxNTA2NjN9.NP-6XQGZdpDJfRW8r-gHdeCGmyhKCFSGSUmA3pCiUMY'
 </code></pre>
 <p>A returning user may obtain a new token by presenting their user name and password.</p>
-<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/v1/signin&#39;, {
-  method: &#39;POST&#39;,
-  mode: &#39;cors,&#39;,
+<pre><code class="language-js">fetch('https://api.formbucket.com/v1/signin', {
+  method: 'POST',
+  mode: 'cors,',
   headers: {
-    ContentType: &#39;application/json&#39;,
+    ContentType: 'application/json',
   },
   body: JSON.stringify({
-    email: &#39;you@domain.com&#39;,
-    password: &#39;shhhh&#39;
+    email: 'you@domain.com',
+    password: 'shhhh'
   })
 })
 .then(res =&gt; res.text())
 .then(token =&gt; console.log(`Your token is ${token}`))
 </code></pre>
-<h2 id="buckets">Buckets</h2>
+<h2>Buckets</h2>
 <p>Users may choose from fixed or variable sized buckets. The fixed size buckets will overwrite the oldest submissions.</p>
-<h3 id="get-a-list-of-your-buckets">Get a list of your buckets</h3>
-<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/v1/buckets.json&#39;, {
-  method: &#39;GET&#39;,
-  mode: &#39;cors,&#39;,
+<h3>Get a list of your buckets</h3>
+<pre><code class="language-js">fetch('https://api.formbucket.com/v1/buckets.json', {
+  method: 'GET',
+  mode: 'cors,',
   headers: {
-    ContentType: &#39;application/json&#39;,
+    ContentType: 'application/json',
     Authorization: `Bearer ${token}`
   },
 })
 .then(res =&gt; res.json())
 .then(buckets =&gt; console.log(buckets))
 </code></pre>
-<h4 id="example-response">Example Response</h4>
-<pre><code class="lang-JSON">[
+<h4>Example Response</h4>
+<pre><code class="language-JSON">[
   {
     &quot;id&quot;: &quot;6h86zo&quot;,
     &quot;enabled&quot;: true,
@@ -194,47 +194,31 @@
   }
 ]
 </code></pre>
-<h3 id="get-a-bucket">Get a bucket</h3>
-<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/v1/buckets/:id.json&#39;, {
-  method: &#39;GET&#39;,
-  mode: &#39;cors,&#39;,
+<h3>Get a bucket</h3>
+<pre><code class="language-js">fetch('https://api.formbucket.com/v1/buckets/:id.json', {
+  method: 'GET',
+  mode: 'cors,',
   headers: {
-    ContentType: &#39;application/json&#39;,
+    ContentType: 'application/json',
     Authorization: `Bearer ${token}`
   },
 })
 .then(res =&gt; res.json())
 .then(bucket =&gt; console.log(bucket))
 </code></pre>
-<h4 id="parameters">Parameters</h4>
+<h4>Parameters</h4>
 <table>
 <thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
+<tr><th>Name</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr>
-<td>limit</td>
-<td>number</td>
-<td><strong>Optional</strong>. The maximum number of buckets to return in a single call. The default is 50.</td>
-</tr>
-<tr>
-<td>offset</td>
-<td>number</td>
-<td><strong>Optional</strong>. The number of records to skip before returning rows. Applied after sorting. The default is 0.</td>
-</tr>
-<tr>
-<td>sort</td>
-<td>object</td>
-<td><strong>Required</strong>. An object that describes the sort options. The default is <strong>{ created_on: -1 }</strong>.</td>
-</tr>
+<tr><td>limit</td><td>number</td><td><strong>Optional</strong>. The maximum number of buckets to return in a single call. The default is 50.</td></tr>
+<tr><td>offset</td><td>number</td><td><strong>Optional</strong>. The number of records to skip before returning rows. Applied after sorting. The default is 0.</td></tr>
+<tr><td>sort</td><td>object</td><td><strong>Required</strong>. An object that describes the sort options. The default is <strong>{ created_on: -1 }</strong>.</td></tr>
 </tbody>
 </table>
-<h4 id="example-response">Example Response</h4>
-<pre><code class="lang-JSON">{
+<h4>Example Response</h4>
+<pre><code class="language-JSON">{
   &quot;_id&quot;: &quot;57b80f4a400d0f911f3eac42&quot;,
   &quot;enabled&quot;: true,
   &quot;id&quot;: &quot;WRtqGDc&quot;,
@@ -244,33 +228,25 @@
   &quot;updated_on&quot;: &quot;2016-08-20T18:08:05.560Z&quot;
 }
 </code></pre>
-<h3 id="create-a-new-bucket">Create a new bucket</h3>
-<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/v1/buckets.json&#39;, {
-  method: &#39;POST&#39;,
-  mode: &#39;cors,&#39;,
+<h3>Create a new bucket</h3>
+<pre><code class="language-js">fetch('https://api.formbucket.com/v1/buckets.json', {
+  method: 'POST',
+  mode: 'cors,',
   headers: {
-    ContentType: &#39;application/json&#39;,
+    ContentType: 'application/json',
     Authorization: `Bearer ${token}`
   },
 })
 .then(res =&gt; res.json())
 .then(bucket =&gt; console.log(bucket))
 </code></pre>
-<h4 id="parameters">Parameters</h4>
+<h4>Parameters</h4>
 <table>
 <thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
+<tr><th>Name</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr>
-<td>bucket</td>
-<td>object</td>
-<td><strong>Optional</strong>. An object containing bucket settings. This object is whitelisted on the server to enforce the fields.</td>
-</tr>
+<tr><td>bucket</td><td>object</td><td><strong>Optional</strong>. An object containing bucket settings. This object is whitelisted on the server to enforce the fields.</td></tr>
 </tbody>
 </table>
 <p>The field whitelist include:</p>
@@ -283,19 +259,20 @@
   2. subject : string
   3. body: string
 6. redirect_url : string
-</code></pre><h4 id="example-responses">Example Responses</h4>
+</code></pre>
+<h4>Example Responses</h4>
 <p>When the bucket is successfully created:</p>
-<pre><code class="lang-JSON">{ &quot;success&quot;: true, &quot;id&quot;: &quot;KfdHERM&quot;}
+<pre><code class="language-JSON">{ &quot;success&quot;: true, &quot;id&quot;: &quot;KfdHERM&quot;}
 </code></pre>
 <p>When an error occurs:</p>
-<pre><code class="lang-JSON">{ &quot;error&quot;: &quot;apikey is required.&quot; }
+<pre><code class="language-JSON">{ &quot;error&quot;: &quot;apikey is required.&quot; }
 </code></pre>
-<h3 id="update-a-bucket">Update a bucket</h3>
-<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/v1/buckets.json&#39;, {
-  method: &#39;POST&#39;,
-  mode: &#39;cors,&#39;,
+<h3>Update a bucket</h3>
+<pre><code class="language-js">fetch('https://api.formbucket.com/v1/buckets.json', {
+  method: 'POST',
+  mode: 'cors,',
   headers: {
-    ContentType: &#39;application/json&#39;,
+    ContentType: 'application/json',
     Authorization: `Bearer ${token}`
   },
   data: JSON.string({...})
@@ -303,14 +280,14 @@
 .then(res =&gt; res.json())
 .then(bucket =&gt; console.log(bucket))
 </code></pre>
-<h4 id="parameters">Parameters</h4>
+<h4>Parameters</h4>
 <p>Accepts same parameters used to create a bucket.</p>
-<h3 id="delete-a-bucket">Delete a bucket</h3>
-<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/v1/buckets/:id&#39;, {
-  method: &#39;DELETE&#39;,
-  mode: &#39;cors,&#39;,
+<h3>Delete a bucket</h3>
+<pre><code class="language-js">fetch('https://api.formbucket.com/v1/buckets/:id', {
+  method: 'DELETE',
+  mode: 'cors,',
   headers: {
-    ContentType: &#39;application/json&#39;,
+    ContentType: 'application/json',
     Authorization: `Bearer ${token}`
   },
   data: JSON.string({...})
@@ -319,93 +296,49 @@
 .then(bucket =&gt; console.log(bucket))
 </code></pre>
 <p><strong>WARNING.</strong> Your bucket and data are gone forever.</p>
-<h2 id="submissions">Submissions</h2>
+<h2>Submissions</h2>
 <p>Submissions are actual form data entered by the users of your bucket.</p>
-<h3 id="get-all-submissions-in-a-bucket">Get all submissions in a bucket</h3>
-<pre><code class="lang-curl">GET https://api.formbucket.com/v1/buckets/:id/submissions.json?limit=10&amp;offset=0&amp;sort=%7Bcreated_on:%20-1%7D
+<h3>Get all submissions in a bucket</h3>
+<pre><code class="language-curl">GET https://api.formbucket.com/v1/buckets/:id/submissions.json?limit=10&amp;offset=0&amp;sort=%7Bcreated_on:%20-1%7D
 </code></pre>
-<h4 id="parameters">Parameters</h4>
+<h4>Parameters</h4>
 <table>
 <thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
+<tr><th>Name</th><th>Type</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr>
-<td>id</td>
-<td>integer</td>
-<td><strong>Required</strong>. The id of the bucket. This parameter is in the URL.</td>
-</tr>
-<tr>
-<td>limit</td>
-<td>integer</td>
-<td><strong>Optional</strong>. Restrict the number of submissions returned by the request. Default to 100.</td>
-</tr>
-<tr>
-<td>offset</td>
-<td>integer</td>
-<td><strong>Optional</strong>. Offset the result to enable paging. To keep it simple the first record is 1 and the last record is the number of submissions. Records are sorted by the time received.</td>
-</tr>
-<tr>
-<td>sort</td>
-<td>object</td>
-<td><strong>Optional</strong>.</td>
-</tr>
+<tr><td>id</td><td>integer</td><td><strong>Required</strong>. The id of the bucket. This parameter is in the URL.</td></tr>
+<tr><td>limit</td><td>integer</td><td><strong>Optional</strong>. Restrict the number of submissions returned by the request. Default to 100.</td></tr>
+<tr><td>offset</td><td>integer</td><td><strong>Optional</strong>. Offset the result to enable paging. To keep it simple the first record is 1 and the last record is the number of submissions. Records are sorted by the time received.</td></tr>
+<tr><td>sort</td><td>object</td><td><strong>Optional</strong>.</td></tr>
 </tbody>
 </table>
-<h4 id="example-response">Example Response</h4>
-<pre><code class="lang-JSON">[{
+<h4>Example Response</h4>
+<pre><code class="language-JSON">[{
   &quot;_id&quot;: &quot;55a7281db501a6987ed5c354&quot;,
   &quot;subject&quot;: &quot;Customer request&quot;,
   &quot;message&quot;: &quot;Thanks for doing this. I really appreciate man.&quot;
 },{
   &quot;_id&quot;: &quot;43b7281db501a6987ed5c354&quot;,
   &quot;subject&quot;: &quot;Help&quot;,
-  &quot;message&quot;: &quot;I&#39;m interested in hiring you for a project. Please contact me.&quot;
+  &quot;message&quot;: &quot;I'm interested in hiring you for a project. Please contact me.&quot;
 }]
 </code></pre>
-<h3 id="delete-a-submission">Delete a submission</h3>
-<p>DELETE <a href="https://www.FormBucket.com/buckets/:bucket_id/submissions/:submission_id">https://www.FormBucket.com/buckets/:bucket_id/submissions/:submission_id</a></p>
-<h2 id="http-status-codes">HTTP Status Codes</h2>
+<h3>Delete a submission</h3>
+<p>DELETE https://www.FormBucket.com/buckets/:bucket_id/submissions/:submission_id</p>
+<h2>HTTP Status Codes</h2>
 <table>
 <thead>
-<tr>
-<th>ID</th>
-<th>Text</th>
-</tr>
+<tr><th>ID</th><th>Text</th></tr>
 </thead>
 <tbody>
-<tr>
-<td>  200</td>
-<td>Success</td>
-</tr>
-<tr>
-<td>  400</td>
-<td>Bad Request</td>
-</tr>
-<tr>
-<td>  401</td>
-<td>Unauthorized</td>
-</tr>
-<tr>
-<td>  403</td>
-<td>Forbidden</td>
-</tr>
-<tr>
-<td>  404</td>
-<td>Not Found</td>
-</tr>
-<tr>
-<td>  422</td>
-<td>Unprocessable Entity</td>
-</tr>
-<tr>
-<td>  500</td>
-<td>Unexpected system error</td>
-</tr>
+<tr><td>200</td><td>Success</td></tr>
+<tr><td>400</td><td>Bad Request</td></tr>
+<tr><td>401</td><td>Unauthorized</td></tr>
+<tr><td>403</td><td>Forbidden</td></tr>
+<tr><td>404</td><td>Not Found</td></tr>
+<tr><td>422</td><td>Unprocessable Entity</td></tr>
+<tr><td>500</td><td>Unexpected system error</td></tr>
 </tbody>
 </table>
 

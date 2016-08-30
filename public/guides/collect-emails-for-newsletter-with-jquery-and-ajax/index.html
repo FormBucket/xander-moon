@@ -99,11 +99,11 @@
       </div>
       <div class="wrapper">
         <div class="two-thirds">
-          <h2 id="overview">Overview</h2>
-<p>In this tutorial we&#39;ll show you how to set up a simple newsletter signup form to capture emails using FormBucket, jQuery and AJAX. When visitors submit the form, you can keep them on the same page and display a message that they&#39;ve been added to the list (or not if there was a problem).</p>
+          <h2>Overview</h2>
+<p>In this tutorial we'll show you how to set up a simple newsletter signup form to capture emails using FormBucket, jQuery and AJAX. When visitors submit the form, you can keep them on the same page and display a message that they've been added to the list (or not if there was a problem).</p>
 <p>Check out the <a href="/newsletter/"><strong>Live Demo</strong></a> (and sign up for the spectacular FormBucket newsletter).</p>
 <p>Here is the basic markup for our form.</p>
-<pre><code class="lang-html">&lt;form id=&quot;subscribe&quot;
+<pre><code class="language-html">&lt;form id=&quot;subscribe&quot;
       action=&quot;post&quot;
       method=&quot;http://api.formbucket.com/f/MyBucketId&quot;&gt;
   &lt;input type=&quot;email&quot;
@@ -112,63 +112,63 @@
   &lt;input type=&quot;submit&quot; value=&quot;Get the Newsletter&quot; /&gt;
 &lt;/form&gt;
 </code></pre>
-<p>As an awesome web designer you are going to use your own pixel perfect CSS (or maybe even SCSS) to style the form, so we won&#39;t cover that in this tutorial.</p>
-<p>Now let&#39;s get on to the hard stuff...</p>
-<h2 id="collecting-the-data">Collecting the data</h2>
-<p>FormBucket&#39;s API accepts data in two formats: <code>form</code> and <code>json</code>. For simple use case like this one, you probably want to use form. For advanced use case you may prefer to opt into our <a href="http://localhost:3000/docs/api/">JSON API</a>.</p>
-<h3 id="option-1-post-form-data-with-jquery">Option 1 - Post Form Data with jQuery</h3>
+<p>As an awesome web designer you are going to use your own pixel perfect CSS (or maybe even SCSS) to style the form, so we won't cover that in this tutorial.</p>
+<p>Now let's get on to the hard stuff...</p>
+<h2>Collecting the data</h2>
+<p>FormBucket's API accepts data in two formats: <code>form</code> and <code>json</code>. For simple use case like this one, you probably want to use form. For advanced use case you may prefer to opt into our <a href="http://localhost:3000/docs/api/">JSON API</a>.</p>
+<h3>Option 1 - Post Form Data with jQuery</h3>
 <p>The complete script includes an outer function that runs after the
 page is loaded, and it adds an event handler for our form that prevents the default
 action (e.g. leaving the page). It also includes some validations so that people
-don&#39;t send you blank values.</p>
-<pre><code class="lang-js">$(function() {
-  $(&#39;#subscribe&#39;).submit(function(event) {
+don't send you blank values.</p>
+<pre><code class="language-js">$(function() {
+  $('#subscribe').submit(function(event) {
     event.preventDefault();
 
     var subscribeForm = $(this);
-    var subscribeButton = $(&#39;input[type=submit]&#39;, subscribeForm);
+    var subscribeButton = $('input[type=submit]', subscribeForm);
 
-    if ($(&quot;input[name=&#39;email&#39;]&quot;).val() === &#39;&#39;) {
-      alert(&#39;Please enter an email address&#39;)
+    if ($(&quot;input[name='email']&quot;).val() === '') {
+      alert('Please enter an email address')
       return
     }
 
     $.ajax({
-      url: subscribeForm.prop(&#39;action&#39;),
-      type: &#39;POST&#39;,
+      url: subscribeForm.prop('action'),
+      type: 'POST',
       crossDomain: true,
       headers : {
-        &#39;accept&#39; : &#39;application/javascript&#39;,
+        'accept' : 'application/javascript',
       },
-      data: $(&#39;#subscribe&#39;).serialize(),
+      data: $('#subscribe').serialize(),
       beforeSend: function() {
-        subscribeButton.prop(&#39;disabled&#39;, &#39;disabled&#39;);
+        subscribeButton.prop('disabled', 'disabled');
       }
     })
     .done(function(response) {
       // You will do something WAY BETTER than alert
       // because you are an awesome designer.
-      alert(&#39;Thanks for subscribing!&#39;)
+      alert('Thanks for subscribing!')
     })
     .fail(function(response) {
-      alert(&#39;Dang, something went wrong!&#39;)
-      subscribeButton.prop(&#39;disabled&#39;, false);
+      alert('Dang, something went wrong!')
+      subscribeButton.prop('disabled', false);
     })
 
   });
 });
 </code></pre>
-<h3 id="option-2-post-json-data-with-jquery">Option 2 - Post JSON Data with jQuery</h3>
+<h3>Option 2 - Post JSON Data with jQuery</h3>
 <p>If you want to use our JSON API, then you could change the AJAX call to the following. This example uses the powerful (and somewhat cryptic) <code>reduce</code> function, but you can build the JSON content any way you like.</p>
-<pre><code class="lang-js">$.ajax({
-  url: &#39;https://api.formbucket.com/f/CPaseeA&#39;,
-  type: &#39;POST&#39;,
+<pre><code class="language-js">$.ajax({
+  url: 'https://api.formbucket.com/f/CPaseeA',
+  type: 'POST',
   crossDomain: true,
   headers : {
-    &#39;accept&#39; : &#39;application/javascript&#39;,
-    &#39;content-type&#39;: &#39;application/json&#39;
+    'accept' : 'application/javascript',
+    'content-type': 'application/json'
   },
-  data: $(&#39;#subscribe&#39;)
+  data: $('#subscribe')
   .serializeArray()
   .reduce(function(p,v){ p[v.name] = v.value; return p }, {});
 })

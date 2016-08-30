@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import Markdown from 'react-remarkable'
-import markdownOptions from './markdown-options'
+import markdownOptions from '../../markdown-options'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
 import {branch, isArray, isBlank} from 'functionfoundry'

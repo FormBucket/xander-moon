@@ -3,7 +3,7 @@ import {branch as COND, not as NOT, isblank as ISBLANK, isfunction as ISFUNCTION
 import React, { PropTypes } from 'react'
 import {Link} from 'react-router'
 import Markdown from 'react-remarkable'
-import markdownOptions from './markdown-options'
+import markdownOptions from '../../markdown-options'
 import FontAwesome from 'react-fontawesome'
 import UserStore from '../stores/user'
 import {requestBuckets, requestCreateBucket} from '../stores/webutils'

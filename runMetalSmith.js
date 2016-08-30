@@ -1,5 +1,5 @@
 var Metalsmith  = require('metalsmith');
-var markdown    = require('metalsmith-markdown');
+var markdown    = require('metalsmith-remarkable');
 var layouts     = require('metalsmith-layouts');
 var permalinks  = require('metalsmith-permalinks');
 
@@ -15,7 +15,7 @@ Metalsmith(__dirname)
   .source('./pages')
   .destination('./public')
   .clean(false)
-  .use(markdown())
+  .use(markdown(require('./markdown-options')))
   .use(permalinks())
   .use(layouts({
     engine: 'handlebars'
