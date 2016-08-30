@@ -24,7 +24,6 @@ const NewBucket = React.createClass({
   getInitialState: function() {
     return {
       loaded: false,
-      auto_responder: {},
       auto_responder_content: RichTextEditor.createEmptyValue()
     };
   },
@@ -38,7 +37,13 @@ const NewBucket = React.createClass({
     Promise.all([
       requestBucket(this.props.params.id),
       requestProfile() ])
-    .then( result => this.setState( Object.assign( { loaded: true }, result[0], { user: result[1] } ) ))
+    .then( result => this.setState( Object.assign(
+        { loaded: true },
+        result[0],
+        { user: result[1], auto_responder_content: result[0].auto_responder ?
+          RichTextEditor.createValueFromString(result[0].auto_responder.body, 'html') :
+          RichTextEditor.createEmptyValue()}
+    )))
     .catch(err => this.setState( { error: err } ))
 
   },
