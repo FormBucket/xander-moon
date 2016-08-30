@@ -30,8 +30,8 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production'),
-        'FORMBUCKET_API_SERVER': JSON.stringify('https://api-dev.formbucket.com')
         // 'FORMBUCKET_API_SERVER': JSON.stringify('https://api.formbucket.com')
+        'FORMBUCKET_API_SERVER': JSON.stringify('https://api-dev.formbucket.com')
       }
     }),
     new webpack.optimize.UglifyJsPlugin({

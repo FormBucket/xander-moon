@@ -20,3 +20,14 @@
     margin-top: $base-spacing;
   }
 }
+
+.dead-center {
+  @include display(flex);
+  @include align-items(center);
+  @include justify-content(center);
+  text-align: center;
+
+  p {
+    opacity:0.5;
+  }
+}
