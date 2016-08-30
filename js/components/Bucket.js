@@ -10,6 +10,7 @@ import {
   requestUpdateBucket, requestDeleteBucket,
   requestBucketExport, requestDownloadFile }
 from '../stores/webutils'
+import RichTextEditor from 'react-rte';
 
 function makeHTMLForm(id) {
   return (`<form action="https://api.formbucket.com/f/${id}" method="post">
@@ -22,7 +23,9 @@ const NewBucket = React.createClass({
 
   getInitialState: function() {
     return {
-      loaded: false
+      loaded: false,
+      auto_responder: {},
+      auto_responder_content: RichTextEditor.createEmptyValue()
     };
   },
 
@@ -49,7 +52,7 @@ const NewBucket = React.createClass({
     this.setState( { auto_responder : e.target.checked ? {
       from: this.refs.auto_responder_from.value,
       subject: this.refs.auto_responder_subject.value,
-      body: this.refs.auto_responder_body.value } : false
+      body: this.state.auto_responder_content.toString('html') } : false
     })
   },
 
@@ -89,7 +92,20 @@ const NewBucket = React.createClass({
     .then(result => requestDownloadFile(result))
   },
 
+  onChangeAutoResponderMessage(value) {
+    if (!value) return;
+
+    this.setState({
+      auto_responder_content: value,
+      auto_responder: Object.assign(
+        {}, this.state.auto_responder, { body: value.toString('html') }
+      )
+    });
+
+  },
+
   render () {
+    console.log(this.state)
 
     if (this.state.error) {
       return <div>{this.state.error}</div>
@@ -153,11 +169,11 @@ const NewBucket = React.createClass({
                   defaultValue={ this.state.auto_responder ? this.state.auto_responder.subject : '' }
                   />
                 <label htmlFor="emailBody">Body</label>
-                <textarea ref="auto_responder_body" placeholder="Really appreciate it."
-                  onChange={(e) => this.setState({ auto_responder: Object.assign({}, this.state.auto_responder, { body: e.target.value } ) })}
-                  defaultValue={ this.state.auto_responder ? this.state.auto_responder.body : ''}
-                  >
-                </textarea>
+                <RichTextEditor
+                  style={{ minHeight: 400 }}
+                  value={this.state.auto_responder_content}
+                  onChange={this.onChangeAutoResponderMessage}
+                />
                 <span>
                   Note: Your form must have an <strong>email address</strong> field to use this feature.
                 </span>
