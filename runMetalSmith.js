@@ -2,6 +2,7 @@ var Metalsmith  = require('metalsmith');
 var markdown    = require('metalsmith-remarkable');
 var layouts     = require('metalsmith-layouts');
 var permalinks  = require('metalsmith-permalinks');
+var hljs        = require('highlight.js')
 
 var s = new Date()
 console.log('Metalsmith go')
@@ -15,7 +16,14 @@ Metalsmith(__dirname)
   .source('./pages')
   .destination('./public')
   .clean(false)
-  .use(markdown(require('./markdown-options')))
+  .use(markdown({
+    html: true,
+    highlight: function (str, lang) {
+      try {
+        return hljs.highlightAuto(str).value;
+      } catch (err) {}
+    }
+  }))
   .use(permalinks())
   .use(layouts({
     engine: 'handlebars'

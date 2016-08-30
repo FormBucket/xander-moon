@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import {branch, eq, or, isBlank} from 'functionfoundry'
 import Markdown from 'react-remarkable'
-import markdownOptions from '../../markdown-options'
+import markdownOptions from '../markdown-options'
 import {requestBucket, requestSubmissionsByBucket} from '../stores/webutils'
 import UserStore from '../stores/user'
 import BucketStore from '../stores/buckets'

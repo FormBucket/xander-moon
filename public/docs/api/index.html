@@ -104,27 +104,27 @@
 <h2>Submit forms</h2>
 <p>Our API accepts data in two formats: form and JSON.</p>
 <h3>Form data</h3>
-<pre><code class="language-js">fetch( 'https://api.formbucket.com/f/CPaseeA', {
-  method: 'post',
-  mode: 'cors',
-  headers: {
-    'accept' : 'application/javascript',
+<pre><code class="language-js"><span class="hljs-selector-tag">fetch</span>( <span class="hljs-string">'https://api.formbucket.com/f/CPaseeA'</span>, {
+  <span class="hljs-attribute">method</span>: <span class="hljs-string">'post'</span>,
+  <span class="hljs-attribute">mode</span>: <span class="hljs-string">'cors'</span>,
+  <span class="hljs-attribute">headers</span>: {
+    <span class="hljs-string">'accept'</span> : <span class="hljs-string">'application/javascript'</span>,
   },
-  body: jQuery('#my-form').serialize()
+  <span class="hljs-attribute">body</span>: jQuery(<span class="hljs-string">'#my-form'</span>).serialize()
 })
 </code></pre>
 <h3>JSON data</h3>
-<pre><code class="language-js">fetch( 'https://api.formbucket.com/f/CPaseeA', {
-  method: 'post',
-  mode: 'cors',
-  headers: {
-    'accept' : 'application/javascript',
-    'Content-Type': 'application/json',
+<pre><code class="language-js"><span class="hljs-selector-tag">fetch</span>( <span class="hljs-string">'https://api.formbucket.com/f/CPaseeA'</span>, {
+  <span class="hljs-attribute">method</span>: <span class="hljs-string">'post'</span>,
+  <span class="hljs-attribute">mode</span>: <span class="hljs-string">'cors'</span>,
+  <span class="hljs-attribute">headers</span>: {
+    <span class="hljs-string">'accept'</span> : <span class="hljs-string">'application/javascript'</span>,
+    <span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'application/json'</span>,
   },
-  body: JSON.stringify({
-    name: 'John',
-    email: 'John@Smith.com',
-    message: 'You guys are awesome!'
+  <span class="hljs-attribute">body</span>: JSON.stringify({
+    <span class="hljs-attribute">name</span>: <span class="hljs-string">'John'</span>,
+    <span class="hljs-attribute">email</span>: <span class="hljs-string">'John@Smith.com'</span>,
+    <span class="hljs-attribute">message</span>: <span class="hljs-string">'You guys are awesome!'</span>
   })
 })
 </code></pre>
@@ -132,79 +132,79 @@
 <p>The APIs will only respond when presented with a token. Requests that do not include a token or include an invalid token will be denied.</p>
 <p>The token must be provided via an HTTP Header named <em>Authorization</em> that contains the value <em>Bearer {token}</em>.</p>
 <p>With the fetch API you can call with:</p>
-<pre><code class="language-js">fetch('https://api.formbucket.com/v1/signup', {
-  method: 'POST',
-  mode: 'cors,',
-  headers: {
-    ContentType: 'application/json'
+<pre><code class="language-js"><span class="hljs-selector-tag">fetch</span>(<span class="hljs-string">'https://api.formbucket.com/v1/signup'</span>, {
+  <span class="hljs-attribute">method</span>: <span class="hljs-string">'POST'</span>,
+  <span class="hljs-attribute">mode</span>: <span class="hljs-string">'cors,'</span>,
+  <span class="hljs-attribute">headers</span>: {
+    <span class="hljs-attribute">ContentType</span>: <span class="hljs-string">'application/json'</span>
   },
-  body: JSON.stringify({
-    email: 'you@domain.com',
-    password: 'shhhh'
+  <span class="hljs-attribute">body</span>: JSON.stringify({
+    <span class="hljs-attribute">email</span>: <span class="hljs-string">'you@domain.com'</span>,
+    <span class="hljs-attribute">password</span>: <span class="hljs-string">'shhhh'</span>
   })
 })
-.then(res =&gt; res.text())
-.then(token =&gt; console.log(`Your token is ${token}`))
+<span class="hljs-selector-class">.then</span>(res =&gt; res.text())
+<span class="hljs-selector-class">.then</span>(token =&gt; console.log(<span class="hljs-built_in">`Your token is ${token}`</span>))
 </code></pre>
 <p>Upon successful signup the user is issued a token.</p>
-<pre><code class="language-js">let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NjhkZjZjMGM4ZDVhZmQxYTJkMDVmMzMiLCJvcmdOYW1lIjoiIiwiZW1haWwiOiJmb29AZm9vMS5jb20iLCJpYXQiOjE0NTIyNDUxNTA2NjN9.NP-6XQGZdpDJfRW8r-gHdeCGmyhKCFSGSUmA3pCiUMY'
+<pre><code class="language-js"><span class="hljs-keyword">let</span> token = <span class="hljs-symbol">'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9</span>.eyJzdWIiOiI1NjhkZjZjMGM4ZDVhZmQxYTJkMDVmMzMiLCJvcmdOYW1lIjoiIiwiZW1haWwiOiJmb29AZm9vMS5jb20iLCJpYXQiOjE0NTIyNDUxNTA2NjN9.<span class="hljs-type">NP</span>-<span class="hljs-number">6</span>XQGZdpDJfRW8r-gHdeCGmyhKCFSGSUmA3pCiUMY'
 </code></pre>
 <p>A returning user may obtain a new token by presenting their user name and password.</p>
-<pre><code class="language-js">fetch('https://api.formbucket.com/v1/signin', {
-  method: 'POST',
-  mode: 'cors,',
-  headers: {
-    ContentType: 'application/json',
+<pre><code class="language-js"><span class="hljs-selector-tag">fetch</span>(<span class="hljs-string">'https://api.formbucket.com/v1/signin'</span>, {
+  <span class="hljs-attribute">method</span>: <span class="hljs-string">'POST'</span>,
+  <span class="hljs-attribute">mode</span>: <span class="hljs-string">'cors,'</span>,
+  <span class="hljs-attribute">headers</span>: {
+    <span class="hljs-attribute">ContentType</span>: <span class="hljs-string">'application/json'</span>,
   },
-  body: JSON.stringify({
-    email: 'you@domain.com',
-    password: 'shhhh'
+  <span class="hljs-attribute">body</span>: JSON.stringify({
+    <span class="hljs-attribute">email</span>: <span class="hljs-string">'you@domain.com'</span>,
+    <span class="hljs-attribute">password</span>: <span class="hljs-string">'shhhh'</span>
   })
 })
-.then(res =&gt; res.text())
-.then(token =&gt; console.log(`Your token is ${token}`))
+<span class="hljs-selector-class">.then</span>(res =&gt; res.text())
+<span class="hljs-selector-class">.then</span>(token =&gt; console.log(<span class="hljs-built_in">`Your token is ${token}`</span>))
 </code></pre>
 <h2>Buckets</h2>
 <p>Users may choose from fixed or variable sized buckets. The fixed size buckets will overwrite the oldest submissions.</p>
 <h3>Get a list of your buckets</h3>
-<pre><code class="language-js">fetch('https://api.formbucket.com/v1/buckets.json', {
-  method: 'GET',
-  mode: 'cors,',
-  headers: {
-    ContentType: 'application/json',
-    Authorization: `Bearer ${token}`
+<pre><code class="language-js"><span class="hljs-selector-tag">fetch</span>(<span class="hljs-string">'https://api.formbucket.com/v1/buckets.json'</span>, {
+  <span class="hljs-attribute">method</span>: <span class="hljs-string">'GET'</span>,
+  <span class="hljs-attribute">mode</span>: <span class="hljs-string">'cors,'</span>,
+  <span class="hljs-attribute">headers</span>: {
+    <span class="hljs-attribute">ContentType</span>: <span class="hljs-string">'application/json'</span>,
+    <span class="hljs-attribute">Authorization</span>: <span class="hljs-built_in">`Bearer ${token}`</span>
   },
 })
-.then(res =&gt; res.json())
-.then(buckets =&gt; console.log(buckets))
+<span class="hljs-selector-class">.then</span>(res =&gt; res.json())
+<span class="hljs-selector-class">.then</span>(buckets =&gt; console.log(buckets))
 </code></pre>
 <h4>Example Response</h4>
 <pre><code class="language-JSON">[
   {
-    &quot;id&quot;: &quot;6h86zo&quot;,
-    &quot;enabled&quot;: true,
-    &quot;name&quot;: &quot;Contact Form&quot;,
-    &quot;submission_count&quot;: 417
+    <span class="hljs-attr">"id"</span>: <span class="hljs-string">"6h86zo"</span>,
+    <span class="hljs-attr">"enabled"</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Contact Form"</span>,
+    <span class="hljs-attr">"submission_count"</span>: <span class="hljs-number">417</span>
   },
   {
-    &quot;id&quot;: &quot;5g75oz&quot;,
-    &quot;enabled&quot;: false,
-    &quot;name&quot;: &quot;Product Interest Form&quot;,
-    &quot;submission_count&quot;: 142
+    <span class="hljs-attr">"id"</span>: <span class="hljs-string">"5g75oz"</span>,
+    <span class="hljs-attr">"enabled"</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Product Interest Form"</span>,
+    <span class="hljs-attr">"submission_count"</span>: <span class="hljs-number">142</span>
   }
 ]
 </code></pre>
 <h3>Get a bucket</h3>
-<pre><code class="language-js">fetch('https://api.formbucket.com/v1/buckets/:id.json', {
-  method: 'GET',
-  mode: 'cors,',
-  headers: {
-    ContentType: 'application/json',
-    Authorization: `Bearer ${token}`
+<pre><code class="language-js"><span class="hljs-selector-tag">fetch</span>(<span class="hljs-string">'https://api.formbucket.com/v1/buckets/:id.json'</span>, {
+  <span class="hljs-attribute">method</span>: <span class="hljs-string">'GET'</span>,
+  <span class="hljs-attribute">mode</span>: <span class="hljs-string">'cors,'</span>,
+  <span class="hljs-attribute">headers</span>: {
+    <span class="hljs-attribute">ContentType</span>: <span class="hljs-string">'application/json'</span>,
+    <span class="hljs-attribute">Authorization</span>: <span class="hljs-built_in">`Bearer ${token}`</span>
   },
 })
-.then(res =&gt; res.json())
-.then(bucket =&gt; console.log(bucket))
+<span class="hljs-selector-class">.then</span>(res =&gt; res.json())
+<span class="hljs-selector-class">.then</span>(bucket =&gt; console.log(bucket))
 </code></pre>
 <h4>Parameters</h4>
 <table>
@@ -219,26 +219,26 @@
 </table>
 <h4>Example Response</h4>
 <pre><code class="language-JSON">{
-  &quot;_id&quot;: &quot;57b80f4a400d0f911f3eac42&quot;,
-  &quot;enabled&quot;: true,
-  &quot;id&quot;: &quot;WRtqGDc&quot;,
-  &quot;user_id&quot;: &quot;578d7bd16b4125721efbbd83&quot;,
-  &quot;submission_count&quot;: 13,
-  &quot;name&quot;: &quot;Newsletter&quot;,
-  &quot;updated_on&quot;: &quot;2016-08-20T18:08:05.560Z&quot;
+  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"57b80f4a400d0f911f3eac42"</span>,
+  <span class="hljs-attr">"enabled"</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">"id"</span>: <span class="hljs-string">"WRtqGDc"</span>,
+  <span class="hljs-attr">"user_id"</span>: <span class="hljs-string">"578d7bd16b4125721efbbd83"</span>,
+  <span class="hljs-attr">"submission_count"</span>: <span class="hljs-number">13</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Newsletter"</span>,
+  <span class="hljs-attr">"updated_on"</span>: <span class="hljs-string">"2016-08-20T18:08:05.560Z"</span>
 }
 </code></pre>
 <h3>Create a new bucket</h3>
-<pre><code class="language-js">fetch('https://api.formbucket.com/v1/buckets.json', {
-  method: 'POST',
-  mode: 'cors,',
-  headers: {
-    ContentType: 'application/json',
-    Authorization: `Bearer ${token}`
+<pre><code class="language-js"><span class="hljs-selector-tag">fetch</span>(<span class="hljs-string">'https://api.formbucket.com/v1/buckets.json'</span>, {
+  <span class="hljs-attribute">method</span>: <span class="hljs-string">'POST'</span>,
+  <span class="hljs-attribute">mode</span>: <span class="hljs-string">'cors,'</span>,
+  <span class="hljs-attribute">headers</span>: {
+    <span class="hljs-attribute">ContentType</span>: <span class="hljs-string">'application/json'</span>,
+    <span class="hljs-attribute">Authorization</span>: <span class="hljs-built_in">`Bearer ${token}`</span>
   },
 })
-.then(res =&gt; res.json())
-.then(bucket =&gt; console.log(bucket))
+<span class="hljs-selector-class">.then</span>(res =&gt; res.json())
+<span class="hljs-selector-class">.then</span>(bucket =&gt; console.log(bucket))
 </code></pre>
 <h4>Parameters</h4>
 <table>
@@ -262,44 +262,44 @@
 </code></pre>
 <h4>Example Responses</h4>
 <p>When the bucket is successfully created:</p>
-<pre><code class="language-JSON">{ &quot;success&quot;: true, &quot;id&quot;: &quot;KfdHERM&quot;}
+<pre><code class="language-JSON">{ <span class="hljs-attr">"success"</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">"id"</span>: <span class="hljs-string">"KfdHERM"</span>}
 </code></pre>
 <p>When an error occurs:</p>
-<pre><code class="language-JSON">{ &quot;error&quot;: &quot;apikey is required.&quot; }
+<pre><code class="language-JSON">{ <span class="hljs-attr">"error"</span>: <span class="hljs-string">"apikey is required."</span> }
 </code></pre>
 <h3>Update a bucket</h3>
-<pre><code class="language-js">fetch('https://api.formbucket.com/v1/buckets.json', {
-  method: 'POST',
-  mode: 'cors,',
-  headers: {
-    ContentType: 'application/json',
-    Authorization: `Bearer ${token}`
+<pre><code class="language-js"><span class="hljs-selector-tag">fetch</span>(<span class="hljs-string">'https://api.formbucket.com/v1/buckets.json'</span>, {
+  <span class="hljs-attribute">method</span>: <span class="hljs-string">'POST'</span>,
+  <span class="hljs-attribute">mode</span>: <span class="hljs-string">'cors,'</span>,
+  <span class="hljs-attribute">headers</span>: {
+    <span class="hljs-attribute">ContentType</span>: <span class="hljs-string">'application/json'</span>,
+    <span class="hljs-attribute">Authorization</span>: <span class="hljs-built_in">`Bearer ${token}`</span>
   },
-  data: JSON.string({...})
+  <span class="hljs-attribute">data</span>: JSON.string({...})
 })
-.then(res =&gt; res.json())
-.then(bucket =&gt; console.log(bucket))
+<span class="hljs-selector-class">.then</span>(res =&gt; res.json())
+<span class="hljs-selector-class">.then</span>(bucket =&gt; console.log(bucket))
 </code></pre>
 <h4>Parameters</h4>
 <p>Accepts same parameters used to create a bucket.</p>
 <h3>Delete a bucket</h3>
-<pre><code class="language-js">fetch('https://api.formbucket.com/v1/buckets/:id', {
-  method: 'DELETE',
-  mode: 'cors,',
-  headers: {
-    ContentType: 'application/json',
-    Authorization: `Bearer ${token}`
+<pre><code class="language-js"><span class="hljs-selector-tag">fetch</span>(<span class="hljs-string">'https://api.formbucket.com/v1/buckets/:id'</span>, {
+  <span class="hljs-attribute">method</span>: <span class="hljs-string">'DELETE'</span>,
+  <span class="hljs-attribute">mode</span>: <span class="hljs-string">'cors,'</span>,
+  <span class="hljs-attribute">headers</span>: {
+    <span class="hljs-attribute">ContentType</span>: <span class="hljs-string">'application/json'</span>,
+    <span class="hljs-attribute">Authorization</span>: <span class="hljs-built_in">`Bearer ${token}`</span>
   },
-  data: JSON.string({...})
+  <span class="hljs-attribute">data</span>: JSON.string({...})
 })
-.then(res =&gt; res.json())
-.then(bucket =&gt; console.log(bucket))
+<span class="hljs-selector-class">.then</span>(res =&gt; res.json())
+<span class="hljs-selector-class">.then</span>(bucket =&gt; console.log(bucket))
 </code></pre>
 <p><strong>WARNING.</strong> Your bucket and data are gone forever.</p>
 <h2>Submissions</h2>
 <p>Submissions are actual form data entered by the users of your bucket.</p>
 <h3>Get all submissions in a bucket</h3>
-<pre><code class="language-curl">GET https://api.formbucket.com/v1/buckets/:id/submissions.json?limit=10&amp;offset=0&amp;sort=%7Bcreated_on:%20-1%7D
+<pre><code class="language-curl">GET <span class="hljs-symbol">https:</span>/<span class="hljs-regexp">/api.formbucket.com/v</span>1/buckets/<span class="hljs-symbol">:id/submissions</span>.json?limit=<span class="hljs-number">10</span>&amp;offset=<span class="hljs-number">0</span>&amp;sort=%<span class="hljs-number">7</span><span class="hljs-symbol">Bcreated_on:</span>%<span class="hljs-number">20</span>-<span class="hljs-number">1</span>%<span class="hljs-number">7</span>D
 </code></pre>
 <h4>Parameters</h4>
 <table>
@@ -315,13 +315,13 @@
 </table>
 <h4>Example Response</h4>
 <pre><code class="language-JSON">[{
-  &quot;_id&quot;: &quot;55a7281db501a6987ed5c354&quot;,
-  &quot;subject&quot;: &quot;Customer request&quot;,
-  &quot;message&quot;: &quot;Thanks for doing this. I really appreciate man.&quot;
+  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"55a7281db501a6987ed5c354"</span>,
+  <span class="hljs-attr">"subject"</span>: <span class="hljs-string">"Customer request"</span>,
+  <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Thanks for doing this. I really appreciate man."</span>
 },{
-  &quot;_id&quot;: &quot;43b7281db501a6987ed5c354&quot;,
-  &quot;subject&quot;: &quot;Help&quot;,
-  &quot;message&quot;: &quot;I'm interested in hiring you for a project. Please contact me.&quot;
+  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"43b7281db501a6987ed5c354"</span>,
+  <span class="hljs-attr">"subject"</span>: <span class="hljs-string">"Help"</span>,
+  <span class="hljs-attr">"message"</span>: <span class="hljs-string">"I'm interested in hiring you for a project. Please contact me."</span>
 }]
 </code></pre>
 <h3>Delete a submission</h3>

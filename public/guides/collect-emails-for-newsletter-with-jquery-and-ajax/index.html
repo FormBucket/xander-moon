@@ -103,14 +103,14 @@
 <p>In this tutorial we'll show you how to set up a simple newsletter signup form to capture emails using FormBucket, jQuery and AJAX. When visitors submit the form, you can keep them on the same page and display a message that they've been added to the list (or not if there was a problem).</p>
 <p>Check out the <a href="/newsletter/"><strong>Live Demo</strong></a> (and sign up for the spectacular FormBucket newsletter).</p>
 <p>Here is the basic markup for our form.</p>
-<pre><code class="language-html">&lt;form id=&quot;subscribe&quot;
-      action=&quot;post&quot;
-      method=&quot;http://api.formbucket.com/f/MyBucketId&quot;&gt;
-  &lt;input type=&quot;email&quot;
-         name=&quot;email&quot;
-         placeholder=&quot;Enter your email...&quot;&gt;
-  &lt;input type=&quot;submit&quot; value=&quot;Get the Newsletter&quot; /&gt;
-&lt;/form&gt;
+<pre><code class="language-html">&lt;<span class="hljs-keyword">form</span> id=<span class="hljs-string">"subscribe"</span>
+      action=<span class="hljs-string">"post"</span>
+      method=<span class="hljs-string">"http://api.formbucket.com/f/MyBucketId"</span>&gt;
+  &lt;<span class="hljs-keyword">input</span> <span class="hljs-keyword">type</span>=<span class="hljs-string">"email"</span>
+         name=<span class="hljs-string">"email"</span>
+         placeholder=<span class="hljs-string">"Enter your email..."</span>&gt;
+  &lt;<span class="hljs-keyword">input</span> <span class="hljs-keyword">type</span>=<span class="hljs-string">"submit"</span> value=<span class="hljs-string">"Get the Newsletter"</span> /&gt;
+&lt;/<span class="hljs-keyword">form</span>&gt;
 </code></pre>
 <p>As an awesome web designer you are going to use your own pixel perfect CSS (or maybe even SCSS) to style the form, so we won't cover that in this tutorial.</p>
 <p>Now let's get on to the hard stuff...</p>
@@ -121,38 +121,38 @@
 page is loaded, and it adds an event handler for our form that prevents the default
 action (e.g. leaving the page). It also includes some validations so that people
 don't send you blank values.</p>
-<pre><code class="language-js">$(function() {
-  $('#subscribe').submit(function(event) {
+<pre><code class="language-js">$(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  $(<span class="hljs-string">'#subscribe'</span>).submit(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) </span>{
     event.preventDefault();
 
-    var subscribeForm = $(this);
-    var subscribeButton = $('input[type=submit]', subscribeForm);
+    <span class="hljs-keyword">var</span> subscribeForm = $(<span class="hljs-keyword">this</span>);
+    <span class="hljs-keyword">var</span> subscribeButton = $(<span class="hljs-string">'input[type=submit]'</span>, subscribeForm);
 
-    if ($(&quot;input[name='email']&quot;).val() === '') {
-      alert('Please enter an email address')
-      return
+    <span class="hljs-keyword">if</span> ($(<span class="hljs-string">"input[name='email']"</span>).val() === <span class="hljs-string">''</span>) {
+      alert(<span class="hljs-string">'Please enter an email address'</span>)
+      <span class="hljs-keyword">return</span>
     }
 
     $.ajax({
-      url: subscribeForm.prop('action'),
-      type: 'POST',
-      crossDomain: true,
+      url: subscribeForm.prop(<span class="hljs-string">'action'</span>),
+      type: <span class="hljs-string">'POST'</span>,
+      crossDomain: <span class="hljs-literal">true</span>,
       headers : {
-        'accept' : 'application/javascript',
+        <span class="hljs-string">'accept'</span> : <span class="hljs-string">'application/javascript'</span>,
       },
-      data: $('#subscribe').serialize(),
-      beforeSend: function() {
-        subscribeButton.prop('disabled', 'disabled');
+      data: $(<span class="hljs-string">'#subscribe'</span>).serialize(),
+      beforeSend: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        subscribeButton.prop(<span class="hljs-string">'disabled'</span>, <span class="hljs-string">'disabled'</span>);
       }
     })
-    .done(function(response) {
-      // You will do something WAY BETTER than alert
-      // because you are an awesome designer.
-      alert('Thanks for subscribing!')
+    .done(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">response</span>) </span>{
+      <span class="hljs-comment">// You will do something WAY BETTER than alert</span>
+      <span class="hljs-comment">// because you are an awesome designer.</span>
+      alert(<span class="hljs-string">'Thanks for subscribing!'</span>)
     })
-    .fail(function(response) {
-      alert('Dang, something went wrong!')
-      subscribeButton.prop('disabled', false);
+    .fail(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">response</span>) </span>{
+      alert(<span class="hljs-string">'Dang, something went wrong!'</span>)
+      subscribeButton.prop(<span class="hljs-string">'disabled'</span>, <span class="hljs-literal">false</span>);
     })
 
   });
@@ -161,16 +161,16 @@ don't send you blank values.</p>
 <h3>Option 2 - Post JSON Data with jQuery</h3>
 <p>If you want to use our JSON API, then you could change the AJAX call to the following. This example uses the powerful (and somewhat cryptic) <code>reduce</code> function, but you can build the JSON content any way you like.</p>
 <pre><code class="language-js">$.ajax({
-  url: 'https://api.formbucket.com/f/CPaseeA',
-  type: 'POST',
-  crossDomain: true,
+  url: <span class="hljs-string">'https://api.formbucket.com/f/CPaseeA'</span>,
+  type: <span class="hljs-string">'POST'</span>,
+  crossDomain: <span class="hljs-literal">true</span>,
   headers : {
-    'accept' : 'application/javascript',
-    'content-type': 'application/json'
+    <span class="hljs-string">'accept'</span> : <span class="hljs-string">'application/javascript'</span>,
+    <span class="hljs-string">'content-type'</span>: <span class="hljs-string">'application/json'</span>
   },
-  data: $('#subscribe')
+  data: $(<span class="hljs-string">'#subscribe'</span>)
   .serializeArray()
-  .reduce(function(p,v){ p[v.name] = v.value; return p }, {});
+  .reduce(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">p,v</span>)</span>{ p[v.name] = v.value; <span class="hljs-keyword">return</span> p }, {});
 })
 </code></pre>
 <p>Hope you found this helpful! If so please tell us (and your friends) on <a href="https://twitter.com/FormBucket">Twitter @formbucket</a>. Thanks!</p>
