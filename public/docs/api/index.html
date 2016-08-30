@@ -132,7 +132,7 @@
 <p>The APIs will only respond when presented with a token. Requests that do not include a token or include an invalid token will be denied.</p>
 <p>The token must be provided via an HTTP Header named <em>Authorization</em> that contains the value <em>Bearer {token}</em>.</p>
 <p>With the fetch API you can call with:</p>
-<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/signup&#39;, {
+<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/v1/signup&#39;, {
   method: &#39;POST&#39;,
   mode: &#39;cors,&#39;,
   headers: {
@@ -150,7 +150,7 @@
 <pre><code class="lang-js">let token = &#39;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NjhkZjZjMGM4ZDVhZmQxYTJkMDVmMzMiLCJvcmdOYW1lIjoiIiwiZW1haWwiOiJmb29AZm9vMS5jb20iLCJpYXQiOjE0NTIyNDUxNTA2NjN9.NP-6XQGZdpDJfRW8r-gHdeCGmyhKCFSGSUmA3pCiUMY&#39;
 </code></pre>
 <p>A returning user may obtain a new token by presenting their user name and password.</p>
-<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/signin&#39;, {
+<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/v1/signin&#39;, {
   method: &#39;POST&#39;,
   mode: &#39;cors,&#39;,
   headers: {
@@ -167,7 +167,7 @@
 <h2 id="buckets">Buckets</h2>
 <p>Users may choose from fixed or variable sized buckets. The fixed size buckets will overwrite the oldest submissions.</p>
 <h3 id="get-a-list-of-your-buckets">Get a list of your buckets</h3>
-<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/buckets.json&#39;, {
+<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/v1/buckets.json&#39;, {
   method: &#39;GET&#39;,
   mode: &#39;cors,&#39;,
   headers: {
@@ -195,7 +195,7 @@
 ]
 </code></pre>
 <h3 id="get-a-bucket">Get a bucket</h3>
-<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/buckets/:id.json&#39;, {
+<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/v1/buckets/:id.json&#39;, {
   method: &#39;GET&#39;,
   mode: &#39;cors,&#39;,
   headers: {
@@ -245,7 +245,7 @@
 }
 </code></pre>
 <h3 id="create-a-new-bucket">Create a new bucket</h3>
-<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/buckets.json&#39;, {
+<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/v1/buckets.json&#39;, {
   method: &#39;POST&#39;,
   mode: &#39;cors,&#39;,
   headers: {
@@ -291,7 +291,7 @@
 <pre><code class="lang-JSON">{ &quot;error&quot;: &quot;apikey is required.&quot; }
 </code></pre>
 <h3 id="update-a-bucket">Update a bucket</h3>
-<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/buckets.json&#39;, {
+<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/v1/buckets.json&#39;, {
   method: &#39;POST&#39;,
   mode: &#39;cors,&#39;,
   headers: {
@@ -306,7 +306,7 @@
 <h4 id="parameters">Parameters</h4>
 <p>Accepts same parameters used to create a bucket.</p>
 <h3 id="delete-a-bucket">Delete a bucket</h3>
-<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/buckets/:id&#39;, {
+<pre><code class="lang-js">fetch(&#39;https://api.formbucket.com/v1/buckets/:id&#39;, {
   method: &#39;DELETE&#39;,
   mode: &#39;cors,&#39;,
   headers: {
@@ -322,7 +322,7 @@
 <h2 id="submissions">Submissions</h2>
 <p>Submissions are actual form data entered by the users of your bucket.</p>
 <h3 id="get-all-submissions-in-a-bucket">Get all submissions in a bucket</h3>
-<pre><code class="lang-curl">GET https://api.formbucket.com/buckets/:id/submissions.json?limit=10&amp;offset=0&amp;sort=%7Bcreated_on:%20-1%7D
+<pre><code class="lang-curl">GET https://api.formbucket.com/v1/buckets/:id/submissions.json?limit=10&amp;offset=0&amp;sort=%7Bcreated_on:%20-1%7D
 </code></pre>
 <h4 id="parameters">Parameters</h4>
 <table>
@@ -367,14 +367,6 @@
   &quot;message&quot;: &quot;I&#39;m interested in hiring you for a project. Please contact me.&quot;
 }]
 </code></pre>
-<h3 id="create-a-new-submission">Create a new submission</h3>
-<pre><code class="lang-curl">POST https://api.formbucket.com/buckets/:id/submissions
-</code></pre>
-<p>or use the alias</p>
-<pre><code class="lang-curl">POST https://api.formbucket.com/f/:id
-</code></pre>
-<h4 id="parameters">Parameters</h4>
-<p>The form may include any field needed to meet your data collection requirement.</p>
 <h3 id="delete-a-submission">Delete a submission</h3>
 <p>DELETE <a href="https://www.FormBucket.com/buckets/:bucket_id/submissions/:submission_id">https://www.FormBucket.com/buckets/:bucket_id/submissions/:submission_id</a></p>
 <h2 id="http-status-codes">HTTP Status Codes</h2>

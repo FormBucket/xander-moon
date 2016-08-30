@@ -53,7 +53,7 @@ The token must be provided via an HTTP Header named _Authorization_ that contain
 With the fetch API you can call with:
 
 ```js
-fetch('https://api.formbucket.com/signup', {
+fetch('https://api.formbucket.com/v1/signup', {
   method: 'POST',
   mode: 'cors,',
   headers: {
@@ -77,7 +77,7 @@ let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1NjhkZjZjMGM4ZDVhZm
 A returning user may obtain a new token by presenting their user name and password.
 
 ```js
-fetch('https://api.formbucket.com/signin', {
+fetch('https://api.formbucket.com/v1/signin', {
   method: 'POST',
   mode: 'cors,',
   headers: {
@@ -99,7 +99,7 @@ Users may choose from fixed or variable sized buckets. The fixed size buckets wi
 ### Get a list of your buckets
 
 ```js
-fetch('https://api.formbucket.com/buckets.json', {
+fetch('https://api.formbucket.com/v1/buckets.json', {
   method: 'GET',
   mode: 'cors,',
   headers: {
@@ -133,7 +133,7 @@ fetch('https://api.formbucket.com/buckets.json', {
 ### Get a bucket
 
 ```js
-fetch('https://api.formbucket.com/buckets/:id.json', {
+fetch('https://api.formbucket.com/v1/buckets/:id.json', {
   method: 'GET',
   mode: 'cors,',
   headers: {
@@ -170,7 +170,7 @@ sort            | object        | __Required__. An object that describes the sor
 ### Create a new bucket
 
 ```js
-fetch('https://api.formbucket.com/buckets.json', {
+fetch('https://api.formbucket.com/v1/buckets.json', {
   method: 'POST',
   mode: 'cors,',
   headers: {
@@ -217,7 +217,7 @@ When an error occurs:
 ### Update a bucket
 
 ```js
-fetch('https://api.formbucket.com/buckets.json', {
+fetch('https://api.formbucket.com/v1/buckets.json', {
   method: 'POST',
   mode: 'cors,',
   headers: {
@@ -237,7 +237,7 @@ Accepts same parameters used to create a bucket.
 ### Delete a bucket
 
 ```js
-fetch('https://api.formbucket.com/buckets/:id', {
+fetch('https://api.formbucket.com/v1/buckets/:id', {
   method: 'DELETE',
   mode: 'cors,',
   headers: {
@@ -259,7 +259,7 @@ Submissions are actual form data entered by the users of your bucket.
 ### Get all submissions in a bucket
 
 ```curl
-GET https://api.formbucket.com/buckets/:id/submissions.json?limit=10&offset=0&sort=%7Bcreated_on:%20-1%7D
+GET https://api.formbucket.com/v1/buckets/:id/submissions.json?limit=10&offset=0&sort=%7Bcreated_on:%20-1%7D
 ```
 
 #### Parameters
@@ -284,23 +284,6 @@ sort        | object       | __Optional__.
   "message": "I'm interested in hiring you for a project. Please contact me."
 }]
 ```
-
-### Create a new submission
-
-
-```curl
-POST https://api.formbucket.com/buckets/:id/submissions
-```
-or use the alias
-```curl
-POST https://api.formbucket.com/f/:id
-```
-
-
-#### Parameters
-
-The form may include any field needed to meet your data collection requirement.
-
 ### Delete a submission
 
 DELETE https://www.FormBucket.com/buckets/:bucket_id/submissions/:submission_id
