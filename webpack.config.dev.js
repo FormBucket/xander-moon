@@ -30,7 +30,7 @@ module.exports = {
       'process.env': {
         'NODE_ENV': JSON.stringify('development'),
         // 'FORMBUCKET_API_SERVER': JSON.stringify('http://localhost:3002')
-        'FORM  BUCKET_API_SERVER': JSON.stringify('https://api-dev.formbucket.com')
+        'FORMBUCKET_API_SERVER': JSON.stringify('https://api-dev.formbucket.com')
         // 'FORM  BUCKET_API_SERVER': JSON.stringify('https://api.formbucket.com')
       }
     }),
