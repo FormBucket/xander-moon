@@ -4,11 +4,9 @@ Date: 2015-12-14
 
 All of these functions return a promise to get a payload.
 */
-const server = process.env.FORMBUCKET_API_SERVER,
+export const server = process.env.FORMBUCKET_API_SERVER,
 version = `/v1`,
 apiRoot = process.env.FORMBUCKET_API_SERVER + version
-
-export server;
 
 console.log('apiRoot', apiRoot)
 
