@@ -70,7 +70,7 @@ const Submissions = React.createClass({
     this.props.params.mode = this.props.params.mode || 'list'
     this.props.params.limit = (+this.props.params.limit) || 50
     this.props.params.offset = (+this.props.params.offset) || 0
-    this.props.params.select = this.props.params.select || 'created_on,data'
+    this.props.params.select = this.props.params.select || 'created_on,data,spam'
 
     var url = `/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${this.props.params.offset}/${this.props.params.limit}/${this.props.params.select}`
 
@@ -99,16 +99,29 @@ const Submissions = React.createClass({
     })
   },
 
-  handleDelete(submission) {
+  handleDelete(event, submission) {
+    event.stopPropagation()
     requestDeleteSubmission(this.state.bucket.id, submission.id)
     .then(n => this.search())
     .catch(error => alert(error))
+    return false
   },
 
   handleDeleteSelected(){
     requestDeleteSubmissions(this.state.bucket.id, this.state.selected)
     .then(n => this.search())
     .catch(error => alert(error))
+  },
+
+  handleMarkSpam(event, submission, spam=true) {
+    event.stopPropagation()
+    requestUpdateSubmission(this.state.bucket.id, submission.id, { spam })
+    .then(n => {
+      this.setState({
+        submissions: this.state.submissions.map(d => branch(d.id === submission.id, Object.assign({}, d, { spam }), d))
+      })
+    })
+
   },
 
   handleSelect(submission) {
@@ -302,8 +315,9 @@ const Submissions = React.createClass({
                       <span>: {submission.data[key].toString()}</span>
                     </div>
                   ))}
-                  <button onClick={() => this.handleDelete(submission)}>Delete</button><br/>
-                  {submission.id}
+                  <button onClick={(e) => this.handleDelete(e, submission)}>Delete</button><br/><br/>
+                  { branch(submission.spam, <button onClick={(e) => this.handleMarkSpam(e, submission, false)}><FontAwesome name="smile-o" /> Not spam</button>, <button onClick={(e) => this.handleMarkSpam(e, submission)}><FontAwesome name="frown-o" /> spam</button>)}
+                  {' '}{submission.id}
                 </div>
               </li>
             ))}

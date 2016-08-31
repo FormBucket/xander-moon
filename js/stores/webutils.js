@@ -70,6 +70,13 @@ export function requestUpdateBucket(bucket){
   return putJSON( `${apiRoot}/buckets/` + bucket.id, bucket )
 }
 
+/* Send server request to update existing bucket */
+export function requestUpdateSubmission(bucket_id, submission_id, changes){
+  return putJSON( `${apiRoot}/buckets/${bucket_id}/submissions/${submission_id}`, changes )
+}
+
+window.requestUpdateSubmission = requestUpdateSubmission
+
 /* Send server request to delete bucket and all related data */
 export function requestDeleteBucket(bucketId){
   return deleteJSON( `${apiRoot}/buckets/` + bucketId)
