@@ -2,12 +2,11 @@ import React, { PropTypes } from 'react'
 import {branch, eq, or, isBlank} from 'functionfoundry'
 import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
-import {requestBucket, requestSubmissionsByBucket} from '../stores/webutils'
+import {requestBucket, requestSubmissionsByBucket, requestDeleteSubmission, requestDeleteSubmissions} from '../stores/webutils'
 import UserStore from '../stores/user'
 import BucketStore from '../stores/buckets'
 import SubmissionsStore from '../stores/submissions'
 import FontAwesome from 'react-fontawesome'
-import {getQueryParam} from '../stores/webutils'
 //import DownloadLink from 'react-download-link'
 
 let color = {
@@ -34,6 +33,7 @@ const Submissions = React.createClass({
   getInitialState () {
     return {
       submissions: undefined,
+      selected: [],
       loaded: false,
       loading: false
     }
@@ -97,6 +97,26 @@ const Submissions = React.createClass({
     this.setState( {
       submissions: SubmissionsStore.getSubmissions()
     })
+  },
+
+  handleDelete(submission) {
+    requestDeleteSubmission(this.state.bucket.id, submission.id)
+    .then(n => this.search())
+    .catch(error => alert(error))
+  },
+
+  handleDeleteSelected(){
+    requestDeleteSubmissions(this.state.bucket.id, this.state.selected)
+    .then(n => this.search())
+    .catch(error => alert(error))
+  },
+
+  handleSelect(submission) {
+    if (this.state.selected.indexOf(submission.id) > -1) {
+      this.setState({ selected: this.state.selected.filter(d => d !== submission.id )})
+    } else {
+      this.setState({ selected: this.state.selected.concat([submission.id])})
+    }
   },
 
   search (event) {
@@ -228,19 +248,6 @@ const Submissions = React.createClass({
             </button>
             {'    '}
 
-            {/*<DownloadLink
-            filename={`${headingText}-${from}-${to}.json`}
-            label="Save"
-            export={() => {
-              return JSON.stringify(SubmissionsStore.getState(), null, 4)
-            }}/>
-
-            <DownloadLink
-            filename={`${headingText}.json`}
-            label="Export"
-            export={() => {
-              return exportSubmissionsByBucket('grXT623', 'json')
-            }}/>*/}
 
 
           </p>
@@ -269,7 +276,10 @@ const Submissions = React.createClass({
           <table>
             <tr>
               <td style={{ padding: 10 }}><input onKeyUp={(e) => branch(event.keyCode === 13, () => this.search())} ref="q" /></td>
-              <td style={{ padding: 10 }}><button onClick={this.search} className="pull">Search</button></td>
+              <td style={{ padding: 10 }}>
+                <button onClick={this.search} className="pull">Search</button>
+                &nbsp; <button onClick={this.handleDeleteSelected} className="pull">Delete Selected</button>
+              </td>
             </tr>
           </table>
           <div className="callout-controls">
@@ -277,8 +287,8 @@ const Submissions = React.createClass({
           </div>
           <ul className="bucket-list">
             {this.state.submissions.map( (submission, i) => (
-              <li key={submission.id} >
-                <div className="bucket-item" key={i}>
+              <li key={submission.id} onClick={() => this.handleSelect(submission)} >
+                <div className="bucket-item" style={{ backgroundColor: branch(this.state.selected.indexOf(submission.id) > -1, 'pink' : '')}} key={i}>
                   <span>Submitted {submission.created_on.substring(0, 16).replace('T', ' at ')}</span>
                   {Object.keys(submission.data).map( (key, j) => (
                     <div key={i + '|' + j}>
@@ -286,6 +296,8 @@ const Submissions = React.createClass({
                       <span>: {submission.data[key].toString()}</span>
                     </div>
                   ))}
+                  <button onClick={() => this.handleDelete(submission)}>Delete</button><br/>
+                  {submission.id}
                 </div>
               </li>
             ))}

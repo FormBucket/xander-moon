@@ -75,6 +75,16 @@ export function requestDeleteBucket(bucketId){
   return deleteJSON( `${apiRoot}/buckets/` + bucketId)
 }
 
+/* Send server request to delete bucket and all related data */
+export function requestDeleteSubmission(bucket_id, submission_id){
+  return deleteJSON( `${apiRoot}/buckets/${bucket_id}/submissions/${submission_id}`)
+}
+
+/* Send server request to delete bucket and all related data */
+export function requestDeleteSubmissions(bucket_id, ids){
+  return deleteJSON( `${apiRoot}/buckets/${bucket_id}/submissions`, { submissions: ids})
+}
+
 /* Send server request to get user profile */
 export function requestProfile(){
   return getJSON( `${apiRoot}/profile.json`)
