@@ -275,10 +275,16 @@ const Submissions = React.createClass({
         <div>
           <table>
             <tr>
-              <td style={{ padding: 10 }}><input onKeyUp={(e) => branch(event.keyCode === 13, () => this.search())} ref="q" /></td>
               <td style={{ padding: 10 }}>
+                <input onKeyUp={(e) => branch(event.keyCode === 13, () => this.search())} ref="q" />
+              </td>
+              <td  style={{ padding: 10 }}>
                 <button onClick={this.search} className="pull">Search</button>
+              </td>
+              <td width="50%">
                 &nbsp; <button onClick={this.handleDeleteSelected} className="pull">Delete Selected</button>
+                &nbsp; <button onClick={() => this.setState({ selected: this.state.submissions.map(d => d.id) })} className="pull">Select All</button>
+                &nbsp; <button onClick={() => this.setState({ selected: [] })} className="pull">Select None</button>
               </td>
             </tr>
           </table>
