@@ -18,6 +18,7 @@ import Submissions from './components/Submissions'
 import PageNotFound from './components/PageNotFound'
 import PasswordReset from './components/PasswordReset'
 
+import UsersReport from './components/UsersReport'
 import UserReport from './components/UserReport'
 
 require('../scss/app.scss')
@@ -37,7 +38,8 @@ render((
       <Route path="buckets/:id/submissions" component={Submissions} />
       <Route path="buckets/:id/submissions/:mode/:offset/:limit/:select" component={Submissions} />
       <Route path="password_reset" component={PasswordReset} />
-      <Route path="admin/user_report" component={UserReport} />
+      <Route path="admin/users_report" component={UsersReport} />
+      <Route path="admin/user_report/:user_id" component={UserReport} />
       <Route path="*" component={PageNotFound} />
     </Route>
   </Router>

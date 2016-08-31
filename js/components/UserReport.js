@@ -1,13 +1,12 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
-import {eq} from 'functionfoundry'
+import {eq, branch, isBlank} from 'functionfoundry'
 import UserStore from '../stores/user'
+import moment from 'moment'
 
 import {
-  requestBucketCountByUser,
-  requestSubmissionCountByBucket,
-  requestBucketCount,
-  requestUserCount
+  requestUsersBuckets,
+  requestProfileById,
 } from '../stores/webutils'
 
 
@@ -27,21 +26,14 @@ const UserReport = React.createClass({
       this.setState({ loading: true })
 
       Promise.all([
-        requestBucketCountByUser(),
-        requestBucketCount(),
-        requestUserCount(),
-        requestSubmissionCountByBucket()
+        requestUsersBuckets(this.props.params.user_id),
+        requestProfileById(this.props.params.user_id)
       ])
       .then(values => this.setState({
         loading: false,
         loaded: true,
-        countByUser: values[0],
-        bucketCount: values[1],
-        userCount: values[2],
-        countByBucket: Object.keys(values[3])
-        .map(d => ({ bucket: d, count: values[3][d] }))
-        .sort((a,b) => a.count > b.count)
-        .reverse()
+        profile: values[0],
+        buckets: values[1]
       }))
       .catch(error => this.setState({ error: error }))
 
@@ -67,42 +59,46 @@ const UserReport = React.createClass({
       <div>
         <div className="page-heading">
           <div className="wrapper">
-            <h1>User Report</h1>
+            <h1 colspan>User Report</h1>
           </div>
         </div>
         <div className="wrapper">
           <div>
-            Total Bucket Count: {this.state.bucketCount}
+            Name: {this.state.profile.name}
           </div>
           <div>
-            Total User Count: {this.state.userCount}
+            Email: {this.state.profile.email}
           </div>
-          <h2>Bucket Count by User</h2>
+          <div>
+            Created on: {moment(this.state.profile.created_on).format("MM/DD/YYYY HH:MM")}
+          </div>
+          <div>
+            Total Bucket Count: {this.state.buckets.length}
+          </div>
+          <div>
+            Total Submission Count: {this.state.buckets.reduce((p,v) => p + v.submission_count, 0)}
+          </div>
+          <h2>Buckets</h2>
           <table>
-            <tr>
-              <th>Email</th>
-              <th>Count</th>
-            </tr>
             {
-              this.state.countByUser.map((d) => (
-                <tr>
-                  <td>{d.email}</td>
-                  <td>{d.count}</td>
-                </tr>
-              ))
-            }
-          </table>
-          <h2>Submission Count by Bucket</h2>
-          <table>
-            <tr>
-              <th>Bucket Id</th>
-              <th>Count</th>
-            </tr>
-            {
-              this.state.countByBucket.map((d) => (
-                <tr>
-                  <td>{d.bucket}</td>
-                  <td>{d.count}</td>
+              this.state.buckets.map(bucket => (
+                <tr key={bucket.id}>
+                  <td onClick={() => this.props.select(bucket)} >
+                    <FontAwesome name={branch(bucket.enabled, 'toggle-on', 'toggle-off')} />&nbsp;
+                    { branch( isBlank(bucket.name), bucket.id, bucket.name ) }
+                  </td>
+                  <td onClick={() => this.props.select(bucket)} >
+                    http://api.formbucket.com/f/{bucket.id}
+                    {
+                      branch(
+                        bucket.email_to,
+                        <span> <FontAwesome name="envelope-o" /></span>
+                      )
+                    }
+                  </td>
+                  <td>
+                    {bucket.submission_count} Submissions
+                  </td>
                 </tr>
               ))
             }

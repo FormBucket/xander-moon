@@ -80,6 +80,10 @@ export function requestProfile(){
   return getJSON( `${apiRoot}/profile.json`)
 }
 
+export function requestProfileById(user_id){
+  return getJSON( `${apiRoot}/user/${user_id}/profile.json`)
+}
+
 /* Send server request to get subscription plans */
 export function requestSubscriptionPlans() {
   return getJSON( `${apiRoot}/subscription/plans` )
@@ -152,6 +156,14 @@ export function requestBucketCount() {
   return getText(`${apiRoot}/bucket_count.json` )
 }
 
+export function requestBucketCount() {
+  return getText(`${apiRoot}/bucket_count.json` )
+}
+
 export function requestUserCount() {
   return getText(`${apiRoot}/user_count.json` )
+}
+
+export function requestUsersBuckets(user_id) {
+  return getJSON(`${apiRoot}/user/${user_id}/buckets.json` )
 }
