@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import {branch, eq, or, isBlank} from 'functionfoundry'
 import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
-import {requestBucket, requestSubmissionsByBucket, requestDeleteSubmission, requestDeleteSubmissions} from '../stores/webutils'
+import {requestBucket, requestSubmissionsByBucket, requestDeleteSubmission, requestDeleteSubmissions, requestUpdateSubmissions, requestUpdateSubmission} from '../stores/webutils'
 import UserStore from '../stores/user'
 import BucketStore from '../stores/buckets'
 import SubmissionsStore from '../stores/submissions'
@@ -109,6 +109,12 @@ const Submissions = React.createClass({
 
   handleDeleteSelected(){
     requestDeleteSubmissions(this.state.bucket.id, this.state.selected)
+    .then(n => this.search())
+    .catch(error => alert(error))
+  },
+
+  handleMarkSelectedSpam() {
+    requestUpdateSubmissions(this.state.bucket.id, this.state.selected, { spam: true })
     .then(n => this.search())
     .catch(error => alert(error))
   },
@@ -294,8 +300,9 @@ const Submissions = React.createClass({
               <td  style={{ padding: 10 }}>
                 <button onClick={this.search} className="pull">Search</button>
               </td>
-              <td width="50%">
+              <td width="66%">
                 &nbsp; <button onClick={this.handleDeleteSelected} className="pull">Delete Selected</button>
+                &nbsp; <button onClick={this.handleMarkSelectedSpam} className="pull">Mark Spam</button>
                 &nbsp; <button onClick={() => this.setState({ selected: this.state.submissions.map(d => d.id) })} className="pull">Select All</button>
                 &nbsp; <button onClick={() => this.setState({ selected: [] })} className="pull">Select None</button>
               </td>
