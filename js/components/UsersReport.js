@@ -34,10 +34,7 @@ const UserReport = React.createClass({
         loading: false,
         loaded: true,
         countByUser: values[0],
-        countByBucket: Object.keys(values[1])
-        .map(d => ({ bucket: d, count: values[1][d] }))
-        .sort((a,b) => a.count > b.count)
-        .reverse()
+        countByBucket: values[1]
       }))
       .catch(error => this.setState({ error: error }))
 
@@ -84,8 +81,8 @@ const UserReport = React.createClass({
               this.state.countByUser.map((d) => (
                 <tr>
                   <td><a href={"/admin/user_report/" + d.id }>{d.email}</a></td>
-                  <td>{d.bucketCount}</td>
-                  <td>{d.submissionCount}</td>
+                  <td>{d.bucket_count}</td>
+                  <td>{d.submission_count}</td>
                 </tr>
               ))
             }
@@ -93,14 +90,18 @@ const UserReport = React.createClass({
           <h2>Submission Count by Bucket</h2>
           <table>
             <tr>
+              <th>Email</th>
               <th>Bucket Id</th>
+              <th>Bucket Name</th>
               <th>Count</th>
             </tr>
             {
               this.state.countByBucket.map((d) => (
                 <tr>
-                  <td>{d.bucket}</td>
-                  <td>{d.count}</td>
+                  <td><a href={"/admin/user_report/" + d.user_id }>{d.email}</a></td>
+                  <td>{d.id}</td>
+                  <td>{d.name}</td>
+                  <td>{d.submission_count}</td>
                 </tr>
               ))
             }
