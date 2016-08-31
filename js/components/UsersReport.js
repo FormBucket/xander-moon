@@ -73,17 +73,19 @@ const UserReport = React.createClass({
           <div>
             Total User Count: {this.state.countByUser.length}
           </div>
-          <h2>Bucket Count by User</h2>
+          <h2>Users</h2>
           <table>
             <tr>
               <th>Email</th>
-              <th>Count</th>
+              <th>Bucket Count</th>
+              <th>Submission Count</th>
             </tr>
             {
               this.state.countByUser.map((d) => (
                 <tr>
                   <td><a href={"/admin/user_report/" + d.id }>{d.email}</a></td>
-                  <td>{d.count}</td>
+                  <td>{d.bucketCount}</td>
+                  <td>{d.submissionCount}</td>
                 </tr>
               ))
             }
