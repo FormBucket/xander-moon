@@ -54,7 +54,11 @@
   display: inline-block;
   height: $switch-height;
   position: relative;
-  width: $switch-width;
+
+  span {
+    position: relative;
+    width: 100px;
+  }
 
   input[type="checkbox"] {
     display: none;

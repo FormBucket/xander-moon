@@ -3,7 +3,7 @@ import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
-import {branch, isArray, isBlank} from 'functionfoundry'
+import {branch, isArray, isBlank, isEmpty} from 'functionfoundry'
 import UserStore from '../stores/user'
 import {
   requestBucket, requestProfile,
@@ -12,9 +12,9 @@ import {
 from '../stores/webutils'
 import RichTextEditor from 'react-rte';
 
-function makeHTMLForm(id) {
+function makeHTMLForm(id, honey_pot_on, honey_pot_field) {
   return (`<form action="https://api.formbucket.com/f/${id}" method="post">
-  <input type="text" name="example" placeholder="Example" />
+  <input type="text" name="example" placeholder="Example" />${honey_pot_on ? `\n  <input type="hidden" name="${isEmpty(honey_pot_field) ? '__bucket_trap__' : honey_pot_field }" value="" />` : ''}
   <button type="submit">Submit</button>
 </form>`)
 }
@@ -201,23 +201,47 @@ const NewBucket = React.createClass({
             <div className="section">
               <h3>Security</h3>
 
+              <label htmlFor="honeyPotEnabled" className="label-switch">
+                Honey Pot
+                <input id="honeyPotEnabled" type="checkbox" onClick={(event) => this.setState({ honey_pot_on: event.target.checked }) } checked={this.state.honey_pot_on} />
+                <div className="checkbox"></div>
+              </label>
+              <br />
+              <br />
+              {
+                branch( this.state.honey_pot_on,
+                  <div>
+                    <label>
+                      Honey pot field
+                      {' '}<a className="pull-right" href="#">What is a honey pot?</a>
+                      <input placeholder="Use default fieldname (i.e. __bucket_trap__)" onChange={(e) => this.setState({ honey_pot_field:  e.target.value  })}
+                      defaultValue={ this.state.honey_pot_field }/>
+                  </label>
+                </div>)
+              }
+
               <label htmlFor="recaptchaEnabled" className="label-switch"> Recaptcha
                 <input id="recaptchaEnabled" type="checkbox" onClick={(event) => this.setState({ recaptcha_on: event.target.checked }) } checked={this.state.recaptcha_on} />
                 <div className="checkbox"></div>
               </label>
+              <br />
+              <br />
               {
                 branch( this.state.recaptcha_on,
                   <div>
-                    <br />
                     <label>
-                      Secret
-                      {' '}<a className="pull-right" href="#">Why do we need your secret?</a>
+                      Secret key (provided by Google)
+                      {' '}<a className="pull-right" href="#">Why do we need this?</a>
                       <input onChange={(e) => this.setState({ recaptcha_secret:  e.target.value  })}
                       defaultValue={ this.state.recaptcha_secret }/>
+                      Redirect on error
+                      <input placeholder="Optional, url to send user if verification fails" onChange={(e) => this.setState({ recaptcha_redirect:  e.target.value  })}
+                      defaultValue={ this.state.recaptcha_redirect }/>
                     </label>
                   </div>
                 )
               }
+
             </div>
 
             <input type="button" className="button" onClick={this.onSave} value="Save Settings" />
@@ -228,7 +252,7 @@ const NewBucket = React.createClass({
             <div className="bucket-editor">
               <div className="quick-use">
                 <Markdown
-                  source={ '```HTML\n' + makeHTMLForm(this.state.id) + '\n```' }
+                  source={ '```HTML\n' + makeHTMLForm(this.state.id, this.state.honey_pot_on, this.state.honey_pot_field) + '\n```' }
                   options={ markdownOptions }
                   />
               </div>

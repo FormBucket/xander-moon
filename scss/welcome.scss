@@ -172,6 +172,12 @@
     overflow: hidden;
   }
 
+  .language-html {
+    background-color: initial;
+    padding: 0px;
+    margin: 0px;
+  }
+
   .left {
     @include span-columns(8);
     min-height: 18rem;
@@ -283,10 +289,4 @@
 
 .hljs-highlight {
   background-color: yellow;
-}
-
-.language-html {
-  background-color: initial;
-  padding: 0px;
-  margin: 0px;
 }

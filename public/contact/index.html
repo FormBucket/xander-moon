@@ -50,7 +50,8 @@
   <meta name="theme-color" content="#ffffff">
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
-  <script src='https://www.google.com/recaptcha/api.js'></script> 
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
 </head>
 <body>
   <div id="root">
@@ -101,11 +102,22 @@
       <div class="wrapper">
         <div class="two-thirds">
           <p>We love feedback! You can always reach us on Twitter <a href="https://twitter.com/FormBucket">@formbucket</a> too.</p>
-<form action="https://api.formbucket.com/f/vCDgvMn" method="post">
+<script>
+$(function() {
+  $('form').submit(function() {
+    if (grecaptcha.getResponse() == ""){
+      alert("Please complete recaptcha!");
+      return false
+    }
+  })
+})
+</script>
+<form action="http://localhost:3002/f/vCDgvMn" method="post">
   <input type="text" name="name" placeholder="Your full name" />
   <input type="text" name="email" placeholder="Your email address" />
   <input type="text" name="phone" placeholder="Your phone number" />
   <textarea name="message" placeholder="What's on your mind?"></textarea>
+  <input type="hidden" name="__honey_trap__" value="" />
   <div class="g-recaptcha" data-sitekey="6Lc_YSgTAAAAAPdIJ5hVuFFNvoljmLYx3E1d6kcu"></div>
   <button type="submit">Submit</button>
 </form>

@@ -13,3 +13,4 @@ More guides will be coming soon.
 ## Guides
 
  - [Collect emails with jQuery and AJAX](/guides/collect-emails-for-newsletter-with-jquery-and-ajax)
+ - [HOWTO Setup recaptcha](/guides/howto-setup-recaptcha)
