@@ -198,8 +198,29 @@ const NewBucket = React.createClass({
               Send notifications to:
               <textarea disabled={typeof this.state.email_to === 'string' ? false : true} className="cc-emails" ref="additionalEmails" placeholder="Separate addresses by comma" onChange={(e) => this.setState({ email_to: e.target.value })} defaultValue={ typeof this.state.email_to === 'string' ? this.state.email_to : '' }></textarea>
             </label>
-            <input type="button" className="button" onClick={this.onSave} value="Save Settings" />
+            <div className="section">
+              <h3>Security</h3>
 
+              <label htmlFor="recaptchaEnabled" className="label-switch"> Recaptcha
+                <input id="recaptchaEnabled" type="checkbox" onClick={(event) => this.setState({ recaptcha_on: event.target.checked }) } checked={this.state.recaptcha_on} />
+                <div className="checkbox"></div>
+              </label>
+              {
+                branch( this.state.recaptcha_on,
+                  <div>
+                    <br />
+                    <label>
+                      Secret
+                      {' '}<a className="pull-right" href="#">Why do we need your secret?</a>
+                      <input onChange={(e) => this.setState({ recaptcha_secret:  e.target.value  })}
+                      defaultValue={ this.state.recaptcha_secret }/>
+                    </label>
+                  </div>
+                )
+              }
+            </div>
+
+            <input type="button" className="button" onClick={this.onSave} value="Save Settings" />
           </div>
           <div className="bucket-preview">
             <h3>Quick Use</h3>
