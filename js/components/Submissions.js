@@ -247,23 +247,21 @@ const Submissions = React.createClass({
 
     let pager = (key) => (
       <div key={key}>
-        <p className="format">
-          <strong>Showing {from}-{to} of {total}</strong>
-        </p>
         <div className="pagination">
           <p>
+            <strong>Showing {from}-{to} of {total}</strong>
             <button className="secondary" onClick={this.goBack} style={{
-                cursor: branch(offset > 0, 'pointer', 'auto'),
-                marginRight: '1.5em',
-                color: branch(offset > 0, color.enabled, color.disabled),
-                borderColor: branch(offset > 0, color.enabled, color.disabled) }}>
-              <FontAwesome name="chevron-left" /> Prev
+              cursor: branch(offset > 0, 'pointer', 'auto'),
+              marginRight: '1em',
+              color: branch(offset > 0, color.enabled, color.disabled),
+              borderColor: branch(offset > 0, color.enabled, color.disabled) }}>
+              <FontAwesome name="chevron-left" />
             </button>
 
             <button className="secondary" onClick={this.goForward} style={{
-                cursor: branch(to < total, 'pointer', 'auto'),
-                color: branch(offset + limit < total, color.enabled, color.disabled) }}>
-              Next <FontAwesome name="chevron-right" />
+              cursor: branch(to < total, 'pointer', 'auto'),
+              color: branch(offset + limit < total, color.enabled, color.disabled) }}>
+              <FontAwesome name="chevron-right" />
             </button>
             {'    '}
 
@@ -292,24 +290,18 @@ const Submissions = React.createClass({
     if (eq(this.props.params.mode, 'list')) {
       return wrap(headingText,
         <div>
-          <table>
-            <tr>
-              <td style={{ padding: 10 }}>
-                <input onKeyUp={(e) => branch(event.keyCode === 13, () => this.search())} ref="q" />
-              </td>
-              <td  style={{ padding: 10 }}>
-                <button onClick={this.search} className="pull">Search</button>
-              </td>
-              <td width="66%">
-                &nbsp; <button onClick={this.handleDeleteSelected} className="pull">Delete Selected</button>
-                &nbsp; <button onClick={this.handleMarkSelectedSpam} className="pull">Mark Spam</button>
-                &nbsp; <button onClick={() => this.setState({ selected: this.state.submissions.map(d => d.id) })} className="pull">Select All</button>
-                &nbsp; <button onClick={() => this.setState({ selected: [] })} className="pull">Select None</button>
-              </td>
-            </tr>
-          </table>
-          <div className="callout-controls">
-            {pager('top')}
+          <div className="submissions-controls">
+            <div className="search-bar">
+              <input onKeyUp={(e) => branch(event.keyCode === 13, () => this.search())} ref="q" />
+              <button onClick={this.search} className="pull">Search</button>
+            </div>
+            <div className="pull-right">
+              {pager('top')}
+            </div>
+            <a className="secondary" onClick={this.handleDeleteSelected} className="pull">Delete Selected</a>
+            <a className="secondary" onClick={this.handleMarkSelectedSpam} className="pull">Mark Spam</a>
+            <a className="secondary" onClick={() => this.setState({ selected: this.state.submissions.map(d => d.id) })} className="pull">Select All</a>
+            <a className="secondary" onClick={() => this.setState({ selected: [] })} className="pull">Select None</a>
           </div>
           <ul className="bucket-list">
             {this.state.submissions.map( (submission, i) => (
@@ -322,14 +314,14 @@ const Submissions = React.createClass({
                       <span>: {submission.data[key].toString()}</span>
                     </div>
                   ))}
-                  <button onClick={(e) => this.handleDelete(e, submission)}>Delete</button><br/><br/>
-                  { branch(submission.spam, <button onClick={(e) => this.handleMarkSpam(e, submission, false)}><FontAwesome name="smile-o" /> Not spam</button>, <button onClick={(e) => this.handleMarkSpam(e, submission)}><FontAwesome name="frown-o" /> spam</button>)}
+                  <button className="secondary" onClick={(e) => this.handleDelete(e, submission)}>Delete</button><br/><br/>
+                  { branch(submission.spam, <button className="secondary" onClick={(e) => this.handleMarkSpam(e, submission, false)}><FontAwesome name="smile-o" /> Not spam</button>, <button className="secondary" onClick={(e) => this.handleMarkSpam(e, submission)}><FontAwesome name="frown-o" /> spam</button>)}
                   {' '}{submission.id}
                 </div>
               </li>
             ))}
           </ul>
-          <div className="callout-controls">
+          <div>
             {pager('bottom')}
           </div>
         </div>

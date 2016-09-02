@@ -1,0 +1,8 @@
+.submissions {
+  @include span-columns(12);
+  @include clearfix;
+
+  .search-bar {
+    @include span-columns(6);
+  }
+}
