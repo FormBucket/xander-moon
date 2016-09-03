@@ -250,7 +250,7 @@ const Submissions = React.createClass({
         <div className="pagination">
           <p>
             <span className="showing-count">Showing {from}-{to} of {total}</span>
-            <button className="secondary" onClick={this.goBack} style={{
+            <button className="secondary small" onClick={this.goBack} style={{
               cursor: branch(offset > 0, 'pointer', 'auto'),
               marginRight: '1em',
               color: branch(offset > 0, color.enabled, color.disabled),
@@ -258,7 +258,7 @@ const Submissions = React.createClass({
               <FontAwesome name="chevron-left" />
             </button>
 
-            <button className="secondary" onClick={this.goForward} style={{
+            <button className="secondary small" onClick={this.goForward} style={{
               cursor: branch(to < total, 'pointer', 'auto'),
               color: branch(offset + limit < total, color.enabled, color.disabled) }}>
               <FontAwesome name="chevron-right" />
@@ -296,10 +296,10 @@ const Submissions = React.createClass({
             </div>
             <div className="submissions-actions">
               <ul>
-                <li><a className="secondary" onClick={() => this.setState({ selected: this.state.submissions.map(d => d.id) })} className="pull">Select All</a></li>
-                <li><a className="secondary" onClick={() => this.setState({ selected: [] })} className="pull">Select None</a></li>
-                <li><a className="secondary" onClick={this.handleDeleteSelected} className="pull">Delete Selected</a></li>
-                <li><a className="secondary" onClick={this.handleMarkSelectedSpam} className="pull">Mark Spam</a></li>
+                <li><a className="secondary" onClick={() => this.setState({ selected: this.state.submissions.map(d => d.id) })}>Select All</a></li>
+                <li><a className="secondary" onClick={() => this.setState({ selected: [] })}>Select None</a></li>
+                <li><a className="secondary" onClick={this.handleDeleteSelected}>Delete Selected</a></li>
+                <li><a className="secondary" onClick={this.handleMarkSelectedSpam}>Mark Spam</a></li>
               </ul>
             </div>
           </div>

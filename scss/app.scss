@@ -364,6 +364,10 @@ button, .button, input[type="button"] {
   color: $purple;
 }
 
+.small {
+  padding: $small-spacing / 2 $base-spacing / 2;
+}
+
 
 label {
   font-weight: 400;

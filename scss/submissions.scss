@@ -4,6 +4,10 @@
 
   .search-bar {
     @include span-columns(6);
+
+    @include media($phablet) {
+      @include span-columns(12);
+    }
   }
 
   .paging {
@@ -11,18 +15,31 @@
     @include omega();
     text-align: right;
 
+    @include media($phablet) {
+      @include span-columns(12);
+      text-align: center;
+    }
+
     .showing-count {
       margin-right: $base-spacing;
     }
   }
 
   .submissions-actions {
-    @include span-columns(6);
+    @include span-columns(12);
     margin-bottom: $base-spacing;
 
     li {
       display: inline-block;
       margin-right: $base-spacing;
+
+      a {
+        border: none;
+      }
+    }
+
+    @include media($phablet) {
+      text-align: center;
     }
   }
 }
