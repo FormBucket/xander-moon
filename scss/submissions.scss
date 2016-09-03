@@ -1,8 +1,28 @@
-.submissions {
-  @include span-columns(12);
+.submissions-controls {
+  @include outer-container;
   @include clearfix;
 
   .search-bar {
     @include span-columns(6);
+  }
+
+  .paging {
+    @include span-columns(6);
+    @include omega();
+    text-align: right;
+
+    .showing-count {
+      margin-right: $base-spacing;
+    }
+  }
+
+  .submissions-actions {
+    @include span-columns(6);
+    margin-bottom: $base-spacing;
+
+    li {
+      display: inline-block;
+      margin-right: $base-spacing;
+    }
   }
 }

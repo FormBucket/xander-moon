@@ -249,7 +249,7 @@ const Submissions = React.createClass({
       <div key={key}>
         <div className="pagination">
           <p>
-            <strong>Showing {from}-{to} of {total}</strong>
+            <span className="showing-count">Showing {from}-{to} of {total}</span>
             <button className="secondary" onClick={this.goBack} style={{
               cursor: branch(offset > 0, 'pointer', 'auto'),
               marginRight: '1em',
@@ -264,9 +264,6 @@ const Submissions = React.createClass({
               <FontAwesome name="chevron-right" />
             </button>
             {'    '}
-
-
-
           </p>
           {
             branch( this.state.loading,
@@ -292,16 +289,19 @@ const Submissions = React.createClass({
         <div>
           <div className="submissions-controls">
             <div className="search-bar">
-              <input onKeyUp={(e) => branch(event.keyCode === 13, () => this.search())} ref="q" />
-              <button onClick={this.search} className="pull">Search</button>
+              <input onKeyUp={(e) => branch(event.keyCode === 13, () => this.search())} ref="q" placeholder="Search all submissions..." />
             </div>
-            <div className="pull-right">
+            <div className="paging">
               {pager('top')}
             </div>
-            <a className="secondary" onClick={this.handleDeleteSelected} className="pull">Delete Selected</a>
-            <a className="secondary" onClick={this.handleMarkSelectedSpam} className="pull">Mark Spam</a>
-            <a className="secondary" onClick={() => this.setState({ selected: this.state.submissions.map(d => d.id) })} className="pull">Select All</a>
-            <a className="secondary" onClick={() => this.setState({ selected: [] })} className="pull">Select None</a>
+            <div className="submissions-actions">
+              <ul>
+                <li><a className="secondary" onClick={() => this.setState({ selected: this.state.submissions.map(d => d.id) })} className="pull">Select All</a></li>
+                <li><a className="secondary" onClick={() => this.setState({ selected: [] })} className="pull">Select None</a></li>
+                <li><a className="secondary" onClick={this.handleDeleteSelected} className="pull">Delete Selected</a></li>
+                <li><a className="secondary" onClick={this.handleMarkSelectedSpam} className="pull">Mark Spam</a></li>
+              </ul>
+            </div>
           </div>
           <ul className="bucket-list">
             {this.state.submissions.map( (submission, i) => (
