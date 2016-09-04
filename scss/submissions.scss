@@ -99,25 +99,12 @@
   .submission-body {
     padding: $base-spacing / 2;
   }
-
-  .submission-count {
-    @include span-columns(4);
-    float: right;
-
-    button {
-      width: 100%;
-    }
-
-      @include media($phablet) {
-        width: 100%;
-      }
-  }
 }
 
 .dropdown-container {
   @include clearfix;
   @include card;
-  padding: $base-spacing;
+  padding: $base-spacing / 2;
   display: block;
   margin: 0 auto;
 
