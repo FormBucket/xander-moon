@@ -8,6 +8,7 @@
 
     .bucket-meta {
       @include span-columns(8);
+      cursor: pointer;
 
       @include media($phablet) {
         @include span-columns(12);
