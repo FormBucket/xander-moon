@@ -3,7 +3,7 @@
 @import "neat/neat";
 
 body {
-  background-color: $lightest-purple;
+  background-color: white;
   color: $purple;
 }
 
@@ -302,9 +302,10 @@ header.navigation {
 
 .page-heading {
   height: 6rem;
-  background-color: $purple;
-  color: $lightest-purple;
+  background-color: white;
+  color: $purple;
   margin-bottom: $base-spacing;
+  border-bottom: 1px solid $lightest-purple;
 
   h1 {
     margin: 0;
@@ -412,8 +413,8 @@ label {
 .section {
   @include clearfix;
   margin-bottom: $base-spacing;
-  padding-bottom: $base-spacing * 2;
-  border-bottom: 1px solid $purple;
+  padding-bottom: $base-spacing;
+  border-bottom: 1px solid $lightest-purple;
 }
 
 .flash {

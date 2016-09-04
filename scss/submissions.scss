@@ -93,8 +93,6 @@
 
 .dropdown-container {
   @include clearfix;
-  @include card;
-  padding: $base-spacing / 2;
   display: block;
   margin: 0 auto;
 
