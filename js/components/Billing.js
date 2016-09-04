@@ -3,31 +3,28 @@ import {Link} from 'react-router'
 import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
 import moment from 'moment'
-import {IF} from 'functionfoundry'
+import {branch, isBlank} from 'functionfoundry'
 import {loadSubscriptionPlans, subscribe, cancelSubscription} from '../stores/ActionCreator'
-import {requestStripePubKey} from '../stores/webutils'
+import {requestStripePubKey, requestProfile, requestCreditCards} from '../stores/webutils'
 import CreditCardForm from './CreditCardForm'
 import FontAwesome from 'react-fontawesome'
+import UserStore from '../stores/user'
 
 const Billing = React.createClass({
   getInitialState() {
     var planCode =  UserStore.getPlan() || localStorage.getItem('plan') || 'fb-pro'
     return {
       plans: [],
-      selectedPlanCode: planCode,
       selectedPlan: { amount: 0 },
       nowrap: true,
-      saving: false,
-      user: UserStore.getState(),
-      active: UserStore.getPlan() && UserStore.getPlan().length > 0
+      saving: false
     }
   },
 
   handleSave() {
 
-    var cardNumber = this.refs.credit_card_form.refs.cardNumber.value
-    var cvc = this.refs.credit_card_form.refs.cvc.value
-    var exp = this.refs.credit_card_form.refs.exp.value
+
+    var {selectedPlan, plans} = this.state
 
     this.setState({ saving: true })
 
@@ -36,67 +33,91 @@ const Billing = React.createClass({
     )
     .then(() => {
 
-      if (!Stripe.card.validateCardNumber(cardNumber)) {
-        this.setState({
-          error: {
-            message: "Invalid card number."
-          },
-          saving: false
-        })
-        return
-      }
+      if (this.state.editCC) {
+        var cardNumber = this.refs.credit_card_form.refs.cardNumber.value
+        var cvc = this.refs.credit_card_form.refs.cvc.value
+        var exp = this.refs.credit_card_form.refs.exp.value
 
-      if (!Stripe.card.validateCVC(cvc)) {
-        this.setState({
-          error: {
-            message: "Invalid cvc number."
-          },
-          saving: false
-        })
-        return
-      }
-
-      if (!Stripe.card.validateExpiry(exp)) {
-        this.setState({
-          error: {
-            message: "Invalid exp date. Must be MM/YY or MM/YYYY"
-          },
-          saving: false
-        })
-        return
-      }
-
-      Stripe.card.createToken({
-        number: cardNumber,
-        cvc: cvc,
-        exp: exp,
-      }, (status, response) => {
-
-        if (status !== 200) {
-          // got back error from Stripe
-          // console.log('error', status, response.error )
-          this.setState({ error: response.error, saving: false })
+        if (!Stripe.card.validateCardNumber(cardNumber)) {
+          this.setState({
+            error: {
+              message: "Invalid card number."
+            },
+            saving: false
+          })
           return
         }
 
-        // reset error state
-        this.setState({ error: undefined, saving: false })
+        if (!Stripe.card.validateCVC(cvc)) {
+          this.setState({
+            error: {
+              message: "Invalid cvc number."
+            },
+            saving: false
+          })
+          return
+        }
 
-        // got back response from Stripe
-        // console.log('got token', response.id, 'will now subscribe to', this.state.selectedPlanCode)
+        if (!Stripe.card.validateExpiry(exp)) {
+          this.setState({
+            error: {
+              message: "Invalid exp date. Must be MM/YY or MM/YYYY"
+            },
+            saving: false
+          })
+          return
+        }
 
-        // Subscribe user to Plan
-        subscribe(response.id, this.state.selectedPlanCode)
-        .then((result) =>{
-          // console.log( 'User', result.stripe_customer_id, 'is now subscribed to', result.stripe_subscription_id )
+        Stripe.card.createToken({
+          number: cardNumber,
+          cvc: cvc,
+          exp: exp,
+        }, (status, response) => {
 
-          // FIXME: What to do after user subscription is saved?
-          if (this.props.redirect !== false) {
-            this.props.history.push(this.props.redirect || '/buckets')
+          if (status !== 200) {
+            // got back error from Stripe
+            // console.log('error', status, response.error )
+            this.setState({ error: response.error, saving: false })
+            return
           }
-        })
 
-      })
+          // reset error state
+          this.setState({ error: undefined, editCC: false, cards: [response.card], saving: false })
+
+          // got back response from Stripe
+          console.log('got token', response.id)
+
+          // Subscribe user to Plan
+          subscribe(response.id, selectedPlan.id)
+          .then((result) =>{
+            console.log( 'User', result, 'is now subscribed to', result.plan)
+
+            this.setState({
+              active: true,
+              saving: false,
+              editCC: false,
+              selectedPlan: result.plan,
+              enrolledPlan: result.plan
+            })
+
+          })
+
+        })
+      } else {
+        // Subscribe user to Plan
+        subscribe(null, selectedPlan.id)
+        .then((result) =>{
+          console.log( 'Result', result )
+
+          this.setState({
+            active: true,
+            saving: false,
+            editCC: false,
+            selectedPlan: result.plan,
+            enrolledPlan: result.plan
+          })
+        })
+      }
 
     })
 
@@ -105,35 +126,34 @@ const Billing = React.createClass({
 
   componentDidMount() {
 
-    this.token = UserStore.addListener(this.handleUserChanged)
-
-    //console.log(this, cmp)
-    loadSubscriptionPlans()
-    .then( plans => {
-      // console.log('got plans', plans, cmp, this)
+    Promise.all([
+      requestProfile(),
+      loadSubscriptionPlans(),
+      requestCreditCards()
+    ])
+    .then( values => {
+      console.log('got values', values)
       this.setState({
-        plans: plans,
-        selectedPlan: plans.filter( n=> n.id === this.state.selectedPlanCode )[0]
+        user: values[0],
+        plans: values[1],
+        active: (values[0].plan || '').length > 0,
+        selectedPlan: values[1].filter(d => d.id === values[0].plan)[0] || values[1][0],
+        enrolledPlan: values[1].filter(d => d.id === values[0].plan)[0],
+        cards: values[2],
+        editCC: values[2].length === 0
       })
     })
   },
 
   componentWillUnmount() {
-    this.token.remove()
+    this.token()
   },
 
-  handleUserChanged() {
-    this.setState({
-      user: UserStore.getState(),
-      active: UserStore.getPlan() && UserStore.getPlan().length > 0
-    })
-  },
 
   handlePlanClick(planCode, event) {
     //console.log( this, planCode )
     localStorage.setItem('plan', planCode )
     this.setState({
-      selectedPlanCode: planCode,
       selectedPlan: this.state.plans.filter( n=> n.id === planCode)[0]
     })
   },
@@ -141,14 +161,25 @@ const Billing = React.createClass({
   handleCancelSubscription() {
     cancelSubscription()
     .then(n => {
-      this.setState({ active: false })
+      this.setState({
+        enrolledPlan: null,
+        selectedPlan: this.state.plans[0],
+        editCC: false,
+        active: false
+      })
     })
   },
 
   render () {
 
     let cmp = this
-    // console.log('render', this)
+    console.log('render', this, this.state.plans)
+
+    var {active, valid_until, user, plans, error, selectedPlan, enrolledPlan} = this.state
+
+    enrolledPlan = enrolledPlan || {}
+
+    console.log('enrolledPlan', enrolledPlan)
 
     function wrap(el) {
       if (cmp.props.nowrap) { return el }
@@ -164,7 +195,7 @@ const Billing = React.createClass({
       )
     }
 
-    if (this.state.plans.length === 0) {
+    if (plans.length === 0) {
       return wrap(
         <div className="wrapper">
           Loading...
@@ -174,36 +205,45 @@ const Billing = React.createClass({
     let PlanSelector = (
       <div key="PlanSelector">
         <h3>Plan</h3>
-        { IF(
-          this.props.hideHeading && !this.state.active,
+        { branch(
+          !active,
+          () =>
           <div>
-            Subscription is not active.
-          </div>,
-          <div>
-            You are enrolled in the <strong>{UserStore.getPlanName()}</strong> until {moment(UserStore.getState().valid_until).format('MMM Do')}.
+            Upgrade your account to use our premium features.
           </div>
         )}
-        { this.state.plans.map( plan => IF(
-          this.state.active && this.state.selectedPlanCode === plan.id,
-          <div key={plan.id} className="selected-plan">
+        { plans.map( plan => branch(
+          enrolledPlan.id === plan.id,
+          () => <div key={plan.id} className="selected-plan" onClick={this.handlePlanClick.bind(cmp, plan.id )}>
             <label>
-              <input type="radio" className="radio" name="radio_button" value="radio_1" checked/> {plan.displayName}
+              <input type="radio" className="radio" name="radio_button" value="radio_1" checked={selectedPlan.id===plan.id}/> {plan.name}
+                <span className="pill">Enrolled!</span>
+            </label>
+          </div>,
+          selectedPlan.id === plan.id,
+          () => <div key={plan.id} className="billing-plan">
+            <label>
+              <input type="radio" className="radio" name="radio_button" value="radio_1" checked={selectedPlan.id===plan.id}/> {plan.name}
                 <span className="pill">Selected!</span>
             </label>
           </div>,
-          <div key={plan.id} className="billing-plan" onClick={this.handlePlanClick.bind(cmp, plan.id )}>
+          () => <div key={plan.id} className="billing-plan" onClick={this.handlePlanClick.bind(cmp, plan.id )}>
             <label>
-              <input type="radio" className="radio" name="radio_button" value="radio_2"/> {plan.displayName}
+              <input type="radio" className="radio" name="radio_button" value="radio_2"/> {plan.name}
             </label>
           </div>
         ))}
+        <br />
+        { branch(active && !this.state.editCC &&  selectedPlan.id !== enrolledPlan.id,
+          <input onClick={this.handleSave} disabled={this.state.saving} className="button" type="button" value="Switch Plan" />
+        )}
       </div>
     )
 
 
     return wrap(
        <div className="wrapper">
-          { IF(this.props.hideHeading,
+          { branch(this.props.hideHeading,
             undefined,
             <h2>You can upgrade or downgrade your plan at any time.</h2>)}
 
@@ -215,53 +255,65 @@ const Billing = React.createClass({
               <hr/>
               <div>
                 <h3><FontAwesome name='lock' /> Payment Details</h3>
-                <div style={{ display: this.state.error ? '' : 'none', color: 'red', backgroundColor: 'white', padding: 10, marginBottom: 10 }}>
-                  { this.state.error ? this.state.error.message : null }
+                <div style={{ display: error ? '' : 'none', color: 'red', backgroundColor: 'white', padding: 10, marginBottom: 10 }}>
+                  { error ? error.message : null }
                 </div>
-                <CreditCardForm ref="credit_card_form" handleSubmit={this.handleSave} />
-                <p>Your card will be charged ${this.state.selectedPlan.amount / 100}.00 on the {moment().format('Do')} of each month.</p>
+                {branch(
+                  this.state.cards.length > 0 && !this.state.editCC,
+                  () => <div>
+                    {this.state.cards[0].brand}
+                    <div>#### #### #### {this.state.cards[0].last4}</div>
+                    <div>Expires {this.state.cards[0].exp_month}/{this.state.cards[0].exp_year}</div>
+                    <button onClick={() => this.setState({ editCC: true })}>Edit Card</button>
+                  </div>,
+                  <CreditCardForm ref="credit_card_form" handleSubmit={this.handleSave} />
+                )}
               </div>
           </div>
 
-            <input onClick={this.handleSave} disabled={this.state.saving} className="button" type="button" value="Save and Finish" />
-            {IF(this.state.saving, <div>Saving....</div>, undefined)}
+            {branch(this.state.editCC, <input onClick={this.handleSave} disabled={this.state.saving} className="button" type="button" value="Save and finish" />)}
+            {branch(this.state.saving, <div>Saving....</div>, undefined)}
 
-            { IF(this.props.hideHeading && this.state.active,
+            {branch(active, () => <p>Your card will be charged ${selectedPlan.amount / 100}.00 on the {moment().format('Do')} of each month.</p>)}
+
+            { branch(this.props.hideHeading && this.state.active,
               <div>
                 <hr />
-                <label>Stop billing and unsubscribe from this service</label>
+                <label>Stop billing and unsubscribe from this service.</label>
                 <button className="button secondary" onClick={this.handleCancelSubscription}>Cancel Subscription</button>
+                <i>Your service will continue until {moment(valid_until).format('MMM Do')}.</i>
               </div>,
               undefined
             )}
           </div>
-          <div>
+          <div className="pricing-plan checkout">
 
-            <div className="pricing-plan checkout">
-              <p>{this.state.selectedPlan.displayName}</p>
-              <h3>${this.state.selectedPlan.amount / 100}/mo</h3>
+            {branch(!isBlank(selectedPlan), () => (
+            <div>
+              <p>{selectedPlan.name}</p>
+              <h3>${selectedPlan.amount / 100}/mo</h3>
                 <ul>
                   <li>
-                    { IF(
-                        this.state.selectedPlan.max_buckets === Number.POSITIVE_INFINITY,
+                    { branch(
+                        selectedPlan.max_buckets === Number.POSITIVE_INFINITY,
                         'Unlimited',
-                        this.state.selectedPlan.max_buckets )} Buckets</li>
+                        selectedPlan.max_buckets )} Buckets</li>
                   <li>
-                  { IF(
-                      this.state.selectedPlan.max_submissions_per_month === Number.POSITIVE_INFINITY,
+                  { branch(
+                      selectedPlan.max_submissions_per_month === Number.POSITIVE_INFINITY,
                       'Unlimited',
-                      this.state.selectedPlan.max_submissions_per_month )} Submissions</li>
+                      selectedPlan.max_submissions_per_month )} Submissions</li>
                   <li>Unlimited Custom Rules</li>
-                  { IF(this.state.selectedPlan.allow_csv_export,
+                  { branch(selectedPlan.allow_csv_export,
                     <li>CSV Export</li>,
                     <li><s>CSV Export</s></li>)
                    }
-                  {/* IF(this.state.selectedPlan.allow_file_uploads,
-                    <li>Up to {this.state.selectedPlan.max_submissions_mb}MB File Uploads</li>,
+                  {/* branch(selectedPlan.allow_file_uploads,
+                    <li>Up to {selectedPlan.max_submissions_mb}MB File Uploads</li>,
                     <li><s>File Uploads</s></li>)
                    */}
                 </ul>
-            </div>
+            </div>))}
 
           </div>
         </div>

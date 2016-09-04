@@ -15,7 +15,7 @@ import {
   requestUpdateUser,
   requestProfile,
   requestSubscribe,
-  unsubscribe
+  requestUnsubscribe
 } from './webutils'
 
 export function signUp(name, org, email, password, accepted, optedIn) {
@@ -197,32 +197,20 @@ export function loadSubmissionsByBucket(bucket_id, offset, limit, select) {
 
 export function subscribe(token, plan) {
   // console.log('subscribe', token, plan)
-  var p = new Promise( (resolve, reject) => {
-
-    requestSubscribe(token, plan)
-    .then(profile => {
-      dispatch('setProfile', profile)
-      resolve(profile)
-    })
-    .catch(error => reject(error))
-
+  return requestSubscribe(token, plan)
+  .then(profile => {
+    dispatch('setProfile', profile)
+    return Promise.resolve(profile)
   })
-
-  return p
+  .catch(error => Promise.reject(error))
 }
 
 export function cancelSubscription() {
   // console.log('cancelSubscription')
-  var p = new Promise( (resolve, reject) => {
-    // console.log('unsubscribe')
-    unsubscribe()
-    .then(profile => {
-      dispatch('cancelSubscription', profile)
-      resolve(profile)
-    })
-    .catch(error => reject(error))
-
+  return requestUnsubscribe()
+  .then(profile => {
+    dispatch('cancelSubscription', profile)
+    return Promise.resolve(profile)
   })
-
-  return p
+  .catch(error => Promise.reject(error))
 }

@@ -20,6 +20,7 @@ if (readExp() < moment().unix()) {
 
 const UserStore = createStore(
   {
+    getInitialState: () => {},
     setToken: (state, token) => {
       localStorage.setItem('token', token)
     },
@@ -27,7 +28,8 @@ const UserStore = createStore(
   }, // store does not support updates
   {
     isUserLoggedIn: (state) => readExp() > moment().unix(),
-    getPlanName: (state) => SubscriptionStore.getPlanByName(state.plan) ? SubscriptionStore.getPlanByName(state.plan).name : undefined
+    getPlan: (state) => '',
+    getPlanName: (state) => "Foo"
   }
 )
 
