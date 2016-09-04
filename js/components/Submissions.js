@@ -288,14 +288,14 @@ const Submissions = React.createClass({
       return wrap(headingText,
         <div>
           <div className="submissions-controls">
-            <div className="search-bar">
-              <input onKeyUp={(e) => branch(event.keyCode === 13, () => this.search())} ref="q" placeholder="Search all submissions..." />
-            </div>
             <div className="paging">
               {pager('top')}
             </div>
             <div className="submissions-actions">
               <div className="dropdown-container">
+                <div className="search-bar">
+                  <input onKeyUp={(e) => branch(event.keyCode === 13, () => this.search())} ref="q" placeholder="Search all submissions..." />
+                </div>
                 <ul className="dropdown-items">
                   <li className="dropdown-item dropdown-item-dropdown">
                     <a className="dropdown-trigger" href="#">Select</a>
@@ -328,7 +328,7 @@ const Submissions = React.createClass({
                 <div className="submission-container" style={{ backgroundColor: branch(this.state.selected.indexOf(submission.id) > -1, 'pink' : '')}} key={i}>
                   <div className="submission-heading">
                     <div className="meta">
-                      <h3>Submission #{ total - i } <span className="muted">was received on {submission.created_on.substring(0, 16).replace('T', ' at ')}</span></h3>
+                      <h3>Submission #{ total - offset - i } <span className="muted"> ({submission.created_on.substring(0, 16).replace('T', ' at ')})</span></h3>
                     </div>
                     <div class="actions">
                       <ul>

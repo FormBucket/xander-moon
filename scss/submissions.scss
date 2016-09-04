@@ -2,32 +2,21 @@
   @include outer-container;
   @include clearfix;
 
-  .search-bar {
-    @include span-columns(6);
-
-    @include media($phablet) {
-      @include span-columns(12);
-    }
+  .submissions-actions {
+    @include span-columns(12);
+    margin-bottom: $base-spacing;
   }
 
   .paging {
-    @include span-columns(6);
-    @include omega();
-    text-align: right;
+    @include span-columns(12);
 
     @include media($phablet) {
-      @include span-columns(12);
       text-align: center;
     }
 
     .showing-count {
       margin-right: $base-spacing;
     }
-  }
-
-  .submissions-actions {
-    @include span-columns(12);
-    margin-bottom: $base-spacing;
   }
 }
 
@@ -73,17 +62,39 @@
         color: darken($lightest-purple, 20%);
         font-weight: lighter;
       }
+
+      @include media($phablet) {
+        @include span-columns(12);
+        text-align: center;
+      }
     }
 
     .actions {
       @include span-columns(4);
       @include omega();
+
+      @include media($phablet) {
+        @include span-columns(12);
+        text-align: center;
+      }
+    }
+
+    ul {
+      margin-top: $base-spacing / 2;
+
+      @include media($phablet) {
+        text-align: center;
+      }
     }
 
     li {
       display: inline-block;
       float: right;
       margin-left: $base-spacing;
+
+      @include media($phablet) {
+        float: none;
+      }
     }
 
   }
@@ -107,6 +118,7 @@
 }
 
 .dropdown-container {
+  @include clearfix;
   background-color: white;
   border-radius: 3px;
   box-shadow: 0 1px 2px 0 rgba(153,153,153,0.35);
@@ -114,6 +126,25 @@
   border: 1px solid #eee;
   display: block;
   margin: 0 auto;
+
+  .search-bar {
+    @include span-columns(6);
+
+    @include media($phablet) {
+      @include span-columns(12);
+    }
+  }
+
+  .dropdown-items {
+    @include span-columns(6);
+    @include omega();
+    text-align: right;
+
+    @include media($phablet) {
+      @include span-columns(12);
+      text-align: center;
+    }
+  }
 }
 
 ul,
