@@ -328,7 +328,7 @@ const Submissions = React.createClass({
                 <div className="submission-container" style={{ backgroundColor: branch(this.state.selected.indexOf(submission.id) > -1, 'pink' : '')}} key={i}>
                   <div className="submission-heading">
                     <div className="meta">
-                      <h3>Submission #{ total - offset - i } <span className="muted">was received on {submission.created_on.substring(0, 16).replace('T', ' at ')}</span></h3>
+                      <h3>Submission #{ total - offset - i } <span className="muted">({submission.created_on.substring(0, 16).replace('T', ' at ')})</span></h3>
                     </div>
                     <div class="actions">
                       <ul>
