@@ -1,11 +1,34 @@
 .bucket-list {
-  border: 0;
-  border-radius: $base-border-radius;
-  background-color: white;
   margin-bottom: $base-spacing;
-  box-shadow: 0 1px 2px 0 rgba(153,153,153,0.35);
 
-  a {
+  .bucket-item {
+    @include clearfix;
+    @include card;
+    padding: $base-spacing;
+
+    .bucket-meta {
+      @include span-columns(8);
+
+      @include media($phablet) {
+        @include span-columns(12);
+        text-align: center;
+      }
+    }
+
+    .submission-count {
+      @include span-columns(4);
+      @include omega();
+      float: right;
+
+      button {
+        margin-top: $base-spacing / 2;
+        width: 100%;
+      }
+
+      @include media($phablet) {
+        @include span-columns(12);
+      }
+    }
   }
 }
 

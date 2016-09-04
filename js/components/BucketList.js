@@ -22,12 +22,14 @@ const Buckets = React.createClass({
             this.props.buckets.map(bucket => (
               <li key={bucket.id} >
                 <div className="bucket-item">
-                  <p onClick={() => this.props.select(bucket)}>
-                    <FontAwesome className="toggle-switch" name={branch(bucket.enabled, 'toggle-on', 'toggle-off')} />
-                    <span>
-                      { branch( isBlank(bucket.name), bucket.id, bucket.name ) }
-                    </span>
-                  </p>
+                  <div className="bucket-meta">
+                    <h3 onClick={() => this.props.select(bucket)}>
+                      <FontAwesome className="toggle-switch" name={branch(bucket.enabled, 'toggle-on', 'toggle-off')} />
+                      <span>
+                        { branch( isBlank(bucket.name), bucket.id, bucket.name ) }
+                      </span>
+                    </h3>
+                  </div>
                   <div className="submission-count">
                     <button className="secondary" onClick={ () => this.props.show(bucket) }>{bucket.submission_count} Submissions <FontAwesome name='chevron-right' /></button>
                   </div>
