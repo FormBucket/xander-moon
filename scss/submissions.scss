@@ -27,10 +27,7 @@
 
 .submission-container {
   @include clearfix;
-  background: white;
-  margin-bottom: $base-spacing;
-  border-radius: $base-border-radius;
-  box-shadow: 0 1px 2px 0 rgba(153,153,153,0.35);
+  @include card;
 
   p {
     @include span-columns(8);
@@ -119,11 +116,8 @@
 
 .dropdown-container {
   @include clearfix;
-  background-color: white;
-  border-radius: 3px;
-  box-shadow: 0 1px 2px 0 rgba(153,153,153,0.35);
-  padding: 1em;
-  border: 1px solid #eee;
+  @include card;
+  padding: $base-spacing;
   display: block;
   margin: 0 auto;
 

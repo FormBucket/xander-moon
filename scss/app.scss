@@ -15,7 +15,7 @@ a {
 .wrapper {
   @include clearfix;
   @include outer-container;
-  padding: 0 1rem;
+  padding: 0 $base-spacing;
 }
 
 header {

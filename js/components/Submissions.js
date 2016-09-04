@@ -252,7 +252,7 @@ const Submissions = React.createClass({
             <span className="showing-count">Showing {from}-{to} of {total}</span>
             <button className="secondary small" onClick={this.goBack} style={{
               cursor: branch(offset > 0, 'pointer', 'auto'),
-              marginRight: '1em',
+              marginRight: '0.5em',
               color: branch(offset > 0, color.enabled, color.disabled),
               borderColor: branch(offset > 0, color.enabled, color.disabled) }}>
               <FontAwesome name="chevron-left" />
