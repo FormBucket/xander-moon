@@ -37,7 +37,6 @@
 
     @include media($phablet) {
       @include span-columns(12);
-      text-align: center;
     }
   }
 
@@ -98,6 +97,10 @@
 
   .submission-body {
     padding: $base-spacing / 2;
+
+    @include media($phablet) {
+      text-align: left;
+    }
   }
 }
 
@@ -110,6 +113,7 @@
 
   .search-bar {
     @include span-columns(6);
+    margin-top: $base-spacing / 2;
 
     @include media($phablet) {
       @include span-columns(12);
@@ -119,6 +123,7 @@
   .dropdown-items {
     @include span-columns(6);
     @include omega();
+    margin-top: $base-spacing / 1.5;
     text-align: right;
 
     @include media($phablet) {
