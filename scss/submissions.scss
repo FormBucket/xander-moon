@@ -21,7 +21,6 @@
     @include span-columns(8);
     margin-top: $base-spacing / 2;
     text-align: left;
-    cursor: pointer;
 
     @include media($phablet) {
       @include span-columns(12);

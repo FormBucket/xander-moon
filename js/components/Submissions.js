@@ -325,21 +325,11 @@ const Submissions = React.createClass({
           </div>
           <ul className="submissions-list">
             {this.state.submissions.map( (submission, i) => (
-              <li key={submission.id} onClick={() => this.handleSelect(submission)} >
-                <div className="submission-container" style={{ backgroundColor: branch(this.state.selected.indexOf(submission.id) > -1, 'pink' : '')}} key={i}>
+              <li key={submission.id} >
+                <div className="submission-container" style={{ backgroundColor: branch( this.state.selected.indexOf(submission.id) > -1, 'pink' : '')}} key={i}>
                   <div className="submission-heading">
                     <div className="meta">
-                      <h3>Submission #{ total - offset - i } <span className="muted">({submission.created_on.substring(0, 16).replace('T', ' at ')})</span></h3>
-                    </div>
-                    <div class="actions">
-                      <ul>
-                        <li>
-                          <a onClick={(e) => this.handleDelete(e, submission)}><FontAwesome name="trash-o" /> Delete</a>
-                        </li>
-                        <li>
-                          { branch(submission.spam, <a onClick={(e) => this.handleMarkSpam(e, submission, false)}><FontAwesome name="smile-o" /> Not Spam</a>, <a onClick={(e) => this.handleMarkSpam(e, submission)}><FontAwesome name="ban" /> Spam</a>)}
-                        </li>
-                      </ul>
+                      <h3><input onClick={() => this.handleSelect(submission)} checked={this.state.selected.indexOf(submission.id) > -1} type="checkbox" /> Submission #{ total - offset - i } <span className="muted">({submission.created_on.substring(0, 16).replace('T', ' at ')})</span></h3>
                     </div>
                   </div>
                   <div className="submission-body">
