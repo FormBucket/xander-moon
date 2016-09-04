@@ -260,7 +260,8 @@ const Submissions = React.createClass({
 
             <button className="secondary small" onClick={this.goForward} style={{
               cursor: branch(to < total, 'pointer', 'auto'),
-              color: branch(offset + limit < total, color.enabled, color.disabled) }}>
+              color: branch(offset + limit < total, color.enabled, color.disabled),
+              borderColor: branch((offset + limit < total, color.enabled, color.disabled) }}>
               <FontAwesome name="chevron-right" />
             </button>
             {'    '}
