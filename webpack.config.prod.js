@@ -2,11 +2,13 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
+let load = (module) => ['whatwg-fetch', './js/' + module]
+
 module.exports = {
   entry: {
-    formbucket: './js/index',
-    nav: './js/nav',
-    styles: './js/styles'
+    formbucket: load('index'),
+    nav: load('nav'),
+    styles: load('styles')
   },
   externals: {
     'highlight.js': 'hljs',

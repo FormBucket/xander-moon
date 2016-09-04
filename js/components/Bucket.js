@@ -14,7 +14,7 @@ import RichTextEditor from 'react-rte';
 
 function makeHTMLForm(id, honey_pot_on, honey_pot_field) {
   return (`<form action="https://api.formbucket.com/f/${id}" method="post">
-  <input type="text" name="example" placeholder="Example" />${honey_pot_on ? `\n  <input type="hidden" name="${isEmpty(honey_pot_field) ? '__bucket_trap__' : honey_pot_field }" value="" />` : ''}
+  <input type="text" name="example" placeholder="Example" />${honey_pot_on ? `\n  <input type="text" name="${isEmpty(honey_pot_field) ? '__bucket_trap__' : honey_pot_field }" value="" style="display: none" />` : ''}
   <button type="submit">Submit</button>
 </form>`)
 }
