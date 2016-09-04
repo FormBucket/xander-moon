@@ -295,19 +295,39 @@ const Submissions = React.createClass({
               {pager('top')}
             </div>
             <div className="submissions-actions">
-              <ul>
-                <li><a className="secondary" onClick={() => this.setState({ selected: this.state.submissions.map(d => d.id) })}>Select All</a></li>
-                <li><a className="secondary" onClick={() => this.setState({ selected: [] })}>Select None</a></li>
-                <li><a className="secondary" onClick={this.handleDeleteSelected}>Delete Selected</a></li>
-                <li><a className="secondary" onClick={this.handleMarkSelectedSpam}>Mark Spam</a></li>
-              </ul>
+              <div className="nav-container">
+                <ul className="nav-items">
+                  <li className="nav-item nav-item-dropdown">
+                    <a className="dropdown-trigger" href="#">Select</a>
+                    <ul className="dropdown-menu">
+                      <a onClick={() => this.setState({ selected: this.state.submissions.map(d => d.id) })}>
+                        <li className="dropdown-menu-item">
+                          All
+                        </li>
+                      </a>
+                      <a onClick={() => this.setState({ selected: [] })}>
+                        <li className="dropdown-menu-item">
+                          None
+                        </li>
+                      </a>
+                    </ul>
+                  </li>
+                  <a onClick={this.handleDeleteSelected}>
+                    <li className="nav-item"><FontAwesome name="trash-o" /> Delete</li>
+                  </a>
+                  <a onClick={this.handleMarkSelectedSpam}>
+                    <li className="nav-item"><FontAwesome name="ban" /> Mark Spam</li>
+                  </a>
+                 </ul>
+              </div>
             </div>
           </div>
           <ul className="bucket-list">
             {this.state.submissions.map( (submission, i) => (
               <li key={submission.id} onClick={() => this.handleSelect(submission)} >
                 <div className="bucket-item" style={{ backgroundColor: branch(this.state.selected.indexOf(submission.id) > -1, 'pink' : '')}} key={i}>
-                  <span>Submitted {submission.created_on.substring(0, 16).replace('T', ' at ')}</span>
+                  <h3>Submission #{offset + i + 1}</h3>
+                  <span>Received {submission.created_on.substring(0, 16).replace('T', ' at ')}</span>
                   {Object.keys(submission.data).map( (key, j) => (
                     <div key={i + '|' + j}>
                       <strong>{key}</strong>
