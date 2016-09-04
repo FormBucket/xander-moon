@@ -356,7 +356,7 @@ const Submissions = React.createClass({
               </li>
             ))}
           </ul>
-          <div>
+          <div className="paging">
             {pager('bottom')}
           </div>
         </div>

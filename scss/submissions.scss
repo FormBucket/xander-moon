@@ -6,18 +6,6 @@
     @include span-columns(12);
     margin-bottom: $base-spacing;
   }
-
-  .paging {
-    @include span-columns(12);
-
-    @include media($phablet) {
-      text-align: center;
-    }
-
-    .showing-count {
-      margin-right: $base-spacing;
-    }
-  }
 }
 
 .submissions-list {
@@ -210,4 +198,16 @@ a {
 
 @include media($phablet) {
   text-align: center;
+}
+
+.paging {
+  @include span-columns(12);
+
+  @include media($phablet) {
+    text-align: center;
+  }
+
+  .showing-count {
+    margin-right: $base-spacing / 2;
+  }
 }
