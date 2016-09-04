@@ -322,21 +322,27 @@ const Submissions = React.createClass({
               </div>
             </div>
           </div>
-          <ul className="bucket-list">
+          <ul className="submissions-list">
             {this.state.submissions.map( (submission, i) => (
               <li key={submission.id} onClick={() => this.handleSelect(submission)} >
-                <div className="bucket-item" style={{ backgroundColor: branch(this.state.selected.indexOf(submission.id) > -1, 'pink' : '')}} key={i}>
-                  <h3>Submission #{offset + i + 1}</h3>
-                  <span>Received {submission.created_on.substring(0, 16).replace('T', ' at ')}</span>
-                  {Object.keys(submission.data).map( (key, j) => (
-                    <div key={i + '|' + j}>
-                      <strong>{key}</strong>
-                      <span>: {submission.data[key].toString()}</span>
-                    </div>
-                  ))}
-                  <button className="secondary" onClick={(e) => this.handleDelete(e, submission)}>Delete</button><br/><br/>
-                  { branch(submission.spam, <button className="secondary" onClick={(e) => this.handleMarkSpam(e, submission, false)}><FontAwesome name="smile-o" /> Not spam</button>, <button className="secondary" onClick={(e) => this.handleMarkSpam(e, submission)}><FontAwesome name="frown-o" /> spam</button>)}
-                  {' '}{submission.id}
+                <div className="submission-container" style={{ backgroundColor: branch(this.state.selected.indexOf(submission.id) > -1, 'pink' : '')}} key={i}>
+                  <div className="submission-heading">
+                    <h3>Submission #{ total - i }</h3>
+                    <p>Received on {submission.created_on.substring(0, 16).replace('T', ' at ')}</p>
+                  </div>
+                  <div className="submission-body">
+                    {Object.keys(submission.data).map( (key, j) => (
+                      <div key={i + '|' + j}>
+                        <p>
+                          <strong>{key}</strong>
+                          : {submission.data[key].toString()}
+                        </p>
+                      </div>
+                    ))}
+                    <button className="secondary small" onClick={(e) => this.handleDelete(e, submission)}>Delete</button><br/><br/>
+                    { branch(submission.spam, <button className="secondary small" onClick={(e) => this.handleMarkSpam(e, submission, false)}><FontAwesome name="smile-o" /> Not spam</button>, <button className="secondary small" onClick={(e) => this.handleMarkSpam(e, submission)}><FontAwesome name="frown-o" /> spam</button>)}
+                    {' '}{submission.id}
+                  </div>
                 </div>
               </li>
             ))}

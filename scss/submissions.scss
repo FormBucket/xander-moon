@@ -119,3 +119,56 @@
     }
   }
 }
+
+.submissions-list {
+  border: none;
+  margin-bottom: $base-spacing;
+}
+
+.submission-container {
+  @include clearfix;
+  background: white;
+  margin-bottom: $base-spacing;
+  border-radius: $base-border-radius;
+  box-shadow: 0 1px 2px 0 rgba(153,153,153,0.35);
+
+  p {
+    @include span-columns(8);
+    margin-top: $base-spacing / 2;
+    text-align: left;
+    cursor: pointer;
+
+    @include media($phablet) {
+      @include span-columns(12);
+      text-align: center;
+    }
+  }
+
+  .submission-heading {
+    @include clearfix;
+    border-bottom: 1px solid $lightest-purple;
+    padding: $base-spacing / 2;
+
+    h3, p {
+      padding: 0;
+      line-height: 0;
+    }
+  }
+
+  .submission-body {
+    padding: $base-spacing / 2;
+  }
+
+  .submission-count {
+    @include span-columns(4);
+    float: right;
+
+    button {
+      width: 100%;
+    }
+
+      @include media($phablet) {
+        width: 100%;
+      }
+  }
+}
