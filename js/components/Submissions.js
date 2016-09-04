@@ -295,9 +295,9 @@ const Submissions = React.createClass({
               {pager('top')}
             </div>
             <div className="submissions-actions">
-              <div className="nav-container">
-                <ul className="nav-items">
-                  <li className="nav-item nav-item-dropdown">
+              <div className="dropdown-container">
+                <ul className="dropdown-items">
+                  <li className="dropdown-item dropdown-item-dropdown">
                     <a className="dropdown-trigger" href="#">Select</a>
                     <ul className="dropdown-menu">
                       <a onClick={() => this.setState({ selected: this.state.submissions.map(d => d.id) })}>
@@ -313,10 +313,10 @@ const Submissions = React.createClass({
                     </ul>
                   </li>
                   <a onClick={this.handleDeleteSelected}>
-                    <li className="nav-item"><FontAwesome name="trash-o" /> Delete</li>
+                    <li className="dropdown-item"><FontAwesome name="trash-o" /> Delete</li>
                   </a>
                   <a onClick={this.handleMarkSelectedSpam}>
-                    <li className="nav-item"><FontAwesome name="ban" /> Mark Spam</li>
+                    <li className="dropdown-item"><FontAwesome name="ban" /> Mark Spam</li>
                   </a>
                  </ul>
               </div>
@@ -327,8 +327,19 @@ const Submissions = React.createClass({
               <li key={submission.id} onClick={() => this.handleSelect(submission)} >
                 <div className="submission-container" style={{ backgroundColor: branch(this.state.selected.indexOf(submission.id) > -1, 'pink' : '')}} key={i}>
                   <div className="submission-heading">
-                    <h3>Submission #{ total - i }</h3>
-                    <p>Received on {submission.created_on.substring(0, 16).replace('T', ' at ')}</p>
+                    <div className="meta">
+                      <h3>Submission #{ total - i } <span className="muted">was received on {submission.created_on.substring(0, 16).replace('T', ' at ')}</span></h3>
+                    </div>
+                    <div class="actions">
+                      <ul>
+                        <li>
+                          <a onClick={(e) => this.handleDelete(e, submission)}><FontAwesome name="trash-o" /> Delete</a>
+                        </li>
+                        <li>
+                          { branch(submission.spam, <a onClick={(e) => this.handleMarkSpam(e, submission, false)}><FontAwesome name="smile-o" /> Not Spam</a>, <a onClick={(e) => this.handleMarkSpam(e, submission)}><FontAwesome name="ban" /> Spam</a>)}
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                   <div className="submission-body">
                     {Object.keys(submission.data).map( (key, j) => (
@@ -339,9 +350,6 @@ const Submissions = React.createClass({
                         </p>
                       </div>
                     ))}
-                    <button className="secondary small" onClick={(e) => this.handleDelete(e, submission)}>Delete</button><br/><br/>
-                    { branch(submission.spam, <button className="secondary small" onClick={(e) => this.handleMarkSpam(e, submission, false)}><FontAwesome name="smile-o" /> Not spam</button>, <button className="secondary small" onClick={(e) => this.handleMarkSpam(e, submission)}><FontAwesome name="frown-o" /> spam</button>)}
-                    {' '}{submission.id}
                   </div>
                 </div>
               </li>

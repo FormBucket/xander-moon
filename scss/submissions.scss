@@ -28,95 +28,6 @@
   .submissions-actions {
     @include span-columns(12);
     margin-bottom: $base-spacing;
-
-    .nav-container {
-      background-color: white;
-      border-radius: 3px;
-      box-shadow: 0 1px 2px 0 rgba(153,153,153,0.35);
-      padding: 1em;
-      border: 1px solid #eee;
-      display: block;
-      margin: 0 auto;
-    }
-
-    ul,
-    li {
-      list-style: none;
-      -webkit-padding-start: 0;
-    }
-
-    a {
-      text-decoration: none;
-      border: none;
-    }
-
-    //Navigation menu
-    .nav-item {
-      padding: $base-spacing;
-      display: inline;
-    }
-
-
-    //Dropdown menu
-    .nav-item-dropdown {
-      position: relative;
-
-      &:hover > .dropdown-menu {
-        display: block;
-        opacity: 1;
-      }
-    }
-
-    .dropdown-trigger {
-      position: relative;
-
-      &:focus + .dropdown-menu {
-        display: block;
-        opacity: 1;
-      }
-
-      &::after {
-        content: "›";
-        position: absolute;
-        font-size: 1.25em;
-        font-weight: bold;
-        transform: rotate(90deg);
-        top: -5px;
-        right: -15px;
-      }
-    }
-
-    .dropdown-menu {
-      background-color: white;
-      border: 1px solid $lightest-purple;
-      display: inline-block;
-      text-align: right;
-      position: absolute;
-      top: 2.5rem;
-      right: -10px;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      width: 100px;
-
-      a {
-        color: $purple;
-      }
-    }
-
-    .dropdown-menu-item {
-      padding: $base-spacing / 2;
-      text-align: center;
-
-      &:hover {
-        background-color: darken($lightest-purple, 5%);
-        cursor: pointer;
-      }
-    }
-
-    @include media($phablet) {
-      text-align: center;
-    }
   }
 }
 
@@ -146,13 +57,35 @@
 
   .submission-heading {
     @include clearfix;
+    @include span-columns(12);
     border-bottom: 1px solid $lightest-purple;
     padding: $base-spacing / 2;
 
-    h3, p {
-      padding: 0;
-      line-height: 0;
+    .meta {
+      @include span-columns(8);
+
+      h3, p {
+        padding: 0;
+        line-height: 100%;
+      }
+
+      .muted {
+        color: darken($lightest-purple, 20%);
+        font-weight: lighter;
+      }
     }
+
+    .actions {
+      @include span-columns(4);
+      @include omega();
+    }
+
+    li {
+      display: inline-block;
+      float: right;
+      margin-left: $base-spacing;
+    }
+
   }
 
   .submission-body {
@@ -171,4 +104,93 @@
         width: 100%;
       }
   }
+}
+
+.dropdown-container {
+  background-color: white;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px 0 rgba(153,153,153,0.35);
+  padding: 1em;
+  border: 1px solid #eee;
+  display: block;
+  margin: 0 auto;
+}
+
+ul,
+li {
+  list-style: none;
+  -webkit-padding-start: 0;
+}
+
+a {
+  text-decoration: none;
+  border: none;
+}
+
+//dropdown menu
+.dropdown-item {
+  padding: $base-spacing;
+  display: inline;
+}
+
+
+//Dropdown menu
+.dropdown-item-dropdown {
+  position: relative;
+
+  &:hover > .dropdown-menu {
+    display: block;
+    opacity: 1;
+  }
+}
+
+.dropdown-trigger {
+  position: relative;
+
+  &:focus + .dropdown-menu {
+    display: block;
+    opacity: 1;
+  }
+
+  &::after {
+    content: "›";
+    position: absolute;
+    font-size: 1.25em;
+    font-weight: bold;
+    transform: rotate(90deg);
+    top: -5px;
+    right: -15px;
+  }
+}
+
+.dropdown-menu {
+  background-color: white;
+  border: 1px solid $lightest-purple;
+  display: inline-block;
+  text-align: right;
+  position: absolute;
+  top: 2.5rem;
+  right: -10px;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  width: 100px;
+
+  a {
+    color: $purple;
+  }
+}
+
+.dropdown-menu-item {
+  padding: $base-spacing / 2;
+  text-align: center;
+
+  &:hover {
+    background-color: darken($lightest-purple, 5%);
+    cursor: pointer;
+  }
+}
+
+@include media($phablet) {
+  text-align: center;
 }
