@@ -12,6 +12,8 @@ import Signup from './components/Signup'
 import Subscribe from './components/Subscribe'
 import Login from './components/Login'
 import Buckets from './components/Buckets'
+import Logs from './components/Logs'
+import Log from './components/Log'
 import AccountProfile from './components/AccountProfile'
 import AccountBilling from './components/AccountBilling'
 import Bucket from './components/Bucket'
@@ -40,6 +42,8 @@ render((
       <Route path="buckets/:id/submissions" component={Submissions} />
       <Route path="buckets/:id/submissions/:mode/:offset/:limit/:select" component={Submissions} />
       <Route path="password_reset" component={PasswordReset} />
+      <Route path="logs" component={Logs} />
+      <Route path="logs/:log_id" component={Log} />
       <Route path="admin/users_report" component={UsersReport} />
       <Route path="admin/user_report/:user_id" component={UserReport} />
       <Route path="*" component={PageNotFound} />

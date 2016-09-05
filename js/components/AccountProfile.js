@@ -115,6 +115,12 @@ const Account = React.createClass({
                 </div>
               </p>
               <p>
+                <a onClick={() => {
+                    this.props.history.push('/logs');
+                  } }>View Logs
+                </a>
+              </p>
+              <p>
                 <a className="danger" onClick={this.handleDeleteAccount}>Destroy Account Forever</a>
               </p>
             </div>

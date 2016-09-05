@@ -115,7 +115,7 @@ export function requestSubscriptionPlans() {
 
 // Send server request to get user`s submissions
 export function requestSubmissionsByBucket(bucket_id, offset, limit, select, q){
-  return getJSON( `${apiRoot}/buckets/${bucket_id}/submissions/${+offset}/${+limit}/${select}.json?${q ? `q=${q}` : null }` )
+  return getJSON( `${apiRoot}/buckets/${bucket_id}/submissions/${+offset}/${+limit}/${select}.json${q ? `?q=${q}` : '' }` )
 }
 
 // Send server request to get download key
@@ -196,4 +196,12 @@ export function requestUserCount() {
 
 export function requestUsersBuckets(user_id) {
   return getJSON(`${apiRoot}/user/${user_id}/buckets.json` )
+}
+
+export function requestLogs(){
+  return getJSON( `${apiRoot}/log_entries.json`)
+}
+
+export function requestLog(log_id){
+  return getJSON( `${apiRoot}/log_entries/${log_id}.json`)
 }
