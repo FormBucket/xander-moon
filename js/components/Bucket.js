@@ -184,20 +184,22 @@ const NewBucket = React.createClass({
                 </span>
               </div>
             </div>
-            <h3>Notifications</h3>
-            <label>
-              <input type="radio" onChange={() => this.setState({ email_to: false })}  checked={ this.state.email_to === false } />
-              Do not send notifications
-            </label>
-            <label>
-              <input type="radio" onClick={() => this.setState({ email_to: true })} checked={ this.state.email_to === true } />
-              Send notifications to {this.state.user.email}
-            </label>
-            <label>
-              <input type="radio" onClick={() => this.setState({ email_to: '' + this.refs.additionalEmails.value })} checked={ typeof this.state.email_to === 'string' }/>
-              Send notifications to:
-              <textarea disabled={typeof this.state.email_to === 'string' ? false : true} className="cc-emails" ref="additionalEmails" placeholder="Separate addresses by comma" onChange={(e) => this.setState({ email_to: e.target.value })} defaultValue={ typeof this.state.email_to === 'string' ? this.state.email_to : '' }></textarea>
-            </label>
+            <div className="section">
+              <h3>Notifications</h3>
+              <label>
+                <input type="radio" onChange={() => this.setState({ email_to: false })}  checked={ this.state.email_to === false } />
+                Do not send notifications
+              </label>
+              <label>
+                <input type="radio" onClick={() => this.setState({ email_to: true })} checked={ this.state.email_to === true } />
+                Send notifications to {this.state.user.email}
+              </label>
+              <label>
+                <input type="radio" onClick={() => this.setState({ email_to: '' + this.refs.additionalEmails.value })} checked={ typeof this.state.email_to === 'string' }/>
+                Send notifications to:
+                <textarea disabled={typeof this.state.email_to === 'string' ? false : true} className="cc-emails" ref="additionalEmails" placeholder="Separate addresses by comma" onChange={(e) => this.setState({ email_to: e.target.value })} defaultValue={ typeof this.state.email_to === 'string' ? this.state.email_to : '' }></textarea>
+              </label>
+            </div>
             <div className="section">
               <h3>Security</h3>
 
@@ -224,8 +226,6 @@ const NewBucket = React.createClass({
                 <input id="recaptchaEnabled" type="checkbox" onClick={(event) => this.setState({ recaptcha_on: event.target.checked }) } checked={this.state.recaptcha_on} />
                 <div className="checkbox"></div>
               </label>
-              <br />
-              <br />
               {
                 branch( this.state.recaptcha_on,
                   <div>
@@ -241,9 +241,7 @@ const NewBucket = React.createClass({
                   </div>
                 )
               }
-
             </div>
-
             <input type="button" className="button" onClick={this.onSave} value="Save Settings" />
           </div>
           <div className="bucket-preview">

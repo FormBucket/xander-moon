@@ -5,6 +5,10 @@
   .submissions-actions {
     @include span-columns(12);
     margin-bottom: $base-spacing;
+    padding: $base-spacing;
+    background: $lightest-purple;
+    border-radius: $base-border-radius;
+    border: 1px solid darken($lightest-purple, 5%);
   }
 }
 
@@ -83,7 +87,7 @@
   }
 
   .submission-body {
-    padding: $base-spacing / 2;
+    padding: $base-spacing / 2 $base-spacing * 1.5;
 
     @include media($phablet) {
       text-align: left;
@@ -93,8 +97,6 @@
 
 .dropdown-container {
   @include clearfix;
-  @include card;
-  padding: $base-spacing / 2;
   display: block;
   margin: 0 auto;
 
@@ -201,6 +203,7 @@ a {
 
 .paging {
   @include span-columns(12);
+  text-align: left;
 
   @include media($phablet) {
     text-align: center;

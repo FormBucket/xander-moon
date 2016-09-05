@@ -290,10 +290,10 @@ const Submissions = React.createClass({
       return wrap(headingText,
         <div>
           <div className="submissions-controls">
-            <div className="paging">
-              {pager('top')}
-            </div>
             <div className="submissions-actions">
+              <div className="paging">
+                {pager('top')}
+              </div>
               <div className="dropdown-container">
                 <div className="search-bar">
                   <input onKeyUp={(e) => branch(event.keyCode === 13, () => this.search())} ref="q" placeholder="Search all submissions..." />
@@ -318,7 +318,7 @@ const Submissions = React.createClass({
                     <li className="dropdown-item"><FontAwesome name="trash-o" /> Delete</li>
                   </a>
                   <a onClick={this.handleMarkSelectedSpam}>
-                    <li className="dropdown-item"><FontAwesome name="ban" /> Mark Spam</li>
+                    <li className="dropdown-item"><FontAwesome name="ban" /> Spam</li>
                   </a>
                  </ul>
               </div>
