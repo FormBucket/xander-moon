@@ -312,6 +312,11 @@ header.navigation {
     padding: 0;
     line-height: 6rem;
 
+    @include media($tablet) {
+      font-size: $base-font-size * 1.5;
+      font-weight: 400;
+    }
+
     @include media($phablet) {
       font-size: $base-font-size * 1.25;
       font-weight: 400;
