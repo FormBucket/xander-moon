@@ -267,6 +267,8 @@ const NewBucket = React.createClass({
                   />
               </div>
             </div>
+          </div>
+          <div className="bucket-preview">
             <p>
               <a href="javascript:void(0)" onClick={this.onDownloadCSV} >
                 Export all Submissions to CSV
