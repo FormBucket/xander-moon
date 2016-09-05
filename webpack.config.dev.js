@@ -6,15 +6,6 @@ let load = (module) => ['webpack-hot-middleware/client', './js/' + module]
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
-  externals: {
-    'highlight.js': 'hljs',
-    'history': 'History',
-    'react-router': 'ReactRouter',
-    'react': 'React',
-    'react-dom': 'ReactDOM',
-    'remarkable': 'Remarkable',
-    'moment': 'moment'
-  },
   entry: {
     formbucket: load('index'),
     nav: load('nav'),
@@ -31,7 +22,6 @@ module.exports = {
         'NODE_ENV': JSON.stringify('development'),
         // 'FORMBUCKET_API_SERVER': JSON.stringify('http://localhost:3002')
         'FORMBUCKET_API_SERVER': JSON.stringify('https://api-dev.formbucket.com')
-        // 'FORM  BUCKET_API_SERVER': JSON.stringify('https://api.formbucket.com')
       }
     }),
     new webpack.HotModuleReplacementPlugin(),

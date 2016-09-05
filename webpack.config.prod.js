@@ -2,7 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-let load = (module) => ['whatwg-fetch', './js/' + module]
+let load = (module) => ['es6-promise', 'whatwg-fetch', './js/' + module]
 
 module.exports = {
   entry: {
@@ -13,12 +13,11 @@ module.exports = {
   externals: {
     'highlight.js': 'hljs',
     'history': 'History',
+    'moment': 'moment',
     'react-router': 'ReactRouter',
     'react': 'React',
     'react-dom': 'ReactDOM',
-    'react-renpm markable': 'ReactRemarkable',
-    'remarkable': 'Remarkable',
-    'moment': 'moment'
+    'remarkable': 'Remarkable'
   },
   output: {
     path: path.join(__dirname, 'public', 'assets'),
