@@ -200,7 +200,7 @@ const NewBucket = React.createClass({
                 <textarea disabled={typeof this.state.email_to === 'string' ? false : true} className="cc-emails" ref="additionalEmails" placeholder="Separate addresses by comma" onChange={(e) => this.setState({ email_to: e.target.value })} defaultValue={ typeof this.state.email_to === 'string' ? this.state.email_to : '' }></textarea>
               </label>
             </div>
-
+            <div className="section">
               <h3>Security</h3>
 
               <label htmlFor="honeyPotEnabled" className="label-switch">
@@ -241,7 +241,7 @@ const NewBucket = React.createClass({
                   </div>
                 )
               }
-
+            </div>
             <input type="button" className="button" onClick={this.onSave} value="Save Settings" />
           </div>
           <div className="bucket-preview">

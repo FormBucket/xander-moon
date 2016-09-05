@@ -1,7 +1,5 @@
 .bucket-details {
-  @include span-columns(8);
-  @include card;
-  padding: $base-spacing / 2 $base-spacing;
+  @include span-columns(7);
 
   @include media($phablet) {
     @include span-columns(12);
@@ -119,8 +117,10 @@
 }
 
 .bucket-preview {
-  @include span-columns(4);
+  @include span-columns(5);
   @include omega();
+  @include card;
+  padding: $base-spacing / 2 $base-spacing;
 
   .quick-use {
     padding: 0 $base-spacing;
