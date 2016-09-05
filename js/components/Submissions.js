@@ -8,6 +8,7 @@ import BucketStore from '../stores/buckets'
 import SubmissionsStore from '../stores/submissions'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
+import {run} from 'formula'
 //import DownloadLink from 'react-download-link'
 
 let color = {
@@ -34,7 +35,9 @@ const Submissions = React.createClass({
   getInitialState () {
     return {
       submissions: undefined,
+      showAll: false,
       selected: [],
+      expanded: [],
       loaded: false,
       loading: false
     }
@@ -60,7 +63,9 @@ const Submissions = React.createClass({
       bucket: values[0],
       total: values[1].total,
       submissions: values[1].items,
-      first_load: false
+      expanded: this.state.showAll ? values[1].map(d => d.id) : [],
+      first_load: false,
+      submission_line_formula: values[0].submission_line_formula ? values[0].submission_line_formula : `"Submission # " & count`
     }))
     .catch(error => this.setState({ error: error }))
 
@@ -131,11 +136,21 @@ const Submissions = React.createClass({
 
   },
 
-  handleSelect(submission) {
+  handleSelect(event, submission) {
+    event.stopPropagation()
     if (this.state.selected.indexOf(submission.id) > -1) {
       this.setState({ selected: this.state.selected.filter(d => d !== submission.id )})
     } else {
       this.setState({ selected: this.state.selected.concat([submission.id])})
+    }
+  },
+
+  handleExpand(event, submission) {
+    event.stopPropagation()
+    if (this.state.expanded.indexOf(submission.id) > -1) {
+      this.setState({ expanded: this.state.expanded.filter(d => d !== submission.id )})
+    } else {
+      this.setState({ expanded: this.state.expanded.concat([submission.id])})
     }
   },
 
@@ -314,6 +329,14 @@ const Submissions = React.createClass({
                       </a>
                     </ul>
                   </li>
+                    {branch(this.state.showAll,
+                      <a onClick={() => this.setState({ showAll: false, expanded: [] })}>
+                        <li className="dropdown-item"><FontAwesome name="compress" /> Collapse</li>
+                      </a>,
+                      <a onClick={() => this.setState({ showAll: true, expanded: this.state.submissions.map(d => d.id) })}>
+                        <li className="dropdown-item"><FontAwesome name="expand" /> Expand</li>
+                      </a>
+                    )}
                   <a onClick={this.handleDeleteSelected}>
                     <li className="dropdown-item"><FontAwesome name="trash-o" /> Delete</li>
                   </a>
@@ -327,13 +350,18 @@ const Submissions = React.createClass({
           <ul className="submissions-list">
             {this.state.submissions.map( (submission, i) => (
               <li key={submission.id} >
-                <div className="submission-container" style={{ backgroundColor: branch( this.state.selected.indexOf(submission.id) > -1, 'pink' : '')}} key={i}>
+                <div className={ branch( this.state.selected.indexOf(submission.id) > -1, "submission-container submission-selected", "submission-container") } key={i}>
                   <div className="submission-heading">
                     <div className="meta">
-                      <h3><input onClick={() => this.handleSelect(submission)} checked={this.state.selected.indexOf(submission.id) > -1} type="checkbox" /> Submission #{ total - offset - i } <span className="muted">({branch( moment(submission.created_on).isSame(moment(), 'day'), moment(submission.created_on).format("hh:mm a"), moment(submission.created_on).format("MMM DD hh:mm a") )})</span></h3>
+                      <h3 onClick={(event) => this.handleExpand(event, submission)}>
+                        <input onClick={(event) => this.handleSelect(event, submission)} checked={this.state.selected.indexOf(submission.id) > -1} type="checkbox" />
+                        {run(this.state.submission_line_formula, Object.assign({}, submission.data, { count: total - offset - i }))}
+                        <FontAwesome name={branch(this.state.expanded.indexOf(submission.id) > -1, "angle-double-up", "angle-double-down")} />
+                        <span className="submission-ts">({branch( moment(submission.created_on).isSame(moment(), 'day'), moment(submission.created_on).format("hh:mm a"), moment(submission.created_on).format("MMM DD hh:mm a") )})</span>
+                    </h3>
                     </div>
                   </div>
-                  <div className="submission-body">
+                  <div className="submission-body" style={ branch(this.state.expanded.indexOf(submission.id) > -1, {}, { display: 'none' }) }>
                     {Object.keys(submission.data).map( (key, j) => (
                       <div key={i + '|' + j}>
                         <p>

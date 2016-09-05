@@ -38,16 +38,22 @@
     padding: $base-spacing / 2;
 
     .meta {
-      @include span-columns(8);
 
       h3, p {
+        cursor: pointer;
         padding: 0;
         line-height: 100%;
-      }
 
-      .muted {
-        color: darken($lightest-purple, 20%);
-        font-weight: lighter;
+        .submission-ts {
+          float: right;
+          color: darken($lightest-purple, 20%);
+          font-weight: lighter;
+        }
+
+        .fa-angle-double-up, .fa-angle-double-down {
+          float: right;
+          margin-left: 10px;
+        }
       }
 
       @include media($phablet) {
@@ -93,6 +99,12 @@
       text-align: left;
     }
   }
+
+
+}
+
+.submission-selected {
+  background-color: #fffedb;
 }
 
 .dropdown-container {

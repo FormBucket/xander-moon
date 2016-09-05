@@ -53,10 +53,12 @@
   "dependencies": {
     "es6-promise": "^3.2.1",
     "fluxury": "^2.0.0",
+    "formula": "^1.0.1",
     "functionfoundry": "^0.10.24",
     "koa-front-matter-views": "^2.0.5",
     "moment": "^2.14.1",
     "react": "^15.3.1",
+    "react-codemirror": "^0.2.6",
     "react-dom": "^15.3.1",
     "react-fontawesome": "^1.1.0",
     "react-remarkable": "^1.1.1",
