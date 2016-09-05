@@ -20,6 +20,7 @@ import Bucket from './components/Bucket'
 import Submissions from './components/Submissions'
 import PageNotFound from './components/PageNotFound'
 import PasswordReset from './components/PasswordReset'
+import CreditCards from './components/CreditCards'
 
 import UsersReport from './components/UsersReport'
 import UserReport from './components/UserReport'
@@ -37,6 +38,7 @@ render((
       <Route path="login" component={Login} />
       <Route path="account" component={AccountProfile} />
       <Route path="billing" component={AccountBilling} />
+      <Route path="credit_cards" component={CreditCards} />
       <Route path="buckets" component={Buckets} />
       <Route path="buckets/:id/settings" component={Bucket} />
       <Route path="buckets/:id/submissions" component={Submissions} />

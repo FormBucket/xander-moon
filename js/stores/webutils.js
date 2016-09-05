@@ -205,3 +205,15 @@ export function requestLogs(){
 export function requestLog(log_id){
   return getJSON( `${apiRoot}/log_entries/${log_id}`)
 }
+
+export function requestDeleteCreditCard(id) {
+  return deleteJSON(`${apiRoot}/billing/credit_card`, { id })
+}
+
+export function requestAddCreditCard(id) {
+  return postJSON(`${apiRoot}/billing/credit_card`, { id })
+}
+
+export function requestUpdateCreditCard(id, changes) {
+  return putJSON(`${apiRoot}/billing/credit_card`, { id, changes })
+}
