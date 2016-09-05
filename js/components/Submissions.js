@@ -7,6 +7,7 @@ import UserStore from '../stores/user'
 import BucketStore from '../stores/buckets'
 import SubmissionsStore from '../stores/submissions'
 import FontAwesome from 'react-fontawesome'
+import moment from 'moment'
 //import DownloadLink from 'react-download-link'
 
 let color = {
@@ -329,7 +330,7 @@ const Submissions = React.createClass({
                 <div className="submission-container" style={{ backgroundColor: branch( this.state.selected.indexOf(submission.id) > -1, 'pink' : '')}} key={i}>
                   <div className="submission-heading">
                     <div className="meta">
-                      <h3><input onClick={() => this.handleSelect(submission)} checked={this.state.selected.indexOf(submission.id) > -1} type="checkbox" /> Submission #{ total - offset - i } <span className="muted">({submission.created_on.substring(0, 16).replace('T', ' at ')})</span></h3>
+                      <h3><input onClick={() => this.handleSelect(submission)} checked={this.state.selected.indexOf(submission.id) > -1} type="checkbox" /> Submission #{ total - offset - i } <span className="muted">({branch( moment(submission.created_on).isSame(moment(), 'day'), moment(submission.created_on).format("hh:mm a"), moment(submission.created_on).format("MMM DD hh:mm a") )})</span></h3>
                     </div>
                   </div>
                   <div className="submission-body">
