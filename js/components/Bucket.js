@@ -44,7 +44,7 @@ const NewBucket = React.createClass({
     Promise.all([
       requestBucket(this.props.params.id),
       requestProfile() ])
-    .then( result => this.setState( Object.assign(
+      .then( result => this.setState( Object.assign(
         { loaded: true },
         result[0],
         { user: result[1], auto_responder_content: result[0].auto_responder ?
@@ -69,9 +69,42 @@ const NewBucket = React.createClass({
   },
 
   onSave (e) {
-    var bucket = this.state
 
-    requestUpdateBucket( bucket )
+    var {
+      id,
+      name,
+      enabled,
+      email_to,
+      email_cc,
+      redirect_url,
+      submission_count,
+      webhooks,
+      auto_responder,
+      recaptcha_on,
+      recaptcha_secret,
+      recaptcha_redirect,
+      honey_pot_on,
+      honey_pot_field,
+      submission_line_formula
+    } = this.state
+
+    requestUpdateBucket({
+      id,
+      name,
+      enabled,
+      email_to,
+      email_cc,
+      redirect_url,
+      submission_count,
+      webhooks,
+      auto_responder,
+      recaptcha_on,
+      recaptcha_secret,
+      recaptcha_redirect,
+      honey_pot_on,
+      honey_pot_field,
+      submission_line_formula
+    })
     .then(result => this.props.history.push('/buckets'))
     .catch(err => {
       // console.log('ERROR', err)
