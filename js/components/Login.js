@@ -21,7 +21,7 @@ const Login = React.createClass({
       err => {
         this.setState({
           loading: false,
-          error: err
+          error: JSON.parse(err)
         })
       }
     )
