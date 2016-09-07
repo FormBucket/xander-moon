@@ -4,6 +4,7 @@ import markdownOptions from '../markdown-options'
 import {branch, isEmail} from 'functionfoundry'
 import {server} from '../stores/webutils'
 import UserStore from '../stores/user'
+import FontAwesome from 'react-fontawesome'
 
 window.validateForm = function() {
   var v = true;
@@ -83,7 +84,7 @@ const Welcome = React.createClass({
                     <button onClick={() => this.props.history.push('/buckets')}>Return to your buckets</button>,
                     <button onClick={() => this.props.history.push('/signup')}>Get Started</button>
              )}
-             <p><a href="#how-it-works">How It Works</a></p>
+             <p><a href="#how-it-works"><FontAwesome name="play-circle" /> How It Works</a></p>
              <div className="features tour">
                <div className="editor">
                  <div className="left">
