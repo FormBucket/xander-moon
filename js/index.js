@@ -34,7 +34,7 @@ render((
     <Route path="/" component={App}>
       <IndexRoute component={Welcome} />
       <Route path="signup" component={Signup} />
-      <Route path="subscribe" component={Subscribe} />
+      <Route path="upgrade" component={Subscribe} />
       <Route path="login" component={Login} />
       <Route path="account" component={AccountProfile} />
       <Route path="billing" component={AccountBilling} />
