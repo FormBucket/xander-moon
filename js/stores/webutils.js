@@ -51,22 +51,22 @@ export function requestToken(code){
 
 // Update user profile settings
 export function requestUpdateUser(user) {
-  return postJSON( `${apiRoot}/profile.json`, user)
+  return putJSON( `${apiRoot}/profile`, user)
 }
 
 // Send server request to get user`s Forms
 export function requestBuckets(){
-  return getJSON( `${apiRoot}/buckets.json`)
+  return getJSON( `${apiRoot}/buckets`)
 }
 
 // Send server request to get a bucket settings
 export function requestBucket(id){
-  return getJSON( `${apiRoot}/buckets/${id}.json`)
+  return getJSON( `${apiRoot}/buckets/${id}`)
 }
 
 // Send server request to create new bucket
 export function requestCreateBucket(data){
-  return postJSON( `${apiRoot}/buckets.json`, data)
+  return postJSON( `${apiRoot}/buckets`, data)
 }
 
 // Send server request to update existing bucket
@@ -101,11 +101,11 @@ export function requestDeleteSubmissions(bucket_id, ids){
 
 // Send server request to get user profile
 export function requestProfile(){
-  return getJSON( `${apiRoot}/profile.json`)
+  return getJSON( `${apiRoot}/profile`)
 }
 
 export function requestProfileById(user_id){
-  return getJSON( `${apiRoot}/user/${user_id}/profile.json`)
+  return getJSON( `${apiRoot}/user/${user_id}/profile`)
 }
 
 // Send server request to get subscription plans
@@ -115,7 +115,7 @@ export function requestSubscriptionPlans() {
 
 // Send server request to get user`s submissions
 export function requestSubmissionsByBucket(bucket_id, offset, limit, select, q){
-  return getJSON( `${apiRoot}/buckets/${bucket_id}/submissions/${+offset}/${+limit}/${select}.json${q ? `?q=${q}` : '' }` )
+  return getJSON( `${apiRoot}/buckets/${bucket_id}/submissions/${+offset}/${+limit}/${select}${q ? `?q=${q}` : '' }` )
 }
 
 // Send server request to get download key
@@ -135,17 +135,17 @@ export function requestStripePubKey(){
 
 // Get the user charges
 export function requestCharges(){
-  return getJSON(`${apiRoot}/billing/charges.json`)
+  return getJSON(`${apiRoot}/billing/charges`)
 }
 
 // Get the the user's invoices
 export function requestInvoices(){
-  return getJSON(`${apiRoot}/billing/invoices.json`)
+  return getJSON(`${apiRoot}/billing/invoices`)
 }
 
 // Get the the user's invoices
 export function requestCreditCards(){
-  return getJSON(`${apiRoot}/billing/credit_cards.json`)
+  return getJSON(`${apiRoot}/billing/credit_cards`)
 }
 
 // Send request to subscribe user to plan
@@ -175,33 +175,33 @@ export function requestPasswordResetUpdate(email, temp_password, password){
 
 // Send request to update user with new password
 export function requestBucketCountByUser() {
-  return getJSON(`${apiRoot}/bucket_count_by_user.json` )
+  return getJSON(`${apiRoot}/bucket_count_by_user` )
 }
 
 export function requestSubmissionCountByBucket() {
-  return getJSON(`${apiRoot}/submission_count_by_bucket.json` )
+  return getJSON(`${apiRoot}/submission_count_by_bucket` )
 }
 
 export function requestBucketCount() {
-  return getText(`${apiRoot}/bucket_count.json` )
+  return getText(`${apiRoot}/bucket_count` )
 }
 
 export function requestBucketCount() {
-  return getText(`${apiRoot}/bucket_count.json` )
+  return getText(`${apiRoot}/bucket_count` )
 }
 
 export function requestUserCount() {
-  return getText(`${apiRoot}/user_count.json` )
+  return getText(`${apiRoot}/user_count` )
 }
 
 export function requestUsersBuckets(user_id) {
-  return getJSON(`${apiRoot}/user/${user_id}/buckets.json` )
+  return getJSON(`${apiRoot}/user/${user_id}/buckets` )
 }
 
 export function requestLogs(){
-  return getJSON( `${apiRoot}/log_entries.json`)
+  return getJSON( `${apiRoot}/log_entries`)
 }
 
 export function requestLog(log_id){
-  return getJSON( `${apiRoot}/log_entries/${log_id}.json`)
+  return getJSON( `${apiRoot}/log_entries/${log_id}`)
 }
