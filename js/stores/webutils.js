@@ -26,8 +26,12 @@ import {
 } from './fetch-helpers'
 
 // Submit a form
-export function submit(formId, formData) {
-  return postJSON( `${apiRoot}/f/${formId}`, formData )
+export function submit(bucket_id, formData) {
+  return postJSON( `${apiRoot}/f/${bucket_id}`, formData )
+}
+
+export function requestCreateSubmissions(bucket_id, submissions) {
+  return postJSON( `${apiRoot}/buckets/${bucket_id}/submissions`, { submissions } )
 }
 
 // Request user signin and receive access code
