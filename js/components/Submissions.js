@@ -311,7 +311,7 @@ const Submissions = React.createClass({
               </div>
               <div className="dropdown-container">
                 <div className="search-bar">
-                  <input onKeyUp={(e) => branch(event.keyCode === 13, () => this.search())} ref="q" placeholder="Search all submissions..." />
+                  <input onKeyUp={(event) => branch(event.keyCode === 13, () => this.search())} ref="q" placeholder="Search all submissions..." />
                 </div>
                 <ul className="dropdown-items">
                   <li className="dropdown-item dropdown-item-dropdown">
