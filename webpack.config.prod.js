@@ -1,12 +1,13 @@
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var moment = require('moment')
 
 let load = (module) => ['es6-promise', 'whatwg-fetch', './js/' + module]
 
 module.exports = {
   entry: {
-    formbucket: load('index'),
+    app: load('index'),
     nav: load('nav'),
     styles: load('styles')
   },
@@ -21,7 +22,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'public', 'assets'),
-    filename: '[name].js',
+    filename: '[name]-' + moment().format('YYYY-MM-DD') + '.js',
   },
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
@@ -40,7 +41,7 @@ module.exports = {
         warnings: false
       }
    }),
-    new ExtractTextPlugin('formbucket.css')
+    new ExtractTextPlugin('app-' + moment().format('YYYY-MM-DD') + '.css')
   ],
   module: {
     loaders: [{

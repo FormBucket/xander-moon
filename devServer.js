@@ -5,6 +5,7 @@ var serve = require('koa-static');
 var send = require('koa-send');
 var accesslog = require('koa-accesslog');
 var _ = require('koa-route');
+var moment = require('moment')
 
 app.use(accesslog());
 
@@ -30,7 +31,10 @@ app.use( _.get('/assets/formbucket.css', function*() {
 }))
 
 // serve generate pages
-app.use(serveViews({ defaults: { __DEV__: true }}))
+app.use(serveViews({ defaults: {
+  __DEV__: true,
+  __ts__: moment().format('YYYY-MM-DD')
+}}))
 
 // serve static assets
 app.use(serve('.'));

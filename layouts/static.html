@@ -28,7 +28,9 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/solarized_light.min.css">
-  <link rel="stylesheet" href="/assets/formbucket.css">
+  {{#unless __DEV__}}
+  <link rel="stylesheet" href="/assets/formbucket-{{{__ts__}}}.css">
+  {{/unless}}
 
   <!-- favicons -->
   <link rel="apple-touch-icon" sizes="57x57" href="/img/apple-icon-57x57.png">
@@ -51,7 +53,7 @@
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
   {{#if __DEV__}}
-  <script src="/assets/styles.js"></script>
+  <script src="/assets/styles-{{__ts__}}.js"></script>
   {{/if}}
   {{#if recaptcha}}
   <script src='https://www.google.com/recaptcha/api.js'></script>
@@ -97,7 +99,7 @@
           </ul>
         </nav>
         <!-- Script will hide/show the correct menu -->
-        <script src="/assets/nav.js"></script>
+        <script src="/assets/nav-{{__ts__}}.js"></script>
       </div>
     </header>
     <div class="main">
