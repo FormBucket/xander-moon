@@ -5,6 +5,7 @@ import {branch, isEmail} from 'functionfoundry'
 import {server} from '../stores/webutils'
 import UserStore from '../stores/user'
 import FontAwesome from 'react-fontawesome'
+import Modal from 'react-modal'
 
 window.validateForm = function() {
   var v = true;
@@ -33,6 +34,17 @@ var content = `<h3>Try it out!</h3>
   <button class="secondary" type="submit">Send!</button>
 </form>`
 
+const videoModalStyle = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};
+
 // var content = `<h3>Try it out!</h3>
 // <form method="post" action="${server}/f/homepage"
 // onsubmit="return validateForm()">
@@ -46,6 +58,7 @@ var content = `<h3>Try it out!</h3>
 const Welcome = React.createClass({
   getInitialState: () => {
     return {
+      showVideo: false,
       ghostTextLength: 0,
       ghostText: ''
     }
@@ -72,10 +85,24 @@ const Welcome = React.createClass({
   componentWillUnmount () {
     clearInterval(this.timerId)
   },
+
+  openVideo() {
+    this.setState({ showVideo: true })
+  },
+
+  closeVideo() {
+    this.setState({ showVideo: false })
+  },
+
   render () {
 
    return (
       <div>
+        <Modal isOpen={this.state.showVideo} onRequestClose={this.closeVideo} style={videoModalStyle}>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/U8AB6ddB5_g?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+          <br/>
+          <a href="#close"onClick={this.closeVideo}>Close</a>
+        </Modal>
         <div className="hero">
           <div className="wrapper">
             <h1>A Magic Backend for Web Designers</h1>
@@ -84,7 +111,7 @@ const Welcome = React.createClass({
                     <button onClick={() => this.props.history.push('/buckets')}>Return to your buckets</button>,
                     <button onClick={() => this.props.history.push('/signup')}>Get Started</button>
              )}
-             <p><a href="#how-it-works"><FontAwesome name="play-circle" /> How It Works</a></p>
+             <p><a href="#how-it-works" onClick={this.openVideo}><FontAwesome name="play-circle" /> How It Works</a></p>
              <div className="features tour">
                <div className="editor">
                  <div className="left">
