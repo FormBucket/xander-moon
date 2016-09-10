@@ -176,31 +176,20 @@ const NewBucket = React.createClass({
               </label>
             </div>
             <div className="section">
-              <h3>Actions</h3>
-              <label htmlFor="redirectURL">Redirect URL</label>
+              <h3>Redirect</h3>
+              <label htmlFor="redirectURL">Send users to this URL after submitting the form</label>
               <input type="text" id="redirectURL" ref="redirectURL"  onChange={ (e) => this.setState({ redirect_url: e.target.value }) }  defaultValue={this.state.redirect_url} />
-              <label>Webhooks</label>
-              { isArray(this.state.webhooks) ?
-                this.state.webhooks.map( (webhook, i) => (
-                  <div key={i} >
-                    <a style={{ position: 'relative', float: 'right', right: '-30px', top: '42px', paddingTop: 5, paddingBottom: 5, paddingRight: 7, paddingLeft: 7, marginTop: -40, color: 'red', backgroundColor: 'white', cursor: 'pointer' }}
-                      onClick={ () => { var updated = this.state.webhooks.filter( (v, k) => i !== k ); this.setState({ webhooks: updated }); } }>
-                      <FontAwesome name='minus' />
-                    </a>
-                    <input type="text" id={"webhook" + i }
-                      onChange={(e) => { var updated = this.state.webhooks.map((v, k) => i === k ? e.target.value : v); this.setState({ webhooks: updated })  } }
-                      defaultValue={webhook} />
-                  </div>
-                )) : ''
-              }
-              <div>
-                <a style={{ cursor: 'pointer' }} onClick={() => this.setState({webhooks: this.state.webhooks ? this.state.webhooks.concat(['']) : [''] })}><FontAwesome name='plus' /> Add webhook</a>
-              </div>
+            </div>
+            <div className="section">
+              <h3>Autoresponder</h3>
               <label>
                 <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" onClick={this.toggleAutoResponder} checked={ this.state.auto_responder }/>
-                Automatically send an email to bucket submitters
+                Automatically send an email to form submitters
               </label>
               <div className="autoresponder-wrapper" style={{ display: this.state.auto_responder ? '' : 'none' } }>
+                <p>
+                  <FontAwesome name='exclamation-circle' /> Note: Your form must have an <strong>email address</strong> field to use this feature.
+                </p>
                 <label htmlFor="fromEmail">From</label>
                 <input type="text" ref="auto_responder_from"
                   onChange={(e) => this.setState({ auto_responder: Object.assign({}, this.state.auto_responder, { from: e.target.value } ) })}
@@ -213,13 +202,9 @@ const NewBucket = React.createClass({
                   />
                 <label htmlFor="emailBody">Body</label>
                 <RichTextEditor
-                  style={{ minHeight: 400 }}
                   value={this.state.auto_responder_content}
                   onChange={this.onChangeAutoResponderMessage}
                 />
-                <span>
-                  Note: Your form must have an <strong>email address</strong> field to use this feature.
-                </span>
               </div>
             </div>
             <div className="section">
@@ -239,7 +224,26 @@ const NewBucket = React.createClass({
               </label>
             </div>
             <div className="section">
-              <h3>Spam / Bot Protection</h3>
+              <h3>Webhooks</h3>
+              { isArray(this.state.webhooks) ?
+                this.state.webhooks.map( (webhook, i) => (
+                  <div key={i} >
+                    <a style={{ position: 'relative', float: 'right', right: '-30px', top: '42px', paddingTop: 5, paddingBottom: 5, paddingRight: 7, paddingLeft: 7, marginTop: -40, color: 'red', backgroundColor: 'white', cursor: 'pointer' }}
+                      onClick={ () => { var updated = this.state.webhooks.filter( (v, k) => i !== k ); this.setState({ webhooks: updated }); } }>
+                      <FontAwesome name='minus' />
+                    </a>
+                    <input type="text" id={"webhook" + i }
+                      onChange={(e) => { var updated = this.state.webhooks.map((v, k) => i === k ? e.target.value : v); this.setState({ webhooks: updated })  } }
+                      defaultValue={webhook} />
+                  </div>
+                )) : ''
+              }
+              <div>
+                <a style={{ cursor: 'pointer' }} onClick={() => this.setState({webhooks: this.state.webhooks ? this.state.webhooks.concat(['']) : [''] })}><FontAwesome name='plus' /> Add webhook</a>
+              </div>
+            </div>
+            <div className="section">
+              <h3>Spam and Bot Protection</h3>
 
               <label htmlFor="honeyPotEnabled" className="label-switch">
                 Honey Pot
@@ -254,7 +258,7 @@ const NewBucket = React.createClass({
                     <label>
                       Honey pot field
                       {' '}<a className="pull-right" href="#">What is a honey pot?</a>
-                      <input placeholder="Use default fieldname (i.e. __bucket_trap__)" onChange={(e) => this.setState({ honey_pot_field:  e.target.value  })}
+                      <input placeholder="Optional custom fieldname" onChange={(e) => this.setState({ honey_pot_field:  e.target.value  })}
                       defaultValue={ this.state.honey_pot_field }/>
                   </label>
                 </div>)
@@ -266,12 +270,14 @@ const NewBucket = React.createClass({
               </label>
               {
                 branch( this.state.recaptcha_on,
-                  <div>
+                  <div className="spam-protection">
                     <label>
                       Secret key (provided by Google)
                       {' '}<a className="pull-right" href="#">Why do we need this?</a>
                       <input onChange={(e) => this.setState({ recaptcha_secret:  e.target.value  })}
                       defaultValue={ this.state.recaptcha_secret }/>
+                    </label>
+                    <label>
                       Redirect on error
                       <input placeholder="Optional, url to send user if verification fails" onChange={(e) => this.setState({ recaptcha_redirect:  e.target.value  })}
                       defaultValue={ this.state.recaptcha_redirect }/>
@@ -280,11 +286,13 @@ const NewBucket = React.createClass({
                 )
               }
             </div>
+            {/*
             <div className="section">
               <h3>Submission View</h3>
               <label htmlFor="submissionLineFormula">Submission Line Formula</label>
               <Codemirror options={codeMirrorOptions} onChange={ (value) => this.setState({ submission_line_formula: value }) } value={this.state.submission_line_formula} />
             </div>
+            */}
             <input type="button" className="button" onClick={this.onSave} value="Save Settings" />
           </div>
           <div className="bucket-preview">

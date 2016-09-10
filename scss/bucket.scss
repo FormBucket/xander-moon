@@ -49,7 +49,9 @@
   $switch-border-background: darken($base-background-color, 9%);
   $switch-shadow: 0 2px 5px transparentize(black, 0.6);
 
+  margin-bottom: $base-spacing;
   border-radius: $switch-radius;
+  font-weight: bold;
   cursor: pointer;
   display: inline-block;
   height: $switch-height;
@@ -114,6 +116,14 @@
       }
     }
   }
+}
+
+.spam-protection {
+  margin-top: $base-spacing;
+}
+
+.public-DraftEditor-content {
+  min-height: 10em;
 }
 
 .bucket-preview {
