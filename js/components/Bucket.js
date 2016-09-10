@@ -176,15 +176,15 @@ const NewBucket = React.createClass({
               </label>
             </div>
             <div className="section">
-              <h3>Redirect</h3>
-              <label htmlFor="redirectURL">Send users to this URL after submitting the form</label>
-              <input type="text" id="redirectURL" ref="redirectURL"  onChange={ (e) => this.setState({ redirect_url: e.target.value }) }  defaultValue={this.state.redirect_url} />
+              <h3><span className="pro">Pro</span> Custom Redirect</h3>
+              <label htmlFor="redirectURL">Send users to this URL after submitting the form (<a href="#">Upgrade</a>)</label>
+              <input type="text" id="redirectURL" ref="redirectURL"  onChange={ (e) => this.setState({ redirect_url: e.target.value }) }  defaultValue={this.state.redirect_url} disabled />
             </div>
             <div className="section">
-              <h3>Autoresponder</h3>
+              <h3><span className="pro">Pro</span> Autoresponder</h3>
               <label>
-                <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" onClick={this.toggleAutoResponder} checked={ this.state.auto_responder }/>
-                Automatically send an email to form submitters
+                <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" onClick={this.toggleAutoResponder} checked={ this.state.auto_responder } disabled />
+                Automatically send an email to form submitters (<a href="#">Upgrade</a>)
               </label>
               <div className="autoresponder-wrapper" style={{ display: this.state.auto_responder ? '' : 'none' } }>
                 <p>

@@ -118,6 +118,16 @@
   }
 }
 
+.pro {
+  padding: $base-spacing / 8 $base-spacing / 4;
+  font-size: $base-font-size / 1.75;
+  font-weight: normal;
+  background: $purple;
+  color: white;
+  text-transform: uppercase;
+  border-radius: $base-border-radius;
+}
+
 .spam-protection {
   margin-top: $base-spacing;
 }
