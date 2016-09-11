@@ -20,7 +20,6 @@ h2 {
 h3 {
   font-size: $base-font-size * 1.25;
   font-weight: 700;
-  color: $purple
 }
 h4,
 h5,
@@ -36,14 +35,13 @@ p {
 }
 
 a {
-  color: $dark-purple;
-  text-decoration: underline;
+  color: $purple;
   transition: color $base-duration $base-timing;
 
   &:active,
   &:focus,
   &:hover {
-    color: shade($action-color, 25%);
+    color: $purple;
   }
 }
 
