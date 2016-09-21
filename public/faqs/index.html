@@ -1,0 +1,20 @@
+<h2>Why is free?</h2>
+<p>The application is free for basic usage. In the future we plan to add premium features.</p>
+<h2>Can I export my form data?</h2>
+<p>Yup, click the “gear” icon next to your form name. Click the “Export” tab. You can either export a CSV to get a snapshot of the latest collection of submissions for your form. Or, you can use the FormBucket API to query your form’s submission data if HTTP and JSON are more your thing.</p>
+<h2>Can I get notified when there's a submission?</h2>
+<p>We send out webhooks for every submission we receive. You can use the email action in Zapier to send yourself an email.</p>
+<h2>Can I use FormBucket forms for an email newsletter?</h2>
+<p>Yup, webhooks. Send your form submissions to Zapier, which can integrate with Mailchimp, Campaign Monitor, or whatever your preferred newsletter software is.</p>
+<h2>Can I use FormBucket forms to capture sales leads?</h2>
+<p>Yup, use webhooks. Send your form submissions to Zapier, which can integrate with Trello, Salesforce, or whatever your preferred sales CRM system is.</p>
+<h2>Can I use FormBucket forms to…?</h2>
+<p>Let us stop you there. If you can send your FormBucket data to Zapier using webhooks, you can probably do lots of amazingly creative things with FormBucket. Email us to tell us what awesome things you’ve been able to achieve with your FormBucket forms.</p>
+<h2>I've set up a webhook! Now what?</h2>
+<p>Awesome. Now let the submissions roll in! Every time a submission comes through, we'll forward that over to your webhook also. If we encounter any issues, we'll send you an email.</p>
+<pre><code class="language-HTML"><span class="hljs-tag">&lt;<span class="hljs-name">form</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"test"</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+</code></pre>

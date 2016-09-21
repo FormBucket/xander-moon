@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>How to setup recaptcha</title>
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-63770314-10', 'auto');
+  ga('send', 'pageview');
+
+  </script>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="google-site-verification" content="c242Hf9YyeiK5d9ElD3r4JPDEmCMs7FUBAzcK-WpAtE" />
+
+  <!-- prerender support -->
+  <meta name="fragment" content="!">
+
+  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/solarized_light.min.css">
+  <link rel="stylesheet" href="/assets/app-2016-09-20.css">
+
+  <!-- favicons -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/img/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+  <link rel="manifest" href="/img/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+</head>
+<body>
+  <div id="root">
+    <div>
+    <header class="navigation" role="banner">
+      <div class="navigation-wrapper">
+        <a href="/" class="logo">
+          <img src="/img/logo.svg" alt="FormBucket" />
+        </a>
+        <nav id="nav-logged-out" role="navigation">
+          <a href="#" class="navigation-menu-button">MENU</a>
+          <ul id="js-navigation-menu" class="navigation-menu">
+            <li class="nav-link">
+               <a href="/guides">Guides</a>
+            </li>
+            <li class="nav-link">
+              <a href="/signup" onClick={this.handleLinkClick}>Sign Up</a>
+            </li>
+            <li class="nav-link">
+              <a href="/login" onClick={this.handleLinkClick}>Login</a>
+            </li>
+          </ul>
+        </nav>
+        <nav id="nav-logged-in" role="navigation" style="display: none">
+          <a href="#" class="navigation-menu-button">MENU</a>
+          <ul class="navigation-menu">
+            <li class="nav-link">
+               <a href="/guides">Guides</a>
+            </li>
+            <li class="nav-link">
+              <a href="/buckets" onClick={this.handleLinkClick}>Buckets</a>
+            </li>
+            <li class="nav-link">
+              <a href="/account" onClick={this.handleLinkClick}>Account</a>
+            </li>
+          </ul>
+        </nav>
+        <!-- Script will hide/show the correct menu -->
+        <script src="/assets/nav-2016-09-20.js"></script>
+      </div>
+    </header>
+    <div class="main">
+      <div class="page-heading">
+        <div class="wrapper">
+          <h1>Securing your forms with Google Recaptcha</h1>
+        </div>
+      </div>
+      <div class="wrapper">
+        <div class="two-thirds">
+          <p>Recaptcha is a service from Google that works to prevent bots from filling
+out your forms.</p>
+<h2>Step 1</h2>
+<p><a href="https://www.google.com/recaptcha/intro/index.html">Register your site</a> with Google's recaptcha service.</p>
+<p><img src="/img/recaptcha-step1.png" alt="Register site"></p>
+<h2>Step 2</h2>
+<p>Add the code to your form.</p>
+<p>First, add a <strong>script</strong> tag into the head.</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">'https://www.google.com/recaptcha/api.js'</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p>Second, put the <strong>div</strong> tag in the position you wish to display recaptcha.</p>
+<pre><code class="language-html">&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"g-recaptcha"</span>
+    data-sitekey=<span class="hljs-string">"6Lc_YSgTAAAAAPdIJ5hVuFFNvoljmLYx3E1d6kcu"</span>&gt;
+<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+</code></pre>
+<p>The <strong>Site key</strong> is provided by Google and can be shared with the public.</p>
+<h2>Step 3</h2>
+<p>Enable recaptcha in your bucket's settings. Our server needs a <strong>Secret key</strong> provided by Google. This is used in the verification process to ensure
+that the user is not a robot.</p>
+<p>Optionally, you may provide a redirect url if the verification fails. Otherwise,
+the user will be redirected back to the page with your form.</p>
+<h2>Prevent submit with JavaScript</h2>
+<p>It is also possible to prevent the user from submitting the form with JavaScript.</p>
+<p>Here is an example that uses jQuery and Google's recaptcha API.</p>
+<pre><code class="language-js"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+$(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  $(<span class="hljs-string">'form'</span>).submit(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">if</span> (grecaptcha.getResponse() == <span class="hljs-string">""</span>){
+      alert(<span class="hljs-string">"Please complete recaptcha!"</span>);
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+    }
+  })
+})
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p>Hope this helps and we wish you luck keeping bots at bay!</p>
+
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <a href="/" className="logo">
+        <img src="/img/logo-purple.svg" alt="FormBucket" />
+      </a>
+      <p>
+        &copy; 2015-2016 <a href="https://websitehq.com">WebsiteHQ, LLC</a>
+      </p>
+      <div>
+        <a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="/terms">Terms</a> | <a href="/privacy-policy">Privacy Policy</a>
+      </div>
+    </div>
+    </div>
+  </div>
+</body>
+</html>
