@@ -31,6 +31,7 @@ const NewBucket = React.createClass({
   getInitialState: function() {
     return {
       loaded: false,
+      email_to: false,
       auto_responder_content: RichTextEditor.createEmptyValue()
     };
   },
@@ -177,14 +178,14 @@ const NewBucket = React.createClass({
             </div>
             <div className="section">
               <h3><span className="pro">Pro</span> Custom Redirect</h3>
-              <label htmlFor="redirectURL">Send users to this URL after submitting the form (<a href="#">Upgrade</a>)</label>
-              <input type="text" id="redirectURL" ref="redirectURL"  onChange={ (e) => this.setState({ redirect_url: e.target.value }) }  defaultValue={this.state.redirect_url} disabled />
+              <label htmlFor="redirectURL">Send users to this URL after submitting the form</label>
+              <input type="text" id="redirectURL" ref="redirectURL"  onChange={ (e) => this.setState({ redirect_url: e.target.value }) }  defaultValue={this.state.redirect_url} />
             </div>
             <div className="section">
               <h3><span className="pro">Pro</span> Autoresponder</h3>
               <label>
-                <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" onClick={this.toggleAutoResponder} checked={ this.state.auto_responder } disabled />
-                Automatically send an email to form submitters (<a href="#">Upgrade</a>)
+                <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" onClick={this.toggleAutoResponder} checked={ this.state.auto_responder } />
+                Automatically send an email to form submitters
               </label>
               <div className="autoresponder-wrapper" style={{ display: this.state.auto_responder ? '' : 'none' } }>
                 <p>
