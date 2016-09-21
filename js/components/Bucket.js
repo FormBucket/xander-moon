@@ -10,7 +10,7 @@ import {
   requestUpdateBucket, requestDeleteBucket,
   requestBucketExport, requestDownloadFile }
 from '../stores/webutils'
-import RichTextEditor from 'react-rte';
+// import RichTextEditor from 'react-rte';
 // import Codemirror from 'react-codemirror';
 // import 'codemirror/mode/spreadsheet/spreadsheet'
 //
@@ -202,10 +202,15 @@ const NewBucket = React.createClass({
                   defaultValue={ this.state.auto_responder ? this.state.auto_responder.subject : '' }
                   />
                 <label htmlFor="emailBody">Body</label>
-                <RichTextEditor
+                <textarea ref="auto_responder_body"
+                  onChange={(e) => this.setState({ auto_responder: Object.assign({}, this.state.auto_responder, { body: e.target.value } ) })}
+                  defaultValue={ this.state.auto_responder ? this.state.auto_responder.body : ''}
+                  >
+                </textarea>
+                {/*}<RichTextEditor
                   value={this.state.auto_responder_content}
                   onChange={this.onChangeAutoResponderMessage}
-                />
+                />*/}
               </div>
             </div>
             <div className="section">
