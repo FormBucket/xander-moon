@@ -11,13 +11,13 @@ import {
   requestBucketExport, requestDownloadFile }
 from '../stores/webutils'
 import RichTextEditor from 'react-rte';
-import Codemirror from 'react-codemirror';
-import 'codemirror/mode/spreadsheet/spreadsheet'
-
-var codeMirrorOptions = {
-  lineNumbers: true,
-  mode: 'spreadsheet'
-};
+// import Codemirror from 'react-codemirror';
+// import 'codemirror/mode/spreadsheet/spreadsheet'
+//
+// var codeMirrorOptions = {
+//   lineNumbers: true,
+//   mode: 'spreadsheet'
+// };
 
 function makeHTMLForm(id, honey_pot_on, honey_pot_field) {
   return (`<form action="https://api.formbucket.com/f/${id}" method="post">
@@ -288,11 +288,11 @@ const NewBucket = React.createClass({
               }
             </div>
             {/*
-            <div className="section">
-              <h3>Submission View</h3>
-              <label htmlFor="submissionLineFormula">Submission Line Formula</label>
-              <Codemirror options={codeMirrorOptions} onChange={ (value) => this.setState({ submission_line_formula: value }) } value={this.state.submission_line_formula} />
-            </div>
+              <div className="section">
+                <h3>Submission View</h3>
+                <label htmlFor="submissionLineFormula">Submission Line Formula</label>
+                <Codemirror options={codeMirrorOptions} onChange={ (value) => this.setState({ submission_line_formula: value }) } value={this.state.submission_line_formula} />
+              </div>
             */}
             <input type="button" className="button" onClick={this.onSave} value="Save Settings" />
           </div>
