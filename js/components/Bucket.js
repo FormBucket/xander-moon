@@ -31,8 +31,7 @@ const NewBucket = React.createClass({
   getInitialState: function() {
     return {
       loaded: false,
-      email_to: false,
-      auto_responder_content: RichTextEditor.createEmptyValue()
+      email_to: false
     };
   },
 
@@ -48,9 +47,7 @@ const NewBucket = React.createClass({
       .then( result => this.setState( Object.assign(
         { loaded: true },
         result[0],
-        { user: result[1], auto_responder_content: result[0].auto_responder ?
-          RichTextEditor.createValueFromString(result[0].auto_responder.body, 'markdown') :
-          RichTextEditor.createEmptyValue()}
+        { user: result[1] }
     )))
     .catch(err => this.setState( { error: err } ))
 
