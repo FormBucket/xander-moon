@@ -105,12 +105,12 @@ const Account = React.createClass({
                   } }>Log Out
                 </a>
               </p>
-              <p>
+              {/*<p>
                 <a onClick={() => {
                     this.props.history.push('/upgrade');
                   } }>Manage Plan
                 </a>
-              </p>
+              </p>*/}
               <p>
                 <a onClick={() => this.setState({ show_token: !this.state.show_token })}>{this.state.show_token ? 'Hide API Key' : 'Show API Key' }</a>
                 <div style={{ display: this.state.show_token ? '' : 'none' }}>
