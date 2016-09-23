@@ -34,6 +34,7 @@ function wrap(headingText, output) {
 const Submissions = React.createClass({
   getInitialState () {
     return {
+      display: 'default',
       submissions: undefined,
       showAll: false,
       selected: [],
@@ -53,15 +54,19 @@ const Submissions = React.createClass({
 
     this.setState({ loading: true })
 
+    console.log(nextProps.location)
+
     Promise.all([
       requestBucket(nextProps.params.id),
-      requestSubmissionsByBucket(nextProps.params.id, +nextProps.params.offset, +nextProps.params.limit, nextProps.params.select, nextProps.location.query.q)
+      requestSubmissionsByBucket(nextProps.params.id, +nextProps.params.offset, +nextProps.params.limit, nextProps.params.select, nextProps.location.query.q, nextProps.location.query.type)
     ])
     .then(values => this.setState({
       loading: false,
       loaded: true,
       bucket: values[0],
       total: values[1].total,
+      totalSpam: values[1].totalSpam,
+      totalDeleted: values[1].totalDeleted,
       submissions: values[1].items,
       expanded: this.state.showAll ? values[1].map(d => d.id) : [],
       first_load: false,
@@ -78,12 +83,12 @@ const Submissions = React.createClass({
     this.props.params.offset = (+this.props.params.offset) || 0
     this.props.params.select = this.props.params.select || 'created_on,data,spam'
 
-    var url = `/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${this.props.params.offset}/${this.props.params.limit}/${this.props.params.select}`
+    var url = `/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${this.props.params.offset}/${this.props.params.limit}/${this.props.params.select}?type=${this.state.display}`
 
     console.log(this.props)
 
     if (this.props.location.query.q) {
-      this.props.history.replace(url + '?q=' + this.props.location.query.q)
+      this.props.history.replace(url + '&q=' + this.props.location.query.q)
     } else {
       this.props.history.replace(url)
     }
@@ -114,15 +119,39 @@ const Submissions = React.createClass({
   },
 
   handleDeleteSelected(){
+    requestUpdateSubmissions(this.state.bucket.id, this.state.selected, { deleted: true, spam: false })
+    .then(n => this.search())
+    .catch(error => alert(error))
+
+    this.setState({ selected: [] })
+
+  },
+
+  handleDestroySelected(){
     requestDeleteSubmissions(this.state.bucket.id, this.state.selected)
     .then(n => this.search())
     .catch(error => alert(error))
+
+    this.setState({ selected: [] })
+
+  },
+
+  handleMoveToInbox() {
+    requestUpdateSubmissions(this.state.bucket.id, this.state.selected, { deleted: false, spam: false })
+    .then(n => this.search())
+    .catch(error => alert(error))
+
+    this.setState({ selected: [] })
+
   },
 
   handleMarkSelectedSpam() {
     requestUpdateSubmissions(this.state.bucket.id, this.state.selected, { spam: true })
     .then(n => this.search())
     .catch(error => alert(error))
+
+    this.setState({ selected: [] })
+
   },
 
   handleMarkSpam(event, submission, spam=true) {
@@ -155,7 +184,7 @@ const Submissions = React.createClass({
   },
 
   search (event) {
-    var url = `/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${this.props.params.offset}/${this.props.params.limit}/${this.props.params.select}?q=${this.refs.q.value}`
+    var url = `/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/0/${this.props.params.limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${this.state.display}`
     this.props.history.push(url)
   },
 
@@ -177,7 +206,7 @@ const Submissions = React.createClass({
       return
     }
 
-    this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${limit}/${this.props.params.select}`)
+    this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${this.state.display}`)
   },
 
   goBack (event) {
@@ -202,8 +231,16 @@ const Submissions = React.createClass({
       return
     }
 
-    this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${limit}/${this.props.params.select}`)
+    this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${this.state.display}`)
 
+  },
+
+  switchFolder (type) {
+    this.setState({ display: type })
+    var offset = +this.props.params.offset,
+    limit = +this.props.params.limit
+
+    this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/0/${limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${type}`)
   },
 
   render () {
@@ -252,8 +289,8 @@ const Submissions = React.createClass({
 
     var offset = +this.props.params.offset,
     limit = +this.props.params.limit,
-    total = this.state.total,
-    from = offset+1,
+    total = branch(this.state.display==='spam', this.state.totalSpam, this.state.display === 'deleted', this.state.totalDeleted, this.state.total),
+    from = total > 0 ? offset+1 : 0,
     to = branch(offset + limit < total, offset + limit, total),
     headingText = branch(
       this.state.bucket.name && this.state.bucket.name.trim().length > 0,
@@ -304,6 +341,17 @@ const Submissions = React.createClass({
     if (eq(this.props.params.mode, 'list')) {
       return wrap(headingText,
         <div>
+          <div>
+            <div style={{ background: this.state.display === 'default'  ? '#EEE' : ''}} onClick={(event) => this.switchFolder('default')}>
+              Inbox <span>{this.state.total}</span>
+            </div>
+            <div style={{ background: this.state.display === 'spam'  ? '#EEE' : ''}} onClick={() => this.switchFolder('spam')}>
+              Spam <span>{this.state.totalSpam}</span>
+            </div>
+            <div style={{ background: this.state.display === 'deleted'  ? '#EEE' : ''}} onClick={() => this.switchFolder('deleted')}>
+              Deleted <span>{this.state.totalDeleted}</span>
+            </div>
+          </div>
           <div className="submissions-controls">
             <div className="submissions-actions">
               <div className="paging">
@@ -329,20 +377,44 @@ const Submissions = React.createClass({
                       </a>
                     </ul>
                   </li>
-                    {branch(this.state.showAll,
+                  {
+                    branch(this.state.showAll,
                       <a onClick={() => this.setState({ showAll: false, expanded: [] })}>
                         <li className="dropdown-item"><FontAwesome name="compress" /> Collapse</li>
                       </a>,
                       <a onClick={() => this.setState({ showAll: true, expanded: this.state.submissions.map(d => d.id) })}>
                         <li className="dropdown-item"><FontAwesome name="expand" /> Expand</li>
                       </a>
-                    )}
-                  <a onClick={this.handleDeleteSelected}>
-                    <li className="dropdown-item"><FontAwesome name="trash-o" /> Delete</li>
-                  </a>
-                  <a onClick={this.handleMarkSelectedSpam}>
-                    <li className="dropdown-item"><FontAwesome name="ban" /> Spam</li>
-                  </a>
+                    )
+                  }
+                  {
+                    branch(
+                      this.state.display !== 'default',
+                      <a onClick={this.handleMoveToInbox}>
+                        <li className="dropdown-item"><FontAwesome name="folder" /> Move to inbox</li>
+                      </a>
+                    )
+                  }
+                  {
+                    branch(
+                      this.state.display !== 'deleted',
+                      <a onClick={this.handleDeleteSelected}>
+                        <li className="dropdown-item"><FontAwesome name="trash-o" /> Delete</li>
+                      </a>,
+                      <a onClick={this.handleDestroySelected}>
+                        <li className="dropdown-item"><FontAwesome name="eraser" /> Destroy</li>
+                      </a>
+                    )
+                  }
+                  {
+                    branch(
+                      this.state.display === 'default',
+                      <a onClick={this.handleMarkSelectedSpam}>
+                        <li className="dropdown-item"><FontAwesome name="ban" /> Spam</li>
+                      </a>
+                    )
+                  }
+
                  </ul>
               </div>
             </div>

@@ -114,8 +114,8 @@ export function requestSubscriptionPlans() {
 }
 
 // Send server request to get user`s submissions
-export function requestSubmissionsByBucket(bucket_id, offset, limit, select, q){
-  return getJSON( `${apiRoot}/buckets/${bucket_id}/submissions/${+offset}/${+limit}/${select}${q ? `?q=${q}` : '' }` )
+export function requestSubmissionsByBucket(bucket_id, offset, limit, select, q, type='regular'){
+  return getJSON( `${apiRoot}/buckets/${bucket_id}/submissions/${+offset}/${+limit}/${select}?type=${type}${q ? `&q=${q}` : '' }` )
 }
 
 // Send server request to get download key
