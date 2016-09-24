@@ -341,17 +341,6 @@ const Submissions = React.createClass({
     if (eq(this.props.params.mode, 'list')) {
       return wrap(headingText,
         <div>
-          <div>
-            <div style={{ background: this.state.display === 'default'  ? '#EEE' : ''}} onClick={(event) => this.switchFolder('default')}>
-              Inbox <span>{this.state.total}</span>
-            </div>
-            <div style={{ background: this.state.display === 'spam'  ? '#EEE' : ''}} onClick={() => this.switchFolder('spam')}>
-              Spam <span>{this.state.totalSpam}</span>
-            </div>
-            <div style={{ background: this.state.display === 'deleted'  ? '#EEE' : ''}} onClick={() => this.switchFolder('deleted')}>
-              Deleted <span>{this.state.totalDeleted}</span>
-            </div>
-          </div>
           <div className="submissions-controls">
             <div className="submissions-actions">
               <div className="paging">
@@ -418,6 +407,17 @@ const Submissions = React.createClass({
                  </ul>
               </div>
             </div>
+          </div>
+          <div className="folders">
+            <button className="secondary" onClick={(event) => this.switchFolder('default')}>
+              Inbox <span className="submission-count">{this.state.total}</span>
+            </button>
+            <button className="secondary" onClick={() => this.switchFolder('spam')}>
+              Spam <span className="submission-count">{this.state.totalSpam}</span>
+            </button>
+            <button className="secondary" onClick={() => this.switchFolder('deleted')}>
+              Deleted <span className="submission-count">{this.state.totalDeleted}</span>
+            </button>
           </div>
           <ul className="submissions-list">
             {this.state.submissions.map( (submission, i) => (

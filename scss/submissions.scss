@@ -6,9 +6,26 @@
     @include span-columns(12);
     margin-bottom: $base-spacing;
     padding: $base-spacing;
-    background: $lightest-purple;
     border-radius: $base-border-radius;
-    border: 1px solid darken($lightest-purple, 5%);
+    border: 1px solid $purple;
+  }
+}
+
+.folders {
+  margin-bottom: $base-spacing;
+
+  .secondary {
+    margin-right: $base-spacing;
+  }
+  .submission-count {
+    height: 20px;
+    width: auto;
+    padding: 0 0.5em;
+    background: $purple;
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: lighter;
   }
 }
 
