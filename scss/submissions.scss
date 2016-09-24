@@ -8,6 +8,11 @@
     padding: $base-spacing;
     border-radius: $base-border-radius;
     border: 1px solid $purple;
+
+    @include media($phablet) {
+      padding: $base-spacing / 2;
+      font-size: $base-font-size / 1.2;
+    }
   }
 }
 
@@ -76,6 +81,10 @@
         line-height: 100%;
         color: $purple;
 
+        @include media($phablet) {
+          font-size: $base-font-size;
+        }
+
         .submission-ts {
           float: right;
           color: darken($lightest-purple, 20%);
@@ -86,11 +95,6 @@
           float: right;
           margin-left: 10px;
         }
-      }
-
-      @include media($phablet) {
-        @include span-columns(12);
-        text-align: center;
       }
     }
 
@@ -128,6 +132,7 @@
     padding: $base-spacing / 2 $base-spacing * 1.5;
 
     @include media($phablet) {
+      padding: $base-spacing / 2;
       text-align: left;
     }
   }
