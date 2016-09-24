@@ -13,10 +13,24 @@
 
 .folders {
   margin-bottom: $base-spacing;
+  border-bottom: 1px solid $lightest-purple;
+
+  @include media($phablet) {
+    font-size: $base-font-size / 1.2;
+  }
 
   .secondary {
-    margin-right: $base-spacing;
+    border: none;
+    border-radius: $base-border-radius $base-border-radius 0 0;
   }
+
+  .active {
+    margin-bottom: -1px;
+    background-color: white;
+    border: 1px solid $lightest-purple;
+    border-bottom: none;
+  }
+
   .submission-count {
     height: 20px;
     width: auto;
@@ -60,6 +74,7 @@
         cursor: pointer;
         padding: 0;
         line-height: 100%;
+        color: $purple;
 
         .submission-ts {
           float: right;

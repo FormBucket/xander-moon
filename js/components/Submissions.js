@@ -409,7 +409,7 @@ const Submissions = React.createClass({
             </div>
           </div>
           <div className="folders">
-            <button className="secondary" onClick={(event) => this.switchFolder('default')}>
+            <button className="secondary active" onClick={(event) => this.switchFolder('default')}>
               Inbox <span className="submission-count">{this.state.total}</span>
             </button>
             <button className="secondary" onClick={() => this.switchFolder('spam')}>
