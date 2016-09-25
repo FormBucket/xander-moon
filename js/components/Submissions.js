@@ -318,19 +318,16 @@ const Submissions = React.createClass({
               <FontAwesome name="chevron-right" />
             </button>
             {'  '}
+            {
+              branch( this.state.loading,
+                  <span style={{
+                      background: 'white',
+                      color: '#333',
+                      zIndex: 9999 }}>
+                    <FontAwesome name="spinner" /> Loading...
+                  </span>, null)
+            }
           </p>
-          {
-            branch( this.state.loading,
-                <span style={{
-                    background: 'white',
-                    color: '#333',
-                    float: 'right',
-                    position: 'absolute',
-                    right: 200,
-                    zIndex: 9999 }}>
-                  <FontAwesome name="spinner" /> Loading...
-                </span>, null)
-          }
         </div>
       </div>
     )
@@ -409,13 +406,13 @@ const Submissions = React.createClass({
             </div>
           </div>
           <div className="folders">
-            <button className="secondary active" onClick={(event) => this.switchFolder('default')}>
+            <button className={branch(this.state.display === 'default', "secondary active", "secondary")} onClick={(event) => this.switchFolder('default')}>
               Inbox <span className="submission-count">{this.state.total}</span>
             </button>
-            <button className="secondary" onClick={() => this.switchFolder('spam')}>
+            <button className={branch(this.state.display === 'spam', "secondary active", "secondary")} onClick={() => this.switchFolder('spam')}>
               Spam <span className="submission-count">{this.state.totalSpam}</span>
             </button>
-            <button className="secondary" onClick={() => this.switchFolder('deleted')}>
+            <button className={branch(this.state.display === 'deleted', "secondary active", "secondary")} onClick={() => this.switchFolder('deleted')}>
               Deleted <span className="submission-count">{this.state.totalDeleted}</span>
             </button>
           </div>

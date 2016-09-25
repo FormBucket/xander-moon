@@ -364,6 +364,10 @@ button, .button, input[type="button"] {
   box-shadow: none;
 }
 
+.secondary:focus {
+  outline: none;
+}
+
 .secondary:hover, .secondary:active {
   background-color: $lightest-purple;
   color: $purple;
