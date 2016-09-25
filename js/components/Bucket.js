@@ -59,11 +59,19 @@ const NewBucket = React.createClass({
   },
 
   toggleAutoResponder(e) {
-    this.setState( { auto_responder : e.target.checked ? {
-      from: this.refs.auto_responder_from.value,
-      subject: this.refs.auto_responder_subject.value,
-      body: this.state.auto_responder_content.toString('markdown') } : false
-    })
+
+    this.setState( { auto_responder: false })
+
+    if (e.target.checked) {
+      this.setState({
+        auto_responder : {
+          from: this.refs.auto_responder_from.value,
+          subject: this.refs.auto_responder_subject.value,
+          body: this.refs.auto_responder_body.value
+        }
+      })
+    }
+
   },
 
   onSave (e) {
@@ -181,7 +189,7 @@ const NewBucket = React.createClass({
             <div className="section">
               <h3><span className="pro">Pro</span> Autoresponder</h3>
               <label>
-                <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" onClick={this.toggleAutoResponder} checked={ this.state.auto_responder } />
+                <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" onChange={this.toggleAutoResponder} checked={ this.state.auto_responder } />
                 Automatically send an email to form submitters
               </label>
               <div className="autoresponder-wrapper" style={{ display: this.state.auto_responder ? '' : 'none' } }>
