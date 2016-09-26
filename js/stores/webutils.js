@@ -170,7 +170,7 @@ export function requestPasswordReset(email){
 
 // Send request to update user with new password
 export function requestPasswordResetUpdate(email, temp_password, password){
-  return getJSON(`${apiRoot}/password_reset`, { email, temp_password, password })
+  return postJSON(`${apiRoot}/password_reset`, { email, temp_password, password })
 }
 
 // Send request to update user with new password
