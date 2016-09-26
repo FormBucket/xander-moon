@@ -165,12 +165,12 @@ export function requestDestroyAccount(bucketId){
 
 // Send request to reset user's password
 export function requestPasswordReset(email){
-  return getJSON(`${apiRoot}/password_reset?email=` + email)
+  return getJSON(`${apiRoot}/password_reset?email=` + encodeURIComponent(email))
 }
 
 // Send request to update user with new password
 export function requestPasswordResetUpdate(email, temp_password, password){
-  return getJSON(`${apiRoot}/password_reset`, { email, temp_password, password})
+  return getJSON(`${apiRoot}/password_reset`, { email, temp_password, password })
 }
 
 // Send request to update user with new password
