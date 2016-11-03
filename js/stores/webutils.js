@@ -186,10 +186,6 @@ export function requestBucketCount() {
   return getText(`${apiRoot}/bucket_count` )
 }
 
-export function requestBucketCount() {
-  return getText(`${apiRoot}/bucket_count` )
-}
-
 export function requestUserCount() {
   return getText(`${apiRoot}/user_count` )
 }
