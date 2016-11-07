@@ -29,7 +29,7 @@ Now let's get on to the hard stuff...
 
 ## Collecting the data
 
-FormBucket's API accepts data in two formats: `form` and `json`. For simple use case like this one, you probably want to use form. For advanced use case you may prefer to opt into our [JSON API](http://localhost:3000/docs/api/).
+FormBucket's API accepts data in two formats: `form` and `json`. For simple use case like this one, you probably want to use form. For advanced use case you may prefer to opt into our [JSON API](/docs/api/).
 
 ### Option 1 - Post Form Data with jQuery
 
