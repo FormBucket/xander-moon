@@ -10,6 +10,7 @@ import {
   requestUpdateBucket, requestDeleteBucket,
   requestBucketExport, requestDownloadFile }
 from '../stores/webutils'
+import FlashMessage from './FlashMessage'
 // import RichTextEditor from 'react-rte';
 // import Codemirror from 'react-codemirror';
 // import 'codemirror/mode/spreadsheet/spreadsheet'
@@ -21,8 +22,8 @@ from '../stores/webutils'
 
 function makeHTMLForm(id, honey_pot_on, honey_pot_field) {
   return (`<form action="https://api.formbucket.com/f/${id}" method="post">
-  <input type="text" name="example" placeholder="Example" />${honey_pot_on ? `\n  <input type="text" name="${isEmpty(honey_pot_field) ? '__bucket_trap__' : honey_pot_field }" value="" style="display: none" />` : ''}
-  <button type="submit">Submit</button>
+  <input type="text" name="email" placeholder="Your email here to signup" />${honey_pot_on ? `\n  <input type="text" name="${isEmpty(honey_pot_field) ? '__bucket_trap__' : honey_pot_field }" value="" style="display: none" />` : ''}
+  <input type="submit" value="Signup">
 </form>`)
 }
 
@@ -90,7 +91,7 @@ const NewBucket = React.createClass({
       recaptcha_redirect,
       honey_pot_on,
       honey_pot_field,
-      submission_line_formula
+      is_api_request
     } = this.state
 
     requestUpdateBucket({
@@ -107,9 +108,18 @@ const NewBucket = React.createClass({
       recaptcha_redirect,
       honey_pot_on,
       honey_pot_field,
-      submission_line_formula
+      is_api_request
     })
-    .then(result => this.props.history.push('/buckets'))
+    .then(result => {
+
+      this.setState({
+        saving: false,
+        flash: 'Saved'
+      })
+
+      setTimeout(() => this.setState({ flash: undefined }), 2000)
+
+    })
     .catch(err => {
       // console.log('ERROR', err)
       this.setState({ error: err })
@@ -184,7 +194,11 @@ const NewBucket = React.createClass({
             <div className="section">
               <h3><span className="pro">Pro</span> Custom Redirect</h3>
               <label htmlFor="redirectURL">Send users to this URL after submitting the form</label>
-              <input type="text" id="redirectURL" ref="redirectURL"  onChange={ (e) => this.setState({ redirect_url: e.target.value }) }  defaultValue={this.state.redirect_url} />
+              <input type="text" id="redirectURL" ref="redirectURL"  onChange={ (e) => this.setState({ redirect_url: e.target.value }) }  disabled={this.state.is_api_request} defaultValue={this.state.redirect_url} />
+              <label htmlFor="bucketAJAXOnly" className="label-switch"> API Only?
+                <input id="bucketAJAXOnly" type="checkbox" onChange={(event) => this.setState({ is_api_request: event.target.checked }) } checked={this.state.is_api_request} />
+                <div className="checkbox"></div>
+              </label>
             </div>
             <div className="section">
               <h3><span className="pro">Pro</span> Autoresponder</h3>
@@ -308,14 +322,33 @@ const NewBucket = React.createClass({
           </div>
           <div className="bucket-preview">
             <h3>Quick Use</h3>
-            <p>Copy and paste the markup below into your project, replacing the example inputs with your own.</p>
             <div className="bucket-editor">
-              <div className="quick-use">
+              <h4>Your bucket's endpoint:</h4>
+              <div>
+                <input type="text" value={"https://api.formbucket.com/f/" + this.state.id}></input>
+              </div>
+              <hr />
+              <h4>Sample HTML</h4>
+              <p>Copy and paste the markup below into your project, replacing the example inputs with your own.</p>
+              <div className="quick-use" style={{ textAlign: 'left' }}>
                 <Markdown
                   source={ '```HTML\n' + makeHTMLForm(this.state.id, this.state.honey_pot_on, this.state.honey_pot_field) + '\n```' }
                   options={ markdownOptions }
                   />
               </div>
+              <hr />
+              <div className="quick-use" style={{ padding: 10 }}>
+              <h4>Test Form</h4>
+              <div>
+                <form target="_blank" action={"https://api.formbucket.com/f/"  + this.state.id} method="post">
+                  <label>Email</label>
+                  <input type="text" name="email" placeholder="Your email here to signup" />
+                  <label>Honeypot</label>
+                  <input type="text" name="__bucket_trap__" placeholder={ this.state.honey_pot_on ? "I must be blank" : "Honeypot isn't enabled."}/>
+                  <input type="submit" value="Signup" />
+                </form>
+              </div>
+            </div>
             </div>
           </div>
           <div className="bucket-preview">
@@ -336,6 +369,7 @@ const NewBucket = React.createClass({
             </p>
           </div>
         </div>
+        <FlashMessage text={this.state.flash} />
       </div>
     )
   }

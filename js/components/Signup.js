@@ -70,6 +70,15 @@ const Signup = React.createClass({
 
   },
   render () {
+
+      // return (
+      //   <div className="page-heading">
+      //     <div className="wrapper">
+      //       <h1>Signup no longer available.</h1>
+      //     </div>
+      //   </div>
+      // )
+
     return (
       <div>
         <div className="page-heading">
