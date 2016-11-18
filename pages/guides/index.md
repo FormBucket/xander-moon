@@ -4,7 +4,8 @@ heading: FormBucket API
 date: 2012-08-20
 layout: static.html
 ---
-More guides will be coming soon.
+
+If you don't find what you need here then <a href="/contact">please contact us for help</a>.
 
 ## Docs
 
@@ -14,3 +15,6 @@ More guides will be coming soon.
 
  - [Collect emails with jQuery and AJAX](/guides/collect-emails-for-newsletter-with-jquery-and-ajax)
  - [HOWTO Setup recaptcha](/guides/howto-setup-recaptcha)
+ - [Merge Tags](/guides/merge-tags)
+ - [File Uploads](/guides/file-uploads)
+ - [API Only?](/guides/api-only)

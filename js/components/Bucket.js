@@ -21,8 +21,10 @@ import FlashMessage from './FlashMessage'
 // };
 
 function makeHTMLForm(id, honey_pot_on, honey_pot_field) {
-  return (`<form action="https://api.formbucket.com/f/${id}" method="post">
-  <input type="text" name="email" placeholder="Your email here to signup" />${honey_pot_on ? `\n  <input type="text" name="${isEmpty(honey_pot_field) ? '__bucket_trap__' : honey_pot_field }" value="" style="display: none" />` : ''}
+  return (`<form action="https://api.formbucket.com/f/${id}" method="post" target="_blank">
+  <label>Email</label>
+  <input type="text" name="email" placeholder="Your email here to signup" />${honey_pot_on ? `
+  <label>Honey pot (Should be empty and hidden)</label><input type="text" name="${isEmpty(honey_pot_field) ? '__bucket_trap__' : honey_pot_field }" value="" /*style="display: none"*/ />` : ''}
   <input type="submit" value="Signup">
 </form>`)
 }
@@ -86,6 +88,7 @@ const NewBucket = React.createClass({
       redirect_url,
       webhooks,
       auto_responder,
+      notification_from,
       recaptcha_on,
       recaptcha_secret,
       recaptcha_redirect,
@@ -103,6 +106,7 @@ const NewBucket = React.createClass({
       redirect_url,
       webhooks,
       auto_responder,
+      notification_from,
       recaptcha_on,
       recaptcha_secret,
       recaptcha_redirect,
@@ -164,7 +168,6 @@ const NewBucket = React.createClass({
   },
 
   render () {
-    console.log(this.state)
 
     if (this.state.error) {
       return <div>{this.state.error}</div>
@@ -178,7 +181,7 @@ const NewBucket = React.createClass({
       <div>
         <div className="page-heading">
           <div className="wrapper">
-            <h1>{ this.state.name && this.state.name.length > 0 ? this.state.name : `Bucket (${this.state.id})` }</h1>
+            <h1>{ this.state.name && this.state.name.length > 0 ? this.state.name : this.state.id }</h1>
           </div>
         </div>
         <div className="wrapper">
@@ -192,7 +195,7 @@ const NewBucket = React.createClass({
               </label>
             </div>
             <div className="section">
-              <h3><span className="pro">Pro</span> Custom Redirect</h3>
+              <h3>Custom Redirect <span className="pro">Pro</span></h3>
               <label htmlFor="redirectURL">Send users to this URL after submitting the form</label>
               <input type="text" id="redirectURL" ref="redirectURL"  onChange={ (e) => this.setState({ redirect_url: e.target.value }) }  disabled={this.state.is_api_request} defaultValue={this.state.redirect_url} />
               <label htmlFor="bucketAJAXOnly" className="label-switch"> API Only?
@@ -201,7 +204,7 @@ const NewBucket = React.createClass({
               </label>
             </div>
             <div className="section">
-              <h3><span className="pro">Pro</span> Autoresponder</h3>
+              <h3>Autoresponder <span className="pro">Pro</span></h3>
               <label>
                 <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" onChange={this.toggleAutoResponder} checked={ this.state.auto_responder } />
                 Automatically send an email to form submitters
@@ -215,17 +218,28 @@ const NewBucket = React.createClass({
                   onChange={(e) => this.setState({ auto_responder: Object.assign({}, this.state.auto_responder, { from: e.target.value } ) })}
                   defaultValue={ this.state.auto_responder ? this.state.auto_responder.from : this.state.user.email }
                   />
+                <label htmlFor="toEmail">To</label>
+                <input type="text" ref="auto_responder_to" placeholder="Defaults to {{ email }}"
+                  onChange={(e) => this.setState({ auto_responder: Object.assign({}, this.state.auto_responder, { to: e.target.value } ) })}
+                  defaultValue={ this.state.auto_responder ? this.state.auto_responder.to : null }
+                  />
                 <label htmlFor="subject">Subject</label>
                 <input type="text" ref="auto_responder_subject" placeholder="Thanks!"
                   onChange={(e) => this.setState({ auto_responder: Object.assign({}, this.state.auto_responder, { subject: e.target.value } ) })}
                   defaultValue={ this.state.auto_responder ? this.state.auto_responder.subject : '' }
                   />
-                <label htmlFor="emailBody">Body</label>
+                <label htmlFor="emailBody">Body (supports Markdown)</label>
                 <textarea ref="auto_responder_body"
                   onChange={(e) => this.setState({ auto_responder: Object.assign({}, this.state.auto_responder, { body: e.target.value } ) })}
                   defaultValue={ this.state.auto_responder ? this.state.auto_responder.body : ''}
                   >
                 </textarea>
+                <div>
+                  <a href="/guides/merge-tags" target="_blank">Learn about merge tags</a>
+                </div>
+                <div>
+                  <a href="https://daringfireball.net/projects/markdown/  " target="_blank">Learn about Markdown</a>
+                </div>
                 {/*}<RichTextEditor
                   value={this.state.auto_responder_content}
                   onChange={this.onChangeAutoResponderMessage}
@@ -234,6 +248,11 @@ const NewBucket = React.createClass({
             </div>
             <div className="section">
               <h3>Notifications</h3>
+              <label htmlFor="subject">Sent From:</label>
+              <input type="text" placeholder="Defaults to support@formbucket.com"
+                onChange={(e) => this.setState({ notification_from: e.target.value }) }
+                defaultValue={ this.state.notification_from }
+                />
               <label>
                 <input type="radio" onChange={() => this.setState({ email_to: false })}  checked={ this.state.email_to === false } />
                 Do not send notifications
@@ -249,7 +268,7 @@ const NewBucket = React.createClass({
               </label>
             </div>
             <div className="section">
-              <h3>Webhooks</h3>
+              <h3>Webhooks <span className="pro">Pro</span></h3>
               { isArray(this.state.webhooks) ?
                 this.state.webhooks.map( (webhook, i) => (
                   <div key={i} >
@@ -298,7 +317,7 @@ const NewBucket = React.createClass({
                   <div className="spam-protection">
                     <label>
                       Secret key (provided by Google)
-                      {' '}<a className="pull-right" href="#">Why do we need this?</a>
+
                       <input onChange={(e) => this.setState({ recaptcha_secret:  e.target.value  })}
                       defaultValue={ this.state.recaptcha_secret }/>
                     </label>
@@ -337,18 +356,11 @@ const NewBucket = React.createClass({
                   />
               </div>
               <hr />
-              <div className="quick-use" style={{ padding: 10 }}>
               <h4>Test Form</h4>
-              <div>
-                <form target="_blank" action={"https://api.formbucket.com/f/"  + this.state.id} method="post">
-                  <label>Email</label>
-                  <input type="text" name="email" placeholder="Your email here to signup" />
-                  <label>Honeypot</label>
-                  <input type="text" name="__bucket_trap__" placeholder={ this.state.honey_pot_on ? "I must be blank" : "Honeypot isn't enabled."}/>
-                  <input type="submit" value="Signup" />
-                </form>
+              <div className="quick-use" style={{ padding: 10 }}>
+                <div dangerouslySetInnerHTML={{__html: makeHTMLForm(this.state.id, this.state.honey_pot_on, this.state.honey_pot_field) }}>
+                </div>
               </div>
-            </div>
             </div>
           </div>
           <div className="bucket-preview">

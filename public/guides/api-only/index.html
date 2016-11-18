@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>{{{title}}}</title>
+  <title>API Only</title>
 
   <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -27,9 +27,8 @@
   <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700' rel='stylesheet' type='text/css'>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" rel="stylesheet">
-  {{#unless __DEV__}}
-  <link rel="stylesheet" href="/assets/app-{{__ts__}}.css">
-  {{/unless}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/solarized_light.min.css">
+  <link rel="stylesheet" href="/assets/app-2016-11-18.css">
 
   <!-- favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png?v=2">
@@ -40,15 +39,80 @@
   <meta name="msapplication-TileImage" content="/ms-icon-144x144.png?v=2">
   <meta name="theme-color" content="#ffffff">
 
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
 </head>
 <body>
   <div id="root">
     <div>
-      {{{ contents }}}
+    <header class="navigation" role="banner">
+      <div class="navigation-wrapper">
+        <a href="/" class="logo">
+          <img src="/img/logo.svg" alt="FormBucket" />
+        </a>
+        <nav id="nav-logged-out" role="navigation">
+          <a href="#" class="navigation-menu-button">MENU</a>
+          <ul id="js-navigation-menu" class="navigation-menu">
+            <li class="nav-link">
+               <a href="/guides">Guides</a>
+            </li>
+            <li class="nav-link">
+              <a href="/signup" onClick={this.handleLinkClick}>Sign Up</a>
+            </li>
+            <li class="nav-link">
+              <a href="/login" onClick={this.handleLinkClick}>Login</a>
+            </li>
+          </ul>
+        </nav>
+        <nav id="nav-logged-in" role="navigation" style="display: none">
+          <a href="#" class="navigation-menu-button">MENU</a>
+          <ul class="navigation-menu">
+            <li class="nav-link">
+               <a href="/guides">Guides</a>
+            </li>
+            <li class="nav-link">
+              <a href="/buckets" onClick={this.handleLinkClick}>Buckets</a>
+            </li>
+            <li class="nav-link">
+              <a href="/account" onClick={this.handleLinkClick}>Account</a>
+            </li>
+          </ul>
+        </nav>
+        <!-- Script will hide/show the correct menu -->
+        <script src="/assets/nav-2016-11-18.js"></script>
+      </div>
+    </header>
+    <div class="main">
+      <div class="page-heading">
+        <div class="wrapper">
+          <h1>API Only?</h1>
+        </div>
+      </div>
+      <div class="wrapper">
+        <div class="two-thirds">
+          <p>The &quot;API Only?&quot; option sets up an endpoint that always returns a JSON object.</p>
+<p>By default your endpoint supports both redirect and JSON modes. When this option
+is enabled then your endpoint will only support JSON mode. All requests will return
+a body with an object that contains the submission id. It should look something
+like this:</p>
+<pre><code class="language-js">{<span class="hljs-attr">"id"</span>:<span class="hljs-string">"sub_48ATRBzNKf458L16Wlz2O3lu"</span>}
+</code></pre>
+<p>You will need to know how to write AJAX code if you want to use this option.</p>
+
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <a href="/" className="logo">
+        <img src="/img/logo-purple.svg" alt="FormBucket" />
+      </a>
+      <p>
+        &copy; 2015-2016 <a href="https://websitehq.com">WebsiteHQ, LLC</a>
+      </p>
+      <div>
+        <a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="/terms">Terms</a> | <a href="/privacy-policy">Privacy Policy</a>
+      </div>
+    </div>
     </div>
   </div>
-  {{#if __DEV__}}
-  <script src="/assets/styles-{{__ts__}}.js"></script>
-  {{/if}}
 </body>
 </html>
