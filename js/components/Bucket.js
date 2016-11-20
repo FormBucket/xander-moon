@@ -346,6 +346,7 @@ const NewBucket = React.createClass({
               <div>
                 <input type="text" value={"https://api.formbucket.com/f/" + this.state.id}></input>
               </div>
+              <button onClick={() => this.props.history.push('/buckets/' + this.state.id + '/submissions')}>Open Submissions</button>
               <hr />
               <h4>Sample HTML</h4>
               <p>Copy and paste the markup below into your project, replacing the example inputs with your own.</p>
