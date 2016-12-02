@@ -27,7 +27,7 @@ export function callResource(method, url, data) {
     opts.body = JSON.stringify(data)
   }
 
-  console.log('call', url, opts)
+  // console.log('call', url, opts)
 
   return fetch( url, opts)
 }

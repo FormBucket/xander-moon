@@ -54,7 +54,7 @@ const Submissions = React.createClass({
 
     this.setState({ loading: true })
 
-    console.log(nextProps.location)
+    // console.log(nextProps.location)
 
     Promise.all([
       requestBucket(nextProps.params.id),
@@ -85,7 +85,7 @@ const Submissions = React.createClass({
 
     var url = `/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${this.props.params.offset}/${this.props.params.limit}/${this.props.params.select}?type=${this.state.display}`
 
-    console.log(this.props)
+    // console.log(this.props)
 
     if (this.props.location.query.q) {
       this.props.history.replace(url + '&q=' + this.props.location.query.q)
@@ -245,7 +245,7 @@ const Submissions = React.createClass({
 
   render () {
 
-    console.log(this.state)
+    // console.log(this.state)
 
     if (eq(this.state.loaded, false)) {
       return (

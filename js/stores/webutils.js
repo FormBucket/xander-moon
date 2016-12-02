@@ -8,7 +8,7 @@ export const server = process.env.FORMBUCKET_API_SERVER,
 version = `/v1`,
 apiRoot = process.env.FORMBUCKET_API_SERVER + version
 
-console.log('apiRoot', apiRoot)
+// console.log('apiRoot', apiRoot)
 
 import {
   getResource,
