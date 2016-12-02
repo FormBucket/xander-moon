@@ -17,4 +17,4 @@ If you don't find what you need here then <a href="/contact">please contact us f
  - [HOWTO Setup recaptcha](/guides/howto-setup-recaptcha)
  - [Merge Tags](/guides/merge-tags)
  - [File Uploads](/guides/file-uploads)
- - [API Only?](/guides/api-only)
+ - [AJAX Only?](/guides/ajax-only)

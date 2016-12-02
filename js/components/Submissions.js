@@ -341,7 +341,7 @@ const Submissions = React.createClass({
           <div className="submissions-controls">
             <div className="submissions-actions">
               <div className="paging">
-                <button onClick={() => this.props.history.push('/buckets/' + this.state.bucket.id + '/settings')} style={{ float: 'right' }}>Open Settings</button>
+                <a href="#" onClick={(event) => { this.props.history.push('/buckets/' + this.state.bucket.id + '/settings'); event.stopPropogation(); }} style={{ float: 'right' }}>Edit Bucket Settings</a>
                 {pager('top')}
               </div>
               <div className="dropdown-container">
@@ -436,7 +436,7 @@ const Submissions = React.createClass({
                       <div key={i + '|' + j}>
                         <p>
                           <strong>{key}</strong>
-                          : {submission.data[key].toString()}
+                          : {(submission.data[key] || '').toString()}
                         </p>
                       </div>
                     ))}

@@ -22,10 +22,9 @@ import FlashMessage from './FlashMessage'
 
 function makeHTMLForm(id, honey_pot_on, honey_pot_field) {
   return (`<form action="https://api.formbucket.com/f/${id}" method="post" target="_blank">
-  <label>Email</label>
-  <input type="text" name="email" placeholder="Your email here to signup" />${honey_pot_on ? `
+  <input type="text" name="email" placeholder="Does it work?" />${honey_pot_on ? `
   <label>Honey pot (Should be empty and hidden)</label><input type="text" name="${isEmpty(honey_pot_field) ? '__bucket_trap__' : honey_pot_field }" value="" /*style="display: none"*/ />` : ''}
-  <input type="submit" value="Signup">
+  <button class="button secondary" type="submit">Submit</button>
 </form>`)
 }
 
@@ -195,16 +194,16 @@ const NewBucket = React.createClass({
               </label>
             </div>
             <div className="section">
-              <h3>Custom Redirect <span className="pro">Pro</span></h3>
+              <h3>Custom Redirect</h3>
               <label htmlFor="redirectURL">Send users to this URL after submitting the form</label>
               <input type="text" id="redirectURL" ref="redirectURL"  onChange={ (e) => this.setState({ redirect_url: e.target.value }) }  disabled={this.state.is_api_request} defaultValue={this.state.redirect_url} />
-              <label htmlFor="bucketAJAXOnly" className="label-switch"> API Only?
+              <label htmlFor="bucketAJAXOnly" className="label-switch"> AJAX Only?
                 <input id="bucketAJAXOnly" type="checkbox" onChange={(event) => this.setState({ is_api_request: event.target.checked }) } checked={this.state.is_api_request} />
                 <div className="checkbox"></div>
               </label>
             </div>
             <div className="section">
-              <h3>Autoresponder <span className="pro">Pro</span></h3>
+              <h3>Autoresponder</h3>
               <label>
                 <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" onChange={this.toggleAutoResponder} checked={ this.state.auto_responder } />
                 Automatically send an email to form submitters
@@ -268,7 +267,7 @@ const NewBucket = React.createClass({
               </label>
             </div>
             <div className="section">
-              <h3>Webhooks <span className="pro">Pro</span></h3>
+              <h3>Webhooks</h3>
               { isArray(this.state.webhooks) ?
                 this.state.webhooks.map( (webhook, i) => (
                   <div key={i} >
@@ -340,13 +339,14 @@ const NewBucket = React.createClass({
             <input type="button" className="button" onClick={this.onSave} value="Save Settings" />
           </div>
           <div className="bucket-preview">
-            <h3>Quick Use</h3>
+            <a href="#" onClick={(event) => { this.props.history.push('/buckets/' + this.state.id + '/submissions'); event.stopPropogation() }}>View Submissions</a>
+          </div>
+          <div className="bucket-preview">
             <div className="bucket-editor">
-              <h4>Your bucket's endpoint:</h4>
+              <h4>Endpoint:</h4>
               <div>
                 <input type="text" value={"https://api.formbucket.com/f/" + this.state.id}></input>
               </div>
-              <button onClick={() => this.props.history.push('/buckets/' + this.state.id + '/submissions')}>Open Submissions</button>
               <hr />
               <h4>Sample HTML</h4>
               <p>Copy and paste the markup below into your project, replacing the example inputs with your own.</p>
@@ -358,7 +358,7 @@ const NewBucket = React.createClass({
               </div>
               <hr />
               <h4>Test Form</h4>
-              <div className="quick-use" style={{ padding: 10 }}>
+              <div>
                 <div dangerouslySetInnerHTML={{__html: makeHTMLForm(this.state.id, this.state.honey_pot_on, this.state.honey_pot_field) }}>
                 </div>
               </div>

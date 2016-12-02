@@ -14,8 +14,8 @@ Here is the basic markup for our form.
 
 ```html
 <form id="subscribe"
-      action="post"
-      method="http://api.formbucket.com/f/MyBucketId">
+      method="post"
+      action="http://api.formbucket.com/f/MyBucketId">
   <input type="email"
          name="email"
          placeholder="Enter your email...">
@@ -66,10 +66,11 @@ $(function() {
     .done(function(response) {
       // You will do something WAY BETTER than alert
       // because you are an awesome designer.
-      alert('Thanks for subscribing!')
+      alert('Thanks for subscribing!');
+      subscribeButton.prop('disabled', false);
     })
     .fail(function(response) {
-      alert('Dang, something went wrong!')
+      alert('Dang, something went wrong!');
       subscribeButton.prop('disabled', false);
     })
 

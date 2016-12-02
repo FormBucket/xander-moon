@@ -1,10 +1,10 @@
 ---
-title: API Only
-heading: API Only?
+title: AJAX Only Option
+heading: AJAX Only Option
 date: 2016-08-20
 layout: static.html
 ---
-The "API Only?" option sets up an endpoint that always returns a JSON object.
+The "AJAX Only?" option sets up an endpoint that always returns a JSON object.
 
 By default your endpoint supports both redirect and JSON modes. When this option
 is enabled then your endpoint will only support JSON mode. All requests will return
@@ -16,3 +16,4 @@ like this:
 ```
 
 You will need to know how to write AJAX code if you want to use this option.
+Merge with teams branch
