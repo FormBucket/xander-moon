@@ -1,88 +1,173 @@
-.hero {
-  background-color: $purple;
-  padding-top: $base-spacing * 3;
+.modal {
+  @include outer-container;
+  margin-top: $base-spacing * 4;
+  padding: $base-spacing;
+  background-color: white;
+  border: 1px solid $lightest-purple;
+  border-radius: $base-border-radius;
   text-align: center;
+  box-shadow: $base-box-shadow;
+  outline: none;
+  opacity: 0;
+
+  @include media($phablet) {
+    padding: $base-spacing / 2;
+  }
+
+  p {
+    margin-top: $base-spacing;
+  }
+}
+
+.ReactModal__Content--after-open {
+  opacity: 1;
+  transition: opacity .35s ease-in-out;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.embed-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+
+  iframe, object, embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
+.hero {
+  margin-bottom: $base-spacing * 2;
+  text-align: center;
+  background: $purple;
+  color: white;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21.184 20c.357-.13.72-.264 1.088-.402l1.768-.661C33.64 15.347 39.647 14 50 14c10.271 0 15.362 1.222 24.629 4.928.955.383 1.869.74 2.75 1.072h6.225c-2.51-.73-5.139-1.691-8.233-2.928C65.888 13.278 60.562 12 50 12c-10.626 0-16.855 1.397-26.66 5.063l-1.767.662c-2.475.923-4.66 1.674-6.724 2.275h6.335zm0-20C13.258 2.892 8.077 4 0 4V2c5.744 0 9.951-.574 14.85-2h6.334zM77.38 0C85.239 2.966 90.502 4 100 4V2c-6.842 0-11.386-.542-16.396-2h-6.225zM0 14c8.44 0 13.718-1.21 22.272-4.402l1.768-.661C33.64 5.347 39.647 4 50 4c10.271 0 15.362 1.222 24.629 4.928C84.112 12.722 89.438 14 100 14v-2c-10.271 0-15.362-1.222-24.629-4.928C65.888 3.278 60.562 2 50 2 39.374 2 33.145 3.397 23.34 7.063l-1.767.662C13.223 10.84 8.163 12 0 12v2z' fill='%237a53b8' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+  background-position: 0px 0px;
+  background-repeat: repeat;
+  animation: drifting 90s linear infinite;
+
+  @include media($phablet) {
+    animation: drifting 15s linear infinite;
+  }
+
+  .bubbles {
+    padding: $base-spacing * 3 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21.184 20c.357-.13.72-.264 1.088-.402l1.768-.661C33.64 15.347 39.647 14 50 14c10.271 0 15.362 1.222 24.629 4.928.955.383 1.869.74 2.75 1.072h6.225c-2.51-.73-5.139-1.691-8.233-2.928C65.888 13.278 60.562 12 50 12c-10.626 0-16.855 1.397-26.66 5.063l-1.767.662c-2.475.923-4.66 1.674-6.724 2.275h6.335zm0-20C13.258 2.892 8.077 4 0 4V2c5.744 0 9.951-.574 14.85-2h6.334zM77.38 0C85.239 2.966 90.502 4 100 4V2c-6.842 0-11.386-.542-16.396-2h-6.225zM0 14c8.44 0 13.718-1.21 22.272-4.402l1.768-.661C33.64 5.347 39.647 4 50 4c10.271 0 15.362 1.222 24.629 4.928C84.112 12.722 89.438 14 100 14v-2c-10.271 0-15.362-1.222-24.629-4.928C65.888 3.278 60.562 2 50 2 39.374 2 33.145 3.397 23.34 7.063l-1.767.662C13.223 10.84 8.163 12 0 12v2z' fill='%237a53b8' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+    background-position: 0px 0px;
+    background-repeat: repeat;
+    animation: driftingbackwards 45s linear infinite;
+
+    @include media($phablet) {
+      animation: driftingbackwards 5s linear infinite;
+    }
+  }
 
   h1 {
     margin: 0;
     text-align: center;
-    color: $lightest-purple;
-    text-shadow: 0px 2px 2px rgba(62, 34, 128, 1);
+
+    @include media($phablet) {
+      font-size: $base-font-size * 2;
+      line-height: 100%;
+    }
   }
+
   h2 {
     text-align: center;
-    color: $lightest-purple;
-    margin: 0;
-    padding-bottom: $base-spacing;
-    text-shadow: 0px 2px 2px rgba(62, 34, 128, 1);
+    margin-top: 0;
+    margin-bottom: $base-spacing / 2;
 
     @include media($phablet) {
       margin-top: $base-spacing;
+      font-size: $base-font-size * 1.25;
     }
   }
+
   h3 {
     margin: 0;
   }
 
   button {
     margin-bottom: $base-spacing;
-    font-size: $base-font-size * 1.5;
+    font-size: $base-font-size * 1.25;
   }
 
   a {
     color: white;
-    text-shadow: 0px 2px 2px rgba(62, 34, 128, 1);
+    outline: none;
   }
+}
+
+@keyframes drifting {
+	from { background-position: 0 0; }
+	to { background-position: 100% 0; }
+}
+
+@keyframes driftingbackwards {
+	from { background-position: 100% 0; }
+	to { background-position: 0 0; }
 }
 
 .features {
   @include span-columns(12);
-  padding: $base-spacing;
-  background: white;
-  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.20);
   text-align: center;
   border-bottom: 1px solid white;
 
-    .feature {
-      @include clearfix;
-      @include span-columns(8);
-      @include shift(2);
-      text-align: center;
-      border-bottom: 1px dashed $lightest-purple;
+  .feature {
+    @include clearfix;
+    @include span-columns(6);
+    text-align: center;
+    margin-bottom: $base-spacing;
+    padding-bottom: $base-spacing;
+
+    @include media($phablet) {
+      @include span-columns(12);
+      @include shift(0);
       margin-bottom: $base-spacing;
-      padding-bottom: $base-spacing;
+    }
+
+    .icon {
+      @include span-columns(2);
+
+      @include media($phablet) {
+        @include span-columns(4);
+        @include shift(4);
+      }
+    }
+
+    .copy {
+      @include span-columns(10);
+      text-align: left;
+      padding: 0 $base-spacing;
 
       @include media($phablet) {
         @include span-columns(12);
         @include shift(0);
-        margin-bottom: $base-spacing;
+        text-align: center;
       }
 
-      .icon {
-        @include span-columns(3);
+      h3 {
+        margin-top: 0;
 
-        @include media($phablet) {
-          @include span-columns(4);
-          @include shift(4);
-        }
-      }
-
-      .copy {
-        @include span-columns(8);
-        @include shift(1);
-        text-align: left;
-
-        @include media($phablet) {
-          @include span-columns(12);
-          @include shift(0);
-          text-align: center;
-        }
-
-        h3 {
-          margin-top: 0;
+        @include media($mobile) {
+          font-size: $base-font-size;
         }
       }
     }
+  }
 
   .lead {
     @include span-columns(8);
@@ -157,15 +242,11 @@
     }
   }
 
-.tour {
-  margin-top: $base-spacing * 3;
-  border-radius: 3px 3px 0 0;
-}
-
 .editor {
   @include span-columns(12);
+  min-height: 24rem;
   text-align: left;
-  margin: $base-spacing 0;
+  margin-bottom: $base-spacing * 2;
   border-radius: 3px;
 
   pre {
@@ -179,35 +260,55 @@
   }
 
   .left {
-    @include span-columns(8);
+    @include span-columns(7);
     min-height: 18rem;
-    padding: $base-spacing;
-    background-color: $lightest-purple;
-    border: 1px solid $purple;
+    padding: 0 $base-spacing;
+    background: white;
+    border: 1px solid #ddd;
     border-radius: 3px;
 
-    @include media($phablet) {
+    @include media($tablet) {
       @include span-columns(12);
       margin-bottom: $base-spacing;
+    }
+
+    @include media($mobile) {
+      font-size: $base-font-size / 1.25;
     }
   }
 
   .right {
-    @include span-columns(4);
+    @include span-columns(5);
     animation: fadeup 2s ease-in;
 
+    @include media($tablet) {
+      @include span-columns(8);
+      @include shift(2);
+      margin-bottom: $base-spacing;
+      font-size: $base-font-size;
+    }
+
+    @include media($mobile) {
+      @include span-columns(12);
+      @include shift(0);
+    }
+
     h3 {
-      margin: 0 0 10px 0;
+      margin-top: 0;
+
+      @include media($mobile) {
+        font-size: $base-font-size;
+        text-align: center;
+      }
     }
 
     button {
       margin-bottom: 0;
       font-size: $base-font-size;
-    }
 
-    @include media($phablet) {
-      @include span-columns(12);
-      margin-bottom: $base-spacing;
+      @include media($mobile) {
+        width: 100%;
+      }
     }
   }
 }
@@ -236,55 +337,120 @@
   to { opacity: .0; }
 }
 
-.plans {
-  border-bottom: none;
-}
+.section-block {
+  border-top: 1px solid $lightest-purple;
+  border-bottom: 1px solid $lightest-purple;
+  margin-bottom: $base-spacing * 2;
 
-.pricing-plan {
-  @include span-columns(4);
+  .louder {
+    background: $purple;
+    color: white;
 
-  @include media($phablet) {
-    @include span-columns(12);
-    margin-bottom: $base-spacing;
-  }
-
-  border: 1px solid $purple;
-  border-radius: 3px;
-  padding: $base-spacing;
-
-  h3 {
-    font-size: $base-font-size * 3;
-    font-weight: 300;
-    margin: 0;
-  }
-
-  li {
-    padding: 5px 0;
-    border-bottom: 1px dotted $purple;
-  }
-  li:last-child {
-    border-bottom: none;
+    .blurb {
+      color: white;
+    }
   }
 }
 
 .clincher {
-  @include clearfix;
-  @include outer-container;
   @include span-columns(12);
   padding: $base-spacing;
   text-align: center;
 
   h2 {
     margin: 0;
+
+    @include media($mobile) {
+      font-size: $base-font-size * 1.25;
+      margin-bottom: $base-spacing / 2;
+    }
   }
 }
 
-.free-plan {
-  @include span-columns(12);
+.pricing-mode {
+  text-align: center;
+  padding: 0;
+  margin-bottom: $base-spacing * 2;
+
+  li {
+    display: inline-block;
+    margin-right: $base-spacing / 2;
+    vertical-align: middle;
+  }
+
+  .label-switch {
+    margin-bottom: 0;
+  }
 }
 
-.signup {
-  width: 100%;
+.plans {
+  @include span-columns(12);
+  @include clearfix;
+  text-align: center;
+  margin-bottom: $base-spacing * 2;
+
+  h2 {
+    margin: 0;
+  }
+
+  .plan {
+    @include span-columns(4);
+    border: 1px solid $lightest-purple;
+    border-radius: $base-border-radius;
+
+    @include media($phablet) {
+      @include span-columns(12);
+      margin-bottom: $base-spacing;
+    }
+
+    h3 {
+      font-size: $base-font-size * 3;
+      font-weight: 300;
+      margin: 0;
+      text-transform: uppercase;
+
+      @include media($phablet) {
+        font-size: $base-font-size * 2;
+      }
+
+      .month {
+        font-size: $base-font-size / 2;
+      }
+    }
+
+    .level {
+      padding: $base-spacing / 3;
+      background-color: $purple;
+      color: white;
+      font-weight: lighter;
+      text-transform: uppercase;
+    }
+
+    .includes {
+      padding: $base-spacing / 3;
+      background-color: $lightest-purple;
+      color: $purple;
+      font-weight: lighter;
+      text-transform: uppercase;
+    }
+
+    li {
+      padding: $base-spacing / 3 0;
+      border-bottom: 1px dotted $lightest-purple;
+    }
+
+    .signup {
+      padding: $base-spacing / 2;
+
+      button {
+        width: 100%;
+      }
+    }
+
+    .not-included {
+      color: transparentize($darkest-purple, 0.5)
+    }
+  }
 }
 
 .hljs-highlight {

@@ -1,6 +1,4 @@
 .submissions-controls {
-  @include outer-container;
-  @include clearfix;
 
   .submissions-actions {
     @include span-columns(12);
@@ -17,8 +15,6 @@
 }
 
 .folders {
-  margin-bottom: $base-spacing;
-  border-bottom: 1px solid $lightest-purple;
 
   @include media($phablet) {
     font-size: $base-font-size / 1.2;
@@ -49,13 +45,20 @@
 }
 
 .submissions-list {
-  border: none;
+  border-bottom: 1px solid #EDE7F6;
   margin-bottom: $base-spacing;
+}
+
+.submissions-empty {
+  padding: $base-spacing;
+  border: 1px solid #EDE7F6;
 }
 
 .submission-container {
   @include clearfix;
-  @include card;
+  border-top: 1px solid #EDE7F6;
+  border-left: 1px solid #EDE7F6;
+  border-right: 1px solid #EDE7F6;
 
   p {
     @include span-columns(8);
@@ -85,11 +88,7 @@
           font-size: $base-font-size;
         }
 
-        .submission-ts {
-          float: right;
-          color: darken($lightest-purple, 20%);
-          font-weight: lighter;
-        }
+
 
         .fa-angle-double-up, .fa-angle-double-down {
           float: right;
@@ -129,7 +128,46 @@
   }
 
   .submission-body {
-    padding: $base-spacing / 2 $base-spacing * 1.5;
+    @include outer-container;
+    padding: $base-spacing / 2;
+
+    .submission-ts {
+      color: darken($lightest-purple, 40%);
+      font-weight: 400;
+    }
+
+    .submission-body-data {
+      padding-top: $base-spacing / 2;
+      padding-bottom: $base-spacing / 2;
+    }
+
+    .submission-body-key {
+      @include span-columns(3);
+      font-weight: 600;
+      overflow: hidden;
+      white-space: nowrap;
+
+      @include media($phablet) {
+        @include span-columns(4);
+      }
+
+      @include media($mobile) {
+        @include span-columns(5);
+      }
+    }
+
+    .submission-body-value {
+      @include span-columns(9);
+      overflow: hidden;
+
+      @include media($phablet) {
+        @include span-columns(8);
+      }
+
+      @include media($mobile) {
+        @include span-columns(7);
+      }
+    }
 
     @include media($phablet) {
       padding: $base-spacing / 2;
@@ -137,11 +175,16 @@
     }
   }
 
+  .submission-id {
+    float: right;
+    padding-left: $base-spacing * 2;
+    font-size: 0.7em;
+  }
 
 }
 
 .submission-selected {
-  background-color: #fffedb;
+  background-color: $lightest-purple;
 }
 
 .dropdown-container {
@@ -184,7 +227,7 @@ a {
 
 //dropdown menu
 .dropdown-item {
-  padding: $base-spacing;
+  padding: $base-spacing / 2;
   display: inline;
 }
 
@@ -193,29 +236,20 @@ a {
 .dropdown-item-dropdown {
   position: relative;
 
-  &:hover > .dropdown-menu {
+  .active {
     display: block;
     opacity: 1;
+    width: 150px;
+    right: 0px;
   }
+
 }
+
 
 .dropdown-trigger {
   position: relative;
 
-  &:focus + .dropdown-menu {
-    display: block;
-    opacity: 1;
-  }
 
-  &::after {
-    content: "›";
-    position: absolute;
-    font-size: 1.25em;
-    font-weight: bold;
-    transform: rotate(90deg);
-    top: -5px;
-    right: -15px;
-  }
 }
 
 .dropdown-menu {

@@ -4,6 +4,7 @@ import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
 import {signUp} from '../stores/ActionCreator'
 import {isEmail} from 'functionfoundry'
+import CreditCardForm from './CreditCardForm'
 
 var FontAwesome = require('react-fontawesome');
 const Signup = React.createClass({
@@ -98,6 +99,7 @@ const Signup = React.createClass({
             <input onKeyUp={this.handleKeyUp} type="text" ref="email" name="email" placeholder="nikola@altcurrent.com"/>
             <label htmlFor="createPassword"><FontAwesome name='lock' /> Create Password</label>
             <input onKeyUp={this.handleKeyUp} type="password" ref="password" name="password" />
+            <CreditCardForm />
             <input onClick={this.handleClick} className="button" type="button" value="Sign Up" />
             <p className="muted">
               By clicking "SIGN UP" you agree to our <a href="/terms" target="blank">Terms of Service</a> and <a href="/privacy-policy" target="blank">Privacy Policy</a> and also agree to receive news and tips via email.

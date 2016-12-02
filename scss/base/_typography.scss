@@ -11,15 +11,16 @@ body {
 
 h1 {
   font-size: $base-font-size * 3;
-  font-weight: 300;
+  font-weight: 700;
 }
 h2 {
-  font-size: $base-font-size * 1.75;
-  font-weight: 400;
+  font-size: $base-font-size * 2;
+  font-weight: 300;
 }
 h3 {
   font-size: $base-font-size * 1.25;
-  font-weight: 700;
+  font-weight: 400;
+  text-transform: uppercase;
 }
 h4,
 h5,
@@ -32,6 +33,7 @@ h6 {
 
 p {
   margin: 0 0 $small-spacing;
+  color: transparentize($darkest-purple, 0.2);
 }
 
 a {

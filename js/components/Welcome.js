@@ -21,7 +21,22 @@ window.validateForm = function() {
   return v;
 }
 
-var content = `<h3>Try it out!</h3>
+window.validateForm = function() {
+  var v = true;
+  var message = document.getElementsByName('message')[0].value
+
+  if (!message) {
+    v = false;
+    document.getElementsByName('message')[0].style.border = '1px red solid'
+  } else {
+    document.getElementsByName('message')[0].style.border = ''
+  }
+
+  return v;
+}
+
+var content = `
+<h3>Try it out!</h3>
 <form method="post"
   action="${server}/f/homepage"
   onsubmit="return validateForm()">
@@ -29,9 +44,9 @@ var content = `<h3>Try it out!</h3>
   <input type="text" name="name" />
   <label>Email</label>
   <input type="text" name="email" />
-  <label>What will you create with a magic backend?</label>
+  <label>What will you create with magic buckets?</label>
   <textarea name="message"></textarea>
-  <button class="secondary" type="submit">Send!</button>
+  <button class="secondary" type="submit">Submit</button>
 </form>`
 
 const videoModalStyle = {
@@ -58,11 +73,13 @@ const videoModalStyle = {
 const Welcome = React.createClass({
   getInitialState: () => {
     return {
+      isAnnual: true,
       showVideo: false,
       ghostTextLength: 0,
       ghostText: ''
     }
   },
+
   componentDidMount () {
 
     this.timerId = setInterval( () => {
@@ -104,171 +121,199 @@ const Welcome = React.createClass({
           <a href="#close"onClick={this.closeVideo}>Close</a>
         </Modal>
         <div className="hero">
+          <div className="bubbles">
+            <div className="wrapper">
+              <h1>Capture and automate form submissions</h1>
+  	          <h2>Get a powerful and reliable backend with our magic endpoints</h2>
+              <button type="button"
+                onClick={ () => this.props.history.push('/signup')}>
+                Get Started
+              </button>
+               <p><a href="#how-it-works" onClick={this.openVideo}><FontAwesome name="play-circle" /> How It Works</a></p>
+            </div>
+          </div>
+        </div>
+        <div>
           <div className="wrapper">
-            <h1>A Magic Backend for Web Designers</h1>
-	          <h2>Capture and automate form submissions with zero programming</h2>
-            { branch( UserStore.isUserLoggedIn(),
-                    <button onClick={() => this.props.history.push('/buckets')}>Return to your buckets</button>,
-                    <button onClick={() => this.props.history.push('/signup')}>Get Started</button>
-             )}
-             <p><a href="#how-it-works" onClick={this.openVideo}><FontAwesome name="play-circle" /> How It Works</a></p>
-             <div className="features tour">
-               <div className="editor">
-                 <div className="left">
-                   <div className="typing">
-                    <Markdown
-                      source={ this.state.ghostText }
-                      options={ markdownOptions }
-                    />
-                   </div>
-                 </div>
-                 <div className="right" dangerouslySetInnerHTML={{__html: this.state.ghostMarkup }}>
-                 </div>
-               </div>
-             </div>
+            <div className="features">
+              <div className="editor">
+                <div className="left">
+                  <div className="typing">
+                   <Markdown
+                     source={ this.state.ghostText }
+                     options={ markdownOptions }
+                   />
+                  </div>
+                </div>
+                <div className="right" dangerouslySetInnerHTML={{__html: this.state.ghostMarkup }}>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="wrapper">
-          <div className="features">
-            <img src="/img/dealwithit.svg" alt="Deal with it" />
-            <h2>Manage Forms Like a Boss</h2>
-            <p>You know HTML and CSS. But programming a backend to handle form submissions? Yikes.</p>
-            <p className="lead">With FormBucket, it's a piece of cake. Your clients and coworkers will think you've become a full-stack programmer overnight!</p>
-            <div className="feature">
-              <div className="icon">
-                <img src="/img/bunny.svg" alt="Magic Endpoints" />
-              </div>
-              <div className="copy">
-                <h3>Magic Endpoints</h3>
-                <p>
-                  Use our magic endpoints in your form and <em>abracadabra</em>...now you've got a complete backend for handling and automating submissions. Say goodbye to terrible embeds and iframes!
-                </p>
-              </div>
-            </div>
-            <div className="feature">
-              <div className="icon">
-                <img src="/img/laptop.svg" alt="Full Control" />
-              </div>
-              <div className="copy">
-                <h3>100% Your HTML and CSS</h3>
-                <p>
-                  Build and style forms as you normally do, then simply paste in your endpoints. No more maddening CSS overrides!
-                </p>
-              </div>
-            </div>
-            <div className="feature">
-              <div className="icon">
-                <img src="/img/heart.svg" alt="Full Control" />
-              </div>
-              <div className="copy">
-                <h3>Better UX</h3>
-                <p>
-                  Redirect users to any URL after submitting your form, or use advanced AJAX post options to keep them on the same page. Send email autoresponders with full Markdown formatting.
-                </p>
-              </div>
-            </div>
-            <div className="feature">
-              <div className="icon">
-                <img src="/img/robot.svg" alt="Endless Automation" />
-              </div>
-              <div className="copy">
-                <h3>Limitless Automation</h3>
-                <p>
-                  Capturing submissions is just the tip of the iceberg! Route form data to any other application with unlimited webhooks.
-                </p>
-              </div>
-            </div>
-            <div className="feature">
-              <div className="icon">
-                <img src="/img/bell.svg" alt="Notifications" />
-              </div>
-              <div className="copy">
-                <h3>Notifications</h3>
-                <p>
-                  Send customizable email notifications to yourself or multiple recipients when new submissions come in.
-                </p>
-              </div>
-            </div>
-            <div className="feature">
-              <div className="icon">
-                <img src="/img/shield.svg" alt="Spam Protection" />
-              </div>
-              <div className="copy">
-                <h3>Spam Protection</h3>
-                <p>
-                  Your forms are defended with advanced Spam detection, filtering and rate limiting.
-                </p>
-              </div>
-            </div>
-            <div className="feature">
-              <div className="icon">
-                <img src="/img/list.svg" alt="Submissions Manager" />
-              </div>
-              <div className="copy">
-                <h3>Submissions Manager</h3>
-                <p>
-                  Submissions are safely stored in a searchable dashboard with export options.
+          <div id="features" className="section-block">
+            <div className="wrapper">
+              <div className="clincher">
+                <h2>A Complete Platform for Managing Submissions</h2>
+                <p className="blurb">
+                  Your clients and coworkers will think you've become a full-stack programmer overnight.
                 </p>
               </div>
             </div>
           </div>
-        </div>
-        <div className="wrapper">
-          <div className="problems">
-            <h2>Now when they say...</h2>
-            <div className="problem">
-              <div className="person">
-                <img src="/img/jane.svg" alt="Jane" />
+          <div className="wrapper">
+            <div className="features">
+              <div className="feature">
+                <div className="icon">
+                  <img src="/img/bunny.svg" alt="Magic Endpoints" />
+                </div>
+                <div className="copy">
+                  <h3>Magic Endpoints</h3>
+                  <p>
+                    Paste our endpoints into your HTML and get a complete backend for handling and automating form submissions.
+                  </p>
+                </div>
               </div>
-              <div className="quote">
-                <p>
-                  "We need a new landing page for our upcoming campaign, with a form that collects contact info and notifies Sales when new leads come in."
-                </p>
-              </div>
-            </div>
-            <div className="problem">
-              <div className="person">
-                <img src="/img/dick.svg" alt="Dick" />
-              </div>
-              <div className="quote">
-                <p>
-                  "We need to add a form to our support page that will autorespond to customers, create a new ticket in ZenDesk and post to Slack."
-                </p>
-              </div>
-            </div>
-            <div className="problem">
-              <div className="person">
-                <img src="/img/tracy.svg" alt="Tracy" />
-              </div>
-              <div className="quote">
-                <p>
-                  "We need a beautiful newsletter subscription box that will automatically add new subscribers to MailChimp and send a thank you email."
-                </p>
+              <div className="feature">
+                <div className="icon">
+                  <img src="/img/laptop.svg" alt="Full Control" />
+                </div>
+                <div className="copy">
+                  <h3>No Embeds or iFrames</h3>
+                  <p>
+                    Build and style forms with 100% control over your HTML and CSS. No overrides!
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="problem">
-              <h2>You can say...</h2>
-            </div>
-            <div className="problem">
-              <div className="quote">
-                <p>
-                  "No problem."
-                </p>
+            <div className="features">
+              <div className="feature">
+                <div className="icon">
+                  <img src="/img/heart.svg" alt="Full Control" />
+                </div>
+                <div className="copy">
+                  <h3>URL Redirects and AJAX</h3>
+                  <p>
+                    Redirect form submitters to any URL or use advanced AJAX post options.
+                  </p>
+                </div>
               </div>
-              <div className="person">
-                <img src="/img/designer.svg" alt="Dick" />
+              <div className="feature">
+                <div className="icon">
+                  <img src="/img/robot.svg" alt="Endless Automation" />
+                </div>
+                <div className="copy">
+                  <h3>Limitless Integrations</h3>
+                  <p>
+                    Capturing submissions is just the beginning. Route form data to other applications with webhooks.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="features">
+              <div className="feature">
+                <div className="icon">
+                  <img src="/img/bell.svg" alt="Notifications" />
+                </div>
+                <div className="copy">
+                  <h3>Notifications</h3>
+                  <p>
+                    Send customizable real-time notifications to yourself or multiple recipients when new submissions come in.
+                  </p>
+                </div>
+              </div>
+              <div className="feature">
+                <div className="icon">
+                  <img src="/img/shield.svg" alt="Spam Protection" />
+                </div>
+                <div className="copy">
+                  <h3>Spam Protection</h3>
+                  <p>
+                    Your forms are defended with advanced SPAM detection, filtering and rate limiting as well as Honeypot and ReCAPTCHA support.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="features">
+              <div className="feature">
+                <div className="icon">
+                  <img src="/img/list.svg" alt="Submissions Manager" />
+                </div>
+                <div className="copy">
+                  <h3>Submissions Manager</h3>
+                  <p>
+                    Submissions are stored in a searchable dashboard with export options.
+                  </p>
+                </div>
+              </div>
+              <div className="feature">
+                <div className="icon">
+                  <img src="/img/autoresponder.svg" alt="Submissions Manager" />
+                </div>
+                <div className="copy">
+                  <h3>Autoresponders</h3>
+                  <p>
+                    Automatically send personalized emails to people who submit your form.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="wrapper">
-          <div className="clincher">
-            <h2>You're already a great designer</h2>
-            <p>Now you can be great at managing forms too!</p>
-              { branch( UserStore.isUserLoggedIn(),
-                      <button onClick={() => this.props.history.push('/buckets')}>Return to your buckets</button>,
-                      <button onClick={() => this.props.history.push('/signup')}>Get Started</button>
-               )}
+          <div id="pricing" className="section-block">
+            <div className="wrapper">
+              <div className="clincher">
+                <h2>Plans & Pricing</h2>
+                <p>We think you're going to love FormBucket. All plans include a 30-Day full refund guarantee!</p>
+              </div>
+            </div>
+          </div>
+          <div id="pricing" className="wrapper">
+            <div className="pricing-mode">
+              <ul>
+                <li>Monthly Billing</li>
+                <li>
+                <label className="label-switch">
+                  <input ref="term" type="checkbox" checked={this.state.isAnnual} onClick={ (event) => this.setState({ isAnnual: event.target.checked })} />
+                  <div className="checkbox"></div>
+                </label>
+              </li>
+              <li>Annual Billing</li>
+            </ul>
+            </div>
+            <div className="plans">
+              <div className="plan">
+                <div className="level">
+                  Pro
+                </div>
+                <h3>${branch(this.state.isAnnual, 50, 5)}<span className="month">/{branch(this.state.isAnnual, 'year', 'month')}</span></h3>
+                <div className="includes">
+                  Includes <strong>Unlimited...</strong>
+                </div>
+                <ul>
+                  <li>Buckets</li>
+                  <li>Submissions</li>
+                  <li>Instant Notifications</li>
+                  <li>Webhooks</li>
+                  <li>Advanced Spam Protection</li>
+                  <li>URL Redirects</li>
+                  <li>Autoresponders</li>
+                  <li>AJAX Support</li>
+                </ul>
+                <div className="signup">
+                  <button
+                    onClick={() => { this.props.history.push('/signup?annual=' + this.state.isAnnual); event.stopPropogation(); }}>
+                    Signup
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="section-block">
+            <div className="wrapper">
+              <div className="clincher">
+                <h2>High Five</h2>
+                <p className="blurb">Thanks for checking us out! Need help choosing a plan? Tweet to <a href="https://twitter.com/formbucket">@FormBucket</a> or <a href="/contact">contact us</a>.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

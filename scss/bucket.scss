@@ -118,16 +118,6 @@
   }
 }
 
-.pro {
-  padding: $base-spacing / 8 $base-spacing / 4;
-  font-size: $base-font-size / 1.75;
-  font-weight: normal;
-  background: $purple;
-  color: white;
-  text-transform: uppercase;
-  border-radius: $base-border-radius;
-}
-
 .spam-protection {
   margin-top: $base-spacing;
 }
@@ -147,8 +137,6 @@
     border: 1px solid $purple;
     border-radius: $base-border-radius;
     background-color: white;
-    @include animation(pulse .75s ease-in-out 1);
-    @include animation-delay(.25s);
   }
 
   .bucket-editor {
