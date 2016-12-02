@@ -124,7 +124,7 @@ const Welcome = React.createClass({
           <div className="bubbles">
             <div className="wrapper">
               <h1>Capture and automate form submissions</h1>
-  	          <h2>Get a powerful and reliable backend with our magic endpoints</h2>
+  	          <h2>Get a powerful and reliable backend with no programming</h2>
               <button type="button"
                 onClick={ () => this.props.history.push('/signup')}>
                 Get Started
