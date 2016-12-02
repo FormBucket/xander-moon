@@ -259,59 +259,16 @@ const Welcome = React.createClass({
             </div>
           </div>
           <div id="pricing" className="section-block">
-            <div className="wrapper">
-              <div className="clincher">
-                <h2>Plans & Pricing</h2>
-                <p>We think you're going to love FormBucket. All plans include a 30-Day full refund guarantee!</p>
-              </div>
-            </div>
-          </div>
-          <div id="pricing" className="wrapper">
-            <div className="pricing-mode">
-              <ul>
-                <li>Monthly Billing</li>
-                <li>
-                <label className="label-switch">
-                  <input ref="term" type="checkbox" checked={this.state.isAnnual} onClick={ (event) => this.setState({ isAnnual: event.target.checked })} />
-                  <div className="checkbox"></div>
-                </label>
-              </li>
-              <li>Annual Billing</li>
-            </ul>
-            </div>
-            <div className="plans">
-              <div className="plan">
-                <div className="level">
-                  Pro
-                </div>
-                <h3>${branch(this.state.isAnnual, 50, 5)}<span className="month">/{branch(this.state.isAnnual, 'year', 'month')}</span></h3>
-                <div className="includes">
-                  Includes <strong>Unlimited...</strong>
-                </div>
-                <ul>
-                  <li>Buckets</li>
-                  <li>Submissions</li>
-                  <li>Instant Notifications</li>
-                  <li>Webhooks</li>
-                  <li>Advanced Spam Protection</li>
-                  <li>URL Redirects</li>
-                  <li>Autoresponders</li>
-                  <li>AJAX Support</li>
-                </ul>
-                <div className="signup">
-                  <button
-                    onClick={() => { this.props.history.push('/signup?annual=' + this.state.isAnnual); event.stopPropogation(); }}>
-                    Signup
+            <div className="louder">
+              <div className="wrapper">
+                <div className="clincher">
+                  <h2>Simple Pricing</h2>
+                  <p>Unlimited Buckets and Submissions for just <strong>$5/mo.</strong></p>
+                  <button type="button"
+                    onClick={ () => this.props.history.push('/signup')}>
+                    Sign Up
                   </button>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="section-block">
-            <div className="wrapper">
-              <div className="clincher">
-                <h2>High Five</h2>
-                <p className="blurb">Thanks for checking us out! Need help choosing a plan? Tweet to <a href="https://twitter.com/formbucket">@FormBucket</a> or <a href="/contact">contact us</a>.</p>
               </div>
             </div>
           </div>

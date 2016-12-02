@@ -88,7 +88,6 @@ const Signup = React.createClass({
           </div>
         </div>
         <div className="wrapper">
-          <h2>Let's make some forms!</h2>
           <div className="half-width">
             {this.state.error ? <div className="error-message">{this.state.error.message}</div> : ''}
             <label htmlFor="fullName">Full Name</label>
@@ -100,10 +99,33 @@ const Signup = React.createClass({
             <label htmlFor="createPassword"><FontAwesome name='lock' /> Create Password</label>
             <input onKeyUp={this.handleKeyUp} type="password" ref="password" name="password" />
             <CreditCardForm />
+            <label className="annual">
+              <input type="checkbox" class="checkbox" name="checkboxes" value="check_1" /> Pay $50 annually instead and save 17% over the monthly plan!
+            </label>
             <input onClick={this.handleClick} className="button" type="button" value="Sign Up" />
             <p className="muted">
               By clicking "SIGN UP" you agree to our <a href="/terms" target="blank">Terms of Service</a> and <a href="/privacy-policy" target="blank">Privacy Policy</a> and also agree to receive news and tips via email.
             </p>
+          </div>
+          <div className="half-width">
+            <div id="pricing" className="wrapper">
+              <div className="plan">
+                <h3>$5<span className="month">/mo</span></h3>
+                <div className="includes">
+                  <strong>Includes Unlimited...</strong>
+                </div>
+                <ul>
+                  <li>Buckets</li>
+                  <li>Submissions</li>
+                  <li>Realtime Notifications</li>
+                  <li>URL Redirects</li>
+                  <li>AJAX Support</li>
+                  <li>Autoresponders</li>
+                  <li>Spam Protection</li>
+                  <li>Webhooks</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
