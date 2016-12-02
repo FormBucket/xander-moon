@@ -339,7 +339,7 @@ const NewBucket = React.createClass({
             <input type="button" className="button" onClick={this.onSave} value="Save Settings" />
           </div>
           <div className="bucket-preview">
-            <a href="#" onClick={(event) => { this.props.history.push('/buckets/' + this.state.id + '/submissions'); event.stopPropogation() }}>View Submissions</a>
+            <a href="#" onClick={(event) => { this.props.history.push('/buckets/' + this.state.id + '/submissions'); }}>View Submissions</a>
           </div>
           <div className="bucket-preview">
             <div className="bucket-editor">
