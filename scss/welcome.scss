@@ -145,6 +145,7 @@
 
       h3 {
         margin-top: 0;
+        margin-bottom: $base-spacing / 4;
 
         @include media($mobile) {
           font-size: $base-font-size;

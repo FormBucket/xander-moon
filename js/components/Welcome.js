@@ -199,12 +199,12 @@ const Welcome = React.createClass({
               </div>
               <div className="feature">
                 <div className="icon">
-                  <img src="/img/robot.svg" alt="Endless Automation" />
+                  <img src="/img/autoresponder.svg" alt="Submissions Manager" />
                 </div>
                 <div className="copy">
-                  <h3>Limitless Integrations</h3>
+                  <h3>Autoresponders</h3>
                   <p>
-                    Capturing submissions is just the beginning. Route form data to other applications with webhooks.
+                    Automatically send personalized emails to people who submit your form.
                   </p>
                 </div>
               </div>
@@ -241,18 +241,18 @@ const Welcome = React.createClass({
                 <div className="copy">
                   <h3>Submissions Manager</h3>
                   <p>
-                    Submissions are stored in a searchable dashboard with export options.
+                    Submissions are stored in a secure searchable dashboard with export options.
                   </p>
                 </div>
               </div>
               <div className="feature">
                 <div className="icon">
-                  <img src="/img/autoresponder.svg" alt="Submissions Manager" />
+                  <img src="/img/robot.svg" alt="Endless Automation" />
                 </div>
                 <div className="copy">
-                  <h3>Autoresponders</h3>
+                  <h3>Limitless Integrations</h3>
                   <p>
-                    Automatically send personalized emails to people who submit your form.
+                    Capturing submissions is just the beginning. Route form data to other applications with webhooks.
                   </p>
                 </div>
               </div>
