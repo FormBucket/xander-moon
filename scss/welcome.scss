@@ -52,7 +52,7 @@
 .hero {
   margin-bottom: $base-spacing * 2;
   text-align: center;
-  background: $purple;
+  background: linear-gradient(90deg, $purple, $dark-purple);
   color: white;
 
   .bubbles {
@@ -327,7 +327,7 @@
   margin-bottom: $base-spacing * 2;
 
   .louder {
-    background: $purple;
+    background: linear-gradient(90deg, $purple, $dark-purple);
     color: white;
 
     p {
