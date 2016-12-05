@@ -76,6 +76,10 @@
   border-radius: $base-border-radius;
   margin-bottom: $base-spacing;
 
+  .signup {
+    text-align: center;
+  }
+
   p {
     @include span-columns(8);
     margin-top: $base-spacing / 2;

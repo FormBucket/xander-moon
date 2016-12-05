@@ -28,7 +28,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/solarized_light.min.css">
-  <link rel="stylesheet" href="/assets/app-2016-11-18.css">
+  <link rel="stylesheet" href="/assets/app-2016-12-04.css">
 
   <!-- favicons -->
   <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png?v=2">
@@ -47,7 +47,7 @@
     <header class="navigation" role="banner">
       <div class="navigation-wrapper">
         <a href="/" class="logo">
-          <img src="/img/logo.svg" alt="FormBucket" />
+          <img src="/img/purple-logo.svg" alt="FormBucket" />
         </a>
         <nav id="nav-logged-out" role="navigation">
           <a href="#" class="navigation-menu-button">MENU</a>
@@ -78,7 +78,7 @@
           </ul>
         </nav>
         <!-- Script will hide/show the correct menu -->
-        <script src="/assets/nav-2016-11-18.js"></script>
+        <script src="/assets/nav-2016-12-04.js"></script>
       </div>
     </header>
     <div class="main">
@@ -94,8 +94,8 @@
 <p>Check out the <a href="/newsletter/"><strong>Live Demo</strong></a> (and sign up for the spectacular FormBucket newsletter).</p>
 <p>Here is the basic markup for our form.</p>
 <pre><code class="language-html">&lt;<span class="hljs-keyword">form</span> id=<span class="hljs-string">"subscribe"</span>
-      action=<span class="hljs-string">"post"</span>
-      method=<span class="hljs-string">"http://api.formbucket.com/f/MyBucketId"</span>&gt;
+      method=<span class="hljs-string">"post"</span>
+      action=<span class="hljs-string">"http://api.formbucket.com/f/MyBucketId"</span>&gt;
   &lt;<span class="hljs-keyword">input</span> <span class="hljs-keyword">type</span>=<span class="hljs-string">"email"</span>
          name=<span class="hljs-string">"email"</span>
          placeholder=<span class="hljs-string">"Enter your email..."</span>&gt;
@@ -138,10 +138,11 @@ don't send you blank values.</p>
     .done(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">response</span>) </span>{
       <span class="hljs-comment">// You will do something WAY BETTER than alert</span>
       <span class="hljs-comment">// because you are an awesome designer.</span>
-      alert(<span class="hljs-string">'Thanks for subscribing!'</span>)
+      alert(<span class="hljs-string">'Thanks for subscribing!'</span>);
+      subscribeButton.prop(<span class="hljs-string">'disabled'</span>, <span class="hljs-literal">false</span>);
     })
     .fail(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">response</span>) </span>{
-      alert(<span class="hljs-string">'Dang, something went wrong!'</span>)
+      alert(<span class="hljs-string">'Dang, something went wrong!'</span>);
       subscribeButton.prop(<span class="hljs-string">'disabled'</span>, <span class="hljs-literal">false</span>);
     })
 

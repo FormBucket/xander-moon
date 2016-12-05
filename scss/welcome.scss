@@ -369,17 +369,10 @@
 }
 
 .plan {
-  @include span-columns(8);
-  @include shift(4);
-  margin-top: $base-spacing;
+  margin-top: $base-spacing / 2;
   border: 1px solid $lightest-purple;
   border-radius: $base-border-radius;
   text-align: center;
-
-  @include media($tablet) {
-    @include span-columns(12);
-    @include shift(0);
-  }
 
   h3 {
     font-size: $base-font-size * 3;
@@ -420,7 +413,7 @@
   .signup {
     padding: $base-spacing / 2;
 
-    button {
+    button, .button {
       width: 100%;
     }
   }

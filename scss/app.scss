@@ -419,6 +419,22 @@ label {
   }
 }
 
+.sidebar {
+  @include span-columns(3);
+  @include shift(1);
+
+  @include media($phablet) {
+    @include span-columns(12);
+    @include shift(0);
+  }
+
+  .widget {
+    @include card;
+    margin-top: $base-spacing;
+    padding: $base-spacing / 2 $base-spacing;
+  }
+}
+
 .section {
   @include clearfix;
   margin-bottom: $base-spacing;

@@ -115,8 +115,7 @@ const Signup = React.createClass({
                   <strong>Includes Unlimited...</strong>
                 </div>
                 <ul>
-                  <li>Buckets</li>
-                  <li>Submissions</li>
+                  <li>Forms and Submissions</li>
                   <li>Realtime Notifications</li>
                   <li>URL Redirects</li>
                   <li>AJAX Support</li>
