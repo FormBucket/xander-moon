@@ -11,9 +11,8 @@
 }
 
 .account-sidebar {
+  @include span-columns(6);
   text-align: right;
-
-  @include span-columns(4);
 
   @include media($phablet) {
     @include span-columns(12);
