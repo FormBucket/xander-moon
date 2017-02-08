@@ -4,6 +4,7 @@ import {Link} from 'react-router'
 import FlashMessage from './FlashMessage'
 import {requestProfile, requestUpdateUser, requestDestroyAccount} from '../stores/webutils'
 import CreditCardForm from './CreditCardForm'
+import {branch} from 'functionfoundry'
 
 const Account = React.createClass({
   getInitialState () {
@@ -34,11 +35,14 @@ const Account = React.createClass({
 
   handleSave() {
 
+    // TBD: Subscribe the user.
+    // 1. Exchange credit card info for source id.
+    // 2. Subscribe user with plan and source id.
+
     this.setState({ saving: true })
     requestUpdateUser({
       id: this.state.user.id,
       name: this.refs.name.value,
-//      org: this.refs.org.value,
       email: this.refs.email.value,
       password: this.refs.password.value
     })
@@ -59,6 +63,9 @@ const Account = React.createClass({
   },
 
   render () {
+
+    var status = 'past_due'
+    var cards = [{ last4: '9999', exp_month: 12, exp_year: 7 }]
 
     if (!this.state.user || !this.state.user.email) {
       return <div>Loading...</div>
@@ -82,7 +89,45 @@ const Account = React.createClass({
             <input type="text" ref="email" name="username" defaultValue={this.state.user.email} placeholder="nikola@altcurrent.com"/>
             <label htmlFor="password"><FontAwesome name='lock' /> Change Password</label>
             <input type="password" ref="password" defaultValue="" />
-            <CreditCardForm />
+            {
+              branch(
+                status === 'trialing',
+                <div style={{ top: 0, width: '100%', textAlign: 'center', backgroundColor: 'red' }}>
+                  <span>Your free trial ends on ??/??</span>
+                </div>,
+                status === 'active',
+                <div style={{ top: 0, width: '100%', textAlign: 'center', backgroundColor: 'red' }}>
+                  <span>Your next billing date is ? for $?</span>
+                </div>,
+                status === 'past_due',
+                <div style={{ top: 0, width: '100%', textAlign: 'center', backgroundColor: 'red' }}>
+                  <span>Your account is past due. Where is my money?</span>
+                </div>,
+                status === 'canceled',
+                <div style={{ top: 0, width: '100%', textAlign: 'center', backgroundColor: 'red' }}>
+                  <span>Your account is disabled. Come back to the family. We miss you (and your money).</span>
+                </div>
+              )
+            }
+            <CreditCardForm number={`#### #### #### ${cards[0].last4}`} exp_year="2017" exp_month="09" ref="credit_card_form" handleSubmit={this.handleSave} />
+            {/*
+            <label className="annual">
+              <input type="checkbox" class="checkbox" name="checkboxes" value="check_1" />
+
+              {
+                branch(
+                status === 'trialing',
+                'Pay $60 annually and save 50% over the monthly plan!',
+                status === 'active',
+                'Switch to annual billing and save 50%',
+                status === 'past_due',
+                'Pay $60 annually and save 50% over the monthly plan!',
+                status === 'canceled',
+                'Pay $60 annually and save 50% over the monthly plan!'
+                )
+              }
+            </label>
+            */}
             <button disabled={this.state.saving} className="button secondary" onClick={this.handleSave}>Save Changes</button>
             { /*IF(this.state.active,
               <div>

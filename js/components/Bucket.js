@@ -21,8 +21,8 @@ import FlashMessage from './FlashMessage'
 // };
 
 function makeHTMLForm(id, honey_pot_on, honey_pot_field) {
-  return (`<form action="https://api.formbucket.com/f/${id}" method="post" target="_blank">
-  <input type="text" name="email" placeholder="Does it work?" />${honey_pot_on ? `
+  return (`<form action="${process.env.FORMBUCKET_API_SERVER}/f/${id}" method="post" target="_blank">
+  <input type="text" name="email" placeholder="Email" />\n  <input type="text" name="message" placeholder="Message" />${honey_pot_on ? `
   <label>Honey pot (Should be empty and hidden)</label><input type="text" name="${isEmpty(honey_pot_field) ? '__bucket_trap__' : honey_pot_field }" value="" /*style="display: none"*/ />` : ''}
   <button class="button secondary" type="submit">Submit</button>
 </form>`)
@@ -188,7 +188,7 @@ const NewBucket = React.createClass({
             <div className="section">
               <h3>Name</h3>
               <input type="text" id="bucketName" ref="bucketName" placeholder="e.g. Beta Signups" autoFocus={focus} onChange={ (e) => this.setState({ name: e.target.value }) } defaultValue={this.state.name} />
-              <label htmlFor="bucketEnabled" className="label-switch"> Status
+              <label htmlFor="bucketEnabled" className="label-switch"> Accept Submissions?
                 <input id="bucketEnabled" type="checkbox" onClick={(event) => this.setState({ enabled: event.target.checked }) } checked={this.state.enabled} />
                 <div className="checkbox"></div>
               </label>
@@ -345,7 +345,7 @@ const NewBucket = React.createClass({
             <div className="bucket-editor">
               <h4>Endpoint:</h4>
               <div>
-                <input type="text" value={"https://api.formbucket.com/f/" + this.state.id}></input>
+                <input type="text" value={ process.env.FORMBUCKET_API_SERVER + "/f/" + this.state.id}></input>
               </div>
               <hr />
               <h4>Sample HTML</h4>

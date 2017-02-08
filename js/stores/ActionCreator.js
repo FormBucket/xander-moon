@@ -18,15 +18,13 @@ import {
   requestUnsubscribe
 } from './webutils'
 
-export function signUp(name, org, email, password, accepted, optedIn) {
+export function signUp(plan, name, email, password) {
 
   return requestSignUp({
+      plan,
       name: name,
-      org: org,
       email: email,
-      password: password,
-      accepted: accepted,
-      optedIn: optedIn
+      password: password
   })
   .then(accessCode => requestToken(accessCode))
   .then(token => {
