@@ -515,6 +515,11 @@ label {
   background-color: red;
   color: white;
   border-radius: $base-border-radius;
+
+  a {
+    color: white;
+    text-decoration: underline;
+  }
 }
 
 .inline-info {
@@ -524,4 +529,8 @@ label {
   background-color: $lightest-purple;
   color: $purple;
   border-radius: $base-border-radius;
+
+  a {
+    text-decoration: underline;
+  }
 }

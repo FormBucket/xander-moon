@@ -19,16 +19,16 @@ const App = React.createClass({
           {
             branch(
               status === 'trialing',
-              <div style={{ top: 0, width: '100%', textAlign: 'center', backgroundColor: 'red' }}>
-                <span>? of ? days left of free trial. <a href="/account">Upgrade Now</a></span>
+              <div className="inline-error">
+                <span>? of ? days left on free trial.</span>
               </div>,
               status === 'past_due',
-              <div style={{ top: 0, width: '100%', textAlign: 'center', backgroundColor: 'red' }}>
-                <span><a href="/account">Update billing info</a> to prevent account from being disabled.</span>
+              <div className="inline-error">
+                <span>Please <a href="/account">update your billing info</a> to continue using FormBucket.</span>
               </div>,
               status === 'canceled',
-              <div style={{ top: 0, width: '100%', textAlign: 'center', backgroundColor: 'red' }}>
-                <span>Your account has been disabled and is no longer receiving submissions. <a href="/account">Upgrade Now</a></span>
+              <div className="inline-error">
+                <span>Your account is not receiving submissions. Please <a href="/account">update your billing info</a>.</span>
               </div>
             )
           }
