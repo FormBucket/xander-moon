@@ -263,7 +263,7 @@ const Welcome = React.createClass({
               <div className="wrapper">
                 <div className="clincher">
                   <h2>Simple Pricing</h2>
-                  <p>Unlimited Buckets and Submissions for just <strong>$7/mo.</strong></p>
+                  <p>Unlimited Buckets and Submissions for just <strong>$7/mo.</strong> Free for 14 days, no credit card required.</p>
                   <button type="button"
                     onClick={ () => this.props.history.push('/signup')}>
                     Sign Up

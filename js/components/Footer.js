@@ -13,7 +13,7 @@ const Footer = React.createClass({
           &copy; 2015-2017 <a href="https://www.formbucket.com">FormBucket.com</a>
       </p>
       <div>
-        <a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="/terms">Terms</a> | <a href="/privacy-policy">Privacy Policy</a>
+        <a href="https://status2.formbucket.com/">Status</a> | <a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="/terms">Terms</a> | <a href="/privacy-policy">Privacy Policy</a>
       </div>
     </div>
     )
