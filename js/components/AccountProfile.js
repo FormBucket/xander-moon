@@ -92,20 +92,20 @@ const Account = React.createClass({
             {
               branch(
                 status === 'trialing',
-                <div style={{ top: 0, width: '100%', textAlign: 'center', backgroundColor: 'red' }}>
+                <div className="inline-info">
                   <span>Your free trial ends on ??/??</span>
                 </div>,
                 status === 'active',
-                <div style={{ top: 0, width: '100%', textAlign: 'center', backgroundColor: 'red' }}>
+                <div className="inline-info">
                   <span>Your next billing date is ? for $?</span>
                 </div>,
                 status === 'past_due',
-                <div style={{ top: 0, width: '100%', textAlign: 'center', backgroundColor: 'red' }}>
-                  <span>Your account is past due. Where is my money?</span>
+                <div className="inline-error">
+                  <span>Please update your billing details</span>
                 </div>,
                 status === 'canceled',
-                <div style={{ top: 0, width: '100%', textAlign: 'center', backgroundColor: 'red' }}>
-                  <span>Your account is disabled. Come back to the family. We miss you (and your money).</span>
+                <div className="inline-error">
+                  <span>Please update your billing details</span>
                 </div>
               )
             }

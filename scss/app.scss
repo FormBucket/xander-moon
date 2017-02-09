@@ -507,3 +507,21 @@ label {
   font-size: $base-font-size * 2;
   transition: background 0.25s ease-in-out;
 }
+
+.inline-error {
+  width: '100%';
+  padding: $base-spacing / 2;
+  text-align: center;
+  background-color: red;
+  color: white;
+  border-radius: $base-border-radius;
+}
+
+.inline-info {
+  width: '100%';
+  padding: $base-spacing / 2;
+  text-align: center;
+  background-color: $lightest-purple;
+  color: $purple;
+  border-radius: $base-border-radius;
+}

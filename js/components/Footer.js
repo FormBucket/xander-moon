@@ -10,7 +10,7 @@ const Footer = React.createClass({
           <img src="/img/logo-purple.svg" alt="FormBucket" />
         </Link>
         <p>
-          &copy; 2015-2016 <a href="https://websitehq.com">WebsiteHQ, LLC</a>
+          &copy; 2015-2017 <a href="https://formbucket.com">FormBucket, LLC</a>
       </p>
       <div>
         <a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="/terms">Terms</a> | <a href="/privacy-policy">Privacy Policy</a>
