@@ -15,5 +15,4 @@ like this:
 {"id":"sub_48ATRBzNKf458L16Wlz2O3lu"}
 ```
 
-You will need to know how to write AJAX code if you want to use this option.
-Merge with teams branch
+IMPORTANT: You need to know how to write AJAX code if you want to use this option.
