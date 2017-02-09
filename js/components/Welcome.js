@@ -115,11 +115,6 @@ const Welcome = React.createClass({
 
    return (
       <div>
-        <Modal isOpen={this.state.showVideo} onRequestClose={this.closeVideo} style={videoModalStyle}>
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/U8AB6ddB5_g?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
-          <br/>
-          <a href="#close"onClick={this.closeVideo}>Close</a>
-        </Modal>
         <div className="hero">
           <div className="bubbles">
             <div className="wrapper">
@@ -129,7 +124,7 @@ const Welcome = React.createClass({
                 onClick={ () => this.props.history.push('/signup')}>
                 Get Started
               </button>
-               <p><a href="#how-it-works" onClick={this.openVideo}><FontAwesome name="play-circle" /> How It Works</a></p>
+              <p>Free 14-Day Trial • No credit card to sign up!</p>
             </div>
           </div>
         </div>
