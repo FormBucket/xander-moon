@@ -174,7 +174,7 @@ const Account = React.createClass({
               </a>
             </p>
             <p>
-              <a className="danger" onClick={this.handleDeleteAccount}><FontAwesome name="frown-o" /> Cancel Account</a>
+              <a className="danger" onClick={this.handleDeleteAccount}>Cancel Account</a> <FontAwesome className="danger" name="frown-o" />
             </p>
           </div>
         </div>
