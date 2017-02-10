@@ -6,6 +6,7 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import {branch} from 'functionfoundry';
+import UserStore from '../stores/user'
 
 /* Write some great components about what data
 * this application displays and how it needs to be
@@ -18,6 +19,8 @@ const App = React.createClass({
       <div>
           {
             branch(
+              !UserStore.isUserLoggedIn(),
+              null,
               status === 'trialing',
               <div className="inline-error">
                 <span>? of ? days left on free trial.</span>
