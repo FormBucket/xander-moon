@@ -13,8 +13,32 @@ import UserStore from '../stores/user'
 * organized.
 */
 const App = React.createClass({
+
+  getInitialState() {
+    return {}
+  },
+
+  componentDidMount() {
+    this.unsubscribe = UserStore.subscribe(() => {
+      this.setState({ user: UserStore.getState() })
+    })
+  },
+
+  componentWillUnmount() {
+    this.unsubscribe()
+  },
+
   render() {
-    var status = 'canceled' // TBD: get from profile
+    var {status, trial_period_days, trial_start} = this.state.user || {} // TBD: get from profile
+    console.log(this.state)
+
+    var days_remaining=(function(){
+      var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+      var secondDate = new Date(trial_start);
+      var firstDate = new Date();
+      return trial_period_days - Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+    })();
+    
     return (
       <div>
           {
@@ -23,7 +47,7 @@ const App = React.createClass({
               null,
               status === 'trialing',
               <div className="inline-error">
-                <span>? of ? days left on free trial.</span>
+                <span>{days_remaining} of {trial_period_days} days left on free trial.</span>
               </div>,
               status === 'past_due',
               <div className="inline-error">

@@ -130,7 +130,7 @@ export function requestDownloadFile(key) {
 
 // Get the stripe publishable key
 export function requestStripePubKey(){
-  return getText(`${apiRoot}/stripe/pk`)
+  return getJSON(`${apiRoot}/stripe/pk`)
 }
 
 // Get the user charges
@@ -144,13 +144,13 @@ export function requestInvoices(){
 }
 
 // Get the the user's invoices
-export function requestCreditCards(){
-  return getJSON(`${apiRoot}/billing/credit_cards`)
+export function requestCreditCards(account_id){
+  return getJSON(`${apiRoot}/accounts/${account_id}/credit_cards`)
 }
 
 // Send request to subscribe user to plan
-export function requestSubscribe(token, plan) {
-  return postJSON(`${apiRoot}/subscribe`, { token: token, plan: plan })
+export function requestSubscribe(account_id, token, plan) {
+  return postJSON(`${apiRoot}/accounts/${account_id}/subscribe`, { token: token, plan: plan })
 }
 
 // Send request to unsubscribe user to plan

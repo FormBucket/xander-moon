@@ -2,21 +2,84 @@ import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 import {Link} from 'react-router'
 import FlashMessage from './FlashMessage'
-import {requestProfile, requestUpdateUser, requestDestroyAccount} from '../stores/webutils'
+import { requestUpdateUser, requestDestroyAccount, requestStripePubKey, requestCreditCards} from '../stores/webutils'
+import { loadProfile, subscribe } from '../stores/ActionCreator'
 import CreditCardForm from './CreditCardForm'
 import {branch} from 'functionfoundry'
+import UserStore from '../stores/user'
+
+const plan = 'plan_mo_7_14'
+
+function subscribeUser({ account_id, number, cvc, exp}) {
+
+  return new Promise((resolve, reject) => {
+
+    if (!Stripe.card.validateCardNumber(number)) {
+      reject("Invalid card number.")
+      return
+    }
+
+    if (!Stripe.card.validateCVC(cvc)) {
+      reject("Invalid cvc number.")
+      return
+    }
+
+    if (!Stripe.card.validateExpiry(exp)) {
+      reject("Invalid exp date. Must be MM/YY or MM/YYYY")
+      return
+    }
+
+    Stripe.card.createToken({
+      number: number,
+      cvc: cvc,
+      exp: exp,
+    }, (status, response) => {
+
+      if (status !== 200) {
+        reject(response.error)
+        return
+      }
+
+      // got back response from Stripe
+      console.log('got token', response.id)
+
+      // Subscribe user to Plan
+      subscribe(account_id,  response.id, plan)
+      .then((result) =>{
+        console.log( result )
+        resolve(result)
+      })
+
+    })
+  })
+}
 
 const Account = React.createClass({
   getInitialState () {
     return {
       show_token: false,
-      flash: undefined
+      flash: undefined,
+      user: null,
+      cards: []
     }
   },
 
   componentDidMount() {
-    requestProfile()
-    .then((user) => this.setState({ user: user }))
+
+    Promise.all([
+      requestStripePubKey(),
+      loadProfile()
+    ])
+    .then(
+      values => {
+        console.log(values)
+        Stripe.setPublishableKey(values[0].key)
+        this.setState({ user: values[1] })
+        return Promise.resolve(values[1])
+      }
+    )
+    .then( (user) => requestCreditCards(user.account_id) )
+    .then( cards => this.setState({ cards }))
     .catch((error) => {
       localStorage.removeItem('token');
       this.props.history.push('/')
@@ -33,6 +96,8 @@ const Account = React.createClass({
     }
   },
 
+
+
   handleSave() {
 
     // TBD: Subscribe the user.
@@ -40,12 +105,25 @@ const Account = React.createClass({
     // 2. Subscribe user with plan and source id.
 
     this.setState({ saving: true })
-    requestUpdateUser({
+
+    if (false) {
+
+    }
+
+    var values = this.refs.credit_card_form.getValues()
+    values.account_id = this.state.user.account_id
+
+    var next = values.number ? subscribeUser(values) : Promise.resolve()
+
+
+    //subscribeUser()
+    next
+    .then( () => requestUpdateUser({
       id: this.state.user.id,
       name: this.refs.name.value,
       email: this.refs.email.value,
       password: this.refs.password.value
-    })
+    }))
     .then(user => {
       this.setState({
         saving: false,
@@ -57,19 +135,28 @@ const Account = React.createClass({
     })
     .catch(error => this.setState({
       saving: false,
-      flash: 'Error saving'
+      flash: 'Error saving',
+      error: error
     }))
 
   },
 
   render () {
 
-    var status = 'past_due'
-    var cards = [{ last4: '9999', exp_month: 12, exp_year: 7 }]
 
     if (!this.state.user || !this.state.user.email) {
       return <div>Loading...</div>
     }
+
+
+    var {status, valid_until, trial_end, plan_amount} = this.state.user
+    var {cards} = this.state
+
+    valid_until = new Date(valid_until)
+    trial_end = new Date(trial_end)
+    // status = 'active'
+
+    console.log('render', this.state, cards)
 
     return (
       <div>
@@ -93,11 +180,11 @@ const Account = React.createClass({
               branch(
                 status === 'trialing',
                 <div className="inline-info">
-                  <span>Your free trial ends on ??/??</span>
+                  <span>Your free trial ends on { (trial_end.getMonth()+1) + '/' + trial_end.getDate() + '/' + trial_end.getFullYear()}</span>
                 </div>,
                 status === 'active',
                 <div className="inline-info">
-                  <span>Your next billing date is ? for $?</span>
+                  <span>Your next billing date is { (valid_until.getMonth()+1) + '/' + valid_until.getDate() + '/' + valid_until.getFullYear()} for ${(plan_amount/100)}</span>
                 </div>,
                 status === 'past_due',
                 <div className="inline-error">
@@ -109,7 +196,11 @@ const Account = React.createClass({
                 </div>
               )
             }
-            <CreditCardForm number={`#### #### #### ${cards[0].last4}`} exp_year="2017" exp_month="09" ref="credit_card_form" handleSubmit={this.handleSave} />
+            <CreditCardForm ref="credit_card_form"
+              ref="credit_card_form"
+              number={ cards.length > 0  ? `#### #### #### ${cards[0].last4}` : ''}
+              exp_year="2017" exp_month="09"
+              handleSubmit={this.handleSave} />
             {/*
             <label className="annual">
               <input type="checkbox" class="checkbox" name="checkboxes" value="check_1" />
@@ -153,19 +244,14 @@ const Account = React.createClass({
               </a>
             </p>
             <p>
-              <a onClick={() => {
-                  this.props.history.push('/billing');
-                } }>Billing History
-              </a>
-            </p>
-            <p>
               <a onClick={() => this.setState({ show_token: !this.state.show_token })}>{this.state.show_token ? 'Hide API Key' : 'Show API Key' }</a>
-              <div style={{ display: this.state.show_token ? '' : 'none' }}>
-                <p>
+              <span style={{ display: this.state.show_token ? '' : 'none' }}>
+                <br />
+                <span>
                   <a href="/docs/api">(How to use this)</a>
-                </p>
+                </span>
                 <textarea rows={4} value={this.state.show_token ? localStorage.token : ''} />
-              </div>
+              </span>
             </p>
             <p>
               <a onClick={() => {

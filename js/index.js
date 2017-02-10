@@ -14,8 +14,7 @@ import Login from './components/Login'
 import Buckets from './components/Buckets'
 import Logs from './components/Logs'
 import Log from './components/Log'
-import AccountProfile from './components/AccountProfile'
-import AccountBilling from './components/AccountBilling'
+import Account from './components/Account'
 import Bucket from './components/Bucket'
 import Submissions from './components/Submissions'
 import PageNotFound from './components/PageNotFound'
@@ -36,8 +35,7 @@ render((
       <Route path="signup" component={Signup} />
       <Route path="upgrade" component={Subscribe} />
       <Route path="login" component={Login} />
-      <Route path="account" component={AccountProfile} />
-      <Route path="billing" component={AccountBilling} />
+      <Route path="account" component={Account} />
       <Route path="credit_cards" component={CreditCards} />
       <Route path="buckets" component={Buckets} />
       <Route path="buckets/:id/settings" component={Bucket} />

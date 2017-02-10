@@ -28,9 +28,10 @@ const UserStore = createStore(
   }, // store does not support updates
   {
     isUserLoggedIn: (state) => readExp() > moment().unix(),
-    getPlan: (state) => '',
-    getPlanName: (state) => "Foo"
+    getState: (state) => state,
+    getStatus: (state) => state ? state.status : 'loading'
   }
 )
 
+window.UserStore = UserStore
 export default UserStore

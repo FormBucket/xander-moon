@@ -44,7 +44,7 @@ const Signup = React.createClass({
     this.setState({ loading: true, error: false })
 
     signUp(
-      'plan_mo_5_14',
+      'plan_mo_7_14',
       this.refs.name.value,
       this.refs.email.value,
       this.refs.password.value
@@ -81,9 +81,9 @@ const Signup = React.createClass({
         <div className="wrapper">
           <div className="half-width">
             {this.state.error ? <div className="error-message">{this.state.error.message}</div> : ''}
-            <h2>
-              Free 14 day trial. No credit card required.
-            </h2>
+            <p className="muted">
+              Sign up for a 14 day trial. No credit card required.
+            </p>
             <label htmlFor="fullName">Full Name</label>
             <input onKeyUp={this.handleKeyUp} type="text" ref="name" placeholder="e.g. Nikola Tesla"/>
             <label htmlFor="emailAddress">Email Address</label>

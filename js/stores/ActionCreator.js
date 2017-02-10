@@ -193,9 +193,9 @@ export function loadSubmissionsByBucket(bucket_id, offset, limit, select) {
   return p
 }
 
-export function subscribe(token, plan) {
+export function subscribe(account_id, token, plan) {
   // console.log('subscribe', token, plan)
-  return requestSubscribe(token, plan)
+  return requestSubscribe(account_id, token, plan)
   .then(profile => {
     dispatch('setProfile', profile)
     return Promise.resolve(profile)
