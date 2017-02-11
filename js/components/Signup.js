@@ -81,9 +81,9 @@ const Signup = React.createClass({
         <div className="wrapper">
           <div className="half-width">
             {this.state.error ? <div className="error-message">{this.state.error.message}</div> : ''}
-            <p className="muted">
-              Sign up for a 14 day trial. No credit card required.
-            </p>
+            <h2>
+              Free for 14 days. No credit card required.
+            </h2>
             <label htmlFor="fullName">Full Name</label>
             <input onKeyUp={this.handleKeyUp} type="text" ref="name" placeholder="e.g. Nikola Tesla"/>
             <label htmlFor="emailAddress">Email Address</label>
@@ -109,6 +109,7 @@ const Signup = React.createClass({
                   <li>Spam Protection</li>
                   <li>Autoresponders</li>
                   <li>Webhooks</li>
+                  <li><a href="/compare">Compare FormBucket</a></li>
                 </ul>
               </div>
             </div>
