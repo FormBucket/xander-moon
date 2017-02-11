@@ -376,7 +376,7 @@ const NewBucket = React.createClass({
               </a>
             </p>
             <p>
-              <a href="javascript:void(0)" onClick={this.onDelete} >
+              <a className="danger" href="javascript:void(0)" onClick={this.onDelete} >
                 Delete this Bucket
               </a>
             </p>
