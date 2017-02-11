@@ -31,7 +31,7 @@ const CreditCardForm = React.createClass({
       <div className="payment-info">
         <div className="payment-meta">
           <div className="security-info">
-            <p> All transactions are secure and encrypted.</p><FontAwesome name='lock' />
+            <p><FontAwesome name='lock' /> All transactions are secure and encrypted.</p>
           </div>
           <img className="stripe-badge" src="/img/stripe.svg" />
         </div>
