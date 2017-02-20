@@ -154,8 +154,8 @@ export function requestSubscribe(account_id, token, plan) {
 }
 
 // Send request to unsubscribe user to plan
-export function requestUnsubscribe() {
-  return deleteJSON(`${apiRoot}/subscription`)
+export function requestUnsubscribe(account_id) {
+  return deleteJSON(`${apiRoot}/accounts/${account_id}/subscription`)
 }
 
 // Send request to destroy users account

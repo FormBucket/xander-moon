@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 import {Link} from 'react-router'
 import FlashMessage from './FlashMessage'
-import { requestUpdateUser, requestDestroyAccount, requestStripePubKey, requestCreditCards} from '../stores/webutils'
-import { loadProfile, subscribe } from '../stores/ActionCreator'
+import { requestUpdateUser, requestDestroyAccount, requestStripePubKey, requestCreditCards, requestUnsubscribe } from '../stores/webutils'
+import { loadProfile, subscribe, cancelSubscription } from '../stores/ActionCreator'
 import {branch} from 'functionfoundry'
 import UserStore from '../stores/user'
 
@@ -40,12 +40,12 @@ function subscribeUser({ account_id, number, cvc, exp}) {
       }
 
       // got back response from Stripe
-      console.log('got token', response.id)
+      // console.log('got token', response.id)
 
       // Subscribe user to Plan
       subscribe(account_id,  response.id, plan)
       .then((result) =>{
-        console.log( result )
+        // console.log( result )
         resolve(result)
       })
 
@@ -74,7 +74,7 @@ const Account = React.createClass({
     ])
     .then(
       values => {
-        console.log(values)
+        // console.log(values)
         Stripe.setPublishableKey(values[0].key)
         this.setState({ user: values[1] })
         return Promise.resolve(values[1])
@@ -83,7 +83,7 @@ const Account = React.createClass({
     .then( (user) => requestCreditCards(user.account_id) )
     .then( cards => {
       this.setState({ cards })
-      if (cards.length > 0) {
+      if (cards.length > 0 && this.state.user.status !== 'canceled') {
         var card = cards[0]
         this.setState({ number: '#### #### #### ' + card.last4, exp: card.exp_month + '/' + card.exp_year })
       }
@@ -92,6 +92,27 @@ const Account = React.createClass({
       localStorage.removeItem('token');
       this.props.history.push('/')
     })
+
+    this.unsubscribe = UserStore.subscribe(() => {
+      this.setState({ user: UserStore.getState() })
+    })
+
+  },
+
+  componentWillUnmount() {
+    this.unsubscribe()
+  },
+  handleDeleteSubscription() {
+    if (confirm("Canceling your subscription will stop submissions immediately. Your account and data will remain on our service. Continue?")) {
+      cancelSubscription(this.state.user.account_id)
+      .then(n => {
+        alert('Your subscription has been canceled.')
+        this.setState({
+          number: '', exp: '', cvc: '',
+          user: Object.assign({}, this.state.user, { status: 'canceled' }) })
+      })
+      .catch(e => alert('An error occurred. Please contact support@formbucket.com'))
+    }
   },
 
   handleDeleteAccount() {
@@ -101,6 +122,7 @@ const Account = React.createClass({
         localStorage.removeItem('token');
         this.props.history.push('/')
       })
+      .catch(e => alert('An error occurred. Please contact support@formbucket.com'))
     }
   },
 
@@ -128,6 +150,7 @@ const Account = React.createClass({
       password: this.refs.password.value
     }))
     .then(user => {
+      // console.log('user', user)
       this.setState({
         saving: false,
         number: '#### #### #### ' + this.state.number.substr(-4),
@@ -177,7 +200,7 @@ const Account = React.createClass({
     trial_end = new Date(trial_end)
     // status = 'active'
 
-    console.log('render', this.state, cards)
+    // console.log('render', this.state, cards)
 
     var CreditCardForm = (
       <div className="payment-info">
@@ -316,6 +339,25 @@ const Account = React.createClass({
                 } }>View Logs
               </a>
             </p>
+            {
+              branch(
+                status === 'trialing',
+                <p>
+                  <a className="danger" onClick={this.handleDeleteSubscription}>Cancel Subscription</a>
+                </p>,
+                status === 'active',
+                <p>
+                  <a className="danger" onClick={this.handleDeleteSubscription}>Cancel Subscription</a>
+                </p>,
+                status === 'past_due',
+                <p>
+                  <a className="danger" onClick={this.handleDeleteSubscription}>Cancel Subscription</a>
+                </p>,
+                status === 'canceled',
+                null
+              )
+            }
+
             <p>
               <a className="danger" onClick={this.handleDeleteAccount}>Cancel Account</a> <FontAwesome className="danger" name="frown-o" />
             </p>

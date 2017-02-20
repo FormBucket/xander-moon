@@ -44,7 +44,6 @@ const Signup = React.createClass({
     this.setState({ loading: true, error: false })
 
     signUp(
-      'plan_mo_7_14',
       this.refs.name.value,
       this.refs.email.value,
       this.refs.password.value

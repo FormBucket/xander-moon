@@ -24,7 +24,7 @@ const UserStore = createStore(
     setToken: (state, token) => {
       localStorage.setItem('token', token)
     },
-    setProfile: (state, data) => data
+    setProfile: (state, data) => Object.assign({}, state, data)
   }, // store does not support updates
   {
     isUserLoggedIn: (state) => readExp() > moment().unix(),

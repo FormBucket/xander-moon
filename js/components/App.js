@@ -30,7 +30,7 @@ const App = React.createClass({
 
   render() {
     var {status, trial_period_days, trial_start} = this.state.user || {} // TBD: get from profile
-    console.log(this.state)
+    // console.log('app', this.state)
 
     var days_remaining=(function(){
       var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
@@ -38,7 +38,7 @@ const App = React.createClass({
       var firstDate = new Date();
       return trial_period_days - Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
     })();
-    
+
     return (
       <div>
           {

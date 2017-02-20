@@ -18,13 +18,12 @@ import {
   requestUnsubscribe
 } from './webutils'
 
-export function signUp(plan, name, email, password) {
+export function signUp(name, email, password) {
 
   return requestSignUp({
-      plan,
-      name: name,
-      email: email,
-      password: password
+    name: name,
+    email: email,
+    password: password
   })
   .then(accessCode => requestToken(accessCode))
   .then(token => {
@@ -197,17 +196,19 @@ export function subscribe(account_id, token, plan) {
   // console.log('subscribe', token, plan)
   return requestSubscribe(account_id, token, plan)
   .then(profile => {
+    console.log('got profile', profile)
     dispatch('setProfile', profile)
     return Promise.resolve(profile)
   })
   .catch(error => Promise.reject(error))
 }
 
-export function cancelSubscription() {
+export function cancelSubscription(account_id) {
   // console.log('cancelSubscription')
-  return requestUnsubscribe()
+  return requestUnsubscribe(account_id)
   .then(profile => {
     dispatch('cancelSubscription', profile)
+    dispatch('setProfile', { status: 'canceled' })
     return Promise.resolve(profile)
   })
   .catch(error => Promise.reject(error))
