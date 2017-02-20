@@ -9,7 +9,6 @@ import UserStore from './stores/user'
 import App from './components/App'
 import Welcome from './components/Welcome'
 import Signup from './components/Signup'
-import Subscribe from './components/Subscribe'
 import Login from './components/Login'
 import Buckets from './components/Buckets'
 import Logs from './components/Logs'
@@ -19,7 +18,6 @@ import Bucket from './components/Bucket'
 import Submissions from './components/Submissions'
 import PageNotFound from './components/PageNotFound'
 import PasswordReset from './components/PasswordReset'
-import CreditCards from './components/CreditCards'
 
 import UsersReport from './components/UsersReport'
 import UserReport from './components/UserReport'
@@ -33,10 +31,8 @@ render((
     <Route path="/" component={App}>
       <IndexRoute component={Welcome} />
       <Route path="signup" component={Signup} />
-      <Route path="upgrade" component={Subscribe} />
       <Route path="login" component={Login} />
       <Route path="account" component={Account} />
-      <Route path="credit_cards" component={CreditCards} />
       <Route path="buckets" component={Buckets} />
       <Route path="buckets/:id/settings" component={Bucket} />
       <Route path="buckets/:id/submissions" component={Submissions} />

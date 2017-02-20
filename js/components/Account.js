@@ -4,7 +4,6 @@ import {Link} from 'react-router'
 import FlashMessage from './FlashMessage'
 import { requestUpdateUser, requestDestroyAccount, requestStripePubKey, requestCreditCards} from '../stores/webutils'
 import { loadProfile, subscribe } from '../stores/ActionCreator'
-import CreditCardForm from './CreditCardForm'
 import {branch} from 'functionfoundry'
 import UserStore from '../stores/user'
 
@@ -36,7 +35,7 @@ function subscribeUser({ account_id, number, cvc, exp}) {
     }, (status, response) => {
 
       if (status !== 200) {
-        reject(response.error)
+        reject(response.error.message)
         return
       }
 
@@ -60,7 +59,10 @@ const Account = React.createClass({
       show_token: false,
       flash: undefined,
       user: null,
-      cards: []
+      cards: [],
+      number: '',
+      exp: '',
+      cvc: ''
     }
   },
 
@@ -79,7 +81,13 @@ const Account = React.createClass({
       }
     )
     .then( (user) => requestCreditCards(user.account_id) )
-    .then( cards => this.setState({ cards }))
+    .then( cards => {
+      this.setState({ cards })
+      if (cards.length > 0) {
+        var card = cards[0]
+        this.setState({ number: '#### #### #### ' + card.last4, exp: card.exp_month + '/' + card.exp_year })
+      }
+    })
     .catch((error) => {
       localStorage.removeItem('token');
       this.props.history.push('/')
@@ -106,15 +114,10 @@ const Account = React.createClass({
 
     this.setState({ saving: true })
 
-    if (false) {
+    var {number, exp, cvc} = this.state,
+    {account_id} = this.state.user
 
-    }
-
-    var values = this.refs.credit_card_form.getValues()
-    values.account_id = this.state.user.account_id
-
-    var next = values.number ? subscribeUser(values) : Promise.resolve()
-
+    var next = number ? subscribeUser({ account_id, number, exp, cvc }) : Promise.resolve()
 
     //subscribeUser()
     next
@@ -127,6 +130,8 @@ const Account = React.createClass({
     .then(user => {
       this.setState({
         saving: false,
+        number: '#### #### #### ' + this.state.number.substr(-4),
+        cvc: '',
         flash: 'Saved'
       })
 
@@ -135,10 +140,26 @@ const Account = React.createClass({
     })
     .catch(error => this.setState({
       saving: false,
-      flash: 'Error saving',
+      flash: error,
       error: error
     }))
 
+  },
+
+
+  handleNumberChange(event) {
+    var number = event.target.value;
+    this.setState({ number })
+  },
+
+  handleExpChange(event) {
+    var exp = event.target.value;
+    this.setState({ exp })
+  },
+
+  handleCVCChange(event) {
+    var cvc = event.target.value;
+    this.setState({ cvc })
   },
 
   render () {
@@ -158,6 +179,46 @@ const Account = React.createClass({
 
     console.log('render', this.state, cards)
 
+    var CreditCardForm = (
+      <div className="payment-info">
+        <div className="payment-meta">
+          <div className="security-info">
+            <p><FontAwesome name='lock' /> All transactions are secure and encrypted.</p>
+          </div>
+          <img className="stripe-badge" src="/img/stripe.svg" />
+        </div>
+        <div className="card-details">
+          <div className="cardNumber">
+            <label htmlFor="cardNumber">Card Number</label>
+            <input
+            value={this.state.number}
+            onChange={this.handleNumberChange}
+            onFocus={(e) => this.state.number.substr(-4) === (this.state.cards[0] || {}).last4 ? this.setState({ number: '', exp: '' }) : null }
+            onBlur={(e) => this.setState({ number: e.target.value === '' ? this.props.number : e.target.value, exp: e.target.value === '' ? '' : this.state.exp })}
+            name="number"
+            type="text" data-stripe="number"/>
+          </div>
+          <div className="exp">
+            <label htmlFor="exp">Exp</label>
+            <input name="expiry"
+            value={this.state.exp}
+            onChange={this.handleExpChange}
+            onBlur={(e) => this.setState({ exp: e.target.value === '' ? '' : e.target.value  })}
+            type="text" maxLength="7" data-stripe="exp" placeholder="MM/YYYY"/>
+          </div>
+          <div className="cvc">
+            <label htmlFor="cvc">CVC</label>
+            <input
+            name="csv"
+            maxLength="4"
+            value={this.state.cvc}
+            onChange={this.handleCVCChange}
+            type="text" data-stripe="cvc"/>
+          </div>
+        </div>
+      </div>
+    )
+
     return (
       <div>
         <FlashMessage text={this.state.flash} />
@@ -174,7 +235,7 @@ const Account = React.createClass({
               <in$put type="text" ref="org" defaultValue={this.state.user.org} />*/}
             <label htmlFor="emailAddress">Email Address</label>
             <input type="text" ref="email" name="username" defaultValue={this.state.user.email} placeholder="nikola@altcurrent.com"/>
-            <label htmlFor="password">Change Password</label>
+            <label htmlFor="password"><FontAwesome name='lock' /> Change Password</label>
             <input type="password" ref="password" defaultValue="" />
             {
               branch(
@@ -196,11 +257,7 @@ const Account = React.createClass({
                 </div>
               )
             }
-            <CreditCardForm ref="credit_card_form"
-              ref="credit_card_form"
-              number={ cards.length > 0  ? `#### #### #### ${cards[0].last4}` : ''}
-              exp_year="2017" exp_month="09"
-              handleSubmit={this.handleSave} />
+            {CreditCardForm}
             {/*
             <label className="annual">
               <input type="checkbox" class="checkbox" name="checkboxes" value="check_1" />
