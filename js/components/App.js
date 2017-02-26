@@ -7,6 +7,7 @@ import Header from './Header';
 import Footer from './Footer';
 import {branch, isBlank} from 'functionfoundry';
 import UserStore from '../stores/user'
+import {loadProfile} from '../stores/ActionCreator'
 
 /* Write some great components about what data
 * this application displays and how it needs to be
@@ -19,6 +20,9 @@ const App = React.createClass({
   },
 
   componentDidMount() {
+
+    loadProfile()
+
     this.unsubscribe = UserStore.subscribe(() => {
       this.setState({ user: UserStore.getState() })
     })
@@ -47,7 +51,7 @@ const App = React.createClass({
               null,
               status === 'trialing' && !has_source,
               <div className="inline-error">
-                <span>{days_remaining} of {trial_period_days} days left on free trial. {has_source}</span>
+                <span><strong>{days_remaining} of {trial_period_days} days left on free trial. {has_source}</strong></span>
               </div>,
               status === 'past_due',
               <div className="inline-error">

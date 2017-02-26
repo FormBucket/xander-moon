@@ -67,6 +67,14 @@ const Account = React.createClass({
     }
   },
 
+  componentWillMount() {
+
+    if (localStorage.hasOwnProperty('token') === false) {
+      this.props.history.push('/login')
+      return;
+    }
+  },
+
   componentDidMount() {
 
     Promise.all([
