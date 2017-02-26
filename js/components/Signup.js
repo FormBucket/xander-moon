@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import {Link} from 'react-router'
 import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
-import {signUp} from '../stores/ActionCreator'
+import {signUp, loadProfile} from '../stores/ActionCreator'
 import {isEmail} from 'functionfoundry'
 
 var FontAwesome = require('react-fontawesome');
@@ -48,6 +48,7 @@ const Signup = React.createClass({
       this.refs.email.value,
       this.refs.password.value
     )
+    .then( loadProfile )
     .then(
       n => {
         this.props.history.push('/buckets')
@@ -55,7 +56,7 @@ const Signup = React.createClass({
       err => {
         this.setState({
           loading: false,
-          error: err
+          error: JSON.parse(err)
         })
       }
     )

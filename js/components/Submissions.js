@@ -21,7 +21,7 @@ function wrap(headingText, output) {
    <div>
      <div className="page-heading">
        <div className="wrapper">
-         <h1>{headingText} Submissions</h1>
+         <h1>{headingText}</h1>
        </div>
      </div>
      <div className="wrapper">

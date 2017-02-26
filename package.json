@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rimraf public",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
-    "build:static": "node runMetalSmith && cp -r img/ public/img/",
+    "build:static": "node runMetalSmith && rm -rf public/img/ && cp -r img/ public/",
     "build": "npm run build:webpack && npm run build:static",
     "start": "node devServer.js",
     "start:static": "cd public && http-server . -p 3000",

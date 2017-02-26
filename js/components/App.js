@@ -5,7 +5,7 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import {branch} from 'functionfoundry';
+import {branch, isBlank} from 'functionfoundry';
 import UserStore from '../stores/user'
 
 /* Write some great components about what data
@@ -29,7 +29,7 @@ const App = React.createClass({
   },
 
   render() {
-    var {status, trial_period_days, trial_start} = this.state.user || {} // TBD: get from profile
+    var {status, trial_period_days, trial_start, has_source} = this.state.user || {} // TBD: get from profile
     // console.log('app', this.state)
 
     var days_remaining=(function(){
@@ -45,9 +45,9 @@ const App = React.createClass({
             branch(
               !UserStore.isUserLoggedIn(),
               null,
-              status === 'trialing',
+              status === 'trialing' && !has_source,
               <div className="inline-error">
-                <span>{days_remaining} of {trial_period_days} days left on free trial.</span>
+                <span>{days_remaining} of {trial_period_days} days left on free trial. {has_source}</span>
               </div>,
               status === 'past_due',
               <div className="inline-error">
@@ -56,7 +56,8 @@ const App = React.createClass({
               status === 'canceled',
               <div className="inline-error">
                 <span>Your account is not receiving submissions. Please <a href="/account">update your billing info</a>.</span>
-              </div>
+              </div>,
+              null
             )
           }
         <Header history={this.props.history} />

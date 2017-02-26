@@ -49,6 +49,7 @@ function subscribeUser({ account_id, number, cvc, exp}) {
         resolve(result)
       })
 
+
     })
   })
 }
@@ -89,8 +90,7 @@ const Account = React.createClass({
       }
     })
     .catch((error) => {
-      localStorage.removeItem('token');
-      this.props.history.push('/')
+      this.setState({ error })
     })
 
     this.unsubscribe = UserStore.subscribe(() => {
@@ -161,6 +161,7 @@ const Account = React.createClass({
       setTimeout(() => this.setState({ flash: undefined }), 2000)
 
     })
+    .then( loadProfile )
     .catch(error => this.setState({
       saving: false,
       flash: error,
@@ -187,6 +188,9 @@ const Account = React.createClass({
 
   render () {
 
+    if (this.state.error) {
+      return <div>Error occurred: {this.state.error}</div>
+    }
 
     if (!this.state.user || !this.state.user.email) {
       return <div>Loading...</div>

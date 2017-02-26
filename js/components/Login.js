@@ -16,7 +16,7 @@ const Login = React.createClass({
       this.refs.email.value,
       this.refs.password.value
     )
-    .then( loadProfile )
+    .then( () => loadProfile() )
     .then(
       () => this.props.history.push('/buckets'),
       err => {
@@ -26,6 +26,7 @@ const Login = React.createClass({
         })
       }
     )
+    .catch( error => console.log(error))
 
   },
 
