@@ -14,6 +14,7 @@ Metalsmith(__dirname)
     description: "It's about saying »Hello« to the World.",
     generator: "Metalsmith",
     url: "http://www.metalsmith.io/",
+    entropy: require('./package.json').entropy,
     __ts__: moment().format("YYYY-MM-DD")
   })
   .source('./pages')

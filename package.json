@@ -1,6 +1,7 @@
 {
   "name": "formbucket-client",
   "version": "0.4.0",
+  "entropy": "1234",
   "description": "Powerful form handling for static sites",
   "author": "FunctionFoundry",
   "license": "MIT",
@@ -11,7 +12,8 @@
     "build": "npm run build:webpack && npm run build:static",
     "start": "node devServer.js",
     "start:static": "cd public && http-server . -p 3000",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "deploy:www-dev": "rsync -apvz -e \"ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null\" --progress ~/formbucket-client/public/ whqops@10.8.0.1:/srv/www/www-dev.formbucket.com/public/"
   },
   "devDependencies": {
     "babel-core": "^6.14.0",
