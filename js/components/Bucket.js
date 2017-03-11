@@ -178,7 +178,7 @@ const NewBucket = React.createClass({
   },
 
   render () {
-    console.log(this.state)
+    // console.log(this.state)
     if (this.state.error) {
       return <div>{this.state.error}</div>
     }

@@ -40,7 +40,8 @@ const Submissions = React.createClass({
       selected: [],
       expanded: [],
       loaded: false,
-      loading: false
+      loading: false,
+      selectToggle: true
     }
   },
 
@@ -348,22 +349,11 @@ const Submissions = React.createClass({
                 <div className="search-bar">
                   <input onKeyUp={(event) => branch(event.keyCode === 13, () => this.search())} ref="q" placeholder="Search all submissions..." />
                 </div>
+
                 <ul className="dropdown-items">
-                  <li className="dropdown-item dropdown-item-dropdown">
-                    <a className="dropdown-trigger" href="#">Select</a>
-                    <ul className="dropdown-menu">
-                      <a onClick={() => this.setState({ selected: this.state.submissions.map(d => d.id) })}>
-                        <li className="dropdown-menu-item">
-                          All
-                        </li>
-                      </a>
-                      <a onClick={() => this.setState({ selected: [] })}>
-                        <li className="dropdown-menu-item">
-                          None
-                        </li>
-                      </a>
-                    </ul>
-                  </li>
+                  <a onClick={() => this.setState({ selectToggle: !this.state.selectToggle, selected: this.state.selectToggle ? this.state.submissions.map(d => d.id) : [] })}>
+                    <li className="dropdown-item"><FontAwesome name={this.state.selectToggle ? "plus" : "minus"} /> { this.state.selectToggle ? 'Select all' : 'Select none' }</li>
+                  </a>
                   {
                     branch(this.state.showAll,
                       <a onClick={() => this.setState({ showAll: false, expanded: [] })}>

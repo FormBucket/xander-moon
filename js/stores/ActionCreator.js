@@ -196,7 +196,7 @@ export function subscribe(account_id, token, plan) {
   // console.log('subscribe', token, plan)
   return requestSubscribe(account_id, token, plan)
   .then(profile => {
-    console.log('got profile', profile)
+    // console.log('got profile', profile)
     dispatch('setProfile', profile)
     return Promise.resolve(profile)
   })

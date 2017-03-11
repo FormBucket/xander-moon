@@ -1,15 +1,15 @@
 {
   "name": "formbucket-client",
   "version": "0.4.0",
-  "entropy": "1234",
+  "entropy": "12345",
   "description": "Powerful form handling for static sites",
   "author": "FunctionFoundry",
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf public",
+    "clean": "rm -rf public",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
     "build:static": "node runMetalSmith && rm -rf public/img/ && cp -r img/ public/",
-    "build": "npm run build:webpack && npm run build:static",
+    "build": "npm run clean && npm run build:static && npm run build:webpack",
     "start": "node devServer.js",
     "start:static": "cd public && http-server . -p 3000",
     "lint": "eslint src",
