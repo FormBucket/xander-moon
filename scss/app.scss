@@ -510,10 +510,10 @@ label {
 
 .inline-error {
   width: '100%';
-  padding: $base-spacing / 2;
+  padding: $base-spacing / 3;
   text-align: center;
-  background-color: red;
-  color: white;
+  background-color: #EDF67D;
+  font-size: $base-font-size * 1.2;
   border-radius: $base-border-radius;
 
   a {

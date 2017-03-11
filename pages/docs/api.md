@@ -5,8 +5,6 @@ date: 2012-08-20
 layout: static.html
 ---
 
-<div style="color: red; font-size: 1.4em">DRAFT - SUBJECT TO CHANGES</div>
-
 The FormBucket API accepts _application/json_ requests via HTTPS and is secured with the recent [IETF Standard 7519 JSON Web Tokens (JWT)](https://tools.ietf.org/html/rfc7519).
 
 The API code examples use the fetch API. Please checkout [That's so fetch](https://jakearchibald.com/2015/thats-so-fetch/) and [Github's polyfill](https://github.com/github/fetch) for more information.
@@ -102,7 +100,7 @@ Users may choose from fixed or variable sized buckets. The fixed size buckets wi
 ### Get a list of your buckets
 
 ```js
-fetch('https://api.formbucket.com/v1/buckets.json', {
+fetch('https://api.formbucket.com/v1/buckets', {
   method: 'GET',
   mode: 'cors,',
   headers: {
@@ -136,7 +134,7 @@ fetch('https://api.formbucket.com/v1/buckets.json', {
 ### Get a bucket
 
 ```js
-fetch('https://api.formbucket.com/v1/buckets/:id.json', {
+fetch('https://api.formbucket.com/v1/buckets/:id', {
   method: 'GET',
   mode: 'cors,',
   headers: {
@@ -152,9 +150,9 @@ fetch('https://api.formbucket.com/v1/buckets/:id.json', {
 
 Name          | Type          | Description
 ------------- | ------------- | -----------
-limit        | number        | __Optional__. The maximum number of buckets to return in a single call. The default is 50.
-offset            | number        | __Optional__. The number of records to skip before returning rows. Applied after sorting. The default is 0.
-sort            | object        | __Required__. An object that describes the sort options. The default is **{ created_on: -1 }**.
+limit         | number        | __Optional__. The maximum number of buckets to return in a single call. The default is 50.
+offset        | number        | __Optional__. The number of records to skip before returning rows. Applied after sorting. The default is 0.
+sort          | object        | __Required__. An object that describes the sort options. The default is **{ created_on: -1 }**.
 
 #### Example Response
 
@@ -173,7 +171,7 @@ sort            | object        | __Required__. An object that describes the sor
 ### Create a new bucket
 
 ```js
-fetch('https://api.formbucket.com/v1/buckets.json', {
+fetch('https://api.formbucket.com/v1/buckets', {
   method: 'POST',
   mode: 'cors,',
   headers: {
@@ -189,7 +187,7 @@ fetch('https://api.formbucket.com/v1/buckets.json', {
 
 Name            |   Type        | Description
 --------------- | ------------- | -----------
-bucket | object        | __Optional__. An object containing bucket settings. This object is whitelisted on the server to enforce the fields.
+bucket          | object        | __Optional__. An object containing bucket settings. This object is whitelisted on the server to enforce the fields.
 
 The field whitelist include:
 
@@ -220,7 +218,7 @@ When an error occurs:
 ### Update a bucket
 
 ```js
-fetch('https://api.formbucket.com/v1/buckets.json', {
+fetch('https://api.formbucket.com/v1/buckets', {
   method: 'POST',
   mode: 'cors,',
   headers: {
@@ -262,17 +260,17 @@ Submissions are actual form data entered by the users of your bucket.
 ### Get all submissions in a bucket
 
 ```curl
-GET https://api.formbucket.com/v1/buckets/:id/submissions.json?limit=10&offset=0&sort=%7Bcreated_on:%20-1%7D
+GET https://api.formbucket.com/v1/buckets/:id/submissions?limit=10&offset=0&sort=%7Bcreated_on:%20-1%7D
 ```
 
 #### Parameters
 
 Name          | Type          | Description
 ------------- | ------------- | -----------
-id       | integer       | __Required__. The id of the bucket. This parameter is in the URL.
+id            | integer       | __Required__. The id of the bucket. This parameter is in the URL.
 limit         | integer       | __Optional__. Restrict the number of submissions returned by the request. Default to 100.
 offset        | integer       | __Optional__. Offset the result to enable paging. To keep it simple the first record is 1 and the last record is the number of submissions. Records are sorted by the time received.
-sort        | object       | __Optional__.
+sort          | object       | __Optional__.
 
 #### Example Response
 
@@ -301,4 +299,5 @@ DELETE https://www.FormBucket.com/buckets/:bucket_id/submissions/:submission_id
   403   | Forbidden
   404   | Not Found
   422   | Unprocessable Entity
+  429   | Too Many Requests
   500   | Unexpected system error

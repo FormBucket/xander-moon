@@ -33,7 +33,8 @@ const NewBucket = React.createClass({
   getInitialState: function() {
     return {
       loaded: false,
-      email_to: false
+      email_to: false,
+      advanced_notification_on: false
     };
   },
 
@@ -49,7 +50,9 @@ const NewBucket = React.createClass({
       .then( result => this.setState( Object.assign(
         { loaded: true },
         result[0],
-        { user: result[1] }
+        {
+          user: result[1]
+        }
     )))
     .catch(err => this.setState( { error: err } ))
 
@@ -87,7 +90,11 @@ const NewBucket = React.createClass({
       redirect_url,
       webhooks,
       auto_responder,
+      advanced_notification_on,
       notification_from,
+      notification_reply_to,
+      notification_subject,
+      notification_template,
       recaptcha_on,
       recaptcha_secret,
       recaptcha_redirect,
@@ -105,7 +112,11 @@ const NewBucket = React.createClass({
       redirect_url,
       webhooks,
       auto_responder,
+      advanced_notification_on,
       notification_from,
+      notification_reply_to,
+      notification_subject,
+      notification_template,
       recaptcha_on,
       recaptcha_secret,
       recaptcha_redirect,
@@ -167,7 +178,7 @@ const NewBucket = React.createClass({
   },
 
   render () {
-
+    console.log(this.state)
     if (this.state.error) {
       return <div>{this.state.error}</div>
     }
@@ -247,11 +258,6 @@ const NewBucket = React.createClass({
             </div>
             <div className="section">
               <h3>Notifications</h3>
-              <label htmlFor="subject">Sent From:</label>
-              <input type="text" placeholder="Defaults to support@formbucket.com"
-                onChange={(e) => this.setState({ notification_from: e.target.value }) }
-                defaultValue={ this.state.notification_from }
-                />
               <label>
                 <input type="radio" onChange={() => this.setState({ email_to: false })}  checked={ this.state.email_to === false } />
                 Do not send notifications
@@ -265,6 +271,43 @@ const NewBucket = React.createClass({
                 Send notifications to:
                 <textarea disabled={typeof this.state.email_to === 'string' ? false : true} className="cc-emails" ref="additionalEmails" placeholder="Separate addresses by comma" onChange={(e) => this.setState({ email_to: e.target.value })} defaultValue={ typeof this.state.email_to === 'string' ? this.state.email_to : '' }></textarea>
               </label>
+              <label>
+                <input type="checkbox" className="checkbox" name="enableAdvancedNotificationSettings" onChange={ () => this.setState({ advanced_notification_on: !this.state.advanced_notification_on }) } checked={ this.state.advanced_notification_on } />
+                Advanced Settings (optional)
+              </label>
+              <div className="autoresponder-wrapper" style={{ display: this.state.advanced_notification_on ? '' : 'none' } }>
+                <label htmlFor="notificationFrom">Sent From:</label>
+                <input name="notificationFrom" type="text" placeholder="Defaults to support@formbucket.com"
+                  onChange={(e) => this.setState({ notification_from: e.target.value }) }
+                  defaultValue={ this.state.notification_from }
+                  />
+                <label htmlFor="notificationReplyTo">Reply to:</label>
+                <input name="notificationReplyTo" type="text" placeholder="Defaults to '{{ email }}' or '{{ account_email }}'"
+                  onChange={(e) => this.setState({ notification_reply_to: e.target.value }) }
+                  defaultValue={ this.state.notification_reply_to }
+                  />
+                <label htmlFor="notificationSubject" htmlFor="subject">Subject</label>
+                <input name="notificationSubject" type="text" ref="auto_responder_subject" placeholder="Defaults to 'Submission for {{bucket_name}} ({{submission_id}})"
+                  onChange={(e) => this.setState({ notification_subject: e.target.value })}
+                  defaultValue={ this.state.notification_subject }
+                  />
+                <label htmlFor="notificationTemplate">Body (supports Markdown)</label>
+                <textarea name="notificationTemplate" ref="auto_responder_body"
+                  onChange={(e) => this.setState({ notification_template: e.target.value })}
+                  defaultValue={ this.state.notification_template }
+                  >
+                </textarea>
+                <div>
+                  <a href="/guides/merge-tags" target="_blank">Learn about merge tags</a>
+                </div>
+                <div>
+                  <a href="https://daringfireball.net/projects/markdown/  " target="_blank">Learn about Markdown</a>
+                </div>
+                {/*}<RichTextEditor
+                  value={this.state.auto_responder_content}
+                  onChange={this.onChangeAutoResponderMessage}
+                />*/}
+              </div>
             </div>
             <div className="section">
               <h3>Webhooks</h3>

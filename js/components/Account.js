@@ -147,7 +147,7 @@ const Account = React.createClass({
     var {number, exp, cvc} = this.state,
     {account_id} = this.state.user
 
-    var next = number ? subscribeUser({ account_id, number, exp, cvc }) : Promise.resolve()
+    var next = number && number.length > 0 && number.trim()[0] !== '#' ? subscribeUser({ account_id, number, exp, cvc }) : Promise.resolve()
 
     //subscribeUser()
     next
@@ -161,7 +161,7 @@ const Account = React.createClass({
       // console.log('user', user)
       this.setState({
         saving: false,
-        number: '#### #### #### ' + this.state.number.substr(-4),
+        number: number && number.length > 0 ? '#### #### #### ' + this.state.number.substr(-4) : '',
         cvc: '',
         flash: 'Saved'
       })
