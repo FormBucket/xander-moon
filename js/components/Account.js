@@ -110,8 +110,9 @@ const Account = React.createClass({
   componentWillUnmount() {
     this.unsubscribe()
   },
+  
   handleDeleteSubscription() {
-    if (confirm("Canceling your subscription will stop submissions immediately. Your account and data will remain on our service. Continue?")) {
+    if (confirm("Pausing your account will stop submissions immediately. Your account and data will remain on our service. Continue?")) {
       cancelSubscription(this.state.user.account_id)
       .then(n => {
         alert('Your subscription has been canceled.')
@@ -293,39 +294,7 @@ const Account = React.createClass({
               )
             }
             {CreditCardForm}
-            {/*
-            <label className="annual">
-              <input type="checkbox" class="checkbox" name="checkboxes" value="check_1" />
-
-              {
-                branch(
-                status === 'trialing',
-                'Pay $60 annually and save 50% over the monthly plan!',
-                status === 'active',
-                'Switch to annual billing and save 50%',
-                status === 'past_due',
-                'Pay $60 annually and save 50% over the monthly plan!',
-                status === 'canceled',
-                'Pay $60 annually and save 50% over the monthly plan!'
-                )
-              }
-            </label>
-            */}
             <button disabled={this.state.saving} className="button secondary" onClick={this.handleSave}>Save Changes</button>
-            { /*IF(this.state.active,
-              <div>
-              <hr />
-              <label>Stop billing and unsubscribe from this service</label>
-              <button className="button secondary" onClick={this.handleDelete}>Cancel Subscription</button>
-              </div>,
-              <div>
-              <hr />
-              Subscription is not active. <Link to="account/billing">Activate Subscription</Link>
-              </div>
-              ) */}
-              {/* <hr />
-              <label>Download account archive</label>
-              <button className="button secondary" onClick={() => alert('tbd')}>Download Archive</button> */}
           </div>
           <div className="account-sidebar">
             <p>
@@ -353,17 +322,9 @@ const Account = React.createClass({
             </p>
             {
               branch(
-                status === 'trialing',
+                status === 'trialing' || status === 'active' || status === 'past_due',
                 <p>
-                  <a className="danger" onClick={this.handleDeleteSubscription}>Cancel Subscription</a>
-                </p>,
-                status === 'active',
-                <p>
-                  <a className="danger" onClick={this.handleDeleteSubscription}>Cancel Subscription</a>
-                </p>,
-                status === 'past_due',
-                <p>
-                  <a className="danger" onClick={this.handleDeleteSubscription}>Cancel Subscription</a>
+                  <a className="danger" onClick={this.handleDeleteSubscription}>Pause Account</a>
                 </p>,
                 status === 'canceled',
                 null

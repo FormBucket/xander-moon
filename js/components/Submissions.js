@@ -34,7 +34,7 @@ function wrap(headingText, output) {
 const Submissions = React.createClass({
   getInitialState () {
     return {
-      display: 'default',
+      display: 'inbox',
       submissions: undefined,
       showAll: false,
       selected: [],
@@ -82,7 +82,7 @@ const Submissions = React.createClass({
     this.props.params.mode = this.props.params.mode || 'list'
     this.props.params.limit = (+this.props.params.limit) || 50
     this.props.params.offset = (+this.props.params.offset) || 0
-    this.props.params.select = this.props.params.select || 'created_on,data,spam'
+    this.props.params.select = this.props.params.select || 'created_on,data'
 
     var url = `/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${this.props.params.offset}/${this.props.params.limit}/${this.props.params.select}?type=${this.state.display}`
 
@@ -366,7 +366,7 @@ const Submissions = React.createClass({
                   }
                   {
                     branch(
-                      this.state.display !== 'default',
+                      this.state.display !== 'inbox',
                       <a onClick={this.handleMoveToInbox}>
                         <li className="dropdown-item"><FontAwesome name="folder" /> Move to inbox</li>
                       </a>
@@ -385,7 +385,7 @@ const Submissions = React.createClass({
                   }
                   {
                     branch(
-                      this.state.display === 'default',
+                      this.state.display === 'inbox',
                       <a onClick={this.handleMarkSelectedSpam}>
                         <li className="dropdown-item"><FontAwesome name="ban" /> Spam</li>
                       </a>
@@ -397,7 +397,7 @@ const Submissions = React.createClass({
             </div>
           </div>
           <div className="folders">
-            <button className={branch(this.state.display === 'default', "secondary active", "secondary")} onClick={(event) => this.switchFolder('default')}>
+            <button className={branch(this.state.display === 'inbox', "secondary active", "secondary")} onClick={(event) => this.switchFolder('inbox')}>
               Inbox <span className="submission-count">{this.state.total}</span>
             </button>
             <button className={branch(this.state.display === 'spam', "secondary active", "secondary")} onClick={() => this.switchFolder('spam')}>

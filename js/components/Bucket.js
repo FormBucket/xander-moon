@@ -207,7 +207,7 @@ const NewBucket = React.createClass({
             <div className="section">
               <h3>Custom Redirect</h3>
               <label htmlFor="redirectURL">Send users to this URL after submitting the form</label>
-              <input type="text" id="redirectURL" ref="redirectURL"  onChange={ (e) => this.setState({ redirect_url: e.target.value }) }  disabled={this.state.is_api_request} defaultValue={this.state.redirect_url} />
+              <input type="text" placeholder="Send to formbucket default landing page, supports merge tags" id="redirectURL" ref="redirectURL"  onChange={ (e) => this.setState({ redirect_url: e.target.value }) }  disabled={this.state.is_api_request} defaultValue={this.state.redirect_url} />
               <label htmlFor="bucketAJAXOnly" className="label-switch"> AJAX Only?
                 <input id="bucketAJAXOnly" type="checkbox" onChange={(event) => this.setState({ is_api_request: event.target.checked }) } checked={this.state.is_api_request} />
                 <div className="checkbox"></div>
@@ -282,17 +282,23 @@ const NewBucket = React.createClass({
                   defaultValue={ this.state.notification_from }
                   />
                 <label htmlFor="notificationReplyTo">Reply to:</label>
-                <input name="notificationReplyTo" type="text" placeholder="Defaults to '{{ email }}' or '{{ account_email }}'"
+                <input name="notificationReplyTo" type="text" placeholder="Defaults to {{ email }} or {{ _replyto }}, otherwise your email"
                   onChange={(e) => this.setState({ notification_reply_to: e.target.value }) }
                   defaultValue={ this.state.notification_reply_to }
                   />
+                <label htmlFor="notificationReplyTo">CC:</label>
+                <input name="notificationReplyTo" type="text" placeholder="Defaults to {{ _cc }}, otherwise blank"
+                  onChange={(e) => this.setState({ email_cc: e.target.value }) }
+                  defaultValue={ this.state.email_cc }
+                  />
                 <label htmlFor="notificationSubject" htmlFor="subject">Subject</label>
-                <input name="notificationSubject" type="text" ref="auto_responder_subject" placeholder="Defaults to 'Submission for {{bucket_name}} ({{submission_id}})"
+                <input name="notificationSubject" type="text" ref="auto_responder_subject" placeholder="Defaults to {{ _subject }}, otherwise &quot;Submission for {{bucket_name}}&quot;"
                   onChange={(e) => this.setState({ notification_subject: e.target.value })}
                   defaultValue={ this.state.notification_subject }
                   />
                 <label htmlFor="notificationTemplate">Body (supports Markdown)</label>
                 <textarea name="notificationTemplate" ref="auto_responder_body"
+                  placeholder="Send default notification"
                   onChange={(e) => this.setState({ notification_template: e.target.value })}
                   defaultValue={ this.state.notification_template }
                   >

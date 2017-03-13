@@ -260,30 +260,45 @@ Submissions are actual form data entered by the users of your bucket.
 ### Get all submissions in a bucket
 
 ```curl
-GET https://api.formbucket.com/v1/buckets/:id/submissions?limit=10&offset=0&sort=%7Bcreated_on:%20-1%7D
+GET https://api.formbucket.com/v1/buckets/:bucket_id/submissions/:offset/:limit/:fields?type=inbox
 ```
 
-#### Parameters
+#### URL Parameters
 
 Name          | Type          | Description
 ------------- | ------------- | -----------
 id            | integer       | __Required__. The id of the bucket. This parameter is in the URL.
-limit         | integer       | __Optional__. Restrict the number of submissions returned by the request. Default to 100.
-offset        | integer       | __Optional__. Offset the result to enable paging. To keep it simple the first record is 1 and the last record is the number of submissions. Records are sorted by the time received.
-sort          | object       | __Optional__.
+limit         | integer       | __Required__. Restrict the number of submissions returned by the request. Default to 100.
+offset        | integer       | __Required__. Offset the result to enable paging. To keep it simple the first record is 1 and the last record is the number of submissions. Records are sorted by the time received.
+fields        | string        | __Required__.
+
+#### Query String Parameters
+
+Name          | Type          | Description
+------------- | ------------- | -----------
+type          | string        | __Optional__. Default to inbox. Other options are spam or deleted.
+q             | string        | __Optional__. Search query.
 
 #### Example Response
 
 ```JSON
-[{
-  "_id": "55a7281db501a6987ed5c354",
-  "subject": "Customer request",
-  "message": "Thanks for doing this. I really appreciate man."
-},{
-  "_id": "43b7281db501a6987ed5c354",
-  "subject": "Help",
-  "message": "I'm interested in hiring you for a project. Please contact me."
-}]
+{
+  items: [{
+    "_id": "55a7281db501a6987ed5c354",
+    "subject": "Customer request",
+    "message": "Thanks for doing this. I really appreciate man."
+  },{
+    "_id": "43b7281db501a6987ed5c354",
+    "subject": "Help",
+    "message": "I'm interested in hiring you for a project. Please contact me."
+  }],
+  limit: 50,
+  offset: 0,
+  total: 2,
+  totalSpam: 0,
+  totalDeleted: 0
+}
+
 ```
 ### Delete a submission
 
