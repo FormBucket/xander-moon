@@ -25,7 +25,13 @@ export function signUp(name, email, password) {
     email: email,
     password: password
   })
-  .then(accessCode => requestToken(accessCode))
+  .then(getToken)
+
+}
+
+export function getToken(accessCode) {
+
+  return requestToken(accessCode)
   .then(token => {
     dispatch('setToken', token)
     return Promise.resolve()

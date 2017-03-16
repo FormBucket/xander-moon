@@ -84,6 +84,25 @@ const Signup = React.createClass({
             <h2>
               Free for 14 days. No credit card required.
             </h2>
+            <p style={{ textAlign: 'left'}}>
+              Sign up with:&nbsp;&nbsp;
+              <a href={ process.env.FORMBUCKET_API_SERVER + "/connect/google" } alt="Sign up with Google">
+                <FontAwesome size="2x" name="google" />
+              </a>&nbsp;&nbsp;
+              <a href={ process.env.FORMBUCKET_API_SERVER + "/connect/github" } alt="Sign up with Github">
+                <FontAwesome size="2x" name="github" />
+              </a>&nbsp;&nbsp;
+              <a href={ process.env.FORMBUCKET_API_SERVER + "/connect/twitter" } alt="Sign up with Twitter">
+                <FontAwesome size="2x" name="twitter" />
+              </a>&nbsp;&nbsp;
+              <a href={ process.env.FORMBUCKET_API_SERVER + "/connect/facebook" } alt="Sign up with Facebook">
+                <FontAwesome size="2x" name="facebook" />
+              </a>&nbsp;&nbsp;
+              <a href={ process.env.FORMBUCKET_API_SERVER + "/connect/slack" } alt="Sign up with Slack">
+                <FontAwesome size="2x" name="slack" />
+              </a>
+            </p>
+            <hr />
             <label htmlFor="fullName">Full Name</label>
             <input onKeyUp={this.handleKeyUp} type="text" ref="name" placeholder="e.g. Nikola Tesla"/>
             <label htmlFor="emailAddress">Email Address</label>
@@ -91,6 +110,7 @@ const Signup = React.createClass({
             <label htmlFor="createPassword"><FontAwesome name='lock' /> Create Password</label>
             <input onKeyUp={this.handleKeyUp} type="password" ref="password" name="password" />
             <input onClick={this.handleClick} className="button" type="button" value="Sign Up" />
+
             <p className="muted">
               By clicking "SIGN UP" you agree to our <a href="/terms" target="blank">Terms of Service</a> and <a href="/privacy-policy" target="blank">Privacy Policy</a> and also agree to receive news and tips via email.
             </p>
