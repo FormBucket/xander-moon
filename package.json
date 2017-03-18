@@ -1,7 +1,7 @@
 {
   "name": "formbucket-client",
   "version": "2.0.0",
-  "entropy": "123456",
+  "entropy": "1234567",
   "description": "Powerful form handling for static sites",
   "author": "FunctionFoundry",
   "license": "MIT",
@@ -60,14 +60,14 @@
     "functionfoundry": "^0.10.27",
     "koa-front-matter-views": "^2.0.6",
     "moment": "^2.14.1",
-    "react": "^15.3.1",
+    "react": "latest",
     "react-codemirror": "^0.2.6",
-    "react-dom": "^15.3.1",
+    "react-dom": "latest",
     "react-fontawesome": "^1.1.0",
     "react-modal": "^1.4.0",
     "react-recaptcha": "^2.2.4",
     "react-remarkable": "^1.1.1",
-    "react-router": "^2.7.0",
+    "react-router": "2.7.0",
     "react-rte": "^0.5.0",
     "whatwg-fetch": "^1.0.0"
   }

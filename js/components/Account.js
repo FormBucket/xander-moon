@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
-import {Link} from 'react-router'
+import {Link, browserHistory} from 'react-router'
 import FlashMessage from './FlashMessage'
 import { requestUpdateUser, requestDestroyAccount, requestStripePubKey, requestCreditCards, requestUnsubscribe } from '../stores/webutils'
 import { loadProfile, subscribe, cancelSubscription } from '../stores/ActionCreator'
@@ -70,7 +70,7 @@ const Account = React.createClass({
   componentWillMount() {
 
     if (localStorage.hasOwnProperty('token') === false) {
-      this.props.history.push('/login')
+      browserHistory.push('/login')
       return;
     }
   },
@@ -110,7 +110,7 @@ const Account = React.createClass({
   componentWillUnmount() {
     this.unsubscribe()
   },
-  
+
   handleDeleteSubscription() {
     if (confirm("Pausing your account will stop submissions immediately. Your account and data will remain on our service. Continue?")) {
       cancelSubscription(this.state.user.account_id)
@@ -129,7 +129,7 @@ const Account = React.createClass({
       requestDestroyAccount()
       .then(n => {
         localStorage.removeItem('token');
-        this.props.history.push('/')
+        browserHistory.push('/')
       })
       .catch(e => alert('An error occurred. Please contact support@formbucket.com'))
     }
@@ -300,7 +300,7 @@ const Account = React.createClass({
             <p>
               <a onClick={() => {
                   localStorage.removeItem('token');
-                  this.props.history.push('/');
+                  browserHistory.push('/');
                 } }>Log Out
               </a>
             </p>
@@ -316,7 +316,7 @@ const Account = React.createClass({
             </p>
             <p>
               <a onClick={() => {
-                  this.props.history.push('/logs');
+                  browserHistory.push('/logs');
                 } }>View Logs
               </a>
             </p>

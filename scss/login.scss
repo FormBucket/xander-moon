@@ -1,8 +1,52 @@
-#login {
-  margin: auto;
-  width: 80vw;
-  min-height: 80vh;
-  background-color: white;
-  color: black;
-  padding: 20px;
+#login-wrapper {
+  @include span-columns(6);
+
+  @include media($tablet) {
+    @include span-columns(12);
+  }
+}
+
+.google-login {
+  text-align: center;
+
+  img {
+    width: 240px;
+  }
+
+  a:focus img {
+    src: url(/img/btn_google_signin_dark_focus_web@2x.png);
+  }
+}
+
+.login-divider {
+
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+
+  div:first-child {
+    content: ' ';
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    right: 55%;
+    height: 1px;
+    background-color: #e1e7ea;
+    -webkit-box-shadow: 0 1px 0 fade(#FFF, 20%);
+    -moz-box-shadow: 0 1px 0 fade(#FFF, 20%);
+    box-shadow: 0 1px 0 fade(#FFF, 20%);
+  }
+
+  div:last-child {
+    content: ' ';
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    right: 0px;
+    height: 1px;
+    background-color: #e1e7ea;
+    -webkit-box-shadow: 0 1px 0 fade(#FFF, 20%);
+    -moz-box-shadow: 0 1px 0 fade(#FFF, 20%);
+    box-shadow: 0 1px 0 fade(#FFF, 20%);
+  }
 }

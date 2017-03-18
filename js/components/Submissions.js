@@ -10,6 +10,7 @@ import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
 import {run} from 'formula'
 //import DownloadLink from 'react-download-link'
+import { browserHistory } from 'react-router'
 
 let color = {
   disabled: 'gray',
@@ -47,7 +48,7 @@ const Submissions = React.createClass({
 
   componentWillMount() {
     if (!UserStore.isUserLoggedIn()) {
-      this.props.history.push('/login')
+      browserHistory.push('/login')
     }
   },
 
@@ -186,7 +187,7 @@ const Submissions = React.createClass({
 
   search (event) {
     var url = `/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/0/${this.props.params.limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${this.state.display}`
-    this.props.history.push(url)
+    browserHistory.push(url)
   },
 
   goForward (event) {
@@ -207,7 +208,7 @@ const Submissions = React.createClass({
       return
     }
 
-    this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${this.state.display}`)
+    browserHistory.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${this.state.display}`)
   },
 
   goBack (event) {
@@ -232,7 +233,7 @@ const Submissions = React.createClass({
       return
     }
 
-    this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${this.state.display}`)
+    browserHistory.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${this.state.display}`)
 
   },
 
@@ -241,7 +242,7 @@ const Submissions = React.createClass({
     var offset = +this.props.params.offset,
     limit = +this.props.params.limit
 
-    this.props.history.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/0/${limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${type}`)
+    browserHistory.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/0/${limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${type}`)
   },
 
   render () {
@@ -342,7 +343,7 @@ const Submissions = React.createClass({
           <div className="submissions-controls">
             <div className="submissions-actions">
               <div className="paging">
-                <a href="#" onClick={(event) => { this.props.history.push('/buckets/' + this.state.bucket.id + '/settings')}} style={{ float: 'right' }}>Edit Bucket Settings</a>
+                <a href="#" onClick={(event) => { browserHistory.push('/buckets/' + this.state.bucket.id + '/settings')}} style={{ float: 'right' }}>Edit Bucket Settings</a>
                 {pager('top')}
               </div>
               <div className="dropdown-container">

@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 import {signIn, getToken, loadProfile} from '../stores/ActionCreator'
 import {branch} from 'functionfoundry'
+import { browserHistory } from 'react-router'
 
 const Login = React.createClass({
   getInitialState() {
@@ -15,7 +16,7 @@ const Login = React.createClass({
     if (this.props.location.query.code) {
       getToken(this.props.location.query.code)
       .then(
-        () => this.props.history.push('/buckets'),
+        () => browserHistory.push('/buckets'),
         err => {
           this.setState({
             loading: false,
@@ -34,7 +35,7 @@ const Login = React.createClass({
     )
     .then( loadProfile )
     .then(
-      () => this.props.history.push('/buckets'),
+      () => browserHistory.push('/buckets'),
       err => {
         this.setState({
           loading: false,
@@ -46,7 +47,7 @@ const Login = React.createClass({
   },
 
   handleClickReset() {
-    this.props.history.push('/password_reset')
+    browserHistory.push('/password_reset')
   },
 
   handleKeyPress (event) {
@@ -69,15 +70,25 @@ const Login = React.createClass({
           </div>
         </div>
         <div className="wrapper">
-          <div>
-
-            <h2>Welcome back!</h2>
+          <div id="login-wrapper">
 
             <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: this.state.error ? '' : 'none'}}>
               {this.state.error ? this.state.error.message : ''}
             </div>
 
-            <div className="email-signup">
+            <div className="google-login">
+              <a href={ process.env.FORMBUCKET_API_SERVER + "/connect/google" } alt="Sign in with Google">
+                <img src="img/btn_google_signin_dark_normal_web@2x.png" />
+              </a>
+            </div>
+
+            <div className="login-divider">
+              <div></div>
+              <div>or</div>
+              <div></div>
+            </div>
+
+            <div className="login-form">
               <label>
                 Email:
                 <input name="email" ref="email" type="email" onKeyUp={this.handleKeyPress} />
@@ -87,16 +98,7 @@ const Login = React.createClass({
                 <input name="password" ref="password" type="password" onKeyUp={this.handleKeyPress} />
               </label>
               <input onClick={this.handleClick} type="button" value="Login" disabled={this.state.loading} />
-              &nbsp;&nbsp;Or sign up with:&nbsp;&nbsp;
-              <a href={ process.env.FORMBUCKET_API_SERVER + "/connect/google" } alt="Sign in with Google">
-                <FontAwesome size="2x" name="google" />
-              </a>&nbsp;&nbsp;
-              <a href={ process.env.FORMBUCKET_API_SERVER + "/connect/github" } alt="Sign in with Github">
-                <FontAwesome size="2x" name="github" />
-              </a>&nbsp;&nbsp;
-              <a href={ process.env.FORMBUCKET_API_SERVER + "/connect/twitter" } alt="Sign in with Twitter">
-                <FontAwesome size="2x" name="twitter" />
-              </a>
+
               <a className="pull-right" href="javascript:void(0)" onClick={this.handleClickReset}>Forgot your password?</a>
               {
                 branch(this.state.loading,

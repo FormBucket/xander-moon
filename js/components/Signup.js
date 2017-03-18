@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import {Link} from 'react-router'
+import {Link, browserHistory} from 'react-router'
 import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
 import {signUp, loadProfile} from '../stores/ActionCreator'
@@ -51,7 +51,7 @@ const Signup = React.createClass({
     .then( loadProfile )
     .then(
       n => {
-        this.props.history.push('/buckets')
+        browserHistory.push('/buckets')
       },
       err => {
         this.setState({
@@ -79,30 +79,24 @@ const Signup = React.createClass({
           </div>
         </div>
         <div className="wrapper">
-          <div className="half-width">
+          <div className="signup-form">
             {this.state.error ? <div className="error-message">{this.state.error.message}</div> : ''}
             <h2>
               Free for 14 days. No credit card required.
             </h2>
-            <p style={{ textAlign: 'left'}}>
-              Sign up with:&nbsp;&nbsp;
-              <a href={ process.env.FORMBUCKET_API_SERVER + "/connect/google" } alt="Sign up with Google">
-                <FontAwesome size="2x" name="google" />
-              </a>&nbsp;&nbsp;
-              <a href={ process.env.FORMBUCKET_API_SERVER + "/connect/github" } alt="Sign up with Github">
-                <FontAwesome size="2x" name="github" />
-              </a>&nbsp;&nbsp;
-              <a href={ process.env.FORMBUCKET_API_SERVER + "/connect/twitter" } alt="Sign up with Twitter">
-                <FontAwesome size="2x" name="twitter" />
-              </a>&nbsp;&nbsp;
-              <a href={ process.env.FORMBUCKET_API_SERVER + "/connect/facebook" } alt="Sign up with Facebook">
-                <FontAwesome size="2x" name="facebook" />
-              </a>&nbsp;&nbsp;
-              <a href={ process.env.FORMBUCKET_API_SERVER + "/connect/slack" } alt="Sign up with Slack">
-                <FontAwesome size="2x" name="slack" />
+
+            <div className="google-signup">
+              <a href={ process.env.FORMBUCKET_API_SERVER + "/connect/google" } alt="Sign in with Google">
+                <img src="img/btn_google_signin_dark_normal_web@2x.png" />
               </a>
-            </p>
-            <hr />
+            </div>
+
+            <div className="signup-divider">
+              <div></div>
+              <div>or</div>
+              <div></div>
+            </div>
+
             <label htmlFor="fullName">Full Name</label>
             <input onKeyUp={this.handleKeyUp} type="text" ref="name" placeholder="e.g. Nikola Tesla"/>
             <label htmlFor="emailAddress">Email Address</label>
@@ -114,8 +108,9 @@ const Signup = React.createClass({
             <p className="muted">
               By clicking "SIGN UP" you agree to our <a href="/terms" target="blank">Terms of Service</a> and <a href="/privacy-policy" target="blank">Privacy Policy</a> and also agree to receive news and tips via email.
             </p>
+
           </div>
-          <div className="half-width">
+          <div className="signup-benefits">
             <div id="pricing" className="wrapper">
               <div className="plan">
                 <h3>$7<span className="month">/mo</span></h3>

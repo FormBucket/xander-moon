@@ -5,6 +5,7 @@ import {branch, isEmail} from 'functionfoundry'
 import {server} from '../stores/webutils'
 import FontAwesome from 'react-fontawesome'
 import Modal from 'react-modal'
+import { browserHistory } from 'react-router'
 
 window.validateForm = function() {
   var v = true;
@@ -120,7 +121,7 @@ const Welcome = React.createClass({
               <h1>Capture and automate form submissions</h1>
   	          <h2>Get a powerful and reliable backend with no programming</h2>
               <button type="button"
-                onClick={ () => this.props.history.push('/signup')}>
+                onClick={ () => browserHistory.push('/signup')}>
                 Get Started
               </button>
               <p>Free 14-Day Trial • No credit card to sign up!</p>
@@ -259,7 +260,7 @@ const Welcome = React.createClass({
                   <h2>Simple Pricing</h2>
                   <p>Unlimited Buckets and Submissions for just <strong>$7/mo.</strong> Free for 14 days, no credit card required and cancel anytime.</p>
                   <button type="button"
-                    onClick={ () => this.props.history.push('/signup')}>
+                    onClick={ () => browserHistory.push('/signup')}>
                     Sign Up
                   </button>
                 </div>

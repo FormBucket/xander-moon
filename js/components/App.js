@@ -21,6 +21,12 @@ const App = React.createClass({
 
   componentDidMount() {
 
+    if (window.Intercom) {
+      window.Intercom("boot", {
+        app_id: "n2h7hsol"
+      });
+    }
+
     loadProfile()
 
     this.unsubscribe = UserStore.subscribe(() => {

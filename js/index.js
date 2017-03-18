@@ -1,8 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 
-import { Router, Route, Link, IndexRoute } from 'react-router'
-import { browserHistory } from 'react-router'
+import { Router, Route, Link, IndexRoute, browserHistory } from 'react-router'
 
 import UserStore from './stores/user'
 
@@ -23,6 +22,12 @@ import UsersReport from './components/UsersReport'
 import UserReport from './components/UserReport'
 
 require('../scss/app.scss')
+
+browserHistory.listen((location, action) => {
+  if (window.Intercom) {
+    window.Intercom('update');
+  }
+})
 
 // Finally, we render a <Router> with some <Route>s.
 // It does all the fancy routing stuff for us.

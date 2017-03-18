@@ -11,6 +11,8 @@ import {
   requestBucketExport, requestDownloadFile }
 from '../stores/webutils'
 import FlashMessage from './FlashMessage'
+import { browserHistory } from 'react-router'
+
 // import RichTextEditor from 'react-rte';
 // import Codemirror from 'react-codemirror';
 // import 'codemirror/mode/spreadsheet/spreadsheet'
@@ -41,7 +43,7 @@ const NewBucket = React.createClass({
   componentDidMount() {
 
     if (!UserStore.isUserLoggedIn()) {
-      this.props.history.push('/login')
+      browserHistory.push('/login')
     }
 
     Promise.all([
@@ -148,7 +150,7 @@ const NewBucket = React.createClass({
     }
 
     requestDeleteBucket( bucket.id )
-    .then(result => this.props.history.push('/buckets'))
+    .then(result => browserHistory.push('/buckets'))
     .catch(err => {
       console.log('ERROR', err)
       this.setState({ error: err })
@@ -388,7 +390,7 @@ const NewBucket = React.createClass({
             <input type="button" className="button" onClick={this.onSave} value="Save Settings" />
           </div>
           <div className="bucket-preview">
-            <a href="#" onClick={(event) => { this.props.history.push('/buckets/' + this.state.id + '/submissions'); }}>View Submissions</a>
+            <a href="#" onClick={(event) => { browserHistory.push('/buckets/' + this.state.id + '/submissions'); }}>View Submissions</a>
           </div>
           <div className="bucket-preview">
             <div className="bucket-editor">

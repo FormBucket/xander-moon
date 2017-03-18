@@ -11,30 +11,94 @@
   }
 }
 
-.or {
-  @include span-columns(2);
-  text-transform: uppercase;
-
-  @include media($phablet) {
-    @include span-columns(12);
-    margin-bottom: $base-spacing;
-  }
-
-  p {
-    margin: auto;
-    width: 3rem;
-    height: 3rem;
-    line-height: 3rem;
-    border-radius: 1.5rem;
-    text-align: center;
-    background-color: $purple;
-    color: white;
-  }
-}
-
 p.muted {
   margin-top: $base-spacing;
   opacity: 0.8;
   font-size: 0.9em;
   text-transform: none;
+}
+
+.google-signup {
+  text-align: center;
+
+  img {
+    width: 240px;
+  }
+
+  a:focus img {
+    src: url(/img/btn_google_signin_dark_focus_web@2x.png);
+  }
+}
+
+.signup-divider {
+
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+
+  div:first-child {
+    content: ' ';
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    right: 55%;
+    height: 1px;
+    background-color: #e1e7ea;
+    -webkit-box-shadow: 0 1px 0 fade(#FFF, 20%);
+    -moz-box-shadow: 0 1px 0 fade(#FFF, 20%);
+    box-shadow: 0 1px 0 fade(#FFF, 20%);
+  }
+
+  div:last-child {
+    content: ' ';
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    right: 0px;
+    height: 1px;
+    background-color: #e1e7ea;
+    -webkit-box-shadow: 0 1px 0 fade(#FFF, 20%);
+    -moz-box-shadow: 0 1px 0 fade(#FFF, 20%);
+    box-shadow: 0 1px 0 fade(#FFF, 20%);
+  }
+}
+
+.signup-form {
+  @include span-columns(8);
+
+  @include media($phablet) {
+    @include span-columns(12);
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  p {
+
+    @include media($phablet);
+      text-align: center;
+  }
+
+  button, .button {
+    width: 100%;
+  }
+}
+
+.signup-benefits {
+  @include span-columns(4);
+
+  @include media($phablet) {
+    @include span-columns(12);
+  }
+
+  p {
+
+    @include media($phablet);
+      text-align: center;
+  }
+
+  button, .button {
+    width: 100%;
+  }
 }

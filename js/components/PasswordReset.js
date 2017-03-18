@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 import {requestPasswordReset, requestPasswordResetUpdate} from '../stores/webutils'
 import {branch, isEmail} from 'functionfoundry'
+import { browserHistory } from 'react-router'
 
 const Login = React.createClass({
   getInitialState() {
@@ -40,7 +41,7 @@ const Login = React.createClass({
     .then(
       () => {
         this.setState({ loading: false, sent: true })
-        this.props.history.push('/login')
+        browserHistory.push('/login')
       }
     )
     .catch(

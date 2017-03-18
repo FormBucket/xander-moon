@@ -1,7 +1,7 @@
 // Author: Peter Moresi
 import {branch as COND, not as NOT, isblank as ISBLANK, isfunction as ISFUNCTION, branch as IF} from 'functionfoundry'
 import React, { PropTypes } from 'react'
-import {Link} from 'react-router'
+import { Link, browserHistory } from 'react-router'
 import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
 import FontAwesome from 'react-fontawesome'
@@ -24,7 +24,7 @@ const Buckets = React.createClass({
   componentDidMount() {
 
     if (!UserStore.isUserLoggedIn()) {
-      this.props.history.push('/login')
+      browserHistory.push('/login')
     }
 
     // load the buckets
@@ -37,19 +37,19 @@ const Buckets = React.createClass({
   handleNewBucket(event) {
     requestCreateBucket({ enabled: true })
     .then( result => {
-      this.props.history.push('/buckets/' + result.id + '/settings')
+      browserHistory.push('/buckets/' + result.id + '/settings')
     })
     .catch( err => this.setState( { error: err } ))
   },
 
   handleSelect(bucket) {
     // console.log('bucket settings click', bucket)
-    this.props.history.push('/buckets/' + bucket.id + '/settings')
+    browserHistory.push('/buckets/' + bucket.id + '/settings')
   },
 
   handleShow(bucket) {
     // console.log('show submissions click', bucket)
-    this.props.history.push('/buckets/' + bucket.id + '/submissions')
+    browserHistory.push('/buckets/' + bucket.id + '/submissions')
   },
 
   render() {

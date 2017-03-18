@@ -67,6 +67,15 @@ export function loadProfile() {
     // publish to stores
     dispatch('setProfile', profile)
 
+    if (window.Intercom) {
+      window.Intercom("update", {
+        app_id: "n2h7hsol",
+        name: profile.name, // Full name
+        email: profile.email, // Email address
+        created_at: Math.round( new Date(profile.created_on).getTime() / 1000 ) // Signup date as a Unix timestamp
+      });
+    }
+
     // resolve to caller
     return Promise.resolve( profile )
 
