@@ -6,7 +6,7 @@ var moment = require('moment')
 let load = (module) => ['webpack-hot-middleware/client', './js/' + module]
 
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'source-map',
   entry: {
     app: load('index'),
     nav: load('nav'),
@@ -14,14 +14,14 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name]-' + moment().format('YYYY-MM-DD') + '.js',
+    filename: '[name]-' + moment().format('YYYY-MM-DD-HH-MM') + '.js',
     publicPath: '/assets/'
   },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('development'),
-        'FORMBUCKET_API_SERVER': JSON.stringify('https://api.formbucket.com')
+        'FORMBUCKET_API_SERVER': JSON.stringify('https://api-dev.formbucket.com')
       }
     }),
     new webpack.HotModuleReplacementPlugin(),

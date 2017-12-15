@@ -19,6 +19,7 @@ if (readExp() < moment().unix()) {
 }
 
 const UserStore = createStore(
+  "user",
   {
     getInitialState: () => {},
     setToken: (state, token) => {

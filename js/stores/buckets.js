@@ -1,6 +1,7 @@
 import {createStore} from 'fluxury'
 
 const BucketStore = createStore(
+  "buckets",
   // Action handlers
   {
     getInitialState: () => {},

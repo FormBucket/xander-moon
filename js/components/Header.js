@@ -10,7 +10,7 @@ const Header = React.createClass({
     return (
       <header className="navigation" role="banner">
         <div className="navigation-wrapper">
-          <Link to={UserStore.isUserLoggedIn() ? "/buckets" : "/"} className="logo">
+          <Link to="/" className="logo">
             <img src="/img/purple-logo.svg" alt="FormBucket" />
           </Link>
           <Nav />

@@ -22,7 +22,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'public', 'assets'),
-    filename: '[name]-' + moment().format('YYYY-MM-DD') + '.js',
+    filename: '[name]-' + moment().format('YYYY-MM-DD-HH-MM') + '.js',
   },
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
@@ -32,7 +32,6 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production'),
-        // 'FORMBUCKET_API_SERVER': JSON.stringify('https://api.formbucket.com')
         'FORMBUCKET_API_SERVER': JSON.stringify('https://api.formbucket.com')
       }
     }),
@@ -41,7 +40,7 @@ module.exports = {
         warnings: false
       }
    }),
-    new ExtractTextPlugin('app-' + moment().format('YYYY-MM-DD') + '.css')
+    new ExtractTextPlugin('app-' + moment().format('YYYY-MM-DD-HH-MM') + '.css')
   ],
   module: {
     loaders: [{

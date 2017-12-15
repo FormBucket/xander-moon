@@ -9,6 +9,7 @@ var moment = require('moment')
 
 app.use(accesslog());
 
+if (true) {
 var webpack = require('webpack');
 var webpackConfig = require('./webpack.config.dev.js');
 var compiler = webpack(webpackConfig);
@@ -26,14 +27,12 @@ app.use(function* (next) {
   yield next;
 });
 
-app.use( _.get('/assets/formbucket.css', function*() {
-  this.redirect('/assets/styles.js')
-}))
+}
 
 // serve generate pages
 app.use(serveViews({ defaults: {
   __DEV__: true,
-  __ts__: moment().format('YYYY-MM-DD')
+  __ts__: moment().format('YYYY-MM-DD-HH-MM')
 }}))
 
 // serve static assets
@@ -44,4 +43,6 @@ app.use(function *(){
   yield this.serveView('index')
 })
 
-app.listen(3000);
+app.listen(3000, "10.8.0.42");
+
+console.log('Listening on port 3000.')

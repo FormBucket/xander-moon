@@ -351,7 +351,7 @@ const NewBucket = React.createClass({
                   <div>
                     <label>
                       Honey pot field
-                      {' '}<a className="pull-right" href="#">What is a honey pot?</a>
+                      {' '}<a className="pull-right" href="/guides/honeypot">Honey pot?</a>
                       <input placeholder="Optional custom fieldname" onChange={(e) => this.setState({ honey_pot_field:  e.target.value  })}
                       defaultValue={ this.state.honey_pot_field }/>
                   </label>

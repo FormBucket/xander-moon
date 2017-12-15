@@ -27,5 +27,8 @@ The "AJAX Only?" option sets up an endpoint that always returns a JSON object.
 * * *
 ### [File Uploads](/guides/file-uploads)
 Let us know if you'd like FormBucket to support file uploads for your buckets.
+
+### [Honey Pot](/guides/honeypot)
+Learn about honeypot. A common technique to defeat simple spam bots.
 * * *
 Can't find what you're looking for? Please <a href="/contact">contact us</a> for help.
