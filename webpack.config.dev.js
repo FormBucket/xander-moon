@@ -21,7 +21,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('development'),
-        'FORMBUCKET_API_SERVER': JSON.stringify('https://api-dev.formbucket.com')
+        'FORMBUCKET_API_SERVER': JSON.stringify(process.env.API_URI||'https://api-dev.formbucket.com')
       }
     }),
     new webpack.HotModuleReplacementPlugin(),
