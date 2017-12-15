@@ -119,7 +119,7 @@ const Welcome = React.createClass({
           <div className="bubbles">
             <div className="wrapper">
               <h1>Capture and automate form submissions</h1>
-              <h2>Serverless form collection. Easy, powerful, fast and reliable.</h2>
+              <h2>Form collection made easy. No programming required.</h2>
               <button type="button"
                 onClick={ () => browserHistory.push('/signup')}>
                 Get Started
