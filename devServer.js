@@ -43,6 +43,6 @@ app.use(function *(){
   yield this.serveView('index')
 })
 
-app.listen(3000, "10.8.0.42");
+app.listen(3000, process.env.BIND_IP);
 
 console.log('Listening on port 3000.')
