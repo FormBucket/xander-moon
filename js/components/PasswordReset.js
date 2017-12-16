@@ -4,15 +4,14 @@ import {requestPasswordReset, requestPasswordResetUpdate} from '../stores/webuti
 import {branch, isEmail} from 'functionfoundry'
 import { browserHistory } from 'react-router'
 
-const Login = React.createClass({
-  getInitialState() {
-    return {
-      loading: false,
-      error: false,
-      sent: false
-    }
-  },
-  handleClick() {
+class Login extends React.Component {
+  state = {
+    loading: false,
+    error: false,
+    sent: false
+  };
+
+  handleClick = () => {
     var email = this.refs.email.value
 
     if (email.length === 0 || !isEmail(email)) {
@@ -30,9 +29,9 @@ const Login = React.createClass({
     .catch(
       (error) => this.setState({ loading: false, error: JSON.parse(error) })
     )
-  },
+  };
 
-  handleClickUpdate() {
+  handleClickUpdate = () => {
     var email = this.state.email,
     temp_password = this.refs.temp_password.value,
     password = this.refs.password.value
@@ -47,16 +46,16 @@ const Login = React.createClass({
     .catch(
       (error) => this.setState({ loading: false, error: JSON.parse(error) })
     )
-  },
+  };
 
-  handleKeyPress (event) {
+  handleKeyPress = (event) => {
     if (event.keyCode === 13) {
       // enter key pressed
       this.handleClick()
     }
-  },
+  };
 
-  render () {
+  render() {
     // console.log(this.state)
 
     return (
@@ -114,6 +113,6 @@ const Login = React.createClass({
       </div>
     )
   }
-})
+}
 
 export default Login

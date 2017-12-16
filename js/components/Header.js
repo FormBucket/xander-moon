@@ -4,9 +4,8 @@ import FontAwesome from 'react-fontawesome'
 import Nav from './Nav'
 import UserStore from '../stores/user'
 
-const Header = React.createClass({
-
-  render () {
+class Header extends React.Component {
+  render() {
     return (
       <header className="navigation" role="banner">
         <div className="navigation-wrapper">
@@ -18,6 +17,6 @@ const Header = React.createClass({
       </header>
     )
   }
-})
+}
 
 export default Header

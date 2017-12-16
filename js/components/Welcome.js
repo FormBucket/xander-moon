@@ -70,17 +70,15 @@ const videoModalStyle = {
 //   <button class="secondary" type="submit">Send!</button>
 // </form>`
 
-const Welcome = React.createClass({
-  getInitialState: () => {
-    return {
-      isAnnual: true,
-      showVideo: false,
-      ghostTextLength: 0,
-      ghostText: ''
-    }
-  },
+class Welcome extends React.Component {
+  state = {
+    isAnnual: true,
+    showVideo: false,
+    ghostTextLength: 0,
+    ghostText: ''
+  };
 
-  componentDidMount () {
+  componentDidMount() {
 
     this.timerId = setInterval( () => {
 
@@ -98,27 +96,28 @@ const Welcome = React.createClass({
       }
     }, 6)
 
-  },
-  componentWillUnmount () {
+  }
+
+  componentWillUnmount() {
     clearInterval(this.timerId)
-  },
+  }
 
-  openVideo() {
+  openVideo = () => {
     this.setState({ showVideo: true })
-  },
+  };
 
-  closeVideo() {
+  closeVideo = () => {
     this.setState({ showVideo: false })
-  },
+  };
 
-  render () {
+  render() {
 
    return (
       <div>
         <div className="hero">
           <div className="bubbles">
             <div className="wrapper">
-              <h1>Capture and automate form submissions</h1>
+              <h1>Endpoints are just the beginning</h1>
               <h2>Form collection made easy. No programming required.</h2>
               <button type="button"
                 onClick={ () => browserHistory.push('/signup')}>
@@ -271,6 +270,6 @@ const Welcome = React.createClass({
       </div>
     )
   }
-})
+}
 
 export default Welcome

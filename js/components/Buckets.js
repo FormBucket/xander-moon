@@ -10,16 +10,14 @@ import {requestBuckets, requestCreateBucket} from '../stores/webutils'
 import BucketTable from './BucketTable'
 import BucketList from './BucketList'
 
-const Buckets = React.createClass({
-  getInitialState() {
-    return {
-      mode: 'list',
-      buckets: undefined,
-      selected_bucket_id: undefined,
-      error: false,
-      user: UserStore.getState()
-    }
-  },
+class Buckets extends React.Component {
+  state = {
+    mode: 'list',
+    buckets: undefined,
+    selected_bucket_id: undefined,
+    error: false,
+    user: UserStore.getState()
+  };
 
   componentDidMount() {
 
@@ -32,25 +30,25 @@ const Buckets = React.createClass({
     .then( (buckets) => this.setState({ buckets: buckets }) )
     .catch( (err) => this.setState({ buckets: [], error: err }))
 
-  },
+  }
 
-  handleNewBucket(event) {
+  handleNewBucket = (event) => {
     requestCreateBucket({ enabled: true })
     .then( result => {
       browserHistory.push('/buckets/' + result.id + '/settings')
     })
     .catch( err => this.setState( { error: err } ))
-  },
+  };
 
-  handleSelect(bucket) {
+  handleSelect = (bucket) => {
     // console.log('bucket settings click', bucket)
     browserHistory.push('/buckets/' + bucket.id + '/settings')
-  },
+  };
 
-  handleShow(bucket) {
+  handleShow = (bucket) => {
     // console.log('show submissions click', bucket)
     browserHistory.push('/buckets/' + bucket.id + '/submissions')
-  },
+  };
 
   render() {
 
@@ -89,6 +87,6 @@ const Buckets = React.createClass({
     </div>
   )
 }
-})
+}
 
 export default Buckets

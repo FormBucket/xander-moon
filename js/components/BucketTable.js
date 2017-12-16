@@ -2,8 +2,8 @@ import {branch as IF, eq as EQ, not as NOT, isblank as ISBLANK} from 'functionfo
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 
-const Buckets = React.createClass({
-  render () {
+class Buckets extends React.Component {
+  render() {
     if (ISBLANK(this.props.buckets)) {
       return (
         <div>Loading Buckets...</div>
@@ -45,6 +45,6 @@ const Buckets = React.createClass({
       </table>
     )
   }
-})
+}
 
 export default Buckets

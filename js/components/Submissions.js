@@ -32,25 +32,23 @@ function wrap(headingText, output) {
  )
 }
 
-const Submissions = React.createClass({
-  getInitialState () {
-    return {
-      display: 'inbox',
-      submissions: undefined,
-      showAll: false,
-      selected: [],
-      expanded: [],
-      loaded: false,
-      loading: false,
-      selectToggle: true
-    }
-  },
+class Submissions extends React.Component {
+  state = {
+    display: 'inbox',
+    submissions: undefined,
+    showAll: false,
+    selected: [],
+    expanded: [],
+    loaded: false,
+    loading: false,
+    selectToggle: true
+  };
 
   componentWillMount() {
     if (!UserStore.isUserLoggedIn()) {
       browserHistory.push('/login')
     }
-  },
+  }
 
   componentWillReceiveProps(nextProps) {
 
@@ -76,7 +74,7 @@ const Submissions = React.createClass({
     }))
     .catch(error => this.setState({ error: error }))
 
-  },
+  }
 
   componentWillMount() {
 
@@ -97,66 +95,66 @@ const Submissions = React.createClass({
 
     window.scrollTo(0, 0)
 
-  },
+  }
 
-  handleBucketsChanged: function() {
+  handleBucketsChanged = () => {
     // console.log('handleSubmissionsChanged')
     this.setState( {
       bucket: BucketStore.find(this.props.params.id)
     })
-  },
+  };
 
-  handleSubmissionsChanged: function() {
+  handleSubmissionsChanged = () => {
     this.setState( {
       submissions: SubmissionsStore.getSubmissions()
     })
-  },
+  };
 
-  handleDelete(event, submission) {
+  handleDelete = (event, submission) => {
     event.stopPropagation()
     requestDeleteSubmission(this.state.bucket.id, submission.id)
     .then(n => this.search())
     .catch(error => alert(error))
     return false
-  },
+  };
 
-  handleDeleteSelected(){
+  handleDeleteSelected = () => {
     requestUpdateSubmissions(this.state.bucket.id, this.state.selected, { deleted: true, spam: false })
     .then(n => this.search())
     .catch(error => alert(error))
 
     this.setState({ selected: [] })
 
-  },
+  };
 
-  handleDestroySelected(){
+  handleDestroySelected = () => {
     requestDeleteSubmissions(this.state.bucket.id, this.state.selected)
     .then(n => this.search())
     .catch(error => alert(error))
 
     this.setState({ selected: [] })
 
-  },
+  };
 
-  handleMoveToInbox() {
+  handleMoveToInbox = () => {
     requestUpdateSubmissions(this.state.bucket.id, this.state.selected, { deleted: false, spam: false })
     .then(n => this.search())
     .catch(error => alert(error))
 
     this.setState({ selected: [] })
 
-  },
+  };
 
-  handleMarkSelectedSpam() {
+  handleMarkSelectedSpam = () => {
     requestUpdateSubmissions(this.state.bucket.id, this.state.selected, { spam: true })
     .then(n => this.search())
     .catch(error => alert(error))
 
     this.setState({ selected: [] })
 
-  },
+  };
 
-  handleMarkSpam(event, submission, spam=true) {
+  handleMarkSpam = (event, submission, spam=true) => {
     event.stopPropagation()
     requestUpdateSubmission(this.state.bucket.id, submission.id, { spam })
     .then(n => {
@@ -165,32 +163,32 @@ const Submissions = React.createClass({
       })
     })
 
-  },
+  };
 
-  handleSelect(event, submission) {
+  handleSelect = (event, submission) => {
     event.stopPropagation()
     if (this.state.selected.indexOf(submission.id) > -1) {
       this.setState({ selected: this.state.selected.filter(d => d !== submission.id )})
     } else {
       this.setState({ selected: this.state.selected.concat([submission.id])})
     }
-  },
+  };
 
-  handleExpand(event, submission) {
+  handleExpand = (event, submission) => {
     event.stopPropagation()
     if (this.state.expanded.indexOf(submission.id) > -1) {
       this.setState({ expanded: this.state.expanded.filter(d => d !== submission.id )})
     } else {
       this.setState({ expanded: this.state.expanded.concat([submission.id])})
     }
-  },
+  };
 
-  search (event) {
+  search = (event) => {
     var url = `/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/0/${this.props.params.limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${this.state.display}`
     browserHistory.push(url)
-  },
+  };
 
-  goForward (event) {
+  goForward = (event) => {
     var offset = +this.props.params.offset,
     limit = +this.props.params.limit
 
@@ -209,9 +207,9 @@ const Submissions = React.createClass({
     }
 
     browserHistory.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${this.state.display}`)
-  },
+  };
 
-  goBack (event) {
+  goBack = (event) => {
 
     var offset = +this.props.params.offset,
     limit = +this.props.params.limit
@@ -235,17 +233,17 @@ const Submissions = React.createClass({
 
     browserHistory.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${this.state.display}`)
 
-  },
+  };
 
-  switchFolder (type) {
+  switchFolder = (type) => {
     this.setState({ display: type })
     var offset = +this.props.params.offset,
     limit = +this.props.params.limit
 
     browserHistory.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/0/${limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${type}`)
-  },
+  };
 
-  render () {
+  render() {
 
     // console.log(this.state)
 
@@ -484,6 +482,6 @@ const Submissions = React.createClass({
       <div>Huh, unsupported mode.</div>
     )
   }
-})
+}
 
 export default Submissions

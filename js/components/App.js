@@ -13,11 +13,8 @@ import {loadProfile} from '../stores/ActionCreator'
 * this application displays and how it needs to be
 * organized.
 */
-const App = React.createClass({
-
-  getInitialState() {
-    return {}
-  },
+class App extends React.Component {
+  state = {};
 
   componentDidMount() {
 
@@ -32,11 +29,11 @@ const App = React.createClass({
     this.unsubscribe = UserStore.subscribe(() => {
       this.setState({ user: UserStore.getState() })
     })
-  },
+  }
 
   componentWillUnmount() {
     this.unsubscribe()
-  },
+  }
 
   render() {
     var {status, trial_period_days, trial_start, has_source} = this.state.user || {} // TBD: get from profile
@@ -78,6 +75,6 @@ const App = React.createClass({
       </div>
     )
   }
-});
+}
 
 export default App

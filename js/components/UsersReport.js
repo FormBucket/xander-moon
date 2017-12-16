@@ -11,14 +11,12 @@ import {
 } from '../stores/webutils'
 
 
-const UserReport = React.createClass({
-  getInitialState () {
-    return {
-      submissions: undefined,
-      loaded: false,
-      loading: false
-    }
-  },
+class UserReport extends React.Component {
+  state = {
+    submissions: undefined,
+    loaded: false,
+    loading: false
+  };
 
   componentDidMount() {
 
@@ -39,9 +37,9 @@ const UserReport = React.createClass({
       .catch(error => this.setState({ error: error }))
 
     }
-  },
+  }
 
-  render () {
+  render() {
 
     if (eq(this.state.loaded, false)) {
       return (
@@ -110,6 +108,6 @@ const UserReport = React.createClass({
       </div>
     )
   }
-})
+}
 
 export default UserReport

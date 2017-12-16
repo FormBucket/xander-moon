@@ -6,20 +6,21 @@ import {signUp, loadProfile} from '../stores/ActionCreator'
 import {isEmail} from 'functionfoundry'
 
 var FontAwesome = require('react-fontawesome');
-const Signup = React.createClass({
-  getInitialState() {
-    return {
-      loading: false,
-      error: false,
-      accepted: false,
-      optedIn: false
-    }
-  },
+
+class Signup extends React.Component {
+  state = {
+    loading: false,
+    error: false,
+    accepted: false,
+    optedIn: false
+  };
+
   componentDidMount() {
     // ensure user is scrolled to top
     window.scrollTo(0, 0)
-  },
-  handleClick() {
+  }
+
+  handleClick = () => {
 
     if (this.refs.name.value.length === 0) {
       this.setState({ error: { message: 'Must provide name'} })
@@ -61,15 +62,17 @@ const Signup = React.createClass({
       }
     )
 
-  },
-  handleKeyUp (event) {
+  };
+
+  handleKeyUp = (event) => {
     if (event.keyCode === 13) {
       // enter key pressed
       this.handleClick()
     }
 
-  },
-  render () {
+  };
+
+  render() {
 
     return (
       <div>
@@ -133,6 +136,6 @@ const Signup = React.createClass({
       </div>
     )
   }
-})
+}
 
 export default Signup

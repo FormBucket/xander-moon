@@ -4,13 +4,11 @@ import {signIn, getToken, loadProfile} from '../stores/ActionCreator'
 import {branch} from 'functionfoundry'
 import { browserHistory } from 'react-router'
 
-const Login = React.createClass({
-  getInitialState() {
-    return {
-      loading: false,
-      error: false
-    }
-  },
+class Login extends React.Component {
+  state = {
+    loading: false,
+    error: false
+  };
 
   componentDidMount() {
     if (this.props.location.query.code) {
@@ -25,9 +23,9 @@ const Login = React.createClass({
         }
       )
     }
-  },
+  }
 
-  handleClick() {
+  handleClick = () => {
     this.setState({ loading: true, error: false })
     signIn(
       this.refs.email.value,
@@ -44,20 +42,21 @@ const Login = React.createClass({
       }
     )
 
-  },
+  };
 
-  handleClickReset() {
+  handleClickReset = () => {
     browserHistory.push('/password_reset')
-  },
+  };
 
-  handleKeyPress (event) {
+  handleKeyPress = (event) => {
     if (event.keyCode === 13) {
       // enter key pressed
       this.handleClick()
     }
 
-  },
-  render () {
+  };
+
+  render() {
     if (this.props.location.query.code) {
       return <div>Loading...</div>
     }
@@ -113,6 +112,6 @@ const Login = React.createClass({
       </div>
     )
   }
-})
+}
 
 export default Login

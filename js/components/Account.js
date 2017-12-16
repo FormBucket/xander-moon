@@ -54,18 +54,16 @@ function subscribeUser({ account_id, number, cvc, exp}) {
   })
 }
 
-const Account = React.createClass({
-  getInitialState () {
-    return {
-      show_token: false,
-      flash: undefined,
-      user: null,
-      cards: [],
-      number: '',
-      exp: '',
-      cvc: ''
-    }
-  },
+class Account extends React.Component {
+  state = {
+    show_token: false,
+    flash: undefined,
+    user: null,
+    cards: [],
+    number: '',
+    exp: '',
+    cvc: ''
+  };
 
   componentWillMount() {
 
@@ -73,7 +71,7 @@ const Account = React.createClass({
       browserHistory.push('/login')
       return;
     }
-  },
+  }
 
   componentDidMount() {
 
@@ -105,13 +103,13 @@ const Account = React.createClass({
       this.setState({ user: UserStore.getState() })
     })
 
-  },
+  }
 
   componentWillUnmount() {
     this.unsubscribe()
-  },
+  }
 
-  handleDeleteSubscription() {
+  handleDeleteSubscription = () => {
     if (confirm("Pausing your account will stop submissions immediately. Your account and data will remain on our service. Continue?")) {
       cancelSubscription(this.state.user.account_id)
       .then(n => {
@@ -122,9 +120,9 @@ const Account = React.createClass({
       })
       .catch(e => alert('An error occurred. Please contact support@formbucket.com'))
     }
-  },
+  };
 
-  handleDeleteAccount() {
+  handleDeleteAccount = () => {
     if (confirm("Your account and data will be gone forever. Continue?")) {
       requestDestroyAccount()
       .then(n => {
@@ -133,11 +131,9 @@ const Account = React.createClass({
       })
       .catch(e => alert('An error occurred. Please contact support@formbucket.com'))
     }
-  },
+  };
 
-
-
-  handleSave() {
+  handleSave = () => {
 
     // TBD: Subscribe the user.
     // 1. Exchange credit card info for source id.
@@ -177,25 +173,24 @@ const Account = React.createClass({
       error: error
     }))
 
-  },
+  };
 
-
-  handleNumberChange(event) {
+  handleNumberChange = (event) => {
     var number = event.target.value;
     this.setState({ number })
-  },
+  };
 
-  handleExpChange(event) {
+  handleExpChange = (event) => {
     var exp = event.target.value;
     this.setState({ exp })
-  },
+  };
 
-  handleCVCChange(event) {
+  handleCVCChange = (event) => {
     var cvc = event.target.value;
     this.setState({ cvc })
-  },
+  };
 
-  render () {
+  render() {
 
     if (this.state.error) {
       return <div>Error occurred: {this.state.error}</div>
@@ -339,6 +334,6 @@ const Account = React.createClass({
       </div>
       )
     }
-  })
+}
 
-  export default Account
+export default Account

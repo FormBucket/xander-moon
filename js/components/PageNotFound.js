@@ -2,9 +2,8 @@ var React = require('react');
 var PropTypes = React.PropTypes;
 var PageNotFound;
 
-export default PageNotFound = React.createClass({
-
-  render: function() {
+export default PageNotFound = class extends React.Component {
+  render() {
     return (
       <div>
         <div className="page-heading">
@@ -19,5 +18,4 @@ export default PageNotFound = React.createClass({
       </div>
     );
   }
-
-});
+};

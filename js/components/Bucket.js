@@ -30,15 +30,12 @@ function makeHTMLForm(id, honey_pot_on, honey_pot_field) {
 </form>`)
 }
 
-const NewBucket = React.createClass({
-
-  getInitialState: function() {
-    return {
-      loaded: false,
-      email_to: false,
-      advanced_notification_on: false
-    };
-  },
+class NewBucket extends React.Component {
+  state = {
+    loaded: false,
+    email_to: false,
+    advanced_notification_on: false
+  };
 
   componentDidMount() {
 
@@ -58,14 +55,14 @@ const NewBucket = React.createClass({
     )))
     .catch(err => this.setState( { error: err } ))
 
-  },
+  }
 
   componentDidUpdate(prevProps, prevState) {
     // console.log('match', this.state === prevState )
     // console.log('state', JSON.stringify(this.state, null, 4))
-  },
+  }
 
-  toggleAutoResponder(e) {
+  toggleAutoResponder = (e) => {
 
     this.setState( { auto_responder: false })
 
@@ -79,9 +76,9 @@ const NewBucket = React.createClass({
       })
     }
 
-  },
+  };
 
-  onSave (e) {
+  onSave = (e) => {
 
     var {
       id,
@@ -140,9 +137,9 @@ const NewBucket = React.createClass({
       // console.log('ERROR', err)
       this.setState({ error: err })
     })
-  },
+  };
 
-  onDelete(e) {
+  onDelete = (e) => {
     var bucket = this.state
 
     if (!confirm("This will delete the bucket and all your submissions. Continue?")) {
@@ -155,19 +152,19 @@ const NewBucket = React.createClass({
       console.log('ERROR', err)
       this.setState({ error: err })
     })
-  },
+  };
 
-  onDownload() {
+  onDownload = () => {
     requestBucketExport(this.state.id)
     .then(result => requestDownloadFile(result))
-  },
+  };
 
-  onDownloadCSV() {
+  onDownloadCSV = () => {
     requestBucketExport(this.state.id, 'csv')
     .then(result => requestDownloadFile(result))
-  },
+  };
 
-  onChangeAutoResponderMessage(value) {
+  onChangeAutoResponderMessage = (value) => {
     if (!value) return;
 
     this.setState({
@@ -177,9 +174,9 @@ const NewBucket = React.createClass({
       )
     });
 
-  },
+  };
 
-  render () {
+  render() {
     // console.log(this.state)
     if (this.state.error) {
       return <div>{this.state.error}</div>
@@ -438,6 +435,5 @@ const NewBucket = React.createClass({
     )
   }
 }
-)
 
 export default NewBucket

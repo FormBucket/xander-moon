@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react'
 import {Link} from 'react-router'
 import version from '../version'
 
-const Footer = React.createClass({
-  render () {
+class Footer extends React.Component {
+  render() {
     return (
       <div className="footer">
         <Link to="/" className="logo">
@@ -18,6 +18,6 @@ const Footer = React.createClass({
     </div>
     )
   }
-})
+}
 
 export default Footer

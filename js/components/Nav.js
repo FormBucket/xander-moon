@@ -2,19 +2,16 @@ import React, { PropTypes } from 'react'
 import UserStore from '../stores/user'
 import {Link} from 'react-router'
 
-const Nav = React.createClass({
+class Nav extends React.Component {
+  state = {
+    show: false
+  };
 
-  getInitialState: function() {
-    return {
-      show: false
-    }
-  },
-
-  handleLinkClick() {
+  handleLinkClick = () => {
     this.setState({ show: false })
-  },
+  };
 
-  render () {
+  render() {
 
     if (UserStore.isUserLoggedIn()) {
       return (
@@ -53,6 +50,6 @@ const Nav = React.createClass({
     )
 
   }
-})
+}
 
 export default Nav
