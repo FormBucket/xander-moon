@@ -6,6 +6,7 @@
   "author": "FunctionFoundry",
   "license": "MIT",
   "scripts": {
+    "clone:bare": "rm -rf ../formbucket-client.git; git clone --bare . ../formbucket-client.git",
     "clean": "rm -rf public",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
     "build:static": "node runMetalSmith && rm -rf public/img/ && cp -r img/ public/",
