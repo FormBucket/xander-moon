@@ -8,15 +8,19 @@ let load = (module) => ['webpack-hot-middleware/client', './js/' + module]
 module.exports = {
   devtool: 'source-map',
   entry: {
-    app: load('index'),
-    nav: load('nav'),
-    styles: load('styles')
+    app: load('app')
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name]-' + moment().format('YYYY-MM-DD-HH-MM') + '.js',
+    filename: '[name]-' + moment().format('YYYY-MM-DD') + '.js',
     publicPath: '/assets/'
   },
+  // 'resolve': {
+  //  'alias': {
+  //    'react': 'preact-compat',
+  //    'react-dom': 'p  react-compat'
+  //  }
+  // },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
@@ -25,16 +29,16 @@ module.exports = {
       }
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin()
   ],
   module: {
     loaders: [{
       test: /\.js$/,
-      loaders: ['babel'],
+      loaders: ['babel-loader'],
       include: path.join(__dirname, 'js')
     }, {
       test: /\.scss$/,
-      loaders: ['style', 'css', 'sass']
+      loaders: ['style-loader', 'css-loader', 'sass-loader']
     }, {
       test: /\.json$/,
       loader: 'json'

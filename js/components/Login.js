@@ -1,8 +1,14 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 import {signIn, getToken, loadProfile} from '../stores/ActionCreator'
-import {branch} from 'functionfoundry'
-import { browserHistory } from 'react-router'
+import { branch } from 'formula'
+import { location } from 'xander'
+import Layout from './Layout'
+
+let completeLogin = () => {
+  // open buckets page.
+  location.open('/buckets')
+}
 
 class Login extends React.Component {
   state = {
@@ -13,15 +19,15 @@ class Login extends React.Component {
   componentDidMount() {
     if (this.props.location.query.code) {
       getToken(this.props.location.query.code)
-      .then(
-        () => browserHistory.push('/buckets'),
-        err => {
-          this.setState({
-            loading: false,
-            error: JSON.parse(err)
-          })
-        }
-      )
+        .then(
+          completeLogin,
+          error => {
+            this.setState({
+              loading: false,
+              error
+            })
+          }
+        )
     }
   }
 
@@ -31,21 +37,22 @@ class Login extends React.Component {
       this.refs.email.value,
       this.refs.password.value
     )
-    .then( loadProfile )
-    .then(
-      () => browserHistory.push('/buckets'),
-      err => {
-        this.setState({
-          loading: false,
-          error: JSON.parse(err)
-        })
-      }
-    )
+        .then( loadProfile )
+        .then(
+          () => location.open('/buckets'),
+          err => {
+
+            this.setState({
+              loading: false,
+              error: JSON.parse(err)
+            })
+          }
+        )
 
   };
 
   handleClickReset = () => {
-    browserHistory.push('/password_reset')
+    location.open('/password_reset')
   };
 
   handleKeyPress = (event) => {
@@ -62,7 +69,7 @@ class Login extends React.Component {
     }
 
     return (
-      <div>
+      <Layout>
         <div className="page-heading">
           <div className="wrapper">
             <h1>Login</h1>
@@ -101,7 +108,7 @@ class Login extends React.Component {
               <a className="pull-right" href="javascript:void(0)" onClick={this.handleClickReset}>Forgot your password?</a>
               {
                 branch(this.state.loading,
-                  <p><FontAwesome name="fa fa-spinner" /> Logging in</p>
+                       <p><FontAwesome name="fa fa-spinner" /> Logging in</p>
                 )
               }
 
@@ -109,7 +116,7 @@ class Login extends React.Component {
             </div>
           </div>
         </div>
-      </div>
+      </Layout>
     )
   }
 }

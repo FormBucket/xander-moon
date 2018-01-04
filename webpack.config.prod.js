@@ -1,63 +1,58 @@
 var path = require('path');
 var webpack = require('webpack');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var moment = require('moment')
 
 let load = (module) => ['es6-promise', 'whatwg-fetch', './js/' + module]
 
 module.exports = {
+  devtool: 'source-map',
   entry: {
-    app: load('index'),
-    nav: load('nav'),
-    styles: load('styles')
+    app: load('app'),
   },
   externals: {
+    //'formula': 'Formula',
     'highlight.js': 'hljs',
-    'history': 'History',
     'moment': 'moment',
-    'react-router': 'ReactRouter',
-    'react': 'React',
-    'react-dom': 'ReactDOM',
     'remarkable': 'Remarkable'
+  },
+  "resolve": {
+     "alias": {
+      "react": "preact-compat",
+      "react-dom": "preact-compat"
+    }
   },
   output: {
     path: path.join(__dirname, 'public', 'assets'),
-    filename: '[name]-' + moment().format('YYYY-MM-DD-HH-MM') + '.js',
-  },
-  resolveLoader: {
-    root: path.join(__dirname, 'node_modules')
+    filename: '[name]-' + moment().format('YYYY-MM-DD-HH-mm') + '.js',
+    publicPath: '/assets/'
   },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production'),
-        'FORMBUCKET_API_SERVER': JSON.stringify('https://api.formbucket.com')
+        'FORMBUCKET_API_SERVER': JSON.stringify('https://api-next.formbucket.com')
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         warnings: false
       }
-   }),
-    new ExtractTextPlugin('app-' + moment().format('YYYY-MM-DD-HH-MM') + '.css')
+    })
   ],
   module: {
     loaders: [{
       test: /\.js$/,
-      loaders: ['babel'],
+      loaders: ['babel-loader'],
       include: path.join(__dirname, 'js')
     }, {
       test: /\.scss$/,
-      loader: ExtractTextPlugin.extract(
-        "style",
-        "css!sass")
+      loaders: ['style-loader', 'css-loader', 'sass-loader']
     }, {
       test: /\.json$/,
       loader: 'json'
     }, {
-        test: /\.md$/,
-        loader: 'raw'
+      test: /\.md$/,
+      loader: 'raw'
     }]
   }
 };

@@ -1,30 +1,36 @@
-import {createStore} from 'fluxury'
+import {createStore} from 'xander'
+import {branch, group} from 'formula'
 
-const BucketStore = createStore(
-  "buckets",
-  // Action handlers
-  {
-    getInitialState: () => {},
-    setBuckets: (state, action) => {
-      return action.data
-    },
-    setBucket: (state, action) => {
-      return (
-        state
-        .filter(n => n._id !== action.data._id)
-        .concat([action.data])
-      )
+let buckets = createStore('buckets', (state={ buckets: [], byid: {}, user: {} }, {type, data}) => branch(
+  type === "setProfile",
+  () => ({ ...state, user: data }),
+
+  type === "initBuckets" || type === "initBucket",
+  () => ({ ...state, loading: true }),
+
+  type === "resetBuckets",
+  { buckets: [], byid: {}, user: {} },
+
+  type === "loadBuckets",
+  () => ({ ...state, buckets: data, byid: group((data||[]), "id"), loading: false }),
+
+  type === 'loadBucket',
+  () => {
+    let buckets;
+    if (state.byid.hasOwnProperty(data.id)) {
+      buckets = state.buckets.map((d) => branch(d.id === data.id, data, d))
+    } else {
+      buckets = state.buckets.concat(data)
     }
-  },
-  // Selectors
-  {
-    getBuckets: (state) => state ? Object.keys(state).reduce( (a,b) => a.concat([state[b]]), []) : [], // convert list to array
-    find: (state, id) => {
-      var found = state.filter(n => n.id !== id)
-      return (found.length > 0 ? found[0] : undefined);
-    },
-    findByName: (state, name) => state ? state.filter(n => n.name === name) : undefined
-  }
-)
 
-export default BucketStore
+    return { ...state, buckets, byid: group(buckets, "id"), loading: false }
+  },
+
+  type === "changeBuckets",
+  () => ({ ...state, ...data }),
+  state
+), {
+  find: (state, id) => (state.byid[id]||[])[0]
+})
+
+export default buckets

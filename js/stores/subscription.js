@@ -1,4 +1,4 @@
-import {createStore} from 'fluxury'
+import {createStore} from 'xander'
 
 const SubscriptionStore = createStore(
   "subscription",

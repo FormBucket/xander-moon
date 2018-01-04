@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import {branch, eq, or, isBlank} from 'functionfoundry'
+import {branch, eq, or, isBlank} from 'formula'
 import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
 import {requestBucket, requestSubmissionsByBucket, requestDeleteSubmission, requestDeleteSubmissions, requestUpdateSubmissions, requestUpdateSubmission} from '../stores/webutils'
@@ -10,7 +10,8 @@ import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
 import {run} from 'formula'
 //import DownloadLink from 'react-download-link'
-import { browserHistory } from 'react-router'
+import { location } from 'xander'
+import Layout from './Layout'
 
 let color = {
   disabled: 'gray',
@@ -19,7 +20,7 @@ let color = {
 
 function wrap(headingText, output) {
  return (
-   <div>
+   <Layout>
      <div className="page-heading">
        <div className="wrapper">
          <h1>{headingText}</h1>
@@ -28,7 +29,7 @@ function wrap(headingText, output) {
      <div className="wrapper">
        {output}
      </div>
-   </div>
+   </Layout >
  )
 }
 
@@ -46,19 +47,18 @@ class Submissions extends React.Component {
 
   componentWillMount() {
     if (!UserStore.isUserLoggedIn()) {
-      browserHistory.push('/login')
+      location.open('/login')
     }
   }
 
   componentWillReceiveProps(nextProps) {
 
+    let {params} = nextProps.router;
     this.setState({ loading: true })
 
-    // console.log(nextProps.location)
-
     Promise.all([
-      requestBucket(nextProps.params.id),
-      requestSubmissionsByBucket(nextProps.params.id, +nextProps.params.offset, +nextProps.params.limit, nextProps.params.select, nextProps.location.query.q, nextProps.location.query.type)
+      requestBucket(params.id),
+      requestSubmissionsByBucket(params.id, +params.offset, +params.limit, params.select, nextProps.location.query.q, nextProps.location.query.type)
     ])
     .then(values => this.setState({
       loading: false,
@@ -78,19 +78,21 @@ class Submissions extends React.Component {
 
   componentWillMount() {
 
-    this.props.params.mode = this.props.params.mode || 'list'
-    this.props.params.limit = (+this.props.params.limit) || 50
-    this.props.params.offset = (+this.props.params.offset) || 0
-    this.props.params.select = this.props.params.select || 'created_on,data'
+    let {params} = this.props.router;
 
-    var url = `/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${this.props.params.offset}/${this.props.params.limit}/${this.props.params.select}?type=${this.state.display}`
+    let mode = params.mode || 'list'
+    let limit = (+params.limit) || 50
+    let offset = (+params.offset) || 0
+    let select = params.select || 'created_on,data'
+
+    var url = `/buckets/${params.id}/submissions/${mode}/${offset}/${limit}/${select}`
 
     // console.log(this.props)
 
     if (this.props.location.query.q) {
-      this.props.history.replace(url + '&q=' + this.props.location.query.q)
+      location.redirect(url + '&q=' + this.props.location.query.q)
     } else {
-      this.props.history.replace(url)
+      location.redirect(url)
     }
 
     window.scrollTo(0, 0)
@@ -100,7 +102,7 @@ class Submissions extends React.Component {
   handleBucketsChanged = () => {
     // console.log('handleSubmissionsChanged')
     this.setState( {
-      bucket: BucketStore.find(this.props.params.id)
+      bucket: BucketStore.find(this.props.router.params.id)
     })
   };
 
@@ -184,13 +186,13 @@ class Submissions extends React.Component {
   };
 
   search = (event) => {
-    var url = `/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/0/${this.props.params.limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${this.state.display}`
-    browserHistory.push(url)
+    var url = `/buckets/${this.props.router.params.id}/submissions/${this.props.router.params.mode}/0/${this.props.router.params.limit}/${this.props.router.params.select}?q=${this.refs.q.value}&type=${this.state.display}`
+    location.open(url)
   };
 
   goForward = (event) => {
-    var offset = +this.props.params.offset,
-    limit = +this.props.params.limit
+    var offset = +this.props.router.params.offset,
+    limit = +this.props.router.params.limit
 
     if (this.state.loading) {
       return
@@ -206,13 +208,13 @@ class Submissions extends React.Component {
       return
     }
 
-    browserHistory.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${this.state.display}`)
+    location.open(`/buckets/${this.props.router.params.id}/submissions/${this.props.router.params.mode}/${newOffset}/${limit}/${this.props.router.params.select}?q=${this.refs.q.value}&type=${this.state.display}`)
   };
 
   goBack = (event) => {
 
-    var offset = +this.props.params.offset,
-    limit = +this.props.params.limit
+    var offset = +this.props.router.params.offset,
+    limit = +this.props.router.params.limit
 
     if (this.state.loading) {
       return
@@ -231,16 +233,16 @@ class Submissions extends React.Component {
       return
     }
 
-    browserHistory.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/${newOffset}/${limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${this.state.display}`)
+    location.open(`/buckets/${this.props.router.params.id}/submissions/${this.props.router.params.mode}/${newOffset}/${limit}/${this.props.router.params.select}?q=${this.refs.q.value}&type=${this.state.display}`)
 
   };
 
   switchFolder = (type) => {
     this.setState({ display: type })
-    var offset = +this.props.params.offset,
-    limit = +this.props.params.limit
+    var offset = +this.props.router.params.offset,
+    limit = +this.props.router.params.limit
 
-    browserHistory.push(`/buckets/${this.props.params.id}/submissions/${this.props.params.mode}/0/${limit}/${this.props.params.select}?q=${this.refs.q.value}&type=${type}`)
+    location.open(`/buckets/${this.props.router.params.id}/submissions/${this.props.router.params.mode}/0/${limit}/${this.props.router.params.select}?q=${this.refs.q.value}&type=${type}`)
   };
 
   render() {
@@ -249,15 +251,15 @@ class Submissions extends React.Component {
 
     if (eq(this.state.loaded, false)) {
       return (
-        <div className="wrapper">
+        <Layout className="wrapper">
           <div className="flash">
             <img className="loading" src="/img/loading.gif" alt="Loading..." />
           </div>
-        </div>
+        </Layout>
       )
     }
 
-    if (isBlank(this.props.params.id)) {
+    if (isBlank(this.props.router.params.id)) {
       return (
         <div className="wrapper">
           <div className="flash">
@@ -287,8 +289,8 @@ class Submissions extends React.Component {
       )
     }
 
-    var offset = +this.props.params.offset,
-    limit = +this.props.params.limit,
+    var offset = +this.props.router.params.offset,
+    limit = +this.props.router.params.limit,
     total = branch(this.state.display==='spam', this.state.totalSpam, this.state.display === 'deleted', this.state.totalDeleted, this.state.total),
     from = total > 0 ? offset+1 : 0,
     to = branch(offset + limit < total, offset + limit, total),
@@ -335,13 +337,13 @@ class Submissions extends React.Component {
 
     // console.log(this.state, this.props)
 
-    if (eq(this.props.params.mode, 'list')) {
+    if (eq(this.props.router.params.mode, 'list')) {
       return wrap(headingText,
         <div>
           <div className="submissions-controls">
             <div className="submissions-actions">
               <div className="paging">
-                <a href="#" onClick={(event) => { browserHistory.push('/buckets/' + this.state.bucket.id + '/settings')}} style={{ float: 'right' }}>Edit Bucket Settings</a>
+                <a href="#" onClick={(event) => { location.open('/buckets/' + this.state.bucket.id + '/settings')}} style={{ float: 'right' }}>Edit Bucket Settings</a>
                 {pager('top')}
               </div>
               <div className="dropdown-container">
@@ -441,7 +443,7 @@ class Submissions extends React.Component {
       )
     }
 
-    if (eq(this.props.params.mode, 'table')) {
+    if (eq(this.props.router.params.mode, 'table')) {
       return wrap(headingText,
         <div>
           Do the table mode
@@ -450,7 +452,7 @@ class Submissions extends React.Component {
       )
     }
 
-    if (eq(this.props.params.mode, 'json')) {
+    if (eq(this.props.router.params.mode, 'json')) {
       return wrap(headingText,
         <table className="bucket-list">
           <thead>

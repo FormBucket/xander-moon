@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import {Link} from 'react-router'
+import {Link} from 'xander'
 import FontAwesome from 'react-fontawesome'
 import Nav from './Nav'
 import UserStore from '../stores/user'

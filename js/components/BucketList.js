@@ -1,4 +1,4 @@
-import {branch, eq, isBlank} from 'functionfoundry'
+import {branch, eq, isBlank} from 'formula'
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 

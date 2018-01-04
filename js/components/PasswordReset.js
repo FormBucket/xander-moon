@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 import {requestPasswordReset, requestPasswordResetUpdate} from '../stores/webutils'
-import {branch, isEmail} from 'functionfoundry'
-import { browserHistory } from 'react-router'
+import {branch, isEmail} from 'formula'
+import { location } from 'xander'
 
 class Login extends React.Component {
   state = {
@@ -40,7 +40,7 @@ class Login extends React.Component {
     .then(
       () => {
         this.setState({ loading: false, sent: true })
-        browserHistory.push('/login')
+        location.open('/login')
       }
     )
     .catch(

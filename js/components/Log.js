@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
-import {eq} from 'functionfoundry'
+import {eq} from 'formula'
 import UserStore from '../stores/user'
 import moment from 'moment'
 import {
@@ -22,7 +22,7 @@ class UserReport extends React.Component {
 
       this.setState({ loading: true })
 
-      requestLog(this.props.params.log_id)
+      requestLog(this.props.router.params.log_id)
       .then(log => this.setState({
         loading: false,
         loaded: true,

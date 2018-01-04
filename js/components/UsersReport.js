@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
-import {eq} from 'functionfoundry'
+import {eq} from 'formula'
 import UserStore from '../stores/user'
 
 import {

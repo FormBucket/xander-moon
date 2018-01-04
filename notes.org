@@ -1,0 +1,11 @@
+* Stats
+
+1. User
+   - Last Updated
+2. Buckets
+   - ID
+   - Count
+   - LastUpdated
+3. Submissions
+   - BucketID
+   - LastUpdated

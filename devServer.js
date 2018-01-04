@@ -9,40 +9,55 @@ var moment = require('moment')
 
 app.use(accesslog());
 
-if (true) {
-var webpack = require('webpack');
-var webpackConfig = require('./webpack.config.dev.js');
-var compiler = webpack(webpackConfig);
-var hotMiddleware = require("webpack-hot-middleware")(compiler);
 
-var webpackMiddleware = require("koa-webpack-dev-middleware");
-app.use(webpackMiddleware(compiler, {
-  noInfo: false,
-  lazy: false,
-  publicPath: webpackConfig.output.publicPath
-}))
+if (process.env.SERVE_HMR) {
+  console.log('serve assets from webpack.')
+  var webpack = require('webpack');
+  var webpackConfig = require('./webpack.config.dev.js');
+  var compiler = webpack(webpackConfig);
+  var hotMiddleware = require("webpack-hot-middleware")(compiler);
 
-app.use(function* (next) {
-  yield hotMiddleware.bind(null, this.req, this.res);
-  yield next;
-});
+  var webpackMiddleware = require("koa-webpack-dev-middleware");
+  app.use(webpackMiddleware(compiler, {
+    noInfo: false,
+    lazy: false,
+    publicPath: webpackConfig.output.publicPath
+  }))
 
+  app.use(function* (next) {
+    yield hotMiddleware.bind(null, this.req, this.res);
+    yield next;
+  });
 }
 
-// serve generate pages
-app.use(serveViews({ defaults: {
-  __DEV__: true,
-  __ts__: moment().format('YYYY-MM-DD-HH-MM')
-}}))
+if (process.env.SERVE_STATIC){
+  console.log('serve generated views.')
+  // serve generate pages
+  app.use(serveViews({ defaults: {
+    __DEV__: true,
+    __ts__: moment().format('YYYY-MM-DD')
+  }}))
 
-// serve static assets
-app.use(serve('.'));
+  // serve static assets
+  app.use(serve('.'));
 
-// serve the index.html page
-app.use(function *(){
-  yield this.serveView('index')
-})
+  // serve the index.html page
+  app.use(function *(){
+    yield this.serveView('index');
+  })
+
+} else {
+
+  // serve static assets
+  app.use(serve('public'));
+
+  // serve the index.html page
+  app.use(function *(){
+    yield send(this, './public/index.html');
+  })
+}
+
 
 app.listen(3000, process.env.BIND_IP);
 
-console.log('Listening on port 3000.')
+console.log(`Listening to ${process.env.BIND_IP}:3000.`)

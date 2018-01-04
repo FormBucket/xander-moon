@@ -27,8 +27,10 @@ import {
 
 // Submit a form
 export function submit(bucket_id, formData) {
-  return postJSON( `${apiRoot}/f/${bucket_id}`, formData )
+  return postJSON( `${process.env.FORMBUCKET_API_SERVER}/f/${bucket_id}`, formData )
 }
+
+window.submit = submit
 
 export function requestCreateSubmissions(bucket_id, submissions) {
   return postJSON( `${apiRoot}/buckets/${bucket_id}/submissions`, { submissions } )

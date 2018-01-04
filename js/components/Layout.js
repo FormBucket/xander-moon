@@ -13,7 +13,7 @@ import {loadProfile} from '../stores/ActionCreator'
 * this application displays and how it needs to be
 * organized.
 */
-class App extends React.Component {
+class Layout extends React.Component {
   state = {};
 
   componentDidMount() {
@@ -26,17 +26,13 @@ class App extends React.Component {
 
     loadProfile()
 
-    this.unsubscribe = UserStore.subscribe(() => {
-      this.setState({ user: UserStore.getState() })
-    })
   }
 
   componentWillUnmount() {
-    this.unsubscribe()
   }
 
   render() {
-    var {status, trial_period_days, trial_start, has_source} = this.state.user || {} // TBD: get from profile
+    var {status, trial_period_days, trial_start, has_source} = this.props.user || {} // TBD: get from profile
     // console.log('app', this.state)
 
     var days_remaining=(function(){
@@ -67,7 +63,7 @@ class App extends React.Component {
               null
             )
           }
-        <Header history={this.props.history} />
+        <Header />
         <div className="main">
           {this.props.children}
         </div>
@@ -77,4 +73,4 @@ class App extends React.Component {
   }
 }
 
-export default App
+export default Layout

@@ -1,31 +1,26 @@
 import React, { PropTypes } from 'react'
 import UserStore from '../stores/user'
-import {Link} from 'react-router'
+import {Link, location} from 'xander'
+
 
 class Nav extends React.Component {
-  state = {
-    show: false
-  };
-
-  handleLinkClick = () => {
-    this.setState({ show: false })
-  };
 
   render() {
+    let state = {}
 
     if (UserStore.isUserLoggedIn()) {
       return (
         <nav role="navigation">
-          <a href="#" className="navigation-menu-button" onClick={(event) => this.setState({ show: !this.state.show })}>MENU</a>
-          <ul className={"navigation-menu" + (this.state.show ? ' show' : ' hide')}>
+          <a href="#" className="navigation-menu-button">MENU</a>
+          <ul className={"navigation-menu"}>
             <li className="nav-link">
-               <a href="/guides">Guides</a>
+               <Link to="/guides">Guides</Link>
             </li>
             <li className="nav-link">
-              <Link to="/buckets" onClick={this.handleLinkClick}>Buckets</Link>
+              <Link to="/buckets">Buckets</Link>
             </li>
             <li className="nav-link">
-              <Link to="/account" onClick={this.handleLinkClick}>Account</Link>
+              <Link to="/account">Account</Link>
             </li>
           </ul>
         </nav>
@@ -34,16 +29,16 @@ class Nav extends React.Component {
 
     return (
       <nav role="navigation">
-        <a href="#" className="navigation-menu-button" onClick={(event) => this.setState({ show: !this.state.show })}>MENU</a>
-        <ul id="js-navigation-menu" className={"navigation-menu" + (this.state.show ? ' show' : ' hide')}>
+        <a href="#" className="navigation-menu-button" onClick={(event) => this.setState({ show: !state.show })}>MENU</a>
+        <ul id="js-navigation-menu" className={"navigation-menu" + (state.show ? ' show' : ' hide')}>
           <li className="nav-link">
-             <a href="/guides">Guides</a>
+             <Link to="/guides">Guides</Link>
           </li>
           <li className="nav-link">
-            <Link to="/signup" onClick={this.handleLinkClick}>Sign Up</Link>
+            <Link to="/signup">Sign Up</Link>
           </li>
           <li className="nav-link">
-            <Link to="/login" onClick={this.handleLinkClick}>Login</Link>
+            <Link to="/login">Login</Link>
           </li>
         </ul>
       </nav>

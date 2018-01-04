@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
-import {eq, branch, isBlank} from 'functionfoundry'
+import {eq, branch, isBlank} from 'formula'
 import UserStore from '../stores/user'
 import moment from 'moment'
 
@@ -24,8 +24,8 @@ class UserReport extends React.Component {
       this.setState({ loading: true })
 
       Promise.all([
-        requestUsersBuckets(this.props.params.user_id),
-        requestProfileById(this.props.params.user_id)
+        requestUsersBuckets(this.props.router.params.user_id),
+        requestProfileById(this.props.router.params.user_id)
       ])
       .then(values => this.setState({
         loading: false,

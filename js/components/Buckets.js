@@ -1,7 +1,7 @@
 // Author: Peter Moresi
-import {branch as COND, not as NOT, isblank as ISBLANK, isfunction as ISFUNCTION, branch as IF} from 'functionfoundry'
+import {branch, not as NOT, isblank as ISBLANK, isfunction as ISFUNCTION, branch as IF, group} from 'formula'
 import React, { PropTypes } from 'react'
-import { Link, browserHistory } from 'react-router'
+import { dispatch, createStore, xander, Link, location } from 'xander'
 import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
 import FontAwesome from 'react-fontawesome'
@@ -9,7 +9,13 @@ import UserStore from '../stores/user'
 import {requestBuckets, requestCreateBucket} from '../stores/webutils'
 import BucketTable from './BucketTable'
 import BucketList from './BucketList'
+import Layout from './Layout'
 
+import BucketsStore from '../stores/buckets'
+
+function setState(props) {
+  dispatch('changeBuckets', props)
+}
 class Buckets extends React.Component {
   state = {
     mode: 'list',
@@ -21,54 +27,62 @@ class Buckets extends React.Component {
 
   componentDidMount() {
 
+    dispatch('initBuckets')
     if (!UserStore.isUserLoggedIn()) {
-      browserHistory.push('/login')
+      location.open('/login')
     }
 
     // load the buckets
     requestBuckets()
-    .then( (buckets) => this.setState({ buckets: buckets }) )
-    .catch( (err) => this.setState({ buckets: [], error: err }))
+    .then( (buckets) => dispatch('loadBuckets', buckets) )
+    .catch( (err) => setState({ error: err }))
 
   }
 
   handleNewBucket = (event) => {
     requestCreateBucket({ enabled: true })
     .then( result => {
-      browserHistory.push('/buckets/' + result.id + '/settings')
+      location.open('/buckets/' + result.id + '/settings')
     })
-    .catch( err => this.setState( { error: err } ))
+    .catch( err => setState( { error: err } ))
   };
 
   handleSelect = (bucket) => {
     // console.log('bucket settings click', bucket)
-    browserHistory.push('/buckets/' + bucket.id + '/settings')
+    location.open('/buckets/' + bucket.id + '/settings')
   };
 
   handleShow = (bucket) => {
     // console.log('show submissions click', bucket)
-    browserHistory.push('/buckets/' + bucket.id + '/submissions')
+    location.open('/buckets/' + bucket.id + '/submissions')
   };
 
   render() {
+    let state = this.props.buckets || {};
 
-    if ( ISBLANK(this.state.buckets) ) {
-      return <div>Loading...</div>
+    if (state.loading) {
+      return (
+        <Layout className="wrapper">
+          <div className="flash">
+            <img className="loading" src="/img/loading.gif" alt="Loading..." />
+          </div>
+        </Layout>
+      )
     }
 
-    let Buckets = this.state.mode === 'table' ?
-    <BucketTable buckets={this.state.buckets}
-      selected_bucket_id={this.state.selected_bucket_id}
+    let Buckets = state.mode === 'table' ?
+    <BucketTable buckets={state.buckets}
+      selected_bucket_id={state.selected_bucket_id}
       select={this.handleSelect}
       show={this.handleShow}/> :
-    <BucketList buckets={this.state.buckets}
-      selected_bucket_id={this.state.selected_bucket_id}
+    <BucketList buckets={state.buckets}
+      selected_bucket_id={state.selected_bucket_id}
       select={this.handleSelect}
       show={this.handleShow}/>
 
 
     return (
-      <div>
+      <Layout>
         <div className="page-heading">
           <div className="wrapper">
             <h1>Buckets</h1>
@@ -77,14 +91,14 @@ class Buckets extends React.Component {
         <div className="wrapper">
           <div className="callout">
 	           <p>Buckets are a container to store form submissions.</p>
-             <button onClick={this.handleNewBucket}><FontAwesome name='plus' /> New Bucket</button>
+             <button onClick={this.handleNewBucket}><FontAwesome name='plus' /> Create Bucket</button>
           </div>
-          <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: this.state.error ? '' : 'none'}}>
-            {this.state.error ? this.state.error.message : ''}
+          <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: state.error ? '' : 'none'}}>
+            {state.error ? state.error.message : ''}
           </div>
-          {this.state.error ? undefined : Buckets}
+          {state.error ? undefined : Buckets}
       </div>
-    </div>
+    </Layout>
   )
 }
 }

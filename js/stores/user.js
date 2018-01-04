@@ -1,7 +1,9 @@
-import {createStore, dispatch} from 'fluxury'
+import {createStore, dispatch} from 'xander'
 import SubscriptionStore from './subscription'
-import moment from 'moment'
-import {decodeJWT} from 'functionfoundry'
+import {decodeJWT} from 'formula'
+
+// format unix time
+let unix= (d=new Date()) => (d.getTime() / 1000).toFixed(0)
 
 var token;
 
@@ -14,7 +16,7 @@ function readExp() {
   }
 }
 
-if (readExp() < moment().unix()) {
+if (readExp() < unix()) {
     localStorage.removeItem('token')
 }
 
@@ -28,7 +30,7 @@ const UserStore = createStore(
     setProfile: (state, data) => Object.assign({}, state, data)
   }, // store does not support updates
   {
-    isUserLoggedIn: (state) => readExp() > moment().unix(),
+    isUserLoggedIn: (state) => readExp() > unix(),
     getState: (state) => state,
     getStatus: (state) => state ? state.status : 'loading'
   }

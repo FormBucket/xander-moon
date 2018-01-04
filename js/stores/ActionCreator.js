@@ -1,5 +1,5 @@
-import {dispatch} from 'fluxury'
-import {sort} from 'functionfoundry'
+import {dispatch} from 'xander'
+import {sort} from 'formula'
 
 import {
   requestBuckets,

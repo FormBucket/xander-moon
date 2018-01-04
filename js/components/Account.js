@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
-import {Link, browserHistory} from 'react-router'
+import {Link, location} from 'xander'
 import FlashMessage from './FlashMessage'
 import { requestUpdateUser, requestDestroyAccount, requestStripePubKey, requestCreditCards, requestUnsubscribe } from '../stores/webutils'
 import { loadProfile, subscribe, cancelSubscription } from '../stores/ActionCreator'
-import {branch} from 'functionfoundry'
+import {branch} from 'formula'
 import UserStore from '../stores/user'
+import Layout from './Layout'
 
 const plan = 'plan_mo_7_14'
 
@@ -68,7 +69,7 @@ class Account extends React.Component {
   componentWillMount() {
 
     if (localStorage.hasOwnProperty('token') === false) {
-      browserHistory.push('/login')
+      location.open('/login')
       return;
     }
   }
@@ -127,7 +128,7 @@ class Account extends React.Component {
       requestDestroyAccount()
       .then(n => {
         localStorage.removeItem('token');
-        browserHistory.push('/')
+        location.open('/')
       })
       .catch(e => alert('An error occurred. Please contact support@formbucket.com'))
     }
@@ -193,11 +194,17 @@ class Account extends React.Component {
   render() {
 
     if (this.state.error) {
-      return <div>Error occurred: {this.state.error}</div>
+      return <Layout>Error occurred: {this.state.error}</Layout>
     }
 
     if (!this.state.user || !this.state.user.email) {
-      return <div>Loading...</div>
+      return (
+        <Layout className="wrapper">
+          <div className="flash">
+            <img className="loading" src="/img/loading.gif" alt="Loading..." />
+          </div>
+        </Layout>
+      )
     }
 
 
@@ -251,7 +258,7 @@ class Account extends React.Component {
     )
 
     return (
-      <div>
+      <Layout>
         <FlashMessage text={this.state.flash} />
         <div className="page-heading">
           <div className="wrapper">
@@ -295,7 +302,7 @@ class Account extends React.Component {
             <p>
               <a onClick={() => {
                   localStorage.removeItem('token');
-                  browserHistory.push('/');
+                  location.open('/');
                 } }>Log Out
               </a>
             </p>
@@ -311,7 +318,7 @@ class Account extends React.Component {
             </p>
             <p>
               <a onClick={() => {
-                  browserHistory.push('/logs');
+                  location.open('/logs');
                 } }>View Logs
               </a>
             </p>
@@ -331,7 +338,7 @@ class Account extends React.Component {
             </p>
           </div>
         </div>
-      </div>
+      </Layout>
       )
     }
 }

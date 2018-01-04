@@ -15,7 +15,7 @@ Metalsmith(__dirname)
     generator: "Metalsmith",
     url: "http://www.metalsmith.io/",
     entropy: require('./package.json').entropy,
-    __ts__: moment().format("YYYY-MM-DD-HH-MM")
+    __ts__: moment().format("YYYY-MM-DD-HH-mm")
   })
   .source('./pages')
   .destination('./public')

@@ -52,32 +52,29 @@
 <body>
   {{#unless __DEV__}}
   {{#if react}}
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react-router/2.7.0/ReactRouter.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.2/react.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/15.6.2/react-dom.min.js"></script>
   {{/if}}
+
   {{#if hljs}}
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/http.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/javascript.min.js"></script>
   {{/if}}
+
   {{#if remarkable}}
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.4.1/remarkable.min.js"></script>
   {{/if}}
+
   {{#if moment}}
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
   {{/if}}
   {{/unless}}
+
   {{#if stripe}}
   <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
   {{/if}}
 
-  {{#if jquery}}
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
-  {{/if}}
-  {{#if __DEV__}}
-  <script src="/assets/styles-{{__ts__}}.js"></script>
-  {{/if}}
   {{{ contents }}}
 </body>
 </html>

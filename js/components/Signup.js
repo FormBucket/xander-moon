@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react'
-import {Link, browserHistory} from 'react-router'
+import {Link, location} from 'xander'
 import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
 import {signUp, loadProfile} from '../stores/ActionCreator'
-import {isEmail} from 'functionfoundry'
+import {isEmail} from 'formula'
+import Layout from './Layout'
 
 var FontAwesome = require('react-fontawesome');
 
@@ -52,7 +53,7 @@ class Signup extends React.Component {
     .then( loadProfile )
     .then(
       n => {
-        browserHistory.push('/buckets')
+        location.open('/buckets')
       },
       err => {
         this.setState({
@@ -75,7 +76,7 @@ class Signup extends React.Component {
   render() {
 
     return (
-      <div>
+      <Layout>
         <div className="page-heading">
           <div className="wrapper">
             <h1>Sign Up</h1>
@@ -133,7 +134,7 @@ class Signup extends React.Component {
             </div>
           </div>
         </div>
-      </div>
+      </Layout>
     )
   }
 }

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import {branch} from 'functionfoundry'
+import {branch} from 'formula'
 
 class FlashMessage extends React.Component {
   render() {
