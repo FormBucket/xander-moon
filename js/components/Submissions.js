@@ -10,7 +10,7 @@ import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
 import {run} from 'formula'
 //import DownloadLink from 'react-download-link'
-import { location } from 'xander'
+import {router} from 'xander'
 import Layout from './Layout'
 
 let color = {
@@ -47,7 +47,7 @@ class Submissions extends React.Component {
 
   componentWillMount() {
     if (!UserStore.isUserLoggedIn()) {
-      location.open('/login')
+      router.open('/login')
     }
   }
 
@@ -89,10 +89,10 @@ class Submissions extends React.Component {
 
     // console.log(this.props)
 
-    if (this.props.location.query.q) {
-      location.redirect(url + '&q=' + this.props.location.query.q)
+    if (this.props.router.location.query.q) {
+      router.redirect(url + '&q=' + this.props.router.location.query.q)
     } else {
-      location.redirect(url)
+      router.redirect(url)
     }
 
     window.scrollTo(0, 0)
@@ -187,7 +187,7 @@ class Submissions extends React.Component {
 
   search = (event) => {
     var url = `/buckets/${this.props.router.params.id}/submissions/${this.props.router.params.mode}/0/${this.props.router.params.limit}/${this.props.router.params.select}?q=${this.refs.q.value}&type=${this.state.display}`
-    location.open(url)
+    router.open(url)
   };
 
   goForward = (event) => {
@@ -208,7 +208,7 @@ class Submissions extends React.Component {
       return
     }
 
-    location.open(`/buckets/${this.props.router.params.id}/submissions/${this.props.router.params.mode}/${newOffset}/${limit}/${this.props.router.params.select}?q=${this.refs.q.value}&type=${this.state.display}`)
+    router.open(`/buckets/${this.props.router.params.id}/submissions/${this.props.router.params.mode}/${newOffset}/${limit}/${this.props.router.params.select}?q=${this.refs.q.value}&type=${this.state.display}`)
   };
 
   goBack = (event) => {
@@ -233,7 +233,7 @@ class Submissions extends React.Component {
       return
     }
 
-    location.open(`/buckets/${this.props.router.params.id}/submissions/${this.props.router.params.mode}/${newOffset}/${limit}/${this.props.router.params.select}?q=${this.refs.q.value}&type=${this.state.display}`)
+    router.open(`/buckets/${this.props.router.params.id}/submissions/${this.props.router.params.mode}/${newOffset}/${limit}/${this.props.router.params.select}?q=${this.refs.q.value}&type=${this.state.display}`)
 
   };
 
@@ -242,7 +242,7 @@ class Submissions extends React.Component {
     var offset = +this.props.router.params.offset,
     limit = +this.props.router.params.limit
 
-    location.open(`/buckets/${this.props.router.params.id}/submissions/${this.props.router.params.mode}/0/${limit}/${this.props.router.params.select}?q=${this.refs.q.value}&type=${type}`)
+    router.open(`/buckets/${this.props.router.params.id}/submissions/${this.props.router.params.mode}/0/${limit}/${this.props.router.params.select}?q=${this.refs.q.value}&type=${type}`)
   };
 
   render() {
@@ -343,7 +343,7 @@ class Submissions extends React.Component {
           <div className="submissions-controls">
             <div className="submissions-actions">
               <div className="paging">
-                <a href="#" onClick={(event) => { location.open('/buckets/' + this.state.bucket.id + '/settings')}} style={{ float: 'right' }}>Edit Bucket Settings</a>
+                <a href="#" onClick={(event) => { router.open('/buckets/' + this.state.bucket.id + '/settings')}} style={{ float: 'right' }}>Edit Bucket Settings</a>
                 {pager('top')}
               </div>
               <div className="dropdown-container">

@@ -2,12 +2,12 @@ import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 import {signIn, getToken, loadProfile} from '../stores/ActionCreator'
 import { branch } from 'formula'
-import { location } from 'xander'
+import {router} from 'xander'
 import Layout from './Layout'
 
 let completeLogin = () => {
   // open buckets page.
-  location.open('/buckets')
+  router.open('/buckets')
 }
 
 class Login extends React.Component {
@@ -17,8 +17,8 @@ class Login extends React.Component {
   };
 
   componentDidMount() {
-    if (this.props.location.query.code) {
-      getToken(this.props.location.query.code)
+    if (this.props.router.location.query.code) {
+      getToken(this.props.router.location.query.code)
         .then(
           completeLogin,
           error => {
@@ -39,7 +39,7 @@ class Login extends React.Component {
     )
         .then( loadProfile )
         .then(
-          () => location.open('/buckets'),
+          () => router.open('/buckets'),
           err => {
 
             this.setState({
@@ -52,7 +52,7 @@ class Login extends React.Component {
   };
 
   handleClickReset = () => {
-    location.open('/password_reset')
+    router.open('/password_reset')
   };
 
   handleKeyPress = (event) => {
@@ -64,7 +64,7 @@ class Login extends React.Component {
   };
 
   render() {
-    if (this.props.location.query.code) {
+    if (this.props.router.location.query.code) {
       return <div>Loading...</div>
     }
 

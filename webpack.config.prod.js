@@ -2,7 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 var moment = require('moment')
 
-let load = (module) => ['es6-promise', 'whatwg-fetch', './js/' + module]
+let load = (module) => ['babel-polyfill', 'es6-promise', 'whatwg-fetch', './js/' + module]
 
 module.exports = {
   devtool: 'source-map',
@@ -15,10 +15,10 @@ module.exports = {
     'moment': 'moment',
     'remarkable': 'Remarkable'
   },
-  "resolve": {
-     "alias": {
-      "react": "preact-compat",
-      "react-dom": "preact-compat"
+  'resolve': {
+     'alias': {
+      'react': 'preact-compat',
+      'react-dom': 'preact-compat'
     }
   },
   output: {
@@ -30,7 +30,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('production'),
-        'FORMBUCKET_API_SERVER': JSON.stringify('https://api-next.formbucket.com')
+        'FORMBUCKET_API_SERVER': JSON.stringify('https://api.formbucket.com')
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
@@ -49,10 +49,10 @@ module.exports = {
       loaders: ['style-loader', 'css-loader', 'sass-loader']
     }, {
       test: /\.json$/,
-      loader: 'json'
+      loader: 'json-loader'
     }, {
       test: /\.md$/,
-      loader: 'raw'
+      loader: 'raw-loader'
     }]
   }
 };

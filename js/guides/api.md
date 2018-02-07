@@ -1,10 +1,3 @@
----
-title: FormBucket.com - API Docs
-heading: FormBucket API
-date: 2012-08-20
-layout: static.html
----
-
 The FormBucket API accepts _application/json_ requests via HTTPS and is secured with the recent [IETF Standard 7519 JSON Web Tokens (JWT)](https://tools.ietf.org/html/rfc7519).
 
 The API code examples use the fetch API. Please checkout [That's so fetch](https://jakearchibald.com/2015/thats-so-fetch/) and [Github's polyfill](https://github.com/github/fetch) for more information.

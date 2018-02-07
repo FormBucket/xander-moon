@@ -1,10 +1,4 @@
----
-title: How to submit with jQuery
-heading: Create a Signup Form with jQuery and AJAX
-date: 2016-08-20
-layout: static.html
----
-## Overview
+### Overview
 
 In this tutorial we'll show you how to set up a simple newsletter signup form to capture emails using FormBucket, jQuery and AJAX. When visitors submit the form, you can keep them on the same page and display a message that they've been added to the list (or not if there was a problem).
 
@@ -27,11 +21,11 @@ As an awesome web designer you are going to use your own pixel perfect CSS (or m
 
 Now let's get on to the hard stuff...
 
-## Collecting the data
+### Collecting the data
 
 FormBucket's API accepts data in two formats: `form` and `json`. For simple use case like this one, you probably want to use form. For advanced use case you may prefer to opt into our [JSON API](/docs/api/).
 
-### Option 1 - Post Form Data with jQuery
+#### Option 1 - Post Form Data with jQuery
 
 The complete script includes an outer function that runs after the
 page is loaded, and it adds an event handler for our form that prevents the default
@@ -78,7 +72,7 @@ $(function() {
 });
 ```
 
-### Option 2 - Post JSON Data with jQuery
+#### Option 2 - Post JSON Data with jQuery
 
 If you want to use our JSON API, then you could change the AJAX call to the following. This example uses the powerful (and somewhat cryptic) `reduce` function, but you can build the JSON content any way you like.
 

@@ -11,7 +11,7 @@ import {
   requestBucketExport, requestDownloadFile }
 from '../stores/webutils'
 import FlashMessage from './FlashMessage'
-import { dispatch, location, createStore } from 'xander'
+import { router, dispatch, createStore } from 'xander'
 import Layout from './Layout'
 
 import BucketsStore from '../stores/buckets'
@@ -43,7 +43,7 @@ class NewBucket extends React.Component {
     dispatch('initBucket', id )
 
     if (!UserStore.isUserLoggedIn()) {
-      location.open('/login')
+      router.open('/login')
     }
 
     if (this.props.buckets && this.props.buckets.byid) {
@@ -160,7 +160,7 @@ class NewBucket extends React.Component {
     }
 
     requestDeleteBucket( bucket.id )
-    .then(result => location.open('/buckets'))
+    .then(result => router.open('/buckets'))
     .catch(err => {
       console.log('ERROR', err)
       setState({ error: err })
@@ -418,7 +418,7 @@ class NewBucket extends React.Component {
             <input type="button" className="button" onClick={this.onSave} value="Save Settings" />
           </div>
           <div className="bucket-preview">
-            <a href="#" onClick={(event) => { location.open('/buckets/' + bucket.id + '/submissions'); }}>View Submissions</a>
+            <a href="#" onClick={(event) => { router.open('/buckets/' + bucket.id + '/submissions'); }}>View Submissions</a>
           </div>
           <div className="bucket-preview">
             <div className="bucket-editor">

@@ -1,11 +1,3 @@
----
-title: FormBucket.com - Contact Us
-heading: Contact Us
-date: 2012-08-20
-layout: static.html
-recaptcha: true
-jquery: true
----
 We love feedback! You can always reach us on Twitter [@formbucket](https://twitter.com/FormBucket) too.
 
 <script>

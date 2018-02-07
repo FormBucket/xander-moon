@@ -1,12 +1,3 @@
----
-title: Merge Tags
-heading: Merge Tags
-date: 2016-08-20
-layout: static.html
-email: "{{ email }}"
-name: "{{ name }}"
-phone: "{{ phone }}"
----
 ## Customize auto responders with **merge tags**
 
 ### What are merge tags?

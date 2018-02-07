@@ -1,9 +1,3 @@
----
-title: FormBucket.com - Privacy Policy
-heading: Privacy Policy
-date: 2012-08-20
-layout: static.html
----
 This privacy policy has been compiled to better serve those who are concerned with how their 'Personally identifiable information' (PII) is being used online. PII, as used in US privacy law and information security, is information that can be used on its own or with other information to identify, contact, or locate a single person, or to identify an individual in context. Please read our privacy policy carefully to get a clear understanding of how we collect, use, protect or otherwise handle your Personally Identifiable Information in accordance with our website.
 
 ## What personal information do we collect from the people that visit our blog, website or app?
@@ -117,19 +111,7 @@ Honor opt-out/unsubscribe requests quickly.
 Allow users to unsubscribe by using the link at the bottom of each email.
 
 If at any time you would like to unsubscribe from receiving future emails, you can email us at
-support@retentiontab.com and we will promptly remove you from ALL correspondence.
+support@formbucket.com and we will promptly remove you from ALL correspondence.
 
-
-## Contacting Us
-
-If there are any questions regarding this privacy policy you may contact us using the information below.
-
-<form action="https://api.formbucket.com/f/vCDgvMn" method="post">
-  <input type="text" name="name" placeholder="Your full name" />
-  <input type="text" name="email" placeholder="Your email address" />
-  <input type="text" name="phone" placeholder="Your phone number" />
-  <textarea name="message" placeholder="How can we help?"></textarea>
-  <button type="submit">Submit</button>
-</form>
 
 Last Edited on 2016-08-16

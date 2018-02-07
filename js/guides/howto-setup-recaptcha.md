@@ -1,9 +1,3 @@
----
-title: How to setup recaptcha
-heading: Securing your forms with Google Recaptcha
-date: 2016-08-20
-layout: static.html
----
 Recaptcha is a service from Google that works to prevent bots from filling
 out your forms.
 

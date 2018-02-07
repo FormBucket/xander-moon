@@ -4,7 +4,7 @@ import markdownOptions from '../markdown-options'
 import {branch, isEmail} from 'formula'
 import {server} from '../stores/webutils'
 import FontAwesome from 'react-fontawesome'
-import { location } from 'xander'
+import { router } from 'xander'
 
 window.validateForm = function() {
   var v = true;
@@ -62,27 +62,33 @@ class Welcome extends React.Component {
   state = {
     isAnnual: true,
     showVideo: false,
-    ghostTextLength: 0,
     ghostText: ''
   };
 
   componentDidMount() {
+    var lines = content.split('\n');
+    var currentLines = []
 
     this.timerId = setInterval( () => {
 
+      currentLines = currentLines.concat(lines[currentLines.length])
+      var html = currentLines.join('\n')
+
       this.setState({
-        ghostTextLength: this.state.ghostTextLength+1,
-        ghostMarkup: content.substring(0, this.state.ghostTextLength+1 ),
-        ghostText: '```html\n' + content.substring(0, this.state.ghostTextLength+1 ) + '\n```'
+        ghostMarkup: html,
+        ghostText: '```html\n' + html + '\n```'
       })
 
-      if (this.state.ghostTextLength+1 > content.length) {
+      // handle case when lines total
+      if (currentLines.length === lines.length) {
+        clearInterval(this.timerId)
+
         this.setState({
           ghostText: this.state.ghostText + '\n<span class="blinking-cursor" />'
         })
-        clearInterval(this.timerId)
       }
-    }, 6)
+
+    }, 42)
 
   }
 
@@ -234,7 +240,7 @@ class Welcome extends React.Component {
                   <h2>Simple Pricing</h2>
                   <p>Unlimited Buckets and Submissions for just <strong>$7/mo.</strong> Free for 14 days, no credit card required and cancel anytime.</p>
                   <button type="button"
-                    onClick={ () => location.open('/signup')}>
+                    onClick={ () => router.open('/signup')}>
                     Sign Up
                   </button>
                 </div>

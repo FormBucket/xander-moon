@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
-import {Link, location} from 'xander'
+import {router, Link} from 'xander'
 import FlashMessage from './FlashMessage'
 import { requestUpdateUser, requestDestroyAccount, requestStripePubKey, requestCreditCards, requestUnsubscribe } from '../stores/webutils'
 import { loadProfile, subscribe, cancelSubscription } from '../stores/ActionCreator'
@@ -69,7 +69,7 @@ class Account extends React.Component {
   componentWillMount() {
 
     if (localStorage.hasOwnProperty('token') === false) {
-      location.open('/login')
+      router.open('/login')
       return;
     }
   }
@@ -97,7 +97,7 @@ class Account extends React.Component {
       }
     })
     .catch((error) => {
-      this.setState({ error })
+      this.setState({ flash: error.message, error })
     })
 
     this.unsubscribe = UserStore.subscribe(() => {
@@ -128,7 +128,7 @@ class Account extends React.Component {
       requestDestroyAccount()
       .then(n => {
         localStorage.removeItem('token');
-        location.open('/')
+        router.open('/')
       })
       .catch(e => alert('An error occurred. Please contact support@formbucket.com'))
     }
@@ -192,10 +192,6 @@ class Account extends React.Component {
   };
 
   render() {
-
-    if (this.state.error) {
-      return <Layout>Error occurred: {this.state.error}</Layout>
-    }
 
     if (!this.state.user || !this.state.user.email) {
       return (
@@ -302,7 +298,7 @@ class Account extends React.Component {
             <p>
               <a onClick={() => {
                   localStorage.removeItem('token');
-                  location.open('/');
+                  router.open('/');
                 } }>Log Out
               </a>
             </p>
@@ -318,7 +314,7 @@ class Account extends React.Component {
             </p>
             <p>
               <a onClick={() => {
-                  location.open('/logs');
+                  router.open('/logs');
                 } }>View Logs
               </a>
             </p>

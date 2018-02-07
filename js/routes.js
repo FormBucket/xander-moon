@@ -4,6 +4,21 @@ let routes = [{
   path: '/',
   load: () => System.import('./components/Welcome')
 }, {
+  path: '/about',
+  load: () => System.import('./components/About')
+}, {
+  path: '/contact',
+  load: () => System.import('./components/Contact')
+}, {
+  path: '/terms',
+  load: () => System.import('./components/Terms')
+}, {
+  path: '/privacy',
+  load: () => System.import('./components/Privacy')
+}, {
+  path: '/privacy-policy',
+  load: () => System.import('./components/Privacy')
+}, {
   path: '/login',
   load: () => System.import('./components/Login')
 }, {

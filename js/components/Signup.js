@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import {Link, location} from 'xander'
+import {router, Link} from 'xander'
 import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
 import {signUp, loadProfile} from '../stores/ActionCreator'
@@ -53,7 +53,7 @@ class Signup extends React.Component {
     .then( loadProfile )
     .then(
       n => {
-        location.open('/buckets')
+        router.open('/buckets')
       },
       err => {
         this.setState({
@@ -128,8 +128,8 @@ class Signup extends React.Component {
                   <li>Spam Protection</li>
                   <li>Autoresponders</li>
                   <li>Webhooks</li>
-                  <li><a href="/compare">Compare FormBucket</a></li>
-                </ul>
+                  {/* <li><Link to="/compare">Compare FormBucket</Link></li>
+                    */}               </ul>
               </div>
             </div>
           </div>

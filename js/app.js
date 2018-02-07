@@ -1,5 +1,5 @@
 import React from 'react'
-import { boot, location, subscribe, dispatch } from 'xander'
+import { boot, subscribe, dispatch } from 'xander'
 import routes from './routes'
 
 import Loader from './components/Loader'
@@ -34,8 +34,10 @@ if (window.Intercom) {
     app_id: "n2h7hsol"
   });
 
-  location.subscribe((state, action) => {
-    window.Intercom('update')
+  subscribe((state, action) => {
+    if (action.type === 'openPath' || action.type === 'redirectPath') {
+      window.Intercom('update')
+    }
   })
 } else {
   console.log("window.Intercom is not defined")
@@ -45,11 +47,19 @@ if (window.Intercom) {
 
 subscribe((state, action) => {
 
-  if (action) {
+  if (!action) {
+    return;
+  }
+
+  if (process.env.NODE_ENV === "development") {
     console.log(action.type, action.data, state)
   }
 
-  if (action && !preloaded && action.type == 'setProfile') {
+  if (action.type === 'loadContent') {
+    window.scrollTo(0, 0)
+  }
+
+  if (!preloaded && action.type == 'setProfile') {
     // preload other screens.
     preloaded = true;
     findRoute('/account').load()

@@ -1,13 +1,3 @@
----
-title: Honey Pot
-heading: Honey Pot
-date: 2016-08-20
-layout: static.html
-email: "{{ email }}"
-name: "{{ name }}"
-phone: "{{ phone }}"
----
-
 A honey pot is a hidden field that must be left blank by the users.
 
 This trap will caught bots that put a value in every field to avoid

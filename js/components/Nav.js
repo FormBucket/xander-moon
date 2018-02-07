@@ -1,18 +1,20 @@
 import React, { PropTypes } from 'react'
 import UserStore from '../stores/user'
-import {Link, location} from 'xander'
+import {Link} from 'xander'
 
 
 class Nav extends React.Component {
-
+  state = {
+    show: false
+  }
   render() {
-    let state = {}
+    let {state} = this;
 
     if (UserStore.isUserLoggedIn()) {
       return (
         <nav role="navigation">
-          <a href="#" className="navigation-menu-button">MENU</a>
-          <ul className={"navigation-menu"}>
+          <a href="#" className="navigation-menu-button" onClick={(event) => this.setState({ show: !state.show })}>MENU</a>
+          <ul className={"navigation-menu" + (state.show ? ' show' : ' hide')}>
             <li className="nav-link">
                <Link to="/guides">Guides</Link>
             </li>

@@ -1,34 +1,30 @@
----
-title: FormBucket.com - Guides
-heading: Guides
-date: 2012-08-20
-layout: static.html
----
+### Docs
 
-## Docs
-
-### [API Docs](/docs/api)
+#### [API Documentation](/guides/api)
 Check out the FormBucket API with examples.
 * * *
 
-## Guides
+### Guides
 
-### [Collect emails with jQuery and AJAX](/guides/collect-emails-for-newsletter-with-jquery-and-ajax)
+#### [Collect emails with jQuery](/guides/collect-emails-for-newsletter-with-jquery)
 In this tutorial we'll show you how to set up a simple newsletter signup form to capture emails using FormBucket, jQuery and AJAX.
 * * *
-### [Set Up reCAPTCHA](/guides/howto-setup-recaptcha)
+#### [Set Up reCAPTCHA](/guides/howto-setup-recaptcha)
 Recaptcha is a service from Google that works to prevent bots from filling out your forms.
 * * *
-### [Merge Tags](/guides/merge-tags)
+#### [Merge Tags](/guides/merge-tags)
 Personalize your autoresponder emails with merge tags.
 * * *
-### [AJAX Only?](/guides/ajax-only)
+#### [AJAX Only?](/guides/ajax-only)
 The "AJAX Only?" option sets up an endpoint that always returns a JSON object.
 * * *
-### [File Uploads](/guides/file-uploads)
+#### [File Uploads](/guides/file-uploads)
 Let us know if you'd like FormBucket to support file uploads for your buckets.
-
-### [Honey Pot](/guides/honeypot)
+* * *
+#### [Honey Pot](/guides/honeypot)
 Learn about honeypot. A common technique to defeat simple spam bots.
+* * *
+#### [Radio Buttons](/guides/radio-buttons)
+Remember those old-time car radios with big black plastic buttons? Push one to listen to WFCR, push another for WRNX. You can never push two buttons at once. Radio buttons on forms work the same way. We will show you how to use with FormBucket.
 * * *
 Can't find what you're looking for? Please <a href="/contact">contact us</a> for help.

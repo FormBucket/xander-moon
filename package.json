@@ -14,7 +14,8 @@
     "start": "node devServer.js",
     "start:static": "cd public && http-server . -p 3000",
     "lint": "eslint src",
-    "deploy:www-dev": "rsync -apvz -e \"ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null\" --progress ./public whqops@10.8.0.1:/srv/www/formbucket.com"
+    "deploy:www-next": "rsync -apvz -e \"ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null\" --progress ./public/ ops@10.8.0.10:/srv/www/formbucket.com/",
+    "deploy:www-prod": "rsync -apvz -e \"ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null\" --progress ./public whqops@10.8.0.1:/srv/www/formbucket.com"
   },
   "dependencies": {
     "babel-core": "^6.14.0",
@@ -22,6 +23,7 @@
     "babel-loader": "^6.4.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
@@ -63,13 +65,12 @@
     "react-modal": "^1.4.0",
     "react-recaptcha": "^2.2.4",
     "react-remarkable": "^1.1.1",
-    "react-router": "2.7.0",
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
     "webpack": "^3.8.1",
     "webpack-hot-middleware": "^2.12.2",
     "whatwg-fetch": "^1.0.0",
-    "xander": "^0.9.1"
+    "xander": "^0.10.0"
   },
   "devDependencies": {
     "xan": "^0.24.0"

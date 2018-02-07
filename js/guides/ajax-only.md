@@ -1,9 +1,3 @@
----
-title: AJAX Only Option
-heading: AJAX Only Option
-date: 2016-08-20
-layout: static.html
----
 The "AJAX Only?" option sets up an endpoint that always returns a JSON object.
 
 By default your endpoint supports both redirect and JSON modes. When this option

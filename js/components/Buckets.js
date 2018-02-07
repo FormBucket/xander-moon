@@ -1,7 +1,7 @@
 // Author: Peter Moresi
 import {branch, not as NOT, isblank as ISBLANK, isfunction as ISFUNCTION, branch as IF, group} from 'formula'
 import React, { PropTypes } from 'react'
-import { dispatch, createStore, xander, Link, location } from 'xander'
+import { router, dispatch, createStore, Link } from 'xander'
 import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
 import FontAwesome from 'react-fontawesome'
@@ -29,7 +29,7 @@ class Buckets extends React.Component {
 
     dispatch('initBuckets')
     if (!UserStore.isUserLoggedIn()) {
-      location.open('/login')
+      router.open('/login')
     }
 
     // load the buckets
@@ -42,19 +42,19 @@ class Buckets extends React.Component {
   handleNewBucket = (event) => {
     requestCreateBucket({ enabled: true })
     .then( result => {
-      location.open('/buckets/' + result.id + '/settings')
+      router.open('/buckets/' + result.id + '/settings')
     })
     .catch( err => setState( { error: err } ))
   };
 
   handleSelect = (bucket) => {
     // console.log('bucket settings click', bucket)
-    location.open('/buckets/' + bucket.id + '/settings')
+    router.open('/buckets/' + bucket.id + '/settings')
   };
 
   handleShow = (bucket) => {
     // console.log('show submissions click', bucket)
-    location.open('/buckets/' + bucket.id + '/submissions')
+    router.open('/buckets/' + bucket.id + '/submissions')
   };
 
   render() {
