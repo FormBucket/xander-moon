@@ -1,7 +1,6 @@
 {
-  "name": "formbucket-client",
-  "version": "2.0.0",
-  "entropy": "1234567",
+  "name": "xander-moon",
+  "version": "1.0.0",
   "description": "Powerful form handling for static sites",
   "author": "FunctionFoundry",
   "license": "MIT",
