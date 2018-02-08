@@ -36,6 +36,6 @@ yarn build
 # developing with the devServer.js
 
 ```sh
-node devServer.js
+npm start
 ```
 
