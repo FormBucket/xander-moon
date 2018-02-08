@@ -4,8 +4,9 @@ This is the web app user interface for FormBucket.com.
 
 # overview
 
-The site is static. The code in this repo creates a public folder that can be used by any web server
-deliver the app's HTML and JS code. The page HTML is generated dynamically with Reactjs.
+The site is a single page app. The code in this repo creates a public folder that can be used by any web server
+to deliver the app's static code. The pages are generated dynamically by the browser with Reactjs with database
+delivered by the application's API. This project does not include the API server code.
 
 The application by default will connect to https://api-dev.formbucket.com.
 
