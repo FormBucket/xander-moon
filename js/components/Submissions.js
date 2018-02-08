@@ -187,6 +187,7 @@ class Submissions extends React.Component {
 
   search = (event) => {
     var url = `/buckets/${this.props.router.params.id}/submissions/${this.props.router.params.mode}/0/${this.props.router.params.limit}/${this.props.router.params.select}?q=${this.refs.q.value}&type=${this.state.display}`
+    this.setState({ selected: [], selectToggle: true })
     router.open(url)
   };
 
