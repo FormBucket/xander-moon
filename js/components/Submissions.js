@@ -344,7 +344,7 @@ class Submissions extends React.Component {
           <div className="submissions-controls">
             <div className="submissions-actions">
               <div className="paging">
-                <a href="#" onClick={(event) => { router.open('/buckets/' + this.state.bucket.id + '/settings')}} style={{ float: 'right' }}>Edit Bucket Settings</a>
+                <a href="#" onClick={(event) => { router.open('/buckets/' + this.state.bucket.id + '/settings')}} style={{ float: 'right' }}><FontAwesome name="gear" /> Settings</a>
                 {pager('top')}
               </div>
               <div className="dropdown-container">
