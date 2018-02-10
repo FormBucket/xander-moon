@@ -32,7 +32,7 @@ class Welcome extends React.Component {
           <div className="bubbles">
             <div className="wrapper">
               <h1>Endpoints are just the beginning</h1>
-              <h2>Collect forms on your site with our magic buckets.</h2>
+              <h2>Capture and automate form submissions with magic endpoints</h2>
               <button type="button"
                 onClick={ () => router.open('/signup')}>
                 Get Started
