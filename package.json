@@ -7,14 +7,10 @@
   "scripts": {
     "clone:bare": "rm -rf ../formbucket-client.git; git clone --bare . ../formbucket-client.git",
     "clean": "rm -rf public",
-    "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
-    "build:static": "node runMetalSmith && rm -rf public/img/ && cp -r img/ public/",
-    "build": "npm run clean && npm run build:static && npm run build:webpack",
-    "start": "node devServer.js",
+    "build": "npm run clean && npx xan build",
+    "start": "npx xan server",
     "start:static": "cd public && http-server . -p 3000",
-    "lint": "eslint src",
-    "deploy:www-next": "rsync -apvz -e \"ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null\" --progress ./public/ ops@10.8.0.10:/srv/www/formbucket.com/",
-    "deploy:www-prod": "rsync -apvz -e \"ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null\" --progress ./public whqops@10.8.0.1:/srv/www/formbucket.com"
+    "lint": "eslint src"
   },
   "dependencies": {
     "babel-core": "^6.14.0",
@@ -28,7 +24,7 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-react-hmre": "^1.1.1",
     "cross-env": "^1.0.7",
-    "css-loader": "^0.23.0",
+    "css-loader": "^0.28.9",
     "es6-promise": "^3.2.1",
     "eslint": "^1.10.3",
     "eslint-plugin-babel": "^3.0.0",
@@ -53,7 +49,7 @@
     "metalsmith-permalinks": "^0.5.0",
     "metalsmith-remarkable": "git+https://github.com/mulyoved/metalsmith-remarkable.git",
     "moment": "^2.14.1",
-    "node-sass": "^3.7.0",
+    "node-sass": "^4.7.2",
     "preact": "^8.2.7",
     "preact-compat": "^3.17.0",
     "raw-loader": "^0.5.1",
@@ -64,14 +60,14 @@
     "react-modal": "^1.4.0",
     "react-recaptcha": "^2.3.6",
     "react-remarkable": "^1.1.1",
-    "sass-loader": "^3.1.2",
-    "style-loader": "^0.13.0",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.20.1",
     "webpack": "^3.8.1",
     "webpack-hot-middleware": "^2.12.2",
     "whatwg-fetch": "^1.0.0",
     "xander": "^0.10.0"
   },
   "devDependencies": {
-    "xan": "^0.24.0"
+    "xan": "^0.26.0"
   }
 }
