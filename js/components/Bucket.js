@@ -167,12 +167,12 @@ class NewBucket extends React.Component {
     })
   };
 
-  onDownload = () => {
+  onDownload = (bucket) => {
     requestBucketExport(bucket.id)
     .then(result => requestDownloadFile(result))
   };
 
-  onDownloadCSV = () => {
+  onDownloadCSV = (bucket) => {
     requestBucketExport(bucket.id, 'csv')
     .then(result => requestDownloadFile(result))
   };
@@ -445,12 +445,12 @@ class NewBucket extends React.Component {
           </div>
           <div className="bucket-preview">
             <p>
-              <a href="javascript:void(0)" onClick={this.onDownloadCSV} >
+              <a href="javascript:void(0)" onClick={() => this.onDownloadCSV(bucket)} >
                 Export all Submissions to CSV
               </a>
             </p>
             <p>
-              <a href="javascript:void(0)" onClick={this.onDownload} >
+              <a href="javascript:void(0)" onClick={() => this.onDownload(bucket)} >
                 Export all Submissions to JSON
               </a>
             </p>
