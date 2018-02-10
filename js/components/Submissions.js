@@ -9,8 +9,7 @@ import SubmissionsStore from '../stores/submissions'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
 import {run} from 'formula'
-//import DownloadLink from 'react-download-link'
-import {router} from 'xander'
+import {router, Link} from 'xander'
 import Layout from './Layout'
 
 let color = {
@@ -344,7 +343,7 @@ class Submissions extends React.Component {
           <div className="submissions-controls">
             <div className="submissions-actions">
               <div className="paging">
-                <a href="#" onClick={(event) => { router.open('/buckets/' + this.state.bucket.id + '/settings')}} style={{ float: 'right' }}><FontAwesome name="gear" /> Settings</a>
+                <Link style={{float: 'right'}} to={'/buckets/' + this.state.bucket.id + '/settings'}><FontAwesome name="gear" /> Settings</Link>
                 {pager('top')}
               </div>
               <div className="dropdown-container">
