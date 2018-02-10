@@ -11,7 +11,7 @@ import {
   requestBucketExport, requestDownloadFile }
 from '../stores/webutils'
 import FlashMessage from './FlashMessage'
-import { router, dispatch, createStore } from 'xander'
+import { router, dispatch, createStore, Link } from 'xander'
 import Layout from './Layout'
 
 import BucketsStore from '../stores/buckets'
@@ -418,7 +418,7 @@ class NewBucket extends React.Component {
             <input type="button" className="button" onClick={this.onSave} value="Save Settings" />
           </div>
           <div className="bucket-preview">
-            <a href="#" onClick={(event) => { router.open('/buckets/' + bucket.id + '/submissions'); }}>View Submissions</a>
+            <Link to={`/buckets/${bucket.id}/submissions`}>View Submissions</Link>
           </div>
           <div className="bucket-preview">
             <div className="bucket-editor">
