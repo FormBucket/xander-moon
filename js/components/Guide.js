@@ -13,6 +13,8 @@ let loadGuide = name => branch(
   () => System.import('../guides/collect-emails-for-newsletter-with-jquery.md'),
   name === 'ajax-only',
   () => System.import('../guides/ajax-only.md'),
+  name === 'json-endpoints',
+  () => System.import('../guides/json-endpoints.md'),
   name === 'howto-setup-recaptcha',
   () => System.import('../guides/howto-setup-recaptcha.md'),
   name === 'merge-tags',
@@ -67,10 +69,11 @@ let Guide = class extends React.Component {
       <Layout>
         <div className="page-heading">
           <div className="wrapper">
-            <h1>{state.title}{ state.name ? ' > ' + state.name : null}</h1>
+            <h1>{state.title}</h1>
           </div>
         </div>
         <div className="wrapper">
+          <h2>{ state.name }</h2>
           <Markdown
             source={ state.content }
             options={ markdownOptions }

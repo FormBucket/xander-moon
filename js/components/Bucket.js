@@ -238,53 +238,10 @@ class NewBucket extends React.Component {
               <h3>Custom Redirect</h3>
               <label htmlFor="redirectURL">Send users to this URL after submitting the form</label>
               <input type="text" placeholder="Send to formbucket default landing page, supports merge tags" id="redirectURL" ref="redirectURL"  onChange={ (e) => setState({ redirect_url: e.target.value }) }  disabled={bucket.is_api_request} defaultValue={bucket.redirect_url} />
-              <label htmlFor="bucketAJAXOnly" className="label-switch"> AJAX Only?
+              <label htmlFor="bucketAJAXOnly" className="label-switch"> <a href="/guides/json-endpoints">JSON Endpoint?</a> <span style={{textDecoration: 'line-through'}}>AJAX Only?</span>
                 <input id="bucketAJAXOnly" type="checkbox" onChange={(event) => setState({ is_api_request: event.target.checked }) } checked={bucket.is_api_request} />
                 <div className="checkbox"></div>
               </label>
-            </div>
-            <div className="section">
-              <h3>Autoresponder</h3>
-              <label>
-                <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" onChange={this.toggleAutoResponder} checked={ bucket.auto_responder } />
-                Automatically send an email to form submitters
-              </label>
-              <div className="autoresponder-wrapper" style={{ display: bucket.auto_responder ? '' : 'none' } }>
-                <p>
-                  <FontAwesome name='exclamation-circle' /> Note: Your form must have an <strong>email address</strong> field to use this feature.
-                </p>
-                <label htmlFor="fromEmail">From</label>
-                <input type="text" ref="auto_responder_from"
-                  onChange={(e) => setState({ auto_responder: Object.assign({}, bucket.auto_responder, { from: e.target.value } ) })}
-                  defaultValue={ bucket.auto_responder ? bucket.auto_responder.from : bucket.user.email }
-                  />
-                <label htmlFor="toEmail">To</label>
-                <input type="text" ref="auto_responder_to" placeholder="Defaults to {{ email }}"
-                  onChange={(e) => setState({ auto_responder: Object.assign({}, bucket.auto_responder, { to: e.target.value } ) })}
-                  defaultValue={ bucket.auto_responder ? bucket.auto_responder.to : null }
-                  />
-                <label htmlFor="subject">Subject</label>
-                <input type="text" ref="auto_responder_subject" placeholder="Thanks!"
-                  onChange={(e) => setState({ auto_responder: Object.assign({}, bucket.auto_responder, { subject: e.target.value } ) })}
-                  defaultValue={ bucket.auto_responder ? bucket.auto_responder.subject : '' }
-                  />
-                <label htmlFor="emailBody">Body (supports Markdown)</label>
-                <textarea ref="auto_responder_body"
-                  onChange={(e) => setState({ auto_responder: Object.assign({}, bucket.auto_responder, { body: e.target.value } ) })}
-                  defaultValue={ bucket.auto_responder ? bucket.auto_responder.body : ''}
-                  >
-                </textarea>
-                <div>
-                  <a href="/guides/merge-tags" target="_blank">Learn about merge tags</a>
-                </div>
-                <div>
-                  <a href="https://daringfireball.net/projects/markdown/  " target="_blank">Learn about Markdown</a>
-                </div>
-                {/*}<RichTextEditor
-                  value={bucket.auto_responder_content}
-                  onChange={this.onChangeAutoResponderMessage}
-                />*/}
-              </div>
             </div>
             <div className="section">
               <h3>Notifications</h3>
@@ -331,6 +288,49 @@ class NewBucket extends React.Component {
                   placeholder="Send default notification"
                   onChange={(e) => setState({ notification_template: e.target.value })}
                   defaultValue={ bucket.notification_template }
+                  >
+                </textarea>
+                <div>
+                  <a href="/guides/merge-tags" target="_blank">Learn about merge tags</a>
+                </div>
+                <div>
+                  <a href="https://daringfireball.net/projects/markdown/  " target="_blank">Learn about Markdown</a>
+                </div>
+                {/*}<RichTextEditor
+                  value={bucket.auto_responder_content}
+                  onChange={this.onChangeAutoResponderMessage}
+                />*/}
+              </div>
+            </div>
+            <div className="section">
+              <h3>Autoresponder</h3>
+              <label>
+                <input type="checkbox" className="checkbox autoresponder" name="sendAutoresponder" onChange={this.toggleAutoResponder} checked={ bucket.auto_responder } />
+                Automatically send an email to form submitters
+              </label>
+              <div className="autoresponder-wrapper" style={{ display: bucket.auto_responder ? '' : 'none' } }>
+                <p>
+                  <FontAwesome name='exclamation-circle' /> Note: Your form must have an <strong>email address</strong> field to use this feature.
+                </p>
+                <label htmlFor="fromEmail">From</label>
+                <input type="text" ref="auto_responder_from"
+                  onChange={(e) => setState({ auto_responder: Object.assign({}, bucket.auto_responder, { from: e.target.value } ) })}
+                  defaultValue={ bucket.auto_responder ? bucket.auto_responder.from : bucket.user.email }
+                  />
+                <label htmlFor="toEmail">To</label>
+                <input type="text" ref="auto_responder_to" placeholder="Defaults to {{ email }}"
+                  onChange={(e) => setState({ auto_responder: Object.assign({}, bucket.auto_responder, { to: e.target.value } ) })}
+                  defaultValue={ bucket.auto_responder ? bucket.auto_responder.to : null }
+                  />
+                <label htmlFor="subject">Subject</label>
+                <input type="text" ref="auto_responder_subject" placeholder="Thanks!"
+                  onChange={(e) => setState({ auto_responder: Object.assign({}, bucket.auto_responder, { subject: e.target.value } ) })}
+                  defaultValue={ bucket.auto_responder ? bucket.auto_responder.subject : '' }
+                  />
+                <label htmlFor="emailBody">Body (supports Markdown)</label>
+                <textarea ref="auto_responder_body"
+                  onChange={(e) => setState({ auto_responder: Object.assign({}, bucket.auto_responder, { body: e.target.value } ) })}
+                  defaultValue={ bucket.auto_responder ? bucket.auto_responder.body : ''}
                   >
                 </textarea>
                 <div>

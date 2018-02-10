@@ -15,8 +15,8 @@ Recaptcha is a service from Google that works to prevent bots from filling out y
 #### [Merge Tags](/guides/merge-tags)
 Personalize your autoresponder emails with merge tags.
 * * *
-#### [AJAX Only?](/guides/ajax-only)
-The "AJAX Only?" option sets up an endpoint that always returns a JSON object.
+#### [JSON Endpoints?](/guides/json-endpoints)
+This option sets up an endpoint that always returns a JSON object.
 * * *
 #### [File Uploads](/guides/file-uploads)
 Let us know if you'd like FormBucket to support file uploads for your buckets.
