@@ -1,4 +1,12 @@
+var moment = require('moment')
+var path = require('path');
+
 module.exports = {
+  output: {
+    path: path.join(__dirname, 'public', 'assets'),
+    filename: '[name]-' + moment().format('YYYY-MM-DD') + '.js',
+    publicPath: '/assets/'
+  },
   module: {
     loaders: [
       {
