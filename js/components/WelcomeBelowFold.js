@@ -237,12 +237,26 @@ class Welcome extends React.Component {
             <div className="louder">
               <div className="wrapper">
                 <div className="clincher">
-                  <h2>Simple Pricing</h2>
-                  <p>Unlimited Buckets and Submissions for just <strong>$7/mo.</strong> Free for 14 days, no credit card required and cancel anytime.</p>
-                  <button type="button"
-                    onClick={ () => router.open('/signup')}>
-                    Sign Up
-                  </button>
+                  {
+                    branch(
+                      this.props.user && this.props.user.account_id,
+                      <div>
+                        <button type="button"
+                          onClick={ () => router.open('/buckets')}>
+                          Return to buckets
+                        </button>
+                      </div>,
+                      <div>
+                        <h2>Simple Pricing</h2>
+                        <p>Unlimited Buckets and Submissions for just <strong>$7/mo.</strong> Free for 14 days, no credit card required and cancel anytime.</p>
+                        <button type="button"
+                          onClick={ () => router.open('/signup')}>
+                          Sign Up
+                        </button>
+                        <p>Free 14-Day Trial • No credit card to sign up!</p>
+                      </div>
+                    )
+                  }
                 </div>
               </div>
             </div>

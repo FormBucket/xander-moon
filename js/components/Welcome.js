@@ -33,15 +33,29 @@ class Welcome extends React.Component {
             <div className="wrapper">
               <h1>Endpoints are just the beginning</h1>
               <h2>Capture and automate form submissions with magic endpoints</h2>
-              <button type="button"
-                onClick={ () => router.open('/signup')}>
-                Get Started
-              </button>
-              <p>Free 14-Day Trial • No credit card to sign up!</p>
+              {
+                branch(
+                  this.props.user && this.props.user.account_id,
+                  <div>
+                    <button type="button"
+                      onClick={ () => router.open('/buckets')}>
+                      Return to buckets
+                    </button>
+                  </div>,
+                  <div>
+                    <button type="button"
+                      onClick={ () => router.open('/signup')}>
+                      Get Started
+                    </button>
+                    <p>Free 14-Day Trial • No credit card to sign up!</p>
+                  </div>
+                )
+              }
+
             </div>
           </div>
         </div>
-       <BelowTheFold />
+       <BelowTheFold {...this.props}/>
        <Footer />
     </div>
     )
