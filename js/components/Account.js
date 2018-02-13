@@ -46,10 +46,11 @@ function subscribeUser({ account_id, number, cvc, exp}) {
       // Subscribe user to Plan
       subscribe(account_id,  response.id, plan)
       .then((result) =>{
-        // console.log( result )
         resolve(result)
       })
-
+      .catch((error) => {
+        reject(error.message)
+      })
 
     })
   })
