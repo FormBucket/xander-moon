@@ -4,6 +4,10 @@
 Check out the FormBucket API with examples.
 * * *
 
+#### [Webhooks](/guides/webhooks)
+Webhooks forward your submissions to external systems.
+* * *
+
 ### Guides
 
 #### [Collect emails with jQuery](/guides/collect-emails-for-newsletter-with-jquery)

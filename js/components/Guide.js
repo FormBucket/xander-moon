@@ -25,6 +25,8 @@ let loadGuide = name => branch(
   () => System.import('../guides/honeypot.md'),
   name === 'radio-buttons',
   () => System.import('../guides/radio-buttons.md'),
+  name === 'webhooks',
+  () => System.import('../guides/webhooks.md'),
   () => System.import('../guides/index.md'),
 )
 
