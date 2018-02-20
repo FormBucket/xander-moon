@@ -319,6 +319,12 @@ class Account extends React.Component {
                 } }>View Logs
               </a>
             </p>
+            <p>
+              <a onClick={() => {
+                  router.open('/account/invoices');
+                } }>View Invoices
+              </a>
+            </p>
             {
               branch(
                 status === 'trialing' || status === 'active' || status === 'past_due',

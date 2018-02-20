@@ -142,7 +142,7 @@ export function requestCharges(){
 
 // Get the the user's invoices
 export function requestInvoices(){
-  return getJSON(`${apiRoot}/billing/invoices`)
+  return getJSON(`${apiRoot}/invoices`)
 }
 
 // Get the the user's invoices

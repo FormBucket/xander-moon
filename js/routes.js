@@ -28,6 +28,9 @@ let routes = [{
   path: '/account',
   load: () => System.import('./components/Account')
 }, {
+  path: '/account/invoices',
+  load: () => System.import('./components/Invoices')
+}, {
   path: '/buckets',
   load: () => System.import('./components/Buckets')
 }, {
