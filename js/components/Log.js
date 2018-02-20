@@ -11,7 +11,6 @@ import markdownOptions from '../markdown-options'
 
 class UserReport extends React.Component {
   state = {
-    submissions: undefined,
     loaded: false,
     loading: false
   };
