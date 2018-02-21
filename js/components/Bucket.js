@@ -455,6 +455,11 @@ class NewBucket extends React.Component {
               </a>
             </p>
             <p>
+              <Link to={`/logs?offset=0&limit=10&bucket_id=${bucket.id}`}>
+                View logs
+              </Link>
+            </p>
+            <p>
               <a className="danger" href="javascript:void(0)" onClick={this.onDelete} >
                 Delete this Bucket
               </a>

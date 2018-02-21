@@ -197,8 +197,8 @@ export function requestUsersBuckets(user_id) {
 }
 
 // make promise to get logs.
-export function requestLogs(){
-  return getJSON( `${apiRoot}/log_entries`)
+export function requestLogs(offset=0, limit=10, bucket_id){
+  return getJSON( `${apiRoot}/log_entries?offset=${offset}&limit=${limit}${bucket_id ? `&bucket_id=${bucket_id}` : ''}`,)
 }
 
 // make promise to get log.

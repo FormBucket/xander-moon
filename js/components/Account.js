@@ -315,7 +315,7 @@ class Account extends React.Component {
             </p>
             <p>
               <a onClick={() => {
-                  router.open('/logs');
+                  router.open('/logs?offset=0&limit=10');
                 } }>View Logs
               </a>
             </p>
