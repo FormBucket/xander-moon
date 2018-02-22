@@ -17,10 +17,34 @@ import Layout from './Layout'
 import BucketsStore from '../stores/buckets'
 import BucketStore from '../stores/bucket'
 
-function makeHTMLForm(id, honey_pot_on, honey_pot_field) {
-  return (`<form action="${process.env.FORMBUCKET_API_SERVER}/f/${id}" method="post" target="_blank">
+function resetForm() {
+  setTimeout(() => {
+    if (grecaptcha) {
+      grecaptcha.render('g-recaptcha-container', {
+        sitekey: '6Lc_YSgTAAAAAPdIJ5hVuFFNvoljmLYx3E1d6kcu'
+      });
+
+      document.getElementById('my-awesome-form').onsubmit = () => {
+        console.log('check form')
+        if (recaptcha_on) {
+          if (grecaptcha.getResponse() == '') {
+            return false;
+          }
+        }
+        return true;
+      }
+    }
+  }, 250);
+}
+
+function makeHTMLForm({id, honey_pot_on, honey_pot_field, recaptcha_on, recaptcha_secret}) {
+
+  resetForm();
+
+  return (`<form id="my-awesome-form" action="${process.env.FORMBUCKET_API_SERVER}/f/${id}" method="post" target="_blank">
   <input type="text" name="email" placeholder="Email" />\n  <input type="text" name="message" placeholder="Message" />${honey_pot_on ? `
   <label>Honey pot (Should be empty and hidden)</label><input type="text" name="${isEmpty(honey_pot_field) ? '__bucket_trap__' : honey_pot_field }" value="" /*style="display: none"*/ />` : ''}
+  ${recaptcha_on ? `<div id="g-recaptcha-container" class="g-recaptcha" data-sitekey="${recaptcha_secret}"></div>` : ``}
   <button class="button secondary" type="submit">Submit</button>
 </form>`)
 }
@@ -431,16 +455,42 @@ class NewBucket extends React.Component {
               <p>Copy and paste the markup below into your project, replacing the example inputs with your own.</p>
               <div className="quick-use" style={{ textAlign: 'left' }}>
                 <Markdown
-                  source={ '```HTML\n' + makeHTMLForm(bucket.id, bucket.honey_pot_on, bucket.honey_pot_field) + '\n```' }
+                  source={ '```HTML\n' + makeHTMLForm(bucket) + '\n```' }
                   options={ markdownOptions }
                   />
               </div>
+              {
+                branch(
+                  bucket.recaptcha_on,
+                  <div>
+                    <hr />
+                    <h4>Google's Recaptcha Script</h4>
+                    <p>Add Google's script to your form's HTML document.</p>
+                    <Markdown
+                      source={ '```HTML\n' + '<script src="https://www.google.com/recaptcha/api.js"></script>' + '\n```' }
+                      options={ markdownOptions }
+                      />
+                  </div>
+                )
+              }
               <hr />
-              <h4>Test Form</h4>
+
+              <h4>Test Form (<a href="javascript:void(0)" onClick={() => {
+                this.setState({ reset: true});
+                setTimeout(() => this.setState({ reset: false}), 200 );
+                return false;
+              }}>Reset</a>)</h4>
               <div>
-                <div dangerouslySetInnerHTML={{__html: makeHTMLForm(bucket.id, bucket.honey_pot_on, bucket.honey_pot_field) }}>
-                </div>
+                {
+                  branch(
+                    this.state.reset,
+                    null,
+                    <div dangerouslySetInnerHTML={{__html: makeHTMLForm(bucket) }}>
+                    </div>
+                  )
+                }
               </div>
+
             </div>
           </div>
           <div className="bucket-preview">
