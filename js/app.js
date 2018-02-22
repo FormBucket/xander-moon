@@ -4,8 +4,8 @@ import routes from './routes'
 
 import Loader from './components/Loader'
 
-// preload this common code.
-import './stores/ActionCreator'
+// preload common code.
+import * as ActionCreator from './stores/ActionCreator'
 import './stores/webutils'
 import './stores/user'
 import './stores/bucket'
@@ -21,13 +21,7 @@ let findRoute = (name) => {
 
 let preloaded = false;
 
-findRoute('/').load()
-findRoute('/login').load()
-findRoute('/signup').load()
-findRoute('/guides').load()
-findRoute('/guides/:name').load()
-
-// send route location changes to Intercom.
+// send route location changes to Intercom.ActionCreator
 if (window.Intercom) {
 
   window.Intercom("boot", {
@@ -51,8 +45,9 @@ subscribe((state, action) => {
     return;
   }
 
-  if (process.env.NODE_ENV === "development") {
-    console.log(action.type, action.data, state)
+  if (true) { // } || process.env.NODE_ENV === "development") {
+    window.FormBucket = require('./stores/webutils')
+    window.FormBucket = { ...ActionCreator, ...window.FormBucket }
   }
 
   if (action.type === 'loadContent') {
@@ -77,3 +72,12 @@ boot({
   rootEl: document.getElementById('root'),
   routes
 })
+
+// preload after 700ms
+setTimeout( ()=> {
+  findRoute('/').load()
+  findRoute('/login').load()
+  findRoute('/signup').load()
+  findRoute('/guides').load()
+  findRoute('/guides/:name').load()
+}, 700)
