@@ -44,7 +44,7 @@ function makeHTMLForm({id, honey_pot_on, honey_pot_field, recaptcha_on, recaptch
   return (`<form id="my-awesome-form" action="${process.env.FORMBUCKET_API_SERVER}/f/${id}" method="post" target="_blank">
   <input type="text" name="email" placeholder="Email" />\n  <input type="text" name="message" placeholder="Message" />${honey_pot_on ? `
   <label>Honey pot (Should be empty and hidden)</label><input type="text" name="${isEmpty(honey_pot_field) ? '__bucket_trap__' : honey_pot_field }" value="" /*style="display: none"*/ />` : ''}
-  ${recaptcha_on ? `<div id="g-recaptcha-container" class="g-recaptcha" data-sitekey="${recaptcha_secret}"></div>` : ``}
+  ${recaptcha_on ? `<div id="g-recaptcha-container" class="g-recaptcha" data-sitekey="{put-your-public-key-here}"></div>` : ``}
   <button class="button secondary" type="submit">Submit</button>
 </form>`)
 }
