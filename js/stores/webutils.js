@@ -132,8 +132,8 @@ export function requestStripePubKey(){
 }
 
 // Get the user charges.
-export function requestCharges(){
-  return getJSON(`${apiRoot}/billing/charges`)
+export function requestCharges(account_id){
+  return getJSON(`${apiRoot}/accounts/${account_id}/charges`)
 }
 
 // Get the the user's invoices.
