@@ -43,12 +43,9 @@ class UserReport extends React.Component {
 
   handleLoadBack() {
     this.setState({ loadingMore: true, currentOffset: this.state.offset })
-    let { limit, bucket_id} = this.props.router.location.query;
-
-    let {logs, currentOffset} = this.state
-    let newOffset = +currentOffset-(+limit)
-
-    requestLogs(newOffset, (+limit), bucket_id)
+    let { limit, offset, bucket_id} = this.props.router.location.query;
+    let newOffset = +offset-(+limit)
+    requestLogs(newOffset, limit, bucket_id)
     .then(newLogs => {
       this.setState({
         currentOffset: newOffset,
@@ -62,10 +59,9 @@ class UserReport extends React.Component {
 
   handleLoadNext() {
     this.setState({ loadingMore: true, currentOffset: this.state.offset })
-    let { limit, bucket_id} = this.props.router.location.query;
-    let {logs, currentOffset} = this.state
-    let newOffset = +currentOffset+(+limit)
-    requestLogs(newOffset, (+limit), bucket_id)
+    let { limit, offset, bucket_id} = this.props.router.location.query;
+    let newOffset = +offset+(+limit)
+    requestLogs(newOffset, limit, bucket_id)
     .then(newLogs => {
       this.setState({
         currentOffset: newOffset,
@@ -117,18 +113,22 @@ class UserReport extends React.Component {
         </div>
         <div className="wrapper">
           <table>
+            <thead>
             <tr>
               <th>status</th>
               <th width="150">date</th>
             </tr>
+            </thead>
+            <tbody>
             {
               this.state.logs.map((d, i) => (
-                <tr>
+                <tr key={i}>
                   <td>{d.status} <Link to={`/log/${d.id}`}>{d.method} {d.url}</Link></td>
                   <td>{moment(d.ts).format("MMM DD, YYYY hh:mm a")}</td>
                 </tr>
               ))
             }
+            </tbody>
           </table>
           <button disabled={+this.state.currentOffset == 0} onClick={this.handleLoadBack.bind(this)}>Back</button>
 
