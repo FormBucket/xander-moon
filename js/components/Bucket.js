@@ -17,7 +17,12 @@ import Layout from './Layout'
 import BucketsStore from '../stores/buckets'
 import BucketStore from '../stores/bucket'
 
-function resetForm() {
+// import {Controlled as CodeMirror} from 'react-codemirror2'
+// require('codemirror/mode/xml/xml');
+
+function resetForm(recaptcha_on) {
+  if (!recaptcha_on) return;
+
   setTimeout(() => {
     if (grecaptcha) {
       grecaptcha.render('g-recaptcha-container', {
@@ -29,7 +34,7 @@ function resetForm() {
         if (recaptcha_on) {
           if (grecaptcha.getResponse() == '') {
             return false;
-          }
+          }resetForm
         }
         return true;
       }
@@ -39,11 +44,14 @@ function resetForm() {
 
 function makeHTMLForm({id, honey_pot_on, honey_pot_field, recaptcha_on, recaptcha_secret}) {
 
-  resetForm();
+  resetForm(recaptcha_on);
 
-  return (`<form id="my-awesome-form" action="${process.env.FORMBUCKET_API_SERVER}/f/${id}" method="post" target="_blank">
-  <input type="text" name="email" placeholder="Email" />\n  <input type="text" name="message" placeholder="Message" />${honey_pot_on ? `
-  <label>Honey pot (Should be empty and hidden)</label><input type="text" name="${isEmpty(honey_pot_field) ? '__bucket_trap__' : honey_pot_field }" value="" /*style="display: none"*/ />` : ''}${recaptcha_on ? `
+  return (`${(recaptcha_on ? `<script src="https://www.google.com/recaptcha/api.js"></script>
+` : '')}<form id="my-awesome-form" action="${process.env.FORMBUCKET_API_SERVER}/f/${id}" method="post" target="_blank">
+  <input type="text" name="email" placeholder="Email" />
+  <input type="text" name="message" placeholder="Message" />${honey_pot_on ? `
+  <label style="display:none">Honey pot (Should be hidden and empty)</label>
+  <input type="text" name="${isEmpty(honey_pot_field) ? '__bucket_trap__' : honey_pot_field }" style="display: none" />` : ''}${recaptcha_on ? `
   <div id="g-recaptcha-container" class="g-recaptcha" data-sitekey="{put-your-public-key-here}"></div>` : ``}
   <button class="button secondary" type="submit">Submit</button>
 </form>`)
@@ -216,12 +224,14 @@ class NewBucket extends React.Component {
   render() {
 
     let bucket = BucketStore.merge()
+    let savedBucket = this.props.buckets.buckets.filter((d) => d.id === this.props.bucket.id)[0]
 
     let {user, buckets } = this.props;
 
     bucket.user = user||{}
 
     console.log('bucket', bucket)
+    console.log('savedBucket', savedBucket)
 
     // console.log(bucket)
     if (bucket.error) {
@@ -400,6 +410,7 @@ class NewBucket extends React.Component {
               <br />
               {
                 branch( bucket.honey_pot_on,
+
                   <div>
                     <label>
                       Honey pot field
@@ -423,10 +434,7 @@ class NewBucket extends React.Component {
                       <input onChange={(e) => setState({ recaptcha_secret:  e.target.value  })}
                       defaultValue={ bucket.recaptcha_secret }/>
                     </label>
-                    <label>
-                      Redirect on error
-                      <input placeholder="Optional, url to send user if verification fails" onChange={(e) => setState({ recaptcha_redirect:  e.target.value  })}
-                      defaultValue={ bucket.recaptcha_redirect }/>
+                    <label><script src="https://www.google.com/recaptcha/api.js"></script>
                     </label>
                   </div>
                 )
@@ -450,43 +458,45 @@ class NewBucket extends React.Component {
               <div>
                 <input type="text" value={ process.env.FORMBUCKET_API_SERVER + "/f/" + bucket.id}></input>
               </div>
-              <hr />
-              <h4>Sample HTML</h4>
-              <p>Copy and paste the markup below into your project, replacing the example inputs with your own.</p>
-              <div className="quick-use" style={{ textAlign: 'left' }}>
-                <Markdown
-                  source={ '```HTML\n' + makeHTMLForm(bucket) + '\n```' }
-                  options={ markdownOptions }
-                  />
-              </div>
               {
                 branch(
-                  bucket.recaptcha_on,
+                  this.state.showEditor,
                   <div>
                     <hr />
-                    <h4>Google's Recaptcha Script</h4>
-                    <p>Add Google's script to your form's HTML document.</p>
+                  <h4>Example HTML</h4>
+                  <p>Copy and paste the markup below into your project, rep<script src="https://www.google.com/recaptcha/api.js"></script>lacing the example inputs with your own.</p>
+                  <div className="quick-use" style={{ textAlign: 'left' }}>
                     <Markdown
-                      source={ '```HTML\n' + '<script src="https://www.google.com/recaptcha/api.js"></script>' + '\n```' }
+                      source={ '```HTML\n' + makeHTMLForm(savedBucket) + '\n```' }
                       options={ markdownOptions }
                       />
+
                   </div>
+                </div>,
+                null
                 )
               }
+
               <hr />
+
 
               <h4>Test Form (<a href="javascript:void(0)" onClick={() => {
                 this.setState({ reset: true});
                 setTimeout(() => this.setState({ reset: false}), 200 );
                 return false;
-              }}>Reset</a>)</h4>
+              }}>Reset</a> | <a href="javascript:void(0)" onClick={() => {
+                setTimeout(() => {
+                  this.setState({ showEditor: !this.state.showEditor});
+                  return false;
+                }, 200 );
+                return false;
+              }}>{branch(this.state.showEditor, 'Hide', 'Show')} Example HTML</a>)</h4>
               <div>
                 {
                   branch(
                     this.state.reset,
                     null,
-                    <div dangerouslySetInnerHTML={{__html: makeHTMLForm(bucket) }}>
-                    </div>
+                    <div dangerouslySetInnerHTML={{__html: makeHTMLForm(bucket) }} />
                   )
                 }
               </div>
