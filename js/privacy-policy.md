@@ -31,7 +31,11 @@ All transactions are processed through a gateway provider and are not stored or 
 
 ## Do we use 'cookies'?
 
-No way! Cookies are so 1999 and this site was built for 2016 and beyond. This site uses a JSON Web Token that is stored in your browser's local storage. This token is issued when you register or when you signup. The token information to identify your account and is digitally signed so that we know it was created by us (and not some evil hacker).
+Yes, cookies are a standard way to store information. Cookies are used to transfer
+information from the server to the browser and to keep track of your account.
+
+Cookies assigned to the formbucket.com are marked secure, and can only be sent
+over HTTPS.
 
 ## Third-party disclosure
 
@@ -42,6 +46,12 @@ However, non-personally identifiable visitor information may be provided to othe
 ## Third-party links
 
 We do not include or offer third-party products or services on our website.
+
+## Intercom
+
+This site uses Intercom to communicate with customers.
+
+Intercom, as a third party vendor, uses cookies
 
 ## Google
 
@@ -114,4 +124,4 @@ If at any time you would like to unsubscribe from receiving future emails, you c
 support@formbucket.com and we will promptly remove you from ALL correspondence.
 
 
-Last Edited on 2016-08-16
+Last Edited on 2018-03-01
