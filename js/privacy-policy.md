@@ -31,11 +31,8 @@ All transactions are processed through a gateway provider and are not stored or 
 
 ## Do we use 'cookies'?
 
-Yes, cookies are a standard way to store information. Cookies are used to transfer
-information from the server to the browser and to keep track of your account.
-
-Cookies assigned to the formbucket.com are marked secure, and can only be sent
-over HTTPS.
+Yes, cookies are a standard way to communicate information from server to browser and, vice versa. Cookies are used to transfer
+information from the server to the browser and to keep track of your account. Cookies assigned to the formbucket.com are marked secure, and can only be sent over HTTPS.
 
 ## Third-party disclosure
 
@@ -51,7 +48,7 @@ We do not include or offer third-party products or services on our website.
 
 This site uses Intercom to communicate with customers.
 
-Intercom, as a third party vendor, uses cookies
+Intercom, as a third party vendor, uses cookies on this site to operate their service.
 
 ## Google
 
