@@ -39,3 +39,7 @@ yarn build
 npm start
 ```
 
+# where does the name "Xander Moon" come from?
+
+Xander Moon is a tribute to the primary author's brother, Alexander, whom we lost to colon cancer. This free spirit left us far too young and we hope to honor his memory with this work.
+
