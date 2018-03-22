@@ -1,28 +1,38 @@
 var React = require('react');
 var PropTypes = React.PropTypes;
-import {branch, match} from 'formula';
+import { branch, match } from 'formula';
 import Layout from './Layout';
 import Loader from './Loader';
-import Markdown from 'react-remarkable'
-import markdownOptions from '../markdown-options'
-import Content from '../contact.md'
+import Markdown from 'react-remarkable';
+import markdownOptions from '../markdown-options';
+import Content from '../contact.md';
 
 let Contact = class extends React.Component {
-
   componentDidMount() {
     this.timerId = setInterval(() => {
       if (grecaptcha) {
         grecaptcha.render('contact-recaptcha', {
-          sitekey: '6Lc_YSgTAAAAAPdIJ5hVuFFNvoljmLYx3E1d6kcu'
+          sitekey: '6LcC9kwUAAAAAKZkAPmBWJeHh13qX4R5jCLlENBT',
+          size: 'invisible',
+          callback: () => {
+            console.log('got callback from recaptcha');
+            document.getElementById('formbucket-contact-form').submit();
+          }
         });
-        clearInterval(this.timerId)
-        console.log('cleared')
+        clearInterval(this.timerId);
+        console.log('cleared');
+
+        document.getElementById('contact-submit').onclick = function(event) {
+          console.log('start recaptcha');
+          event.preventDefault();
+          grecaptcha.execute();
+        };
       }
     }, 200);
   }
 
-  componentDidUnmount() {
-    clearInterval(this.timerId)
+  componentWillUnmount() {
+    clearInterval(this.timerId);
   }
 
   render() {
@@ -34,12 +44,8 @@ let Contact = class extends React.Component {
           </div>
         </div>
         <div className="wrapper">
-          <Markdown
-            source={ Content }
-            options={ markdownOptions }
-            />
+          <Markdown source={Content} options={markdownOptions} />
         </div>
-
       </Layout>
     );
   }

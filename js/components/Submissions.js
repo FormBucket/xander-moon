@@ -82,7 +82,7 @@ class Submissions extends React.Component {
     let mode = params.mode || 'list'
     let limit = (+params.limit) || 50
     let offset = (+params.offset) || 0
-    let select = params.select || 'created_on,data'
+    let select = params.select || 'id,created_on,data'
 
     var url = `/buckets/${params.id}/submissions/${mode}/${offset}/${limit}/${select}`
 

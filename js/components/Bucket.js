@@ -26,7 +26,7 @@ function resetForm(recaptcha_on) {
   setTimeout(() => {
     if (grecaptcha) {
       grecaptcha.render('g-recaptcha-container', {
-        sitekey: '6Lc_YSgTAAAAAPdIJ5hVuFFNvoljmLYx3E1d6kcu'
+        sitekey: '6LcC9kwUAAAAAKZkAPmBWJeHh13qX4R5jCLlENBT'
       });
 
       document.getElementById('my-awesome-form').onsubmit = () => {
@@ -52,7 +52,7 @@ function makeHTMLForm({id, honey_pot_on, honey_pot_field, recaptcha_on, recaptch
   <input type="text" name="message" placeholder="Message" />${honey_pot_on ? `
   <label style="display:none">Honey pot (Should be hidden and empty)</label>
   <input type="text" name="${isEmpty(honey_pot_field) ? '__bucket_trap__' : honey_pot_field }" style="display: none" />` : ''}${recaptcha_on ? `
-  <div id="g-recaptcha-container" class="g-recaptcha" data-sitekey="{put-your-public-key-here}"></div>` : ``}
+  <div id="g-recaptcha-container" class="g-recaptcha" data-sitekey="{put-your-site-key-here}"></div>` : ``}
   <button class="button secondary" type="submit">Submit</button>
 </form>`)
 }
@@ -272,7 +272,7 @@ class NewBucket extends React.Component {
               <h3>Custom Redirect</h3>
               <label htmlFor="redirectURL">Send users to this URL after submitting the form</label>
               <input type="text" placeholder="Send to formbucket default landing page, supports merge tags" id="redirectURL" ref="redirectURL"  onChange={ (e) => setState({ redirect_url: e.target.value }) }  disabled={bucket.is_api_request} defaultValue={bucket.redirect_url} />
-              <label htmlFor="bucketAJAXOnly" className="label-switch"> <a href="/guides/json-endpoints">JSON Endpoint?</a> <span style={{textDecoration: 'line-through'}}>AJAX Only?</span>
+              <label htmlFor="bucketAJAXOnly" className="label-switch"> <a href="/guides/json-endpoints">JSON Endpoint?</a>
                 <input id="bucketAJAXOnly" type="checkbox" onChange={(event) => setState({ is_api_request: event.target.checked }) } checked={bucket.is_api_request} />
                 <div className="checkbox"></div>
               </label>
@@ -450,7 +450,11 @@ class NewBucket extends React.Component {
             <input type="button" className="button" onClick={this.onSave} value="Save Settings" />
           </div>
           <div className="bucket-preview">
-            <Link to={`/buckets/${bucket.id}/submissions`}>View Submissions</Link>
+            View:&nbsp;
+            <Link to={`/buckets/${bucket.id}/submissions`}>Submissions</Link>
+             &nbsp; <Link to={`/logs?offset=0&limit=10&bucket_id=${bucket.id}`}>
+                Logs
+              </Link>
           </div>
           <div className="bucket-preview">
             <div className="bucket-editor">
@@ -506,18 +510,13 @@ class NewBucket extends React.Component {
           <div className="bucket-preview">
             <p>
               <a href="javascript:void(0)" onClick={() => this.onDownloadCSV(bucket)} >
-                Export all Submissions to CSV
+                Export submissions to CSV
               </a>
             </p>
             <p>
               <a href="javascript:void(0)" onClick={() => this.onDownload(bucket)} >
-                Export all Submissions to JSON
+                Export submissions to JSON
               </a>
-            </p>
-            <p>
-              <Link to={`/logs?offset=0&limit=10&bucket_id=${bucket.id}`}>
-                View logs
-              </Link>
             </p>
             <p>
               <a className="danger" href="javascript:void(0)" onClick={this.onDelete} >
