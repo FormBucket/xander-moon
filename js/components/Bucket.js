@@ -3,7 +3,7 @@ import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
-import {branch, isArray, isBlank, isEmpty} from 'formula'
+import {IF, ISARRAY, ISBLANK, ISEMPTY} from 'formula'
 import UserStore from '../stores/user'
 import {
   requestBucket, requestProfile,
@@ -51,7 +51,7 @@ function makeHTMLForm({id, honey_pot_on, honey_pot_field, recaptcha_on, recaptch
   <input type="text" name="email" placeholder="Email" />
   <input type="text" name="message" placeholder="Message" />${honey_pot_on ? `
   <label style="display:none">Honey pot (Should be hidden and empty)</label>
-  <input type="text" name="${isEmpty(honey_pot_field) ? '__bucket_trap__' : honey_pot_field }" style="display: none" />` : ''}${recaptcha_on ? `
+  <input type="text" name="${ISEMPTY(honey_pot_field) ? '__bucket_trap__' : honey_pot_field }" style="display: none" />` : ''}${recaptcha_on ? `
   <div id="g-recaptcha-container" class="g-recaptcha" data-sitekey="{put-your-site-key-here}"></div>` : ``}
   <button class="button secondary" type="submit">Submit</button>
 </form>`)
@@ -381,7 +381,7 @@ class NewBucket extends React.Component {
             </div>
             <div className="section">
               <h3>Webhooks</h3>
-              { isArray(bucket.webhooks) ?
+              { ISARRAY(bucket.webhooks) ?
                 bucket.webhooks.map( (webhook, i) => (
                   <div key={i} >
                     <a style={{ position: 'relative', float: 'right', right: '-30px', top: '42px', paddingTop: 5, paddingBottom: 5, paddingRight: 7, paddingLeft: 7, marginTop: -40, color: 'red', backgroundColor: 'white', cursor: 'pointer' }}
@@ -409,7 +409,7 @@ class NewBucket extends React.Component {
               <br />
               <br />
               {
-                branch( bucket.honey_pot_on,
+                IF( bucket.honey_pot_on,
 
                   <div>
                     <label>
@@ -426,7 +426,7 @@ class NewBucket extends React.Component {
                 <div className="checkbox"></div>
               </label>
               {
-                branch( bucket.recaptcha_on,
+                IF( bucket.recaptcha_on,
                   <div className="spam-protection">
                     <label>
                       Secret key (provided by Google)
@@ -463,7 +463,7 @@ class NewBucket extends React.Component {
                 <input type="text" value={ process.env.FORMBUCKET_API_SERVER + "/f/" + bucket.id}></input>
               </div>
               {
-                branch(
+                IF(
                   this.state.showEditor,
                   <div>
                     <hr />
@@ -494,10 +494,10 @@ class NewBucket extends React.Component {
                   return false;
                 }, 200 );
                 return false;
-              }}>{branch(this.state.showEditor, 'Hide', 'Show')} Example HTML</a>)</h4>
+              }}>{IF(this.state.showEditor, 'Hide', 'Show')} Example HTML</a>)</h4>
               <div>
                 {
-                  branch(
+                  IF(
                     this.state.reset,
                     null,
                     <div dangerouslySetInnerHTML={{__html: makeHTMLForm(bucket) }} />

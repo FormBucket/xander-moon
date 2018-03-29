@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
-import {eq, text, dateValue} from 'formula'
+import {EQ as eq, TEXT as text, DATEVALUE as dateValue} from 'formula'
 import UserStore from '../stores/user'
 import moment from 'moment'
 import {

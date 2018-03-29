@@ -1,6 +1,6 @@
 import {createStore, dispatch} from 'xander'
 import SubscriptionStore from './subscription'
-import {decodeJWT} from 'formula'
+import {DECODEJWT as decodeJWT} from 'formula'
 
 // format unix time
 let unix= (d=new Date()) => (d.getTime() / 1000).toFixed(0)

@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
-import {eq} from 'formula'
 import UserStore from '../stores/user'
 import moment from 'moment'
 import {
@@ -35,7 +34,7 @@ class UserReport extends React.Component {
 
   render() {
 
-    if (eq(this.state.loaded, false)) {
+    if (this.state.loaded == false) {
       return (
         <Layout>
           <div className="wrapper">

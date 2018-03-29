@@ -1,12 +1,12 @@
 var React = require('react');
 var PropTypes = React.PropTypes;
-import {branch, match} from 'formula';
+import {IF} from 'formula';
 import Layout from './Layout';
 import Loader from './Loader';
 import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
 
-let loadGuide = name => branch(
+let loadGuide = name => IF(
   name === 'api',
   () => System.import('../guides/api.md'),
   name == 'collect-emails-for-newsletter-with-jquery',

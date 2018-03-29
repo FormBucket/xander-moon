@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import {branch, eq, or, isBlank} from 'formula'
+import {IF, ISBLANK, RUN} from 'formula'
 import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
 import {requestBucket, requestSubmissionsByBucket, requestDeleteSubmission, requestDeleteSubmissions, requestUpdateSubmissions, requestUpdateSubmission} from '../stores/webutils'
@@ -8,7 +8,6 @@ import BucketStore from '../stores/buckets'
 import SubmissionsStore from '../stores/submissions'
 import FontAwesome from 'react-fontawesome'
 import moment from 'moment'
-import {run} from 'formula'
 import {router, Link} from 'xander'
 import Layout from './Layout'
 
@@ -160,7 +159,7 @@ class Submissions extends React.Component {
     requestUpdateSubmission(this.state.bucket.id, submission.id, { spam })
     .then(n => {
       this.setState({
-        submissions: this.state.submissions.map(d => branch(d.id === submission.id, Object.assign({}, d, { spam }), d))
+        submissions: this.state.submissions.map(d => IF(d.id === submission.id, Object.assign({}, d, { spam }), d))
       })
     })
 
@@ -198,7 +197,7 @@ class Submissions extends React.Component {
       return
     }
     // console.log('goForward')
-    var newOffset = branch(
+    var newOffset = IF(
       offset + limit <= this.state.total,
       offset + limit,
       offset
@@ -221,15 +220,15 @@ class Submissions extends React.Component {
     }
 
     // console.log('goBack')
-    var newOffset = branch(
+    var newOffset = IF(
       offset - limit > 0,
       offset - limit,
       0
     )
 
-    if (or(
-      offset === newOffset,
-      offset >= this.state.total) ) {
+    if (
+      offset === newOffset ||
+      offset >= this.state.total ) {
       return
     }
 
@@ -249,7 +248,7 @@ class Submissions extends React.Component {
 
     // console.log(this.state)
 
-    if (eq(this.state.loaded, false)) {
+    if (this.state.loaded === false) {
       return (
         <Layout className="wrapper">
           <div className="flash">
@@ -259,7 +258,7 @@ class Submissions extends React.Component {
       )
     }
 
-    if (isBlank(this.props.router.params.id)) {
+    if (ISBLANK(this.props.router.params.id)) {
       return (
         <div className="wrapper">
           <div className="flash">
@@ -269,7 +268,7 @@ class Submissions extends React.Component {
       )
     }
 
-    if (isBlank(this.state.bucket)) {
+    if (ISBLANK(this.state.bucket)) {
       return (
         <div className="wrapper">
           <div className="flash">
@@ -279,7 +278,7 @@ class Submissions extends React.Component {
       )
     }
 
-    if (isBlank(this.state.submissions)) {
+    if (ISBLANK(this.state.submissions)) {
       return (
         <div className="wrapper">
           <div className="flash">
@@ -291,10 +290,10 @@ class Submissions extends React.Component {
 
     var offset = +this.props.router.params.offset,
     limit = +this.props.router.params.limit,
-    total = branch(this.state.display==='spam', this.state.totalSpam, this.state.display === 'deleted', this.state.totalDeleted, this.state.total),
+    total = IF(this.state.display==='spam', this.state.totalSpam, this.state.display === 'deleted', this.state.totalDeleted, this.state.total),
     from = total > 0 ? offset+1 : 0,
-    to = branch(offset + limit < total, offset + limit, total),
-    headingText = branch(
+    to = IF(offset + limit < total, offset + limit, total),
+    headingText = IF(
       this.state.bucket.name && this.state.bucket.name.trim().length > 0,
       this.state.bucket.name,
       this.state.bucket.id
@@ -306,22 +305,22 @@ class Submissions extends React.Component {
           <p>
             <span className="showing-count">Showing {from}-{to} of {total}</span>
             <button className="secondary small" onClick={this.goBack} style={{
-              cursor: branch(offset > 0, 'pointer', 'auto'),
+              cursor: IF(offset > 0, 'pointer', 'auto'),
               marginRight: '0.5em',
-              color: branch(offset > 0, color.enabled, color.disabled),
-              borderColor: branch(offset > 0, color.enabled, color.disabled) }}>
+              color: IF(offset > 0, color.enabled, color.disabled),
+              borderColor: IF(offset > 0, color.enabled, color.disabled) }}>
               <FontAwesome name="chevron-left" />
             </button>
 
             <button className="secondary small" onClick={this.goForward} style={{
-              cursor: branch(to < total, 'pointer', 'auto'),
-              color: branch(offset + limit < total, color.enabled, color.disabled),
-              borderColor: branch(offset + limit < total, color.enabled, color.disabled) }}>
+              cursor: IF(to < total, 'pointer', 'auto'),
+              color: IF(offset + limit < total, color.enabled, color.disabled),
+              borderColor: IF(offset + limit < total, color.enabled, color.disabled) }}>
               <FontAwesome name="chevron-right" />
             </button>
             {'  '}
             {
-              branch( this.state.loading,
+              IF( this.state.loading,
                   <span style={{
                       background: 'white',
                       color: '#333',
@@ -337,7 +336,7 @@ class Submissions extends React.Component {
 
     // console.log(this.state, this.props)
 
-    if (eq(this.props.router.params.mode, 'list')) {
+    if (this.props.router.params.mode === 'list') {
       return wrap(headingText,
         <div>
           <div className="submissions-controls">
@@ -348,7 +347,7 @@ class Submissions extends React.Component {
               </div>
               <div className="dropdown-container">
                 <div className="search-bar">
-                  <input onKeyUp={(event) => branch(event.keyCode === 13, () => this.search())} ref="q" placeholder="Search all submissions..." />
+                  <input onKeyUp={(event) => IF(event.keyCode === 13, () => this.search())} ref="q" placeholder="Search all submissions..." />
                 </div>
 
                 <ul className="dropdown-items">
@@ -356,7 +355,7 @@ class Submissions extends React.Component {
                     <li className="dropdown-item"><FontAwesome name={this.state.selectToggle ? "plus" : "minus"} /> { this.state.selectToggle ? 'Select all' : 'Select none' }</li>
                   </a>
                   {
-                    branch(this.state.showAll,
+                    IF(this.state.showAll,
                       <a onClick={() => this.setState({ showAll: false, expanded: [] })}>
                         <li className="dropdown-item"><FontAwesome name="compress" /> Collapse</li>
                       </a>,
@@ -366,7 +365,7 @@ class Submissions extends React.Component {
                     )
                   }
                   {
-                    branch(
+                    IF(
                       this.state.display !== 'inbox',
                       <a onClick={this.handleMoveToInbox}>
                         <li className="dropdown-item"><FontAwesome name="folder" /> Move to inbox</li>
@@ -374,7 +373,7 @@ class Submissions extends React.Component {
                     )
                   }
                   {
-                    branch(
+                    IF(
                       this.state.display !== 'deleted',
                       <a onClick={this.handleDeleteSelected}>
                         <li className="dropdown-item"><FontAwesome name="trash-o" /> Delete</li>
@@ -385,7 +384,7 @@ class Submissions extends React.Component {
                     )
                   }
                   {
-                    branch(
+                    IF(
                       this.state.display === 'inbox',
                       <a onClick={this.handleMarkSelectedSpam}>
                         <li className="dropdown-item"><FontAwesome name="ban" /> Spam</li>
@@ -398,31 +397,31 @@ class Submissions extends React.Component {
             </div>
           </div>
           <div className="folders">
-            <button className={branch(this.state.display === 'inbox', "secondary active", "secondary")} onClick={(event) => this.switchFolder('inbox')}>
+            <button className={IF(this.state.display === 'inbox', "secondary active", "secondary")} onClick={(event) => this.switchFolder('inbox')}>
               Inbox <span className="submission-count">{this.state.total}</span>
             </button>
-            <button className={branch(this.state.display === 'spam', "secondary active", "secondary")} onClick={() => this.switchFolder('spam')}>
+            <button className={IF(this.state.display === 'spam', "secondary active", "secondary")} onClick={() => this.switchFolder('spam')}>
               Spam <span className="submission-count">{this.state.totalSpam}</span>
             </button>
-            <button className={branch(this.state.display === 'deleted', "secondary active", "secondary")} onClick={() => this.switchFolder('deleted')}>
+            <button className={IF(this.state.display === 'deleted', "secondary active", "secondary")} onClick={() => this.switchFolder('deleted')}>
               Deleted <span className="submission-count">{this.state.totalDeleted}</span>
             </button>
           </div>
           <ul className="submissions-list">
             {this.state.submissions.map( (submission, i) => (
               <li key={submission.id} >
-                <div className={ branch( this.state.selected.indexOf(submission.id) > -1, "submission-container submission-selected", "submission-container") } key={i}>
+                <div className={ IF( this.state.selected.indexOf(submission.id) > -1, "submission-container submission-selected", "submission-container") } key={i}>
                   <div className="submission-heading">
                     <div className="meta">
                       <h3 onClick={(event) => this.handleExpand(event, submission)}>
                         <input onClick={(event) => this.handleSelect(event, submission)} checked={this.state.selected.indexOf(submission.id) > -1} type="checkbox" />
-                        {run(this.state.submission_line_formula, Object.assign({}, submission.data, { count: total - offset - i }))}
-                        <FontAwesome name={branch(this.state.expanded.indexOf(submission.id) > -1, "angle-double-up", "angle-double-down")} />
-                        <span className="submission-ts">({branch( moment(submission.created_on).isSame(moment(), 'day'), moment(submission.created_on).format("hh:mm a"), moment(submission.created_on).format("MMM DD hh:mm a") )})</span>
+                        {RUN(this.state.submission_line_formula, Object.assign({}, submission.data, { count: total - offset - i }))}
+                        <FontAwesome name={IF(this.state.expanded.indexOf(submission.id) > -1, "angle-double-up", "angle-double-down")} />
+                        <span className="submission-ts">({IF( moment(submission.created_on).isSame(moment(), 'day'), moment(submission.created_on).format("hh:mm a"), moment(submission.created_on).format("MMM DD hh:mm a") )})</span>
                     </h3>
                     </div>
                   </div>
-                  <div className="submission-body" style={ branch(this.state.expanded.indexOf(submission.id) > -1, {}, { display: 'none' }) }>
+                  <div className="submission-body" style={ IF(this.state.expanded.indexOf(submission.id) > -1, {}, { display: 'none' }) }>
                     {Object.keys(submission.data).map( (key, j) => (
                       <div key={i + '|' + j}>
                         <p>
@@ -443,7 +442,7 @@ class Submissions extends React.Component {
       )
     }
 
-    if (eq(this.props.router.params.mode, 'table')) {
+    if (this.props.router.params.mode === 'table') {
       return wrap(headingText,
         <div>
           Do the table mode

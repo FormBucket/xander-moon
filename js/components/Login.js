@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 import {signIn, getToken, loadProfile} from '../stores/ActionCreator'
-import { branch } from 'formula'
+import { IF } from 'formula'
 import {router} from 'xander'
 import Layout from './Layout'
 
@@ -107,7 +107,7 @@ class Login extends React.Component {
 
               <a className="pull-right" href="javascript:void(0)" onClick={this.handleClickReset}>Forgot your password?</a>
               {
-                branch(this.state.loading,
+                IF(this.state.loading,
                        <p><FontAwesome name="fa fa-spinner" /> Logging in</p>
                 )
               }

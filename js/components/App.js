@@ -5,7 +5,7 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import {branch, isBlank} from 'formula';
+import {IF} from 'formula';
 import UserStore from '../stores/user'
 import {loadProfile} from '../stores/ActionCreator'
 
@@ -49,7 +49,7 @@ class App extends React.Component {
     return (
       <div>
           {
-            branch(
+            IF(
               !UserStore.isUserLoggedIn(),
               null,
               status === 'trialing' && !has_source,

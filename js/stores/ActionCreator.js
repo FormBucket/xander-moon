@@ -1,5 +1,5 @@
 import {dispatch} from 'xander'
-import {sort} from 'formula'
+import {SORT as sort} from 'formula'
 
 import {
   requestBuckets,

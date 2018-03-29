@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 import {requestPasswordReset, requestPasswordResetUpdate} from '../stores/webutils'
-import {branch, isEmail} from 'formula'
+import {IF, ISEMAIL as isEmail} from 'formula'
 import {router} from 'xander'
 
 class Login extends React.Component {
@@ -74,7 +74,7 @@ class Login extends React.Component {
 
 
             {
-              branch(!this.state.sent,
+              IF(!this.state.sent,
                 (<div className="email-signup">
                   <label>
                     Email:
@@ -82,7 +82,7 @@ class Login extends React.Component {
                   </label>
                   <input onClick={this.handleClick} type="button" value="Reset" disabled={this.state.loading} />
                   {
-                    branch(this.state.loading,
+                    IF(this.state.loading,
                       <p><FontAwesome name="fa fa-spinner" /> Reset Password</p>
                     )
                   }
@@ -100,7 +100,7 @@ class Login extends React.Component {
                     </label>
                     <input onClick={this.handleClickUpdate} type="button" value="Reset" disabled={this.state.loading} />
                     {
-                      branch(this.state.loading,
+                      IF(this.state.loading,
                         <p><FontAwesome name="fa fa-spinner" /> Save</p>
                       )
                     }

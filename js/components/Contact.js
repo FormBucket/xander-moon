@@ -1,6 +1,5 @@
 var React = require('react');
 var PropTypes = React.PropTypes;
-import { branch, match } from 'formula';
 import Layout from './Layout';
 import Loader from './Loader';
 import Markdown from 'react-remarkable';

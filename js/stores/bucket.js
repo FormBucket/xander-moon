@@ -1,10 +1,10 @@
 import {createStore} from 'xander'
-import {branch} from 'formula'
+import {IF} from 'formula'
 import buckets from './buckets'
 
 let bucket = createStore(
   'bucket',
-  (state={}, { type, data }) => branch(
+  (state={}, { type, data }) => IF(
 
     type === 'changeBucket',
     { ...state, changes: { ...(state||{}).changes, ...data } },
@@ -18,7 +18,7 @@ let bucket = createStore(
 
     state
   ), {
-    merge: ({ id, changes }) => branch(
+    merge: ({ id, changes }) => IF(
       buckets.find(id),
       () => ({ ...buckets.find(id), ...changes }),
       {}

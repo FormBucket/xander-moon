@@ -1,5 +1,4 @@
 // Author: Peter Moresi
-import {branch, not as NOT, isblank as ISBLANK, isfunction as ISFUNCTION, branch as IF, group} from 'formula'
 import React, { PropTypes } from 'react'
 import { router, dispatch, createStore, Link } from 'xander'
 import Markdown from 'react-remarkable'
@@ -49,7 +48,11 @@ class Buckets extends React.Component {
 
   handleSelect = (bucket) => {
     // console.log('bucket settings click', bucket)
-    router.open('/buckets/' + bucket.id + '/settings')
+    // if ( false && user.isOwner(bucket)){
+      // router.open('/buckets/' + bucket.id + '/settings')
+    // } else {
+      router.open('/buckets/' + bucket.id + '/submissions')
+    // }
   };
 
   handleShow = (bucket) => {

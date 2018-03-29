@@ -1,4 +1,4 @@
-import {branch as IF, eq as EQ, not as NOT, isblank as ISBLANK} from 'formula'
+import {IF, EQ, ISBLANK} from 'formula'
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 

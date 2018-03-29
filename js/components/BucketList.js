@@ -1,16 +1,16 @@
-import {branch, eq, isBlank} from 'formula'
+import {IF, ISBLANK} from 'formula'
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
 
 class Buckets extends React.Component {
   render() {
-    if (isBlank(this.props.buckets)) {
+    if (ISBLANK(this.props.buckets)) {
       return (
         <div>Loading Buckets...</div>
       )
     }
 
-    if (eq(this.props.buckets.length, 0)) {
+    if (this.props.buckets.length == 0) {
       return (
         <div>You have no buckets. There was never a better time to make one!</div>
       )
@@ -24,9 +24,9 @@ class Buckets extends React.Component {
                 <div className="bucket-item">
                   <div className="bucket-meta">
                     <h3 onClick={() => this.props.select(bucket)}>
-                      <FontAwesome className="toggle-switch" name={branch(bucket.enabled, 'toggle-on', 'toggle-off')} />
+                      <FontAwesome className="toggle-switch" name={IF(bucket.enabled, 'toggle-on', 'toggle-off')} />
                       <span>
-                        { branch( isBlank(bucket.name), bucket.id, bucket.name ) }
+                        { IF( ISBLANK(bucket.name), bucket.id, bucket.name ) }
                       </span>
                     </h3>
                   </div>

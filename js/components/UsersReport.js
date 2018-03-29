@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
-import {eq} from 'formula'
 import UserStore from '../stores/user'
 
 import {
@@ -41,7 +40,7 @@ class UserReport extends React.Component {
 
   render() {
 
-    if (eq(this.state.loaded, false)) {
+    if (this.state.loaded === false) {
       return (
         <div className="wrapper">
           <div className="flash">

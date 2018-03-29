@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
-import {eq, branch} from 'formula'
+import {IF} from 'formula'
 import UserStore from '../stores/user'
 import moment from 'moment'
 import {
@@ -75,7 +75,7 @@ class UserReport extends React.Component {
 
   render() {
 
-    if (eq(this.state.loaded, false)) {
+    if (this.state.loaded === false) {
       return (
         <Layout className="wrapper">
           <div className="flash">
@@ -99,7 +99,7 @@ class UserReport extends React.Component {
           <div className="wrapper">
             <h1>Logs
               {
-                branch(
+                IF(
                   this.props.router.location.query.bucket_id,
                   <span> &gt; {
                     bucket ? bucket.name :

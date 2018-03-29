@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import FontAwesome from 'react-fontawesome'
-import {eq, branch, isBlank} from 'formula'
+import {IF, ISBLANK} from 'formula'
 import UserStore from '../stores/user'
 import moment from 'moment'
 
@@ -40,7 +40,7 @@ class UserReport extends React.Component {
 
   render() {
 
-    if (eq(this.state.loaded, false)) {
+    if (this.state.loaded === false) {
       return (
         <div className="wrapper">
           <div className="flash">
@@ -82,13 +82,13 @@ class UserReport extends React.Component {
               this.state.buckets.map(bucket => (
                 <tr key={bucket.id}>
                   <td onClick={() => this.props.select(bucket)} >
-                    <FontAwesome name={branch(bucket.enabled, 'toggle-on', 'toggle-off')} />&nbsp;
-                    { branch( isBlank(bucket.name), bucket.id, bucket.name ) }
+                    <FontAwesome name={IF(bucket.enabled, 'toggle-on', 'toggle-off')} />&nbsp;
+                    { IF( ISBLANK(bucket.name), bucket.id, bucket.name ) }
                   </td>
                   <td onClick={() => this.props.select(bucket)} >
                     http://api.formbucket.com/f/{bucket.id}
                     {
-                      branch(
+                      IF(
                         bucket.email_to,
                         <span> <FontAwesome name="envelope-o" /></span>
                       )

@@ -3,7 +3,7 @@ import {router, Link} from 'xander'
 import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
 import {signUp, loadProfile} from '../stores/ActionCreator'
-import {isEmail} from 'formula'
+import {ISEMAIL as isEmail} from 'formula'
 import Layout from './Layout'
 
 var FontAwesome = require('react-fontawesome');

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import Markdown from 'react-remarkable'
 import markdownOptions from '../markdown-options'
-import {branch, isEmail} from 'formula'
+import {IF} from 'formula'
 import {server} from '../stores/webutils'
 import FontAwesome from 'react-fontawesome'
 import { router } from 'xander'
@@ -34,7 +34,7 @@ class Welcome extends React.Component {
               <h1>Endpoints are just the beginning</h1>
               <h2>Capture and automate form submissions with magic endpoints</h2>
               {
-                branch(
+                IF(
                   this.props.user && this.props.user.account_id,
                   <div>
                     <button type="button"
