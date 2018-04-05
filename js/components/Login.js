@@ -1,14 +1,14 @@
-import React, { PropTypes } from 'react'
-import FontAwesome from 'react-fontawesome'
-import {signIn, getToken, loadProfile} from '../stores/ActionCreator'
-import { IF } from 'formula'
-import {router} from 'xander'
-import Layout from './Layout'
+import React, { PropTypes } from "react";
+import FontAwesome from "react-fontawesome";
+import { signIn, getToken, loadProfile } from "../stores/ActionCreator";
+import { IF } from "formula";
+import { router } from "xander";
+import Layout from "./Layout";
 
 let completeLogin = () => {
   // open buckets page.
-  router.open('/buckets')
-}
+  router.open("/buckets");
+};
 
 class Login extends React.Component {
   state = {
@@ -18,54 +18,47 @@ class Login extends React.Component {
 
   componentDidMount() {
     if (this.props.router.location.query.code) {
-      getToken(this.props.router.location.query.code)
-        .then(
-          completeLogin,
-          error => {
-            this.setState({
-              loading: false,
-              error
-            })
-          }
-        )
+      getToken(this.props.router.location.query.code).then(
+        completeLogin,
+        error => {
+          this.setState({
+            loading: false,
+            error
+          });
+        }
+      );
     }
   }
 
   handleClick = () => {
-    this.setState({ loading: true, error: false })
-    signIn(
-      this.refs.email.value,
-      this.refs.password.value
-    )
-        .then( loadProfile )
-        .then(
-          () => router.open('/buckets'),
-          err => {
-
-            this.setState({
-              loading: false,
-              error: JSON.parse(err)
-            })
-          }
-        )
-
+    this.setState({ loading: true, error: false });
+    signIn(this.refs.email.value, this.refs.password.value)
+      .then(loadProfile)
+      .then(
+        () => router.open("/buckets"),
+        error => {
+          this.setState({
+            loading: false,
+            error: JSON.parse(error.message)
+          });
+        }
+      );
   };
 
   handleClickReset = () => {
-    router.open('/password_reset')
+    router.open("/password_reset");
   };
 
-  handleKeyPress = (event) => {
+  handleKeyPress = event => {
     if (event.keyCode === 13) {
       // enter key pressed
-      this.handleClick()
+      this.handleClick();
     }
-
   };
 
   render() {
     if (this.props.router.location.query.code) {
-      return <div>Loading...</div>
+      return <div>Loading...</div>;
     }
 
     return (
@@ -77,48 +70,78 @@ class Login extends React.Component {
         </div>
         <div className="wrapper">
           <div id="login-wrapper">
-
-            <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: this.state.error ? '' : 'none'}}>
-              {this.state.error ? this.state.error.message : ''}
+            <div
+              style={{
+                padding: 10,
+                marginBottom: 10,
+                background: "red",
+                color: "white",
+                display: this.state.error ? "" : "none"
+              }}
+            >
+              {this.state.error ? this.state.error.message : ""}
             </div>
 
             <div className="google-login">
-              <a href={ process.env.FORMBUCKET_API_SERVER + "/connect/google" } alt="Sign in with Google">
+              <a
+                href={process.env.FORMBUCKET_API_SERVER + "/connect/google"}
+                alt="Sign in with Google"
+              >
                 <img src="img/btn_google_signin_dark_normal_web@2x.png" />
               </a>
             </div>
 
             <div className="login-divider">
-              <div></div>
+              <div />
               <div>or</div>
-              <div></div>
+              <div />
             </div>
 
             <div className="login-form">
               <label>
                 Email:
-                <input name="email" ref="email" type="email" onKeyUp={this.handleKeyPress} />
+                <input
+                  name="email"
+                  ref="email"
+                  type="email"
+                  onKeyUp={this.handleKeyPress}
+                />
               </label>
               <label>
                 Password:
-                <input name="password" ref="password" type="password" onKeyUp={this.handleKeyPress} />
+                <input
+                  name="password"
+                  ref="password"
+                  type="password"
+                  onKeyUp={this.handleKeyPress}
+                />
               </label>
-              <input onClick={this.handleClick} type="button" value="Login" disabled={this.state.loading} />
+              <input
+                onClick={this.handleClick}
+                type="button"
+                value="Login"
+                disabled={this.state.loading}
+              />
 
-              <a className="pull-right" href="javascript:void(0)" onClick={this.handleClickReset}>Forgot your password?</a>
-              {
-                IF(this.state.loading,
-                       <p><FontAwesome name="fa fa-spinner" /> Logging in</p>
-                )
-              }
-
-
+              <a
+                className="pull-right"
+                href="javascript:void(0)"
+                onClick={this.handleClickReset}
+              >
+                Forgot your password?
+              </a>
+              {IF(
+                this.state.loading,
+                <p>
+                  <FontAwesome name="fa fa-spinner" /> Logging in
+                </p>
+              )}
             </div>
           </div>
         </div>
       </Layout>
-    )
+    );
   }
 }
 
-export default Login
+export default Login;
