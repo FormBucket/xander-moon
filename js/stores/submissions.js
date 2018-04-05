@@ -1,10 +1,7 @@
-import {createStore} from 'xander'
+import { createStore } from "xander";
 
-const SubmissionStore = createStore(
-  "submissions",
-  {
-    getSubmissions: (state, action) => action.data
-  }
-)
+const SubmissionStore = createStore("submissions", {
+  getSubmissions: (state, action) => action.data
+});
 
-export default SubmissionStore
+export default SubmissionStore;

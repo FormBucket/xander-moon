@@ -1,23 +1,23 @@
 // Author: Peter Moresi
-import React, { PropTypes } from 'react'
-import { router, dispatch, createStore, Link } from 'xander'
-import Markdown from 'react-remarkable'
-import markdownOptions from '../markdown-options'
-import FontAwesome from 'react-fontawesome'
-import UserStore from '../stores/user'
-import {requestBuckets, requestCreateBucket} from '../stores/webutils'
-import BucketTable from './BucketTable'
-import BucketList from './BucketList'
-import Layout from './Layout'
+import React, { PropTypes } from "react";
+import { router, dispatch, createStore, Link } from "xander";
+import Markdown from "react-remarkable";
+import markdownOptions from "../markdown-options";
+import FontAwesome from "react-fontawesome";
+import UserStore from "../stores/user";
+import { requestBuckets, requestCreateBucket } from "../stores/webutils";
+import BucketTable from "./BucketTable";
+import BucketList from "./BucketList";
+import Layout from "./Layout";
 
-import BucketsStore from '../stores/buckets'
+import BucketsStore from "../stores/buckets";
 
 function setState(props) {
-  dispatch('changeBuckets', props)
+  dispatch("changeBuckets", props);
 }
 class Buckets extends React.Component {
   state = {
-    mode: 'list',
+    mode: "list",
     buckets: undefined,
     selected_bucket_id: undefined,
     error: false,
@@ -25,39 +25,37 @@ class Buckets extends React.Component {
   };
 
   componentDidMount() {
-
-    dispatch('initBuckets')
+    dispatch("initBuckets");
     if (!UserStore.isUserLoggedIn()) {
-      router.open('/login')
+      router.open("/login");
     }
 
     // load the buckets
     requestBuckets()
-    .then( (buckets) => dispatch('loadBuckets', buckets) )
-    .catch( (err) => setState({ error: err }))
-
+      .then(buckets => dispatch("loadBuckets", buckets))
+      .catch(err => setState({ error: err }));
   }
 
-  handleNewBucket = (event) => {
+  handleNewBucket = event => {
     requestCreateBucket({ enabled: true })
-    .then( result => {
-      router.open('/buckets/' + result.id + '/settings')
-    })
-    .catch( err => setState( { error: err } ))
+      .then(result => {
+        router.open("/buckets/" + result.id + "/settings");
+      })
+      .catch(err => setState({ error: err }));
   };
 
-  handleSelect = (bucket) => {
+  handleSelect = bucket => {
     // console.log('bucket settings click', bucket)
     // if ( false && user.isOwner(bucket)){
-      // router.open('/buckets/' + bucket.id + '/settings')
+    // router.open('/buckets/' + bucket.id + '/settings')
     // } else {
-      router.open('/buckets/' + bucket.id + '/submissions')
+    router.open("/buckets/" + bucket.id + "/submissions");
     // }
   };
 
-  handleShow = (bucket) => {
+  handleShow = bucket => {
     // console.log('show submissions click', bucket)
-    router.open('/buckets/' + bucket.id + '/submissions')
+    router.open("/buckets/" + bucket.id + "/submissions");
   };
 
   render() {
@@ -70,19 +68,25 @@ class Buckets extends React.Component {
             <img className="loading" src="/img/loading.gif" alt="Loading..." />
           </div>
         </Layout>
-      )
+      );
     }
 
-    let Buckets = state.mode === 'table' ?
-    <BucketTable buckets={state.buckets}
-      selected_bucket_id={state.selected_bucket_id}
-      select={this.handleSelect}
-      show={this.handleShow}/> :
-    <BucketList buckets={state.buckets}
-      selected_bucket_id={state.selected_bucket_id}
-      select={this.handleSelect}
-      show={this.handleShow}/>
-
+    let Buckets =
+      state.mode === "table" ? (
+        <BucketTable
+          buckets={state.buckets}
+          selected_bucket_id={state.selected_bucket_id}
+          select={this.handleSelect}
+          show={this.handleShow}
+        />
+      ) : (
+        <BucketList
+          buckets={state.buckets}
+          selected_bucket_id={state.selected_bucket_id}
+          select={this.handleSelect}
+          show={this.handleShow}
+        />
+      );
 
     return (
       <Layout>
@@ -93,17 +97,27 @@ class Buckets extends React.Component {
         </div>
         <div className="wrapper">
           <div className="callout">
-	           <p>Buckets are a container to store form submissions.</p>
-             <button onClick={this.handleNewBucket}><FontAwesome name='plus' /> Create Bucket</button>
+            <p>Buckets are a container to store form submissions.</p>
+            <button onClick={this.handleNewBucket}>
+              <FontAwesome name="plus" /> Create Bucket
+            </button>
           </div>
-          <div style={{ padding: 10, marginBottom: 10, background: 'red', color: 'white', display: state.error ? '' : 'none'}}>
-            {state.error ? state.error.message : ''}
+          <div
+            style={{
+              padding: 10,
+              marginBottom: 10,
+              background: "red",
+              color: "white",
+              display: state.error ? "" : "none"
+            }}
+          >
+            {state.error ? state.error.message : ""}
           </div>
           {state.error ? undefined : Buckets}
-      </div>
-    </Layout>
-  )
-}
+        </div>
+      </Layout>
+    );
+  }
 }
 
-export default Buckets
+export default Buckets;

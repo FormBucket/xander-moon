@@ -1,8 +1,8 @@
-import React, { PropTypes } from 'react'
-import {Link} from 'xander'
-import FontAwesome from 'react-fontawesome'
-import Nav from './Nav'
-import UserStore from '../stores/user'
+import React, { PropTypes } from "react";
+import { Link } from "xander";
+import FontAwesome from "react-fontawesome";
+import Nav from "./Nav";
+import UserStore from "../stores/user";
 
 class Header extends React.Component {
   render() {
@@ -15,8 +15,8 @@ class Header extends React.Component {
           <Nav />
         </div>
       </header>
-    )
+    );
   }
 }
 
-export default Header
+export default Header;

@@ -1,22 +1,27 @@
-import React, { PropTypes } from 'react'
-import UserStore from '../stores/user'
-import {Link} from 'xander'
-
+import React, { PropTypes } from "react";
+import UserStore from "../stores/user";
+import { Link } from "xander";
 
 class Nav extends React.Component {
   state = {
     show: false
-  }
+  };
   render() {
-    let {state} = this;
+    let { state } = this;
 
     if (UserStore.isUserLoggedIn()) {
       return (
         <nav role="navigation">
-          <a href="#" className="navigation-menu-button" onClick={(event) => this.setState({ show: !state.show })}>MENU</a>
-          <ul className={"navigation-menu" + (state.show ? ' show' : ' hide')}>
+          <a
+            href="#"
+            className="navigation-menu-button"
+            onClick={event => this.setState({ show: !state.show })}
+          >
+            MENU
+          </a>
+          <ul className={"navigation-menu" + (state.show ? " show" : " hide")}>
             <li className="nav-link">
-               <Link to="/guides">Guides</Link>
+              <Link to="/guides">Guides</Link>
             </li>
             <li className="nav-link">
               <Link to="/buckets">Buckets</Link>
@@ -26,15 +31,24 @@ class Nav extends React.Component {
             </li>
           </ul>
         </nav>
-      )
+      );
     }
 
     return (
       <nav role="navigation">
-        <a href="#" className="navigation-menu-button" onClick={(event) => this.setState({ show: !state.show })}>MENU</a>
-        <ul id="js-navigation-menu" className={"navigation-menu" + (state.show ? ' show' : ' hide')}>
+        <a
+          href="#"
+          className="navigation-menu-button"
+          onClick={event => this.setState({ show: !state.show })}
+        >
+          MENU
+        </a>
+        <ul
+          id="js-navigation-menu"
+          className={"navigation-menu" + (state.show ? " show" : " hide")}
+        >
           <li className="nav-link">
-             <Link to="/guides">Guides</Link>
+            <Link to="/guides">Guides</Link>
           </li>
           <li className="nav-link">
             <Link to="/signup">Sign Up</Link>
@@ -44,9 +58,8 @@ class Nav extends React.Component {
           </li>
         </ul>
       </nav>
-    )
-
+    );
   }
 }
 
-export default Nav
+export default Nav;

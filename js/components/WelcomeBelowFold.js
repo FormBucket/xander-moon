@@ -1,38 +1,38 @@
-import React, { PropTypes } from 'react'
-import Markdown from 'react-remarkable'
-import markdownOptions from '../markdown-options'
-import {IF} from 'formula'
-import {server} from '../stores/webutils'
-import FontAwesome from 'react-fontawesome'
-import { router } from 'xander'
+import React, { PropTypes } from "react";
+import Markdown from "react-remarkable";
+import markdownOptions from "../markdown-options";
+import { IF } from "formula";
+import { server } from "../stores/webutils";
+import FontAwesome from "react-fontawesome";
+import { router } from "xander";
 
 window.validateForm = function() {
   var v = true;
-  var message = document.getElementsByName('message')[0].value
+  var message = document.getElementsByName("message")[0].value;
 
   if (!message) {
     v = false;
-    document.getElementsByName('message')[0].style.border = '1px red solid'
+    document.getElementsByName("message")[0].style.border = "1px red solid";
   } else {
-    document.getElementsByName('message')[0].style.border = ''
+    document.getElementsByName("message")[0].style.border = "";
   }
 
   return v;
-}
+};
 
 window.validateForm = function() {
   var v = true;
-  var message = document.getElementsByName('message')[0].value
+  var message = document.getElementsByName("message")[0].value;
 
   if (!message) {
     v = false;
-    document.getElementsByName('message')[0].style.border = '1px red solid'
+    document.getElementsByName("message")[0].style.border = "1px red solid";
   } else {
-    document.getElementsByName('message')[0].style.border = ''
+    document.getElementsByName("message")[0].style.border = "";
   }
 
   return v;
-}
+};
 
 var content = `
 <h3>Try it out!</h3>
@@ -46,7 +46,7 @@ var content = `
   <label>What will you create with magic buckets?</label>
   <textarea name="message"></textarea>
   <button class="secondary" type="submit">Submit</button>
-</form>`
+</form>`;
 
 // var content = `<h3>Try it out!</h3>
 // <form method="post" action="${server}/f/homepage"
@@ -62,51 +62,47 @@ class Welcome extends React.Component {
   state = {
     isAnnual: true,
     showVideo: false,
-    ghostText: ''
+    ghostText: ""
   };
 
   componentDidMount() {
-    var lines = content.split('\n');
-    var currentLines = []
+    var lines = content.split("\n");
+    var currentLines = [];
 
-    this.timerId = setInterval( () => {
-
-      currentLines = currentLines.concat(lines[currentLines.length])
-      var html = currentLines.join('\n')
+    this.timerId = setInterval(() => {
+      currentLines = currentLines.concat(lines[currentLines.length]);
+      var html = currentLines.join("\n");
 
       this.setState({
         ghostMarkup: html,
-        ghostText: '```html\n' + html + '\n```'
-      })
+        ghostText: "```html\n" + html + "\n```"
+      });
 
       // handle case when lines total
       if (currentLines.length === lines.length) {
-        clearInterval(this.timerId)
+        clearInterval(this.timerId);
 
         this.setState({
           ghostText: this.state.ghostText + '\n<span class="blinking-cursor" />'
-        })
+        });
       }
-
-    }, 42)
-
+    }, 42);
   }
 
   componentWillUnmount() {
-    clearInterval(this.timerId)
+    clearInterval(this.timerId);
   }
 
   openVideo = () => {
-    this.setState({ showVideo: true })
+    this.setState({ showVideo: true });
   };
 
   closeVideo = () => {
-    this.setState({ showVideo: false })
+    this.setState({ showVideo: false });
   };
 
   render() {
-
-   return (
+    return (
       <div>
         <div>
           <div className="wrapper">
@@ -114,14 +110,16 @@ class Welcome extends React.Component {
               <div className="editor">
                 <div className="left">
                   <div className="typing">
-                   <Markdown
-                     source={ this.state.ghostText }
-                     options={ markdownOptions }
-                   />
+                    <Markdown
+                      source={this.state.ghostText}
+                      options={markdownOptions}
+                    />
                   </div>
                 </div>
-                <div className="right" dangerouslySetInnerHTML={{__html: this.state.ghostMarkup }}>
-                </div>
+                <div
+                  className="right"
+                  dangerouslySetInnerHTML={{ __html: this.state.ghostMarkup }}
+                />
               </div>
             </div>
           </div>
@@ -130,7 +128,8 @@ class Welcome extends React.Component {
               <div className="clincher">
                 <h2>A Complete Platform for Managing Submissions</h2>
                 <p className="blurb">
-                  Your clients and coworkers will think you've become a full-stack programmer overnight.
+                  Your clients and coworkers will think you've become a
+                  full-stack programmer overnight.
                 </p>
               </div>
             </div>
@@ -144,7 +143,8 @@ class Welcome extends React.Component {
                 <div className="copy">
                   <h3>Magic Endpoints</h3>
                   <p>
-                    Paste our endpoints into your HTML and get a complete backend for handling and automating form submissions.
+                    Paste our endpoints into your HTML and get a complete
+                    backend for handling and automating form submissions.
                   </p>
                 </div>
               </div>
@@ -155,7 +155,8 @@ class Welcome extends React.Component {
                 <div className="copy">
                   <h3>No Embeds or iFrames</h3>
                   <p>
-                    Build and style forms with 100% control over your HTML and CSS. No overrides!
+                    Build and style forms with 100% control over your HTML and
+                    CSS. No overrides!
                   </p>
                 </div>
               </div>
@@ -168,7 +169,8 @@ class Welcome extends React.Component {
                 <div className="copy">
                   <h3>URL Redirects and AJAX</h3>
                   <p>
-                    Redirect form submitters to any URL or use advanced AJAX post options.
+                    Redirect form submitters to any URL or use advanced AJAX
+                    post options.
                   </p>
                 </div>
               </div>
@@ -179,7 +181,8 @@ class Welcome extends React.Component {
                 <div className="copy">
                   <h3>Autoresponders</h3>
                   <p>
-                    Automatically send personalized emails to people who submit your form.
+                    Automatically send personalized emails to people who submit
+                    your form.
                   </p>
                 </div>
               </div>
@@ -192,7 +195,8 @@ class Welcome extends React.Component {
                 <div className="copy">
                   <h3>Notifications</h3>
                   <p>
-                    Send customizable real-time notifications to yourself or multiple recipients when new submissions come in.
+                    Send customizable real-time notifications to yourself or
+                    multiple recipients when new submissions come in.
                   </p>
                 </div>
               </div>
@@ -203,7 +207,9 @@ class Welcome extends React.Component {
                 <div className="copy">
                   <h3>Spam Protection</h3>
                   <p>
-                    Your forms are defended with advanced SPAM detection, filtering and rate limiting as well as Honeypot and ReCAPTCHA support.
+                    Your forms are defended with advanced SPAM detection,
+                    filtering and rate limiting as well as Honeypot and
+                    ReCAPTCHA support.
                   </p>
                 </div>
               </div>
@@ -216,7 +222,8 @@ class Welcome extends React.Component {
                 <div className="copy">
                   <h3>Submissions Manager</h3>
                   <p>
-                    Submissions are stored in a secure searchable dashboard with export options.
+                    Submissions are stored in a secure searchable dashboard with
+                    export options.
                   </p>
                 </div>
               </div>
@@ -227,7 +234,8 @@ class Welcome extends React.Component {
                 <div className="copy">
                   <h3>Limitless Integrations</h3>
                   <p>
-                    Capturing submissions is just the beginning. Route form data to other applications with webhooks.
+                    Capturing submissions is just the beginning. Route form data
+                    to other applications with webhooks.
                   </p>
                 </div>
               </div>
@@ -237,34 +245,40 @@ class Welcome extends React.Component {
             <div className="louder">
               <div className="wrapper">
                 <div className="clincher">
-                  {
-                    IF(
-                      this.props.user && this.props.user.account_id,
-                      <div>
-                        <button type="button"
-                          onClick={ () => router.open('/buckets')}>
-                          Return to buckets
-                        </button>
-                      </div>,
-                      <div>
-                        <h2>Simple Pricing</h2>
-                        <p>Unlimited Buckets and Submissions for just <strong>$7/mo.</strong> Free for 14 days, no credit card required and cancel anytime.</p>
-                        <button type="button"
-                          onClick={ () => router.open('/signup')}>
-                          Sign Up
-                        </button>
-                        <p>Free 14-Day Trial • No credit card to sign up!</p>
-                      </div>
-                    )
-                  }
+                  {IF(
+                    this.props.user && this.props.user.account_id,
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => router.open("/buckets")}
+                      >
+                        Return to buckets
+                      </button>
+                    </div>,
+                    <div>
+                      <h2>Simple Pricing</h2>
+                      <p>
+                        Unlimited Buckets and Submissions for just{" "}
+                        <strong>$7/mo.</strong> Free for 14 days, no credit card
+                        required and cancel anytime.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => router.open("/signup")}
+                      >
+                        Sign Up
+                      </button>
+                      <p>Free 14-Day Trial • No credit card to sign up!</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default Welcome
+export default Welcome;

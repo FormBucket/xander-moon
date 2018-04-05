@@ -1,23 +1,23 @@
-import {createStore, dispatch} from 'xander'
-import SubscriptionStore from './subscription'
-import {DECODEJWT as decodeJWT} from 'formula'
+import { createStore, dispatch } from "xander";
+import SubscriptionStore from "./subscription";
+import { DECODEJWT as decodeJWT } from "formula";
 
 // format unix time
-let unix= (d=new Date()) => (d.getTime() / 1000).toFixed(0)
+let unix = (d = new Date()) => (d.getTime() / 1000).toFixed(0);
 
 var token;
 
 // read the expiration from the token
 function readExp() {
   try {
-    return decodeJWT(localStorage.token || '').exp
-  } catch(e) {
-    return -1
+    return decodeJWT(localStorage.token || "").exp;
+  } catch (e) {
+    return -1;
   }
 }
 
 if (readExp() < unix()) {
-    localStorage.removeItem('token')
+  localStorage.removeItem("token");
 }
 
 const UserStore = createStore(
@@ -25,16 +25,16 @@ const UserStore = createStore(
   {
     getInitialState: () => {},
     setToken: (state, token) => {
-      localStorage.setItem('token', token)
+      localStorage.setItem("token", token);
     },
     setProfile: (state, data) => Object.assign({}, state, data)
   }, // store does not support updates
   {
-    isUserLoggedIn: (state) => readExp() > unix(),
-    getState: (state) => state,
-    getStatus: (state) => state ? state.status : 'loading'
+    isUserLoggedIn: state => readExp() > unix(),
+    getState: state => state,
+    getStatus: state => (state ? state.status : "loading")
   }
-)
+);
 
-window.UserStore = UserStore
-export default UserStore
+window.UserStore = UserStore;
+export default UserStore;

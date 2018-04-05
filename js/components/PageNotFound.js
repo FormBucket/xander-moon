@@ -1,9 +1,9 @@
-var React = require('react');
+var React = require("react");
 var PropTypes = React.PropTypes;
 var PageNotFound;
-import Layout from './Layout';
+import Layout from "./Layout";
 
-export default PageNotFound = class extends React.Component {
+export default (PageNotFound = class extends React.Component {
   render() {
     return (
       <Layout>
@@ -19,4 +19,4 @@ export default PageNotFound = class extends React.Component {
       </Layout>
     );
   }
-};
+});

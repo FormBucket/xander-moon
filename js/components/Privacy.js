@@ -1,13 +1,12 @@
-var React = require('react');
+var React = require("react");
 var PropTypes = React.PropTypes;
-import Layout from './Layout';
-import Loader from './Loader';
-import Markdown from 'react-remarkable'
-import markdownOptions from '../markdown-options'
-import Content from '../privacy-policy.md'
+import Layout from "./Layout";
+import Loader from "./Loader";
+import Markdown from "react-remarkable";
+import markdownOptions from "../markdown-options";
+import Content from "../privacy-policy.md";
 
 let Privacy = class extends React.Component {
-
   render() {
     return (
       <Layout>
@@ -17,12 +16,8 @@ let Privacy = class extends React.Component {
           </div>
         </div>
         <div className="wrapper">
-          <Markdown
-            source={ Content }
-            options={ markdownOptions }
-            />
+          <Markdown source={Content} options={markdownOptions} />
         </div>
-
       </Layout>
     );
   }

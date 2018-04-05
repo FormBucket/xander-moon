@@ -1,14 +1,12 @@
-import React, { PropTypes } from 'react'
-import FontAwesome from 'react-fontawesome'
-import {IF} from 'formula'
-import UserStore from '../stores/user'
-import moment from 'moment'
-import {
-  requestLogs
-} from '../stores/webutils'
-import Layout from './Layout'
+import React, { PropTypes } from "react";
+import FontAwesome from "react-fontawesome";
+import { IF } from "formula";
+import UserStore from "../stores/user";
+import moment from "moment";
+import { requestLogs } from "../stores/webutils";
+import Layout from "./Layout";
 
-import {Link, router} from 'xander'
+import { Link, router } from "xander";
 
 class UserReport extends React.Component {
   state = {
@@ -18,125 +16,146 @@ class UserReport extends React.Component {
   };
 
   componentWillMount() {
-    let {offset, limit} = this.props.router.location.query;
+    let { offset, limit } = this.props.router.location.query;
     if (!offset) {
-      router.redirect('/logs?offset=0&limit=10')
+      router.redirect("/logs?offset=0&limit=10");
     }
   }
 
   componentDidMount() {
-
     if (UserStore.isUserLoggedIn()) {
-
-      let {offset, limit, bucket_id} = this.props.router.location.query;
+      let { offset, limit, bucket_id } = this.props.router.location.query;
       requestLogs(offset, limit, bucket_id)
-      .then(logs => this.setState({
-        currentOffset: offset,
-        loading: false,
-        loaded: true,
-        logs: logs
-      }))
-      .catch(error => this.setState({ error: error }))
-
+        .then(logs =>
+          this.setState({
+            currentOffset: offset,
+            loading: false,
+            loaded: true,
+            logs: logs
+          })
+        )
+        .catch(error => this.setState({ error: error }));
     }
   }
 
   handleLoadBack() {
-    this.setState({ loadingMore: true, currentOffset: this.state.offset })
-    let { limit, offset, bucket_id} = this.props.router.location.query;
-    let newOffset = +offset-(+limit)
+    this.setState({ loadingMore: true, currentOffset: this.state.offset });
+    let { limit, offset, bucket_id } = this.props.router.location.query;
+    let newOffset = +offset - +limit;
     requestLogs(newOffset, limit, bucket_id)
-    .then(newLogs => {
-      this.setState({
-        currentOffset: newOffset,
-        loadingMore: false,
-        logs: newLogs
+      .then(newLogs => {
+        this.setState({
+          currentOffset: newOffset,
+          loadingMore: false,
+          logs: newLogs
+        });
+        router.redirect(
+          "/logs?offset=" +
+            newOffset +
+            "&limit=" +
+            limit +
+            (bucket_id ? `&bucket_id=${bucket_id}` : "")
+        );
       })
-      router.redirect('/logs?offset=' + newOffset + '&limit=' + limit + (bucket_id ? `&bucket_id=${bucket_id}` : ''))
-    })
-    .catch(error => this.setState({ error: error }))
+      .catch(error => this.setState({ error: error }));
   }
 
   handleLoadNext() {
-    this.setState({ loadingMore: true, currentOffset: this.state.offset })
-    let { limit, offset, bucket_id} = this.props.router.location.query;
-    let newOffset = +offset+(+limit)
+    this.setState({ loadingMore: true, currentOffset: this.state.offset });
+    let { limit, offset, bucket_id } = this.props.router.location.query;
+    let newOffset = +offset + +limit;
     requestLogs(newOffset, limit, bucket_id)
-    .then(newLogs => {
-      this.setState({
-        currentOffset: newOffset,
-        loadingMore: false,
-        logs: newLogs
+      .then(newLogs => {
+        this.setState({
+          currentOffset: newOffset,
+          loadingMore: false,
+          logs: newLogs
+        });
+        router.redirect(
+          "/logs?offset=" +
+            newOffset +
+            "&limit=" +
+            limit +
+            (bucket_id ? `&bucket_id=${bucket_id}` : "")
+        );
       })
-      router.redirect('/logs?offset=' + newOffset + '&limit=' + limit + (bucket_id ? `&bucket_id=${bucket_id}` : ''))
-    })
-    .catch(error => this.setState({ error:	 error }))
+      .catch(error => this.setState({ error: error }));
   }
 
   render() {
-
     if (this.state.loaded === false) {
       return (
         <Layout className="wrapper">
           <div className="flash">
-
-    <img className="loading" src="/img/loading.gif" alt="Loading..." />
+            <img className="loading" src="/img/loading.gif" alt="Loading..." />
           </div>
         </Layout>
-      )
+      );
     }
 
     let bucket,
-    {bucket_id} =this.props.router.location.query;
+      { bucket_id } = this.props.router.location.query;
 
     if (bucket_id) {
-      bucket = this.props.buckets.byid[bucket_id][0]
+      bucket = this.props.buckets.byid[bucket_id][0];
     }
 
     return (
       <Layout>
         <div className="page-heading">
           <div className="wrapper">
-            <h1>Logs
-              {
-                IF(
-                  this.props.router.location.query.bucket_id,
-                  <span> &gt; {
-                    bucket ? bucket.name :
-                    this.props.router.location.query.bucket_id
-                  }</span>
-                )
-              }
+            <h1>
+              Logs
+              {IF(
+                this.props.router.location.query.bucket_id,
+                <span>
+                  {" "}
+                  &gt;{" "}
+                  {bucket
+                    ? bucket.name
+                    : this.props.router.location.query.bucket_id}
+                </span>
+              )}
             </h1>
-
           </div>
         </div>
         <div className="wrapper">
           <table>
             <thead>
-            <tr>
-              <th>status</th>
-              <th width="150">date</th>
-            </tr>
+              <tr>
+                <th>status</th>
+                <th width="150">date</th>
+              </tr>
             </thead>
             <tbody>
-            {
-              this.state.logs.map((d, i) => (
+              {this.state.logs.map((d, i) => (
                 <tr key={i}>
-                  <td>{d.status} <Link to={`/log/${d.id}`}>{d.method} {d.url}</Link></td>
+                  <td>
+                    {d.status}{" "}
+                    <Link to={`/log/${d.id}`}>
+                      {d.method} {d.url}
+                    </Link>
+                  </td>
                   <td>{moment(d.ts).format("MMM DD, YYYY hh:mm a")}</td>
                 </tr>
-              ))
-            }
+              ))}
             </tbody>
           </table>
-          <button disabled={+this.state.currentOffset == 0} onClick={this.handleLoadBack.bind(this)}>Back</button>
-
-          {' '}<button onClick={this.handleLoadNext.bind(this)}>Next</button> Showing {+this.props.router.location.query.offset+1} to {(+this.props.router.location.query.offset)+1+(+this.state.logs.length)}
+          <button
+            disabled={+this.state.currentOffset == 0}
+            onClick={this.handleLoadBack.bind(this)}
+          >
+            Back
+          </button>{" "}
+          <button onClick={this.handleLoadNext.bind(this)}>Next</button> Showing{" "}
+          {+this.props.router.location.query.offset + 1} to{" "}
+          {+this.props.router.location.query.offset +
+            1 +
+            +this.state.logs.length}
         </div>
       </Layout>
-    )
+    );
   }
 }
 
-export default UserReport
+export default UserReport;
