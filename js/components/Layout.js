@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015, Peter W Moresi
+ * Copyright (c) 2015-2018, FormBucket.com
  */
 
 import React from "react";

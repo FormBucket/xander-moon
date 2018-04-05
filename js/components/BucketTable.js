@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2015-2018, FormBucket.com
+ */
+
 import { IF, EQ, ISBLANK } from "formula";
 import React, { PropTypes } from "react";
 import FontAwesome from "react-fontawesome";

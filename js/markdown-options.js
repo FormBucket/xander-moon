@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2015-2018, FormBucket.com
+ */
+
 import hljs from "highlight.js"; // https://highlightjs.org/
 require("highlight.js/lib/languages/xml.js"); // https://highlightjs.org/
 require("highlight.js/lib/languages/javascript.js"); // https://highlightjs.org/
@@ -12,12 +16,12 @@ export default {
       var tweaked = hljs
         .highlight(lang, str)
         .value.replace(
-          '<span class="hljs-string">"' +
+          "<span class=\"hljs-string\">\"" +
             process.env.FORMBUCKET_API_SERVER +
-            '/f/homepage"</span>',
-          '<span class="hljs-string">"<span class="hljs-highlight">' +
+            "/f/homepage\"</span>",
+          "<span class=\"hljs-string\">\"<span class=\"hljs-highlight\">" +
             process.env.FORMBUCKET_API_SERVER +
-            '/f/homepage</span>"</span>'
+            "/f/homepage</span>\"</span>"
         );
 
       return tweaked;

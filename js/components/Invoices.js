@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2015-2018, FormBucket.com
+ */
+
 import React, { PropTypes } from "react";
 import FontAwesome from "react-fontawesome";
 import { EQ as eq, TEXT as text, DATEVALUE as dateValue } from "formula";

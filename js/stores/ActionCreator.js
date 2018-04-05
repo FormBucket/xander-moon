@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2015-2018, FormBucket.com
+ */
+
 import { dispatch } from "xander";
 import { SORT as sort } from "formula";
 

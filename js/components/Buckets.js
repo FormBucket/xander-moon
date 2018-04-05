@@ -1,4 +1,7 @@
-// Author: Peter Moresi
+/**
+ * Copyright (c) 2015-2018, FormBucket.com
+ */
+
 import React, { PropTypes } from "react";
 import { router, dispatch, createStore, Link } from "xander";
 import Markdown from "react-remarkable";
@@ -32,7 +35,7 @@ class Buckets extends React.Component {
 
     // load the buckets
     requestBuckets()
-      .then(buckets => dispatch("loadBuckets", buckets))
+      .then(buckets => dispatch("load Buckets", buckets))
       .catch(err => setState({ error: err }));
   }
 

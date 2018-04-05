@@ -1,8 +1,6 @@
-/*
-FormBucket client API.
-Copyright FormBucket.com
-Date: 2015-12-14
-*/
+/**
+ * Copyright (c) 2015-2018, FormBucket.com
+ */
 
 // The server is initialized from the API server.
 export const server = process.env.FORMBUCKET_API_SERVER,

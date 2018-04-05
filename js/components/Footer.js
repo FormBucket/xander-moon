@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2015-2018, FormBucket.com
+ */
+
 import React, { PropTypes } from "react";
 import { Link } from "xander";
 import version from "../version";

@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2015-2018, FormBucket.com
+ */
+
 import React, { PropTypes } from "react";
 import { IF, ISBLANK, RUN, EQ } from "formula";
 import Markdown from "react-remarkable";

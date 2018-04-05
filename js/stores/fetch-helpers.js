@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2015-2018, FormBucket.com
+ */
+
 // generic function to detect common HTTP error codes. Credit to Mozilla.
 export function processStatus(response) {
   // status "0" to handle local files fetching (e.g. Cordova/Phonegap etc.)

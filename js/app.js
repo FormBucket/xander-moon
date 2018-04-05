@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2015-2018, FormBucket.com
+ */
+
 import React from "react";
 import { boot, subscribe, dispatch } from "xander";
 import routes from "./routes";

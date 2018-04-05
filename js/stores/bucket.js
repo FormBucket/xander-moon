@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2015-2018, FormBucket.com
+ */
+
 import { createStore } from "xander";
 import { IF } from "formula";
 import buckets from "./buckets";

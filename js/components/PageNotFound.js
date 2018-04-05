@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) 2015-2018, FormBucket.com
+ */
+
 var React = require("react");
 var PropTypes = React.PropTypes;
 var PageNotFound;
