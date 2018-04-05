@@ -35,7 +35,7 @@ class Buckets extends React.Component {
 
     // load the buckets
     requestBuckets()
-      .then(buckets => dispatch("load Buckets", buckets))
+      .then(buckets => dispatch("loadBuckets", buckets))
       .catch(err => setState({ error: err }));
   }
 
