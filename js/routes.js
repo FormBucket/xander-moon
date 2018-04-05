@@ -18,6 +18,26 @@ let routes = [
     load: () => System.import("./components/Contact")
   },
   {
+    path: "/compare",
+    load: () => System.import("./components/Compare")
+  },
+  {
+    path: "/formbucket-vs-formkeep",
+    load: () => System.import("./components/CompareFormKeep")
+  },
+  {
+    path: "/formbucket-vs-formspree",
+    load: () => System.import("./components/CompareFormSpree")
+  },
+  {
+    path: "/formbucket-vs-getform",
+    load: () => System.import("./components/CompareGetForm")
+  },
+  {
+    path: "/formbucket-vs-wufoo",
+    load: () => System.import("./components/CompareWufoo")
+  },
+  {
     path: "/terms",
     load: () => System.import("./components/Terms")
   },
