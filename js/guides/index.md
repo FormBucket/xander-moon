@@ -1,5 +1,9 @@
 ### Docs
 
+Want a backend to collect your static site forms?
+
+Need help? <a href="/contact">contact us</a>
+
 #### [API Documentation](/guides/api)
 Check out the FormBucket API with examples.
 * * *
@@ -31,4 +35,3 @@ Learn about honeypot. A common technique to defeat simple spam bots.
 #### [Radio Buttons](/guides/radio-buttons)
 Remember those old-time car radios with big black plastic buttons? Push one to listen to WFCR, push another for WRNX. You can never push two buttons at once. Radio buttons on forms work the same way. We will show you how to use with FormBucket.
 * * *
-Can't find what you're looking for? Please <a href="/contact">contact us</a> for help.
