@@ -67,7 +67,7 @@ let Guide = class extends React.Component {
             return " " + c.toUpperCase();
           })
         : name,
-      title: "Guides"
+      title: path.indexOf("/docs" !== -1) ? "Docs" : "Guides"
     });
   }
 

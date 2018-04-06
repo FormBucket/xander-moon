@@ -102,6 +102,10 @@ let routes = [
     load: () => System.import("./components/Guide")
   },
   {
+    path: "/docs/:name",
+    load: () => System.import("./components/Guide")
+  },
+  {
     path: "/guides/:name",
     load: () => System.import("./components/Guide")
   },
