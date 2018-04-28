@@ -71,8 +71,7 @@
     "style-loader": "^0.13.0",
     "webpack": "^3.8.1",
     "webpack-hot-middleware": "^2.12.2",
-    "whatwg-fetch": "^1.0.0",
-    "xander": "1.1.0"
+    "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
     "xan": "^0.28.0"

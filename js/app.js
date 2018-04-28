@@ -40,7 +40,7 @@ if (window.Intercom) {
   console.log("window.Intercom is not defined");
 }
 
-// subscribe to xander state changes for
+// subscribe to state changes for
 subscribe((state, action) => {
   if (!action) {
     return;

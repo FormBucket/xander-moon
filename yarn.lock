@@ -6669,7 +6669,7 @@ xan@^0.28.0:
     webpack-dev-middleware "^3.1.2"
     webpack-hot-middleware "^2.22.0"
 
-xander@1.1.0, xander@^1.1.0:
+xander@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/xander/-/xander-1.1.0.tgz#8a4dd27a5be4a163bef49820b072477267b2b6a2"
 
