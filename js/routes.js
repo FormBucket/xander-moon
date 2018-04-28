@@ -3,115 +3,116 @@
  */
 
 import React from "react";
+import { loader } from "hrx";
 
 let routes = [
   {
     path: "/",
-    load: () => System.import("./components/Welcome")
+    component: loader(() => System.import("./components/Welcome"))
   },
   {
     path: "/about",
-    load: () => System.import("./components/About")
+    component: loader(() => System.import("./components/About"))
   },
   {
     path: "/contact",
-    load: () => System.import("./components/Contact")
+    component: loader(() => System.import("./components/Contact"))
   },
   {
     path: "/compare",
-    load: () => System.import("./components/Compare")
+    component: loader(() => System.import("./components/Compare"))
   },
   {
     path: "/formbucket-vs-formkeep",
-    load: () => System.import("./components/CompareFormKeep")
+    component: loader(() => System.import("./components/CompareFormKeep"))
   },
   {
     path: "/formbucket-vs-formspree",
-    load: () => System.import("./components/CompareFormSpree")
+    component: loader(() => System.import("./components/CompareFormSpree"))
   },
   {
     path: "/formbucket-vs-getform",
-    load: () => System.import("./components/CompareGetForm")
+    component: loader(() => System.import("./components/CompareGetForm"))
   },
   {
     path: "/formbucket-vs-wufoo",
-    load: () => System.import("./components/CompareWufoo")
+    component: loader(() => System.import("./components/CompareWufoo"))
   },
   {
     path: "/terms",
-    load: () => System.import("./components/Terms")
+    component: loader(() => System.import("./components/Terms"))
   },
   {
     path: "/privacy",
-    load: () => System.import("./components/Privacy")
+    component: loader(() => System.import("./components/Privacy"))
   },
   {
     path: "/privacy-policy",
-    load: () => System.import("./components/Privacy")
+    component: loader(() => System.import("./components/Privacy"))
   },
   {
     path: "/login",
-    load: () => System.import("./components/Login")
+    component: loader(() => System.import("./components/Login"))
   },
   {
     path: "/signup",
-    load: () => System.import("./components/Signup")
+    component: loader(() => System.import("./components/Signup"))
   },
   {
     path: "/account",
-    load: () => System.import("./components/Account")
+    component: loader(() => System.import("./components/Account"))
   },
   {
     path: "/account/invoices",
-    load: () => System.import("./components/Invoices")
+    component: loader(() => System.import("./components/Invoices"))
   },
   {
     path: "/buckets",
-    load: () => System.import("./components/Buckets")
+    component: loader(() => System.import("./components/Buckets"))
   },
   {
     path: "/buckets/:id/settings",
-    load: () => System.import("./components/Bucket")
+    component: loader(() => System.import("./components/Bucket"))
   },
   {
     path: "/buckets/:id/submissions",
-    load: () => System.import("./components/Submissions")
+    component: loader(() => System.import("./components/Submissions"))
   },
   {
     path: "/buckets/:id/submissions/:mode/:offset/:limit/:select",
-    load: () => System.import("./components/Submissions")
+    component: loader(() => System.import("./components/Submissions"))
   },
   {
     path: "/password_reset",
-    load: () => System.import("./components/PasswordReset")
+    component: loader(() => System.import("./components/PasswordReset"))
   },
   {
     path: "/logs",
-    load: () => System.import("./components/Logs")
+    component: loader(() => System.import("./components/Logs"))
   },
   {
     path: "/logs/:log_id",
-    load: () => System.import("./components/Logs")
+    component: loader(() => System.import("./components/Logs"))
   },
   {
     path: "/log/:log_id",
-    load: () => System.import("./components/Log")
+    component: loader(() => System.import("./components/Log"))
   },
   {
     path: "/guides",
-    load: () => System.import("./components/Guide")
+    component: loader(() => System.import("./components/Guide"))
   },
   {
     path: "/docs/:name",
-    load: () => System.import("./components/Guide")
+    component: loader(() => System.import("./components/Guide"))
   },
   {
     path: "/guides/:name",
-    load: () => System.import("./components/Guide")
+    component: loader(() => System.import("./components/Guide"))
   },
   {
     path: "*",
-    load: () => System.import("./components/PageNotFound")
+    component: loader(() => System.import("./components/PageNotFound"))
   }
 ];
 

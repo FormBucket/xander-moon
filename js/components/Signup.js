@@ -3,7 +3,7 @@
  */
 
 import React, { PropTypes } from "react";
-import { router, Link } from "xander";
+import { router, Link } from "hrx";
 import Markdown from "react-remarkable";
 import markdownOptions from "../markdown-options";
 import { signUp, loadProfile } from "../stores/ActionCreator";

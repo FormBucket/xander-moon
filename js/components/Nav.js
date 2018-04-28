@@ -4,7 +4,7 @@
 
 import React, { PropTypes } from "react";
 import UserStore from "../stores/user";
-import { Link } from "xander";
+import { Link } from "hrx";
 
 class Nav extends React.Component {
   state = {

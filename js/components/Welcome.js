@@ -8,7 +8,7 @@ import markdownOptions from "../markdown-options";
 import { IF } from "formula";
 import { server } from "../stores/webutils";
 import FontAwesome from "react-fontawesome";
-import { router } from "xander";
+import { router } from "hrx";
 import routes from "../routes";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -33,10 +33,8 @@ class Welcome extends React.Component {
         <div className="hero">
           <div className="bubbles">
             <div className="wrapper">
-              <h1>Endpoints are just the beginning</h1>
-              <h2>
-                Capture and automate form submissions with magic endpoints
-              </h2>
+              <h1>Simplify forms</h1>
+              <h2>Capture, protect, store and automate submissions</h2>
               {IF(
                 this.props.user && this.props.user.account_id,
                 <div>
@@ -48,7 +46,7 @@ class Welcome extends React.Component {
                   <button type="button" onClick={() => router.open("/signup")}>
                     Get Started
                   </button>
-                  <p>Free 14-Day Trial • No credit card to sign up!</p>
+                  <p>14-Day Trial • No credit card to sign up!</p>
                 </div>
               )}
             </div>

@@ -3,7 +3,7 @@
  */
 
 import React, { PropTypes } from "react";
-import { Link } from "xander";
+import { Link } from "hrx";
 import version from "../version";
 
 class Footer extends React.Component {

@@ -3,7 +3,7 @@
  */
 
 import React, { PropTypes } from "react";
-import { Link } from "xander";
+import { Link } from "hrx";
 import FontAwesome from "react-fontawesome";
 import Nav from "./Nav";
 import UserStore from "../stores/user";

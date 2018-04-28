@@ -3,7 +3,7 @@
  */
 
 import React from "react";
-import { boot, subscribe, dispatch } from "xander";
+import { boot, subscribe, dispatch } from "hrx";
 import routes from "./routes";
 
 import Loader from "./components/Loader";
@@ -40,23 +40,15 @@ if (window.Intercom) {
   console.log("window.Intercom is not defined");
 }
 
-// subscribe to fluxury state changes for
+// subscribe to xander state changes for
 subscribe((state, action) => {
   if (!action) {
     return;
   }
 
   if (action.type === "loadContent") {
+    // scroll to top left when route content changes.
     window.scrollTo(0, 0);
-  }
-
-  if (!preloaded && action.type == "setProfile") {
-    // preload other screens.
-    preloaded = true;
-    findRoute("/account").load();
-    findRoute("/buckets").load();
-    findRoute("/buckets/:id/settings").load();
-    findRoute("/buckets/:id/submissions").load();
   }
 });
 
@@ -65,22 +57,14 @@ dispatch("loadContent", props => <Loader />);
 
 // launch React App
 boot({
-  debug: false,
+  debug: process.env.NODE_ENV !== "production",
   rootEl: document.getElementById("root"),
   routes
 });
-
-// preload after 700ms
-setTimeout(() => {
-  findRoute("/").load();
-  findRoute("/login").load();
-  findRoute("/signup").load();
-  findRoute("/guides").load();
-  findRoute("/guides/:name").load();
-}, 700);
 
 if (process.env.NODE_ENV !== "production") {
   // } || process.env.NODE_ENV === "development") {
   window.FormBucket = require("./stores/webutils");
   window.FormBucket = { ...ActionCreator, ...window.FormBucket };
+  window.formula = require("formula");
 }

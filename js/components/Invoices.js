@@ -10,7 +10,7 @@ import moment from "moment";
 import { requestInvoices } from "../stores/webutils";
 import Layout from "./Layout";
 
-import { Link } from "xander";
+import { Link } from "hrx";
 let formatDate = unix =>
   moment(new Date(unix * 1000)).format("MMMM DD, YYYY hh:mm a");
 

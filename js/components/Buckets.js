@@ -3,7 +3,7 @@
  */
 
 import React, { PropTypes } from "react";
-import { router, dispatch, createStore, Link } from "xander";
+import { router, dispatch, createStore, Link } from "hrx";
 import Markdown from "react-remarkable";
 import markdownOptions from "../markdown-options";
 import FontAwesome from "react-fontawesome";

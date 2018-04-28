@@ -1,4 +1,4 @@
-# xander-moon
+# formbucket-ui 
 
 This is the web app user interface for FormBucket.com.
 
@@ -13,7 +13,7 @@ The application by default will connect to https://api-dev.formbucket.com.
 # setup
 
 ```sh
-git clone https://github.com/FormBucket/xander-moon.git
+git clone https://github.com/FormBucket/hrx-moon.git
 ```
 
 # install dependencies

@@ -8,21 +8,7 @@ import markdownOptions from "../markdown-options";
 import { IF } from "formula";
 import { server } from "../stores/webutils";
 import FontAwesome from "react-fontawesome";
-import { router } from "xander";
-
-window.validateForm = function() {
-  var v = true;
-  var message = document.getElementsByName("message")[0].value;
-
-  if (!message) {
-    v = false;
-    document.getElementsByName("message")[0].style.border = "1px red solid";
-  } else {
-    document.getElementsByName("message")[0].style.border = "";
-  }
-
-  return v;
-};
+import { router } from "hrx";
 
 window.validateForm = function() {
   var v = true;
@@ -39,28 +25,18 @@ window.validateForm = function() {
 };
 
 var content = `
-<h3>Try it out!</h3>
+<h3>Hello, World!</h3>
 <form method="post"
   action="${server}/f/homepage"
   onsubmit="return validateForm()">
-  <label>Name</label>
+  <label>Your Name</label>
   <input type="text" name="name" />
-  <label>Email</label>
+  <label>Your Email</label>
   <input type="text" name="email" />
-  <label>What will you create with magic buckets?</label>
+  <label>What form will you make?</label>
   <textarea name="message"></textarea>
   <button class="secondary" type="submit">Submit</button>
 </form>`;
-
-// var content = `<h3>Try it out!</h3>
-// <form method="post" action="${server}/f/homepage"
-// onsubmit="return validateForm()">
-//   <input type="text" name="name" placeholder="Your name">
-//   <input type="text" name="email" placeholder="Your email">
-//   <textarea name="message" rows="4"
-//     placeholder="What will you create with a magic backend?"></textarea>
-//   <button class="secondary" type="submit">Send!</button>
-// </form>`
 
 class Welcome extends React.Component {
   state = {
@@ -87,7 +63,7 @@ class Welcome extends React.Component {
         clearInterval(this.timerId);
 
         this.setState({
-          ghostText: this.state.ghostText + "\n<span class=\"blinking-cursor\" />"
+          ghostText: this.state.ghostText + '\n<span class="blinking-cursor" />'
         });
       }
     }, 42);
@@ -130,10 +106,10 @@ class Welcome extends React.Component {
           <div id="features" className="section-block">
             <div className="wrapper">
               <div className="clincher">
-                <h2>A Complete Platform for Managing Submissions</h2>
+                <h2>Quickly and Easily Setup Forms</h2>
                 <p className="blurb">
-                  Your clients and coworkers will think you've become a
-                  full-stack programmer overnight.
+                  Need a contact or lead form? Forget about setting up scripts,
+                  databases or fighting with spammers. We handle all of these for you.
                 </p>
               </div>
             </div>
@@ -142,13 +118,15 @@ class Welcome extends React.Component {
             <div className="features">
               <div className="feature">
                 <div className="icon">
-                  <img src="/img/bunny.svg" alt="Magic Endpoints" />
+                  <img src="/img/bunny.svg" alt="Magic Buckets" />
                 </div>
                 <div className="copy">
-                  <h3>Magic Endpoints</h3>
+                  <h3>Magic Buckets</h3>
                   <p>
-                    Paste our endpoints into your HTML and get a complete
-                    backend for handling and automating form submissions.
+                    Our services saves form submissions to a "bucket". Think of
+                    a it like a table in a database or a worksheet in a
+                    spreadsheet. Each bucket has a unique URL which is simply
+                    copied and pasted into your HTML. Setup is fast and easy.
                   </p>
                 </div>
               </div>
@@ -159,8 +137,8 @@ class Welcome extends React.Component {
                 <div className="copy">
                   <h3>No Embeds or iFrames</h3>
                   <p>
-                    Build and style forms with 100% control over your HTML and
-                    CSS. No overrides!
+                    Build and style forms with your HTML and CSS. No overrides!
+                    No scripts! Just your beautiful code!
                   </p>
                 </div>
               </div>
@@ -168,13 +146,14 @@ class Welcome extends React.Component {
             <div className="features">
               <div className="feature">
                 <div className="icon">
-                  <img src="/img/heart.svg" alt="Full Control" />
+                  <img src="/img/heart.svg" alt="Your User Experience" />
                 </div>
                 <div className="copy">
-                  <h3>URL Redirects and AJAX</h3>
+                  <h3>Your User Experience</h3>
                   <p>
-                    Redirect form submitters to any URL or use advanced AJAX
-                    post options.
+                    Standard form submission redirect back to your website or
+                    use JSON Endpoints for advanced integration. Our service is
+                    virtually invisible.
                   </p>
                 </div>
               </div>
@@ -199,8 +178,7 @@ class Welcome extends React.Component {
                 <div className="copy">
                   <h3>Notifications</h3>
                   <p>
-                    Send customizable real-time notifications to yourself or
-                    multiple recipients when new submissions come in.
+                    Send customizable notifications when new submissions arrive.
                   </p>
                 </div>
               </div>
@@ -211,9 +189,8 @@ class Welcome extends React.Component {
                 <div className="copy">
                   <h3>Spam Protection</h3>
                   <p>
-                    Your forms are defended with advanced SPAM detection,
-                    filtering and rate limiting as well as Honeypot and
-                    ReCAPTCHA support.
+                    Spammers are the worst. Our service employs advanced
+                    techniques to block and filter spam.
                   </p>
                 </div>
               </div>
@@ -221,13 +198,13 @@ class Welcome extends React.Component {
             <div className="features">
               <div className="feature">
                 <div className="icon">
-                  <img src="/img/list.svg" alt="Submissions Manager" />
+                  <img src="/img/list.svg" alt="Submission Database" />
                 </div>
                 <div className="copy">
-                  <h3>Submissions Manager</h3>
+                  <h3>Submission Database</h3>
                   <p>
-                    Submissions are stored in a secure searchable dashboard with
-                    export options.
+                    Form submissions stored in a searchable database with export
+                    to CSV and JSON.
                   </p>
                 </div>
               </div>
@@ -236,10 +213,11 @@ class Welcome extends React.Component {
                   <img src="/img/robot.svg" alt="Endless Automation" />
                 </div>
                 <div className="copy">
-                  <h3>Limitless Integrations</h3>
+                  <h3>Webhook Automation</h3>
                   <p>
-                    Capturing submissions is just the beginning. Route form data
-                    to other applications with webhooks.
+                    Capturing submissions is great but sometimes you want to
+                    integrate with other systems. Forward forms to other
+                    applications with easy to setup webhooks.
                   </p>
                 </div>
               </div>
