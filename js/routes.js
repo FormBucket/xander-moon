@@ -3,7 +3,15 @@
  */
 
 import React from "react";
-import { loader } from "hrx";
+import { loadable } from "hrx";
+import Loader from "./components/Loader";
+
+let loading = props => <Loader />
+
+let loader = loader => loadable({
+  loader,
+  loading
+})
 
 let routes = [
   {
