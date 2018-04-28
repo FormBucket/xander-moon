@@ -55,3 +55,11 @@ $(function() {
 ```
 
 Hope this helps and we wish you luck keeping bots at bay!
+
+## Invisible reCaptcha
+
+Don't want the annoying "I'm not a robot" shown on your page.
+
+Our backend service works the same if your form implements regular or invisible recaptcha.
+
+[Google's instructions](https://developers.google.com/recaptcha/docs/invisible)

@@ -37,37 +37,23 @@ let loadGuide = name =>
   );
 
 let Guide = class extends React.Component {
-  componentDidMount(props) {
+  state = {
+    title: "Docs"
+  };
+
+  componentWillMount() {
     let { path } = this.props.router.route;
     let { name } = this.props.router.params;
-    console.log("got props", path, name);
 
     loadGuide(name).then(c => this.setState({ content: c }));
 
     this.setState({
+      title: "Guides",
       name: name
         ? name.replace(/(^|-)(.)/g, function(a, b, c) {
             return " " + c.toUpperCase();
           })
-        : name,
-      title: "Guides"
-    });
-  }
-
-  componentWillReceiveProps(props) {
-    let { path } = props.router.route;
-    let { name } = props.router.params;
-    console.log("got props", path, name);
-
-    loadGuide(name).then(c => this.setState({ content: c }));
-
-    this.setState({
-      name: name
-        ? name.replace(/(^|-)(.)/g, function(a, b, c) {
-            return " " + c.toUpperCase();
-          })
-        : name,
-      title: path.indexOf("/docs" !== -1) ? "Docs" : "Guides"
+        : name
     });
   }
 

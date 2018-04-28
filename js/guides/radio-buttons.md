@@ -1,6 +1,9 @@
-To create a radio button:
+To create a radio buttons:
 
-1. If desired, type the introductory text for your radio buttons.
-You might use something like **Select one of the following**.
+```html
+<input type="radio" name="make" value="Ford" checked>
+<input type="radio" name="make" value="General Motors">
+<input type="radio" name="make" value="Telsa">
+```
 
-2. Type **<input type="radio"**.
+Only the value for the checked input will be sent to the server.
