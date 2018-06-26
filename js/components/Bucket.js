@@ -253,10 +253,6 @@ class NewBucket extends React.Component {
 
     bucket.user = user || {};
 
-    console.log("bucket", bucket);
-    console.log("savedBucket", savedBucket);
-
-    // console.log(bucket)
     if (bucket.error) {
       return <div>{bucket.error}</div>;
     }
@@ -271,7 +267,6 @@ class NewBucket extends React.Component {
       );
     }
 
-    console.log("bucket2", bucket);
 
     return (
       <Layout>
