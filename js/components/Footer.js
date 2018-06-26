@@ -28,7 +28,8 @@ class Footer extends React.Component {
           <a href="https://status.formbucket.com/">Status</a> |{" "}
           <a href="/about">About</a> | <a href="/contact">Contact</a> |{" "}
           <a href="/terms">Terms</a> |{" "}
-          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/privacy-policy">Privacy Policy</a> |{" "}
+          <a href="/guides/general-data-protection-regulation">GDPR</a>
         </div>
 
         <p>

@@ -123,8 +123,8 @@ class Welcome extends React.Component {
                 <div className="copy">
                   <h3>Magic Buckets</h3>
                   <p>
-                    Our services saves form submissions to a "bucket". Think of
-                    a it like a table in a database or a worksheet in a
+                    Our services saves form submissions to a "bucket". A bucket is 
+                    like a table in a database or a worksheet in a
                     spreadsheet. Each bucket has a unique URL which is simply
                     copied and pasted into your HTML. Setup is fast and easy.
                   </p>

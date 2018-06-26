@@ -33,6 +33,8 @@ let loadGuide = name =>
     () => System.import("../guides/radio-buttons.md"),
     name === "webhooks",
     () => System.import("../guides/webhooks.md"),
+    name === "general-data-protection-regulation",
+    () => System.import("../guides/general-data-protection-regulation.md"),
     () => System.import("../guides/index.md")
   );
 

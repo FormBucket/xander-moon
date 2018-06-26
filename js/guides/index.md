@@ -34,4 +34,8 @@ Check out the FormBucket API with examples.
 Webhooks forward your submissions to external systems.
 * * *
 
+### Legal / Privacy
 
+#### [GDPR](/guides/general-data-protection-regulation)
+Learn about how FormBucket complies with the General Data Protection Regulation.
+* * *
