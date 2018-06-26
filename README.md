@@ -13,7 +13,7 @@ The application by default will connect to https://api-dev.formbucket.com.
 # setup
 
 ```sh
-git clone https://github.com/FormBucket/hrx-moon.git
+git clone https://github.com/FormBucket/formbucket-ui.git
 ```
 
 # install dependencies

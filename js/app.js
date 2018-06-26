@@ -3,7 +3,7 @@
  */
 
 import React from "react";
-import { boot, subscribe, dispatch } from "hrx";
+import { render, subscribe, dispatch } from "xander";
 import routes from "./routes";
 
 import Loader from "./components/Loader";
@@ -56,11 +56,10 @@ subscribe((state, action) => {
 dispatch("loadContent", props => <Loader />);
 
 // launch React App
-boot({
+render({
   debug: process.env.NODE_ENV !== "production",
-  rootEl: document.getElementById("root"),
   routes
-});
+}, document.getElementById("root"));
 
 if (process.env.NODE_ENV !== "production") {
   // } || process.env.NODE_ENV === "development") {

@@ -9,7 +9,7 @@ import {
   requestPasswordResetUpdate
 } from "../stores/webutils";
 import { IF, ISEMAIL as isEmail } from "formula";
-import { router } from "hrx";
+import { router } from "xander";
 
 class Login extends React.Component {
   state = {

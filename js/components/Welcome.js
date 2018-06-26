@@ -8,7 +8,7 @@ import markdownOptions from "../markdown-options";
 import { IF } from "formula";
 import { server } from "../stores/webutils";
 import FontAwesome from "react-fontawesome";
-import { router } from "hrx";
+import { router } from "xander";
 import routes from "../routes";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -33,8 +33,8 @@ class Welcome extends React.Component {
         <div className="hero">
           <div className="bubbles">
             <div className="wrapper">
-              <h1>Simplify forms</h1>
-              <h2>Capture, protect, store and automate submissions</h2>
+              <h1>Every form needs a bucket</h1>
+              <h2>Capture, protect, notify and automate submissions</h2>
               {IF(
                 this.props.user && this.props.user.account_id,
                 <div>

@@ -2,7 +2,7 @@
  * Copyright (c) 2015-2018, FormBucket.com
  */
 
-import { dispatch } from "hrx";
+import { dispatch } from "xander";
 import { SORT as sort } from "formula";
 
 import {

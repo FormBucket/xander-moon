@@ -19,7 +19,7 @@ import BucketStore from "../stores/buckets";
 import SubmissionsStore from "../stores/submissions";
 import FontAwesome from "react-fontawesome";
 import moment from "moment";
-import { router, Link } from "hrx";
+import { router, Link } from "xander";
 import Layout from "./Layout";
 
 let color = {

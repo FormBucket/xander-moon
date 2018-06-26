@@ -4,7 +4,7 @@
 
 import React, { PropTypes } from "react";
 import FontAwesome from "react-fontawesome";
-import { dispatch, router, Link } from "hrx";
+import { dispatch, router, Link } from "xander";
 import FlashMessage from "./FlashMessage";
 import {
   requestCreditCards,

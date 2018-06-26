@@ -3,7 +3,7 @@
  */
 
 import React from "react";
-import { loadable } from "hrx";
+import { loadable } from "xander";
 import Loader from "./components/Loader";
 
 let loading = props => <Loader />

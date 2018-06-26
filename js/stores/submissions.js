@@ -2,7 +2,7 @@
  * Copyright (c) 2015-2018, FormBucket.com
  */
 
-import { createStore } from "hrx";
+import { createStore } from "xander";
 
 const SubmissionStore = createStore("submissions", {
   getSubmissions: (state, action) => action.data

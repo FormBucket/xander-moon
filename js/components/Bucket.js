@@ -18,7 +18,7 @@ import {
   requestDownloadFile
 } from "../stores/webutils";
 import FlashMessage from "./FlashMessage";
-import { router, dispatch, createStore, Link } from "hrx";
+import { router, dispatch, Link } from "xander";
 import Layout from "./Layout";
 
 import BucketsStore from "../stores/buckets";
@@ -87,7 +87,6 @@ function makeHTMLForm({
 }
 
 function setState(props) {
-  console.log("setState", props);
   dispatch("changeBucket", props);
 }
 
@@ -199,7 +198,7 @@ class NewBucket extends React.Component {
         setTimeout(() => setState({ flash: undefined }), 2000);
       })
       .catch(err => {
-        // console.log('ERROR', err)
+        // console.log('ERROR', err)Link
         setState({ error: err });
       });
   };

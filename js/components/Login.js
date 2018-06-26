@@ -6,7 +6,7 @@ import React, { PropTypes } from "react";
 import FontAwesome from "react-fontawesome";
 import { signIn, getToken, loadProfile } from "../stores/ActionCreator";
 import { IF } from "formula";
-import { router } from "hrx";
+import { router } from "xander";
 import Layout from "./Layout";
 
 let completeLogin = () => {

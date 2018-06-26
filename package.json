@@ -36,10 +36,8 @@
     "eslint-plugin-react": "^3.11.3",
     "extract-text-webpack-plugin": "3.0.2",
     "formula": "^3.5.2",
-    "graphiql": "^0.11.11",
     "handlebars": "^4.0.5",
     "highlight.js": "^9.6.0",
-    "hrx": "^0.2.1",
     "json-loader": "^0.5.4",
     "koa": "^1.2.1",
     "koa-accesslog": "0.0.2",
@@ -71,9 +69,11 @@
     "style-loader": "^0.13.0",
     "webpack": "^3.8.1",
     "webpack-hot-middleware": "^2.12.2",
-    "whatwg-fetch": "^1.0.0"
+    "whatwg-fetch": "^1.0.0",
+    "xander": "^3.0.3"
   },
   "devDependencies": {
+    "nodemon": "^1.17.5",
     "xan": "^0.28.0"
   }
 }

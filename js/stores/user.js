@@ -2,7 +2,7 @@
  * Copyright (c) 2015-2018, FormBucket.com
  */
 
-import { createStore, dispatch } from "hrx";
+import { createStore, dispatch } from "xander";
 import SubscriptionStore from "./subscription";
 import { DECODEJWT as decodeJWT } from "formula";
 

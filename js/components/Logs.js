@@ -10,7 +10,7 @@ import moment from "moment";
 import { requestLogs } from "../stores/webutils";
 import Layout from "./Layout";
 
-import { Link, router } from "hrx";
+import { Link, router } from "xander";
 
 class UserReport extends React.Component {
   state = {

@@ -8,7 +8,7 @@ import markdownOptions from "../markdown-options";
 import { IF } from "formula";
 import { server } from "../stores/webutils";
 import FontAwesome from "react-fontawesome";
-import { router } from "hrx";
+import { router } from "xander";
 
 window.validateForm = function() {
   var v = true;

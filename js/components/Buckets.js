@@ -3,7 +3,7 @@
  */
 
 import React, { PropTypes } from "react";
-import { router, dispatch, createStore, Link } from "hrx";
+import { router, dispatch, Link } from "xander";
 import Markdown from "react-remarkable";
 import markdownOptions from "../markdown-options";
 import FontAwesome from "react-fontawesome";
@@ -48,16 +48,10 @@ class Buckets extends React.Component {
   };
 
   handleSelect = bucket => {
-    // console.log('bucket settings click', bucket)
-    // if ( false && user.isOwner(bucket)){
-    // router.open('/buckets/' + bucket.id + '/settings')
-    // } else {
-    router.open("/buckets/" + bucket.id + "/submissions");
-    // }
+    router.open('/buckets/' + bucket.id + '/settings')
   };
 
   handleShow = bucket => {
-    // console.log('show submissions click', bucket)
     router.open("/buckets/" + bucket.id + "/submissions");
   };
 
