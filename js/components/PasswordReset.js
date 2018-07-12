@@ -10,6 +10,7 @@ import {
 } from "../stores/webutils";
 import { IF, ISEMAIL as isEmail } from "formula";
 import { router } from "xander";
+import Layout from "./Layout";
 
 class Login extends React.Component {
   state = {
@@ -29,9 +30,7 @@ class Login extends React.Component {
     this.setState({ loading: true, error: false, email: email });
     requestPasswordReset(email)
       .then(() => this.setState({ loading: false, sent: true }))
-      .catch(error =>
-        this.setState({ loading: false, error: JSON.parse(error) })
-      );
+      .catch(error => this.setState({ loading: false, error }));
   };
 
   handleClickUpdate = () => {
@@ -44,9 +43,7 @@ class Login extends React.Component {
         this.setState({ loading: false, sent: true });
         router.open("/login");
       })
-      .catch(error =>
-        this.setState({ loading: false, error: JSON.parse(error) })
-      );
+      .catch(error => this.setState({ loading: false, error }));
   };
 
   handleKeyPress = event => {
@@ -60,7 +57,7 @@ class Login extends React.Component {
     // console.log(this.state)
 
     return (
-      <div>
+      <Layout>
         <div className="page-heading">
           <div className="wrapper">
             <h1>Password Reset</h1>
@@ -138,7 +135,7 @@ class Login extends React.Component {
             )}
           </div>
         </div>
-      </div>
+      </Layout>
     );
   }
 }

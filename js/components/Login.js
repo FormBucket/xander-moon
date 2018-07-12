@@ -43,7 +43,7 @@ class Login extends React.Component {
         error => {
           this.setState({
             loading: false,
-            error: JSON.parse(error.message)
+            error
           });
         }
       );
