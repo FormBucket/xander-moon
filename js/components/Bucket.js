@@ -152,6 +152,7 @@ class NewBucket extends React.Component {
       enabled,
       email_to,
       email_cc,
+      email_bcc,
       redirect_url,
       webhooks,
       auto_responder,
@@ -174,6 +175,7 @@ class NewBucket extends React.Component {
       enabled,
       email_to,
       email_cc,
+      email_bcc,
       redirect_url,
       webhooks,
       auto_responder,
@@ -266,7 +268,6 @@ class NewBucket extends React.Component {
         </Layout>
       );
     }
-
 
     return (
       <Layout>
@@ -417,6 +418,14 @@ class NewBucket extends React.Component {
                   placeholder="Defaults to {{ _cc }}, otherwise blank"
                   onChange={e => setState({ email_cc: e.target.value })}
                   defaultValue={bucket.email_cc}
+                />
+                <label htmlFor="notificationReplyTo">BCC:</label>
+                <input
+                  name="notificationReplyTo"
+                  type="text"
+                  placeholder="Defaults to {{ _bcc }}, otherwise blank"
+                  onChange={e => setState({ email_bcc: e.target.value })}
+                  defaultValue={bucket.email_bcc}
                 />
                 <label htmlFor="notificationSubject" htmlFor="subject">
                   Subject
