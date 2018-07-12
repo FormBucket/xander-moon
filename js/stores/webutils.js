@@ -243,6 +243,24 @@ export function requestLog(log_id) {
   return getJSON(`${apiRoot}/log_entries/${log_id}`);
 }
 
+// make promise to get email queue.
+export function requestEmailQueue(offset = 0, limit = 10, bucket_id) {
+  return getJSON(
+    `${apiRoot}/email_queue?offset=${offset}&limit=${limit}${
+      bucket_id ? `&bucket_id=${bucket_id}` : ""
+    }`
+  );
+}
+
+// make promise to get email events.
+export function requestEmailEvents(offset = 0, limit = 10, bucket_id, mail_id) {
+  return getJSON(
+    `${apiRoot}/email_events?offset=${offset}&limit=${limit}${
+      bucket_id ? `&bucket_id=${bucket_id}` : ""
+    }${mail_id ? `&mail_id=${mail_id}` : ""}`
+  );
+}
+
 // make promise to delete credit card.
 export function requestDeleteCreditCard(id) {
   return deleteJSON(`${apiRoot}/billing/credit_card`, { id });
