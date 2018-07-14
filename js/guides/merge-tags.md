@@ -143,6 +143,6 @@ Yes, our **Merge Tags** use [the Mustache template language](https://mustache.gi
 
 ### Still need help?
 
-[Contact support(/contact)
+[Contact support](/contact)
 
 Thanks for choosing FormBucket!
