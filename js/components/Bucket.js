@@ -67,8 +67,9 @@ function makeHTMLForm({
   }<form id="my-awesome-form" action="${
     process.env.FORMBUCKET_API_SERVER
   }/f/${id}" method="post" target="_blank">
-  <input type="text" name="email" placeholder="Email" />
-  <input type="text" name="message" placeholder="Message" />${
+  <input type="text" name="email" placeholder="email" />
+  <input type="text" name="subject" placeholder="subject" />
+  <textarea type="text" name="message" placeholder="message"></textarea>${
     honey_pot_on
       ? `
   <label style="display:none">Honey pot (Should be hidden and empty)</label>
