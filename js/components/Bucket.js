@@ -722,6 +722,10 @@ class NewBucket extends React.Component {
             <Link to={`/logs?offset=0&limit=10&bucket_id=${bucket.id}`}>
               Logs
             </Link>
+            &nbsp;{" "}
+            <Link to={`/notifications?offset=0&limit=10&bucket_id=${bucket.id}`}>
+              Notifications
+            </Link>
           </div>
           <div className="bucket-preview">
             <div className="bucket-editor">

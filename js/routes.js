@@ -99,6 +99,10 @@ let routes = [
     component: loader(() => System.import("./components/Logs"))
   },
   {
+    path: "/notifications",
+    component: loader(() => System.import("./components/Notifications"))
+  },
+  {
     path: "/logs/:log_id",
     component: loader(() => System.import("./components/Logs"))
   },
