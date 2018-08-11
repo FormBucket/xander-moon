@@ -5,13 +5,14 @@
     @include span-columns(12);
   }
 
-  button, .button {
+  button,
+  .button {
     width: 100%;
   }
 }
 
 .account-sidebar {
-  @include span-columns(6);
+  @include span-columns(4);
   text-align: right;
 
   @include media($phablet) {

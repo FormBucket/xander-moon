@@ -5148,6 +5148,13 @@ promise@^7.0.1, promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
+prop-types@^15.5.10:
+  version "15.6.2"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
+  dependencies:
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
+
 prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
@@ -5360,6 +5367,12 @@ react-remarkable@^1.1.1:
   resolved "https://registry.yarnpkg.com/react-remarkable/-/react-remarkable-1.1.3.tgz#6ef3861812d806fbf747cc1d1e151ee3172130a6"
   dependencies:
     remarkable "^1.x"
+
+react-stripe-elements@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-stripe-elements/-/react-stripe-elements-2.0.1.tgz#197db4762c57bf73a07d852564ebdbac52954094"
+  dependencies:
+    prop-types "^15.5.10"
 
 react-transform-catch-errors@^1.0.2:
   version "1.0.2"

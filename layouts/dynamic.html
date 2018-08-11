@@ -31,6 +31,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/solarized_light.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.18.2/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paymentfont/1.1.2/css/paymentfont.min.css" />
+
   {{#unless __DEV__}}
   <link rel="stylesheet" href="/assets/app-{{__ts__}}.css">
   {{/unless}}
@@ -45,7 +47,11 @@
   <meta name="theme-color" content="#ffffff">
 
   {{#if recaptcha}}
-  <script src='https://www.google.com/recaptcha/api.js'></script>
+  <script src='https://www.google.com/recaptcha/api.js' async></script>
+  {{/if}}
+
+  {{#if stripe}}
+  <script type="text/javascript" src="https://js.stripe.com/v3/" async></script>
   {{/if}}
 
 </head>
@@ -71,9 +77,6 @@
   {{/if}}
   {{/unless}}
 
-  {{#if stripe}}
-  <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-  {{/if}}
 
   {{{ contents }}}
 </body>

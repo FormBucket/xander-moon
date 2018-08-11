@@ -11,7 +11,7 @@ import {
   requestDestroyAccount,
   requestStripePubKey,
   requestUpdateUser,
-  requestUnsubscribe
+  requestDeleteCreditCard
 } from "../stores/webutils";
 import {
   cancelSubscription,
@@ -20,59 +20,89 @@ import {
 } from "../stores/ActionCreator";
 import { IF } from "formula";
 import Layout from "./Layout";
+import {} from "react-stripe-elements";
+import {
+  StripeProvider,
+  Elements,
+  CardElement,
+  injectStripe
+} from "react-stripe-elements";
 
-const plan = "plan_mo_7_14";
-
-function subscribeUser({ account_id, number, cvc, exp }) {
-  return new Promise((resolve, reject) => {
-    if (!Stripe.card.validateCardNumber(number)) {
-      reject("Invalid card number.");
-      return;
-    }
-
-    if (!Stripe.card.validateCVC(cvc)) {
-      reject("Invalid cvc number.");
-      return;
-    }
-
-    if (!Stripe.card.validateExpiry(exp)) {
-      reject("Invalid exp date. Must be MM/YY or MM/YYYY");
-      return;
-    }
-
-    Stripe.card.createToken(
-      {
-        number: number,
-        cvc: cvc,
-        exp: exp
-      },
-      (status, response) => {
-        if (status !== 200) {
-          reject(response.error.message);
-          return;
-        }
-
-        // got back response from Stripe
-        // console.log('got token', response.id)
-
-        // Subscribe user to Plan
-        subscribe(account_id, response.id, plan)
-          .then(result => {
-            resolve(result);
-          })
-          .catch(error => {
-            reject(error.message);
-          });
+const plan_monthly = "plan_monthly_7_14";
+const plan_annual = "plan_annual_7_14";
+const CARD_ELEMENT_OPTIONS = {
+  style: {
+    base: {
+      fontSize: "18px",
+      color: "#424770",
+      letterSpacing: "0.025em",
+      "::placeholder": {
+        color: "#aab7c4"
       }
+    },
+    invalid: {
+      color: "#9e2146"
+    }
+  }
+};
+
+class _CardForm extends React.Component {
+  handleSubmit = ev => {
+    ev.preventDefault();
+    if (this.props.stripe) {
+      this.props.onSubmit();
+
+      this.props.stripe
+        .createToken({ name: this.refs.cardName.value })
+        .then(payload => {
+          let { token } = payload;
+          console.log("[token]", payload);
+          subscribe(this.props.account_id, token.id, plan_monthly)
+            .then(this.props.onSubscribe)
+            .catch(this.props.onSubscribeError);
+        });
+    } else {
+      console.log("Form submitted before Stripe.js loaded.");
+    }
+  };
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <div className="card-element">
+          <div className="card-element-row">
+            <label htmlFor="cardName">Name</label>
+            <input
+              type="text"
+              ref="cardName"
+              name="cardName"
+              placeholder="Enter name on card here"
+            />
+          </div>
+          <div className="card-element-row">
+            {this.props.stripe ? (
+              <CardElement {...CARD_ELEMENT_OPTIONS} />
+            ) : (
+              <div className="StripeElement loading" />
+            )}
+          </div>
+        </div>
+        <button className="button secondary" disabled={!this.props.stripe}>
+          Register Card
+        </button>
+      </form>
     );
-  });
+  }
 }
+const CardForm = injectStripe(_CardForm);
 
 class Account extends React.Component {
   state = {
     show_token: false,
     flash: undefined,
     cards: [],
+    submittingCard: false,
+    changeCard: false,
+    cardsLoaded: false,
     number: "",
     exp: "",
     cvc: ""
@@ -88,21 +118,14 @@ class Account extends React.Component {
   componentDidMount() {
     Promise.all([requestStripePubKey(), loadProfile()])
       .then(values => {
-        // console.log(values)
-        Stripe.setPublishableKey(values[0].key);
-        dispatch("loadProfile", values[1]);
-        return Promise.resolve(values[1]);
+        let stripe_pk = values[0].key;
+        let user = values[1];
+        this.setState({ stripe_pk, stripe: window.Stripe(stripe_pk) });
+        dispatch("loadProfile", user);
+        return requestCreditCards(user.account_id);
       })
-      .then(user => requestCreditCards(user.account_id))
       .then(cards => {
-        this.setState({ cards });
-        if (cards.length > 0 && this.props.user.status !== "canceled") {
-          var card = cards[0];
-          this.setState({
-            number: "#### #### #### " + card.last4,
-            exp: card.exp_month + "/" + card.exp_year
-          });
-        }
+        this.setState({ cardsLoaded: true, cards });
       })
       .catch(error => {
         this.setState({ flash: error.message, error });
@@ -112,7 +135,7 @@ class Account extends React.Component {
   handleDeleteSubscription = () => {
     if (
       confirm(
-        "Pausing your account will stop submissions immediately. Your account and data will remain on our service. Continue?"
+        "Cancelling your subscription will stop submissions immediately. Your account and data will remain on our service. Continue?"
       )
     ) {
       cancelSubscription(this.props.user.account_id)
@@ -132,7 +155,11 @@ class Account extends React.Component {
   };
 
   handleDeleteAccount = () => {
-    if (confirm("Your account and data will be gone forever. Continue?")) {
+    if (
+      confirm(
+        "Your account and datasubmittingCard will be gone forever. Continue?"
+      )
+    ) {
       requestDestroyAccount()
         .then(n => {
           localStorage.removeItem("token");
@@ -144,72 +171,60 @@ class Account extends React.Component {
     }
   };
 
+  handleDeleteCard = () => {
+    if (confirm("Remove your credit card on file?")) {
+      requestDeleteCreditCard(this.state.cards[0].id)
+        .then(result => {
+          this.setState({
+            cardsLoaded: true,
+            cards: []
+          });
+          requestCreditCards(this.props.user.account_id).then(cards =>
+            this.setState({ cardsLoaded: true, cards })
+          );
+        })
+        .catch(e => {
+          console.log("error", e);
+          alert("An error occurred. Please contact support@formbucket.com");
+        });
+    }
+  };
+
   handleSave = () => {
-    // TBD: Subscribe the user.
-    // 1. Exchange credit card info for source id.
-    // 2. Subscribe user with plan and source id.
+    let { account_id } = this.props.user;
 
     this.setState({ saving: true });
 
-    var { number, exp, cvc } = this.state,
-      { account_id } = this.props.user;
-
-    var next =
-      number && number.length > 0 && number.trim()[0] !== "#"
-        ? subscribeUser({ account_id, number, exp, cvc })
-        : Promise.resolve();
-
-    //subscribeUser()
-    next
-      .then(() =>
-        requestUpdateUser({
-          id: this.props.user.id,
-          name: this.refs.name.value,
-          email: this.refs.email.value,
-          password: this.refs.password.value
-        })
-      )
+    requestUpdateUser({
+      id: this.props.user.id,
+      name: this.refs.name.value,
+      email: this.refs.email.value,
+      password: this.refs.password.value
+    })
       .then(user => {
         // console.log('user', user)
         this.setState({
           saving: false,
-          number:
-            number && number.length > 0
-              ? "#### #### #### " + this.state.number.substr(-4)
-              : "",
-          cvc: "",
           flash: "Saved"
         });
 
         setTimeout(() => this.setState({ flash: undefined }), 2000);
+
+        return loadProfile();
       })
-      .then(loadProfile)
       .catch(error =>
         this.setState({
           saving: false,
           flash: error,
-          error: error
+          error: errorchangeCard
         })
       );
   };
 
-  handleNumberChange = event => {
-    var number = event.target.value;
-    this.setState({ number });
-  };
-
-  handleExpChange = event => {
-    var exp = event.target.value;
-    this.setState({ exp });
-  };
-
-  handleCVCChange = event => {
-    var cvc = event.target.value;
-    this.setState({ cvc });
-  };
-
   render() {
-    if (!this.props.user || !this.props.user.email) {
+    let { user } = this.props;
+
+    if (!user || !this.props.user.email) {
       return (
         <Layout className="wrapper">
           <div className="flash">
@@ -219,8 +234,29 @@ class Account extends React.Component {
       );
     }
 
-    var { status, valid_until, trial_end, plan_amount } = this.props.user;
-    var { cards } = this.state;
+    var { status, valid_until, trial_end, plan_amount } = user;
+    var { cards, cardsLoaded, changeCard, submittingCard } = this.state;
+    let card = cards[0];
+
+    let today = new Date();
+    let today_month = today.getMonth() + 1;
+    let today_year = today.getFullYear();
+    let isCardExpired = card
+      ? card.exp_year < today_year ||
+        (card.exp_year === today_year && card.exp_month < today_month)
+      : false;
+    let hasCardOnFile = cards && cards.length > 0;
+    let isCardActive = card && !isCardExpired;
+
+    console.log(
+      "isCardExpired",
+      isCardExpired,
+      card && card.exp_year < today_year,
+      card && card.exp_year === today_year && card.exp_month < today_month
+    );
+    console.log("isCardActive", isCardActive);
+    console.log("registered card", card);
+    console.log("submittingCard", submittingCard);
 
     valid_until = new Date(valid_until);
     trial_end = new Date(trial_end);
@@ -228,7 +264,70 @@ class Account extends React.Component {
 
     // console.log('render', this.state, cards)
 
-    var CreditCardForm = (
+    var PaymentNotice = IF(
+      status === "trialing",
+      <div className="inline-info">
+        {IF(
+          hasCardOnFile,
+          <span>
+            Your card will be charged on{" "}
+            {trial_end.getMonth() +
+              1 +
+              "/" +
+              trial_end.getDate() +
+              "/" +
+              trial_end.getFullYear()}
+            .
+          </span>,
+          <span>
+            Your free trial ends on{" "}
+            {trial_end.getMonth() +
+              1 +
+              "/" +
+              trial_end.getDate() +
+              "/" +
+              trial_end.getFullYear()}
+            .
+          </span>
+        )}
+      </div>,
+      status === "active" && isCardExpired,
+      <div className="inline-error">
+        <span>
+          Card expired, please update before{" "}
+          {valid_until.getMonth() +
+            1 +
+            "/" +
+            valid_until.getDate() +
+            "/" +
+            valid_until.getFullYear()}{" "}
+          for ${plan_amount / 100}.
+        </span>
+      </div>,
+      status === "active",
+      <div className="inline-info">
+        <span>
+          Your next payment is due on{" "}
+          {valid_until.getMonth() +
+            1 +
+            "/" +
+            valid_until.getDate() +
+            "/" +
+            valid_until.getFullYear()}{" "}
+          .
+        </span>
+      </div>,
+      status === "past_due",
+      <div className="inline-error">
+        <span>Add a payment card to avoid service interuption.</span>
+      </div>,
+      status === "canceled",
+      <div className="inline-error">
+        <span>Add a payment card to reactivate your account.</span>
+      </div>
+    );
+
+    var PaymentForm = (
       <div className="payment-info">
         <div className="payment-meta">
           <div className="security-info">
@@ -240,57 +339,111 @@ class Account extends React.Component {
           <img className="stripe-badge" src="/img/stripe.svg" />
         </div>
         <div className="card-details">
-          <div className="cardNumber">
-            <label htmlFor="cardNumber">Card Number</label>
-            <input
-              value={this.state.number}
-              onChange={this.handleNumberChange}
-              onFocus={e =>
-                this.state.number.substr(-4) ===
-                (this.state.cards[0] || {}).last4
-                  ? this.setState({ number: "", exp: "" })
-                  : null
-              }
-              onBlur={e =>
-                this.setState({
-                  number:
-                    e.target.value === "" ? this.props.number : e.target.value,
-                  exp: e.target.value === "" ? "" : this.state.exp
-                })
-              }
-              name="number"
-              type="text"
-              data-stripe="number"
-            />
-          </div>
-          <div className="exp">
-            <label htmlFor="exp">Exp</label>
-            <input
-              name="expiry"
-              value={this.state.exp}
-              onChange={this.handleExpChange}
-              onBlur={e =>
-                this.setState({
-                  exp: e.target.value === "" ? "" : e.target.value
-                })
-              }
-              type="text"
-              maxLength="7"
-              data-stripe="exp"
-              placeholder="MM/YYYY"
-            />
-          </div>
-          <div className="cvc">
-            <label htmlFor="cvc">CVC</label>
-            <input
-              name="csv"
-              maxLength="4"
-              value={this.state.cvc}
-              onChange={this.handleCVCChange}
-              type="text"
-              data-stripe="cvc"
-            />
-          </div>
+          {IF(
+            submittingCard === true,
+            <p>Registering your card...</p>,
+            changeCard === false && hasCardOnFile,
+            () => (
+              <div className="card-details-info">
+                <div className="card-details-info-details">
+                  <p>{card.name}</p>
+                  <p>
+                    <i
+                      className={IF(
+                        ["mastercard", "visa"].includes(
+                          card.brand.toLowerCase()
+                        ),
+                        "pf pf-" + card.brand.toLowerCase(),
+                        "pf pf-credit-card"
+                      )}
+                      id="brand-icon"
+                    />{" "}
+                    #### #### #### {card.last4}{" "}
+                  </p>
+                  <p>
+                    <strong>Expires:</strong> {card.exp_month < 10 ? "0" : ""}
+                    {card.exp_month} / {card.exp_year}
+                  </p>
+                </div>
+                <div className="card-details-info-actions">
+                  <div className="half-width">
+                    <button
+                      className=" button secondary"
+                      onClick={() => this.setState({ changeCard: true })}
+                    >
+                      Update Card
+                    </button>
+                  </div>
+                  <div className="half-width">
+                    <button
+                      className="half-width button secondary"
+                      onClick={this.handleDeleteCard}
+                    >
+                      Remove Card
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ),
+            !this.state.stripe || cardsLoaded === false,
+            <div>Loading...</div>
+          )}
+          {IF(this.state.stripe, () => (
+            <div
+              style={{
+                display: IF(
+                  submittingCard === true,
+                  "none",
+                  changeCard === true,
+                  "",
+                  cardsLoaded === true && hasCardOnFile === false,
+                  "",
+                  "none"
+                )
+              }}
+            >
+              <StripeProvider stripe={this.state.stripe}>
+                <Elements>
+                  <CardForm
+                    account_id={this.props.user.account_id}
+                    onSubmit={() => this.setState({ submittingCard: true })}
+                    onSubscribe={() => {
+                      this.setState({
+                        changeCard: false,
+                        cardsLoaded: false,
+                        submittingCard: false
+                      });
+
+                      requestCreditCards(user.account_id).then(cards =>
+                        this.setState({ cardsLoaded: true, cards })
+                      );
+                    }}
+                  />
+                </Elements>
+              </StripeProvider>
+              {IF(
+                status === "trialing",
+                <p className="card-register-message">
+                  Your card will be charged on{" "}
+                  {trial_end.getMonth() +
+                    1 +
+                    "/" +
+                    trial_end.getDate() +
+                    "/" +
+                    trial_end.getFullYear()}{" "}
+                  and every following month. .
+                </p>,
+                status === "active",
+                <p className="card-register-message">
+                  Replaces your existing card on file.
+                </p>,
+                status === "past_due" || status === "canceled",
+                <p className="card-register-message">
+                  Your card will be charged now.
+                </p>
+              )}
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -304,7 +457,7 @@ class Account extends React.Component {
           </div>
         </div>
         <div className="wrapper">
-          <div className="half-width">
+          <div className="account-details">
             <label htmlFor="fullName">Full Name</label>
             <input
               type="text"
@@ -324,45 +477,10 @@ class Account extends React.Component {
               placeholder="nikola@altcurrent.com"
             />
             <label htmlFor="password">
-              <FontAwesome name="lock" /> Change Password
+              <FontAwesome name="lock" /> Change Password (Optional)
             </label>
             <input type="password" ref="password" defaultValue="" />
-            {IF(
-              status === "trialing",
-              <div className="inline-info">
-                <span>
-                  Your free trial ends on{" "}
-                  {trial_end.getMonth() +
-                    1 +
-                    "/" +
-                    trial_end.getDate() +
-                    "/" +
-                    trial_end.getFullYear()}
-                </span>
-              </div>,
-              status === "active",
-              <div className="inline-info">
-                <span>
-                  Your next billing date is{" "}
-                  {valid_until.getMonth() +
-                    1 +
-                    "/" +
-                    valid_until.getDate() +
-                    "/" +
-                    valid_until.getFullYear()}{" "}
-                  for ${plan_amount / 100}
-                </span>
-              </div>,
-              status === "past_due",
-              <div className="inline-error">
-                <span>Please update your billing details</span>
-              </div>,
-              status === "canceled",
-              <div className="inline-error">
-                <span>Please update your billing details</span>
-              </div>
-            )}
-            {CreditCardForm}
+
             <button
               disabled={this.state.saving}
               className="button secondary"
@@ -370,6 +488,9 @@ class Account extends React.Component {
             >
               Save Changes
             </button>
+            <h3>Subscription: {status.replace("_", " ")}</h3>
+            {PaymentNotice}
+            {PaymentForm}
           </div>
           <div className="account-sidebar">
             <p>
@@ -425,16 +546,16 @@ class Account extends React.Component {
                 status === "past_due",
               <p>
                 <a className="danger" onClick={this.handleDeleteSubscription}>
-                  Pause Account
+                  Cancel Subscription{" "}
+                  <FontAwesome className="danger" name="frown-o" />
                 </a>
               </p>,
               status === "canceled",
               null
             )}
-
             <p>
               <a className="danger" onClick={this.handleDeleteAccount}>
-                Cancel Account
+                Destroy Account
               </a>{" "}
               <FontAwesome className="danger" name="frown-o" />
             </p>

@@ -5,41 +5,63 @@
     @include span-columns(12);
   }
 
-  button, .button {
+  button,
+  .button {
     width: 100%;
   }
 }
 
 .payment-info {
   @include span-columns(12);
-  margin: $base-spacing 0;
+  margin: $base-spacing / 1.5 0;
   border: 1px solid $purple;
   border-radius: $base-border-radius;
 
   .card-details {
-    padding: 0 $base-spacing / 2;
+    padding: 0px $base-spacing / 1.5;
 
-    .cardNumber {
-      @include span-columns(7);
+    .card-element {
+      label {
+        font-weight: bold;
+      }
 
-      @include media($phablet) {
-        @include span-columns(12);
+      .card-element-row {
+        border-bottom: 1px solid #aab7c4;
+        margin: $base-spacing/1.5 0;
       }
     }
-
-    .exp {
-      @include span-columns(3);
-
-      @include media($phablet) {
-        @include span-columns(4);
-      }
+    .card-register-message {
+      padding-top: $base-spacing / 3;
+      font-style: italic;
     }
 
-    .cvc {
-      @include span-columns(2);
+    input::placeholder {
+      color: #aab7c4;
+    }
 
-      @include media($phablet) {
-        @include span-columns(3);
+    input {
+      background-color: transparent;
+      border: none;
+      display: block;
+      font-family: sans-serif;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      line-height: 1.2em;
+      height: 1.2em;
+      font-size: 18px;
+      color: #424770;
+      letter-spacing: 0.025em;
+      box-shadow: none;
+    }
+
+    .card-details-info {
+      @include clearfix;
+      padding: $base-spacing / 1.5 0px;
+
+      .card-details-info-actions {
+      }
+      .card-details-info-actions {
       }
     }
   }
@@ -47,10 +69,12 @@
   .payment-meta {
     height: $base-spacing * 2;
     padding: 0 $base-spacing / 2;
-    line-height: $base-spacing * 2;
     background: $purple;
 
     .security-info {
+      height: $base-spacing * 2;
+      padding: $base-spacing / 2 0;
+
       @include span-columns(9);
 
       @include media($phablet) {
@@ -62,6 +86,10 @@
         text-align: left;
 
         @include media($tablet) {
+          font-size: $base-font-size / 1.2;
+        }
+
+        @include media($mobile) {
           font-size: $base-font-size / 1.5;
         }
       }
@@ -69,12 +97,20 @@
 
     .stripe-badge {
       @include span-columns(3);
+      padding: $base-spacing / 2 0;
       max-width: 100px;
-      margin-top: $base-spacing / 2;
       float: right;
 
       @include media($mobile) {
         @include span-columns(4);
+      }
+    }
+    .card-details-info {
+      padding: $base-spacing / 1.5 0;
+
+      .card-details-info-actions {
+      }
+      .card-details-info-actions {
       }
     }
   }

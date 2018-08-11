@@ -68,7 +68,7 @@ class Invoices extends React.Component {
                   <td>
                     {formatDate(d.date)}
                     <br />
-                    <span style={{ fontSize: "0.7em" }}>{d.id}</span>
+                    <a href={d.invoice_pdf}>{d.id}</a>
                   </td>
                   <td>{text(d.total / 100, "$#,##0.00")}</td>
                   <td>{d.paid ? "Yes" : "No"}</td>
