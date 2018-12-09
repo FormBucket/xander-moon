@@ -64,9 +64,8 @@ function makeHTMLForm({
       ? `<script src="https://www.google.com/recaptcha/api.js"></script>
 `
       : ""
-  }<form id="my-awesome-form" action="${
-    process.env.FORMBUCKET_API_SERVER
-  }/f/${id}" method="post" target="_blank">
+  }<form id="my-awesome-form" action="${"https://" +
+    window.location.host}/f/${id}" method="post" target="_blank">
   <input type="text" name="email" placeholder="email" />
   <input type="text" name="subject" placeholder="subject" />
   <textarea type="text" name="message" placeholder="message"></textarea>${
@@ -306,12 +305,9 @@ class NewBucket extends React.Component {
             </div>
             <div className="section">
               <h3>Custom Redirect</h3>
-              <label htmlFor="redirectURL">
-                Send users to this URL after submitting the form
-              </label>
               <input
                 type="text"
-                placeholder="Send to formbucket default landing page, supports merge tags"
+                placeholder="Send to custom landing page, supports merge tags"
                 id="redirectURL"
                 ref="redirectURL"
                 onChange={e => setState({ redirect_url: e.target.value })}
@@ -320,7 +316,12 @@ class NewBucket extends React.Component {
               />
               <label htmlFor="bucketAJAXOnly" className="label-switch">
                 {" "}
-                <a href="/guides/json-endpoints">JSON Endpoint?</a>
+                <Link
+                  style={{ textDecoration: "none" }}
+                  to="/guides/json-endpoints"
+                >
+                  JSON Endpoint?
+                </Link>
                 <input
                   id="bucketAJAXOnly"
                   type="checkbox"
@@ -435,7 +436,7 @@ class NewBucket extends React.Component {
                   name="notificationSubject"
                   type="text"
                   ref="auto_responder_subject"
-                  placeholder="Defaults to {{ _subject }}, otherwise &quot;Submission for {{bucket_name}}&quot;"
+                  placeholder='Defaults to {{ _subject }}, otherwise "Submission for {{bucket_name}}"'
                   onChange={e =>
                     setState({ notification_subject: e.target.value })
                   }
@@ -608,8 +609,8 @@ class NewBucket extends React.Component {
                         type="text"
                         id={"webhook" + i}
                         onChange={e => {
-                          var updated = bucket.webhooks.map(
-                            (v, k) => (i === k ? e.target.value : v)
+                          var updated = bucket.webhooks.map((v, k) =>
+                            i === k ? e.target.value : v
                           );
                           setState({ webhooks: updated });
                         }}
@@ -723,7 +724,9 @@ class NewBucket extends React.Component {
               Logs
             </Link>
             &nbsp;{" "}
-            <Link to={`/notifications?offset=0&limit=10&bucket_id=${bucket.id}`}>
+            <Link
+              to={`/notifications?offset=0&limit=10&bucket_id=${bucket.id}`}
+            >
               Notifications
             </Link>
           </div>
@@ -733,7 +736,7 @@ class NewBucket extends React.Component {
               <div>
                 <input
                   type="text"
-                  value={process.env.FORMBUCKET_API_SERVER + "/f/" + bucket.id}
+                  value={"https://" + window.location.host + "/f/" + bucket.id}
                 />
               </div>
               {IF(
@@ -742,8 +745,9 @@ class NewBucket extends React.Component {
                   <hr />
                   <h4>Example HTML</h4>
                   <p>
-                    Copy and paste the markup below into your project, rep<script src="https://www.google.com/recaptcha/api.js" />lacing
-                    the example inputs with your own.
+                    Copy and paste the markup below into your project, rep
+                    <script src="https://www.google.com/recaptcha/api.js" />
+                    lacing the example inputs with your own.
                   </p>
                   <div className="quick-use" style={{ textAlign: "left" }}>
                     <Markdown
@@ -758,7 +762,8 @@ class NewBucket extends React.Component {
               <hr />
 
               <h4>
-                Test Form (<a
+                Test Form (
+                <a
                   href="javascript:void(0)"
                   onClick={() => {
                     this.setState({ reset: true });
@@ -780,7 +785,8 @@ class NewBucket extends React.Component {
                   }}
                 >
                   {IF(this.state.showEditor, "Hide", "Show")} Example HTML
-                </a>)
+                </a>
+                )
               </h4>
               <div>
                 {IF(

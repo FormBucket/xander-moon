@@ -33,20 +33,27 @@ class Welcome extends React.Component {
         <div className="hero">
           <div className="bubbles">
             <div className="wrapper">
-              <h1>Every form needs a bucket</h1>
-              <h2>Capture, protect, notify and automate submissions</h2>
+              <h1>Forms for static sites</h1>
+              <h2>
+                With FormBucket you get simple form handling, alerts and more
+                with no servers to setup or manage.
+              </h2>
               {IF(
-                this.props.user && this.props.user.account_id,
+                this.props.user && !this.props.user.anonymous,
                 <div>
                   <button type="button" onClick={() => router.open("/buckets")}>
                     Return to buckets
                   </button>
                 </div>,
                 <div>
-                  <button type="button" onClick={() => router.open("/signup")}>
+                  <button
+                    type="button"
+                    onClick={() => (window.location.href = "/signup")}
+                  >
                     Get Started
                   </button>
                   <p>14-Day Trial • No credit card to sign up!</p>
+                  <p>$7/mo for unlimited usage.</p>
                 </div>
               )}
             </div>

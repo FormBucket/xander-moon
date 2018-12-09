@@ -14,7 +14,7 @@ class Header extends React.Component {
       <header className="navigation" role="banner">
         <div className="navigation-wrapper">
           <Link to="/" className="logo">
-            <img src="/img/purple-logo.svg" alt="FormBucket" />
+            <img src="/img/logo.svg" alt="FormBucket" />
           </Link>
           <Nav />
         </div>

@@ -71,8 +71,9 @@
 }
 
 .callout {
+  @include card;
   padding: $base-spacing;
-  border: 1px solid $light-green;
+  // border: 1px solid $light-green;
   border-radius: $base-border-radius;
   margin-bottom: $base-spacing;
 

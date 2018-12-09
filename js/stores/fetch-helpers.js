@@ -14,6 +14,7 @@ export function processStatus(response) {
 
 export function callResource(method, url, data) {
   var opts = {
+    credentials: "include",
     method: method,
     mode: "cors",
     headers: {
@@ -22,14 +23,13 @@ export function callResource(method, url, data) {
     }
   };
 
-  if (localStorage.hasOwnProperty("token")) {
-    opts.headers.Authorization = `Bearer ${localStorage.token}`;
-  }
-
   if (data) {
     opts.body = JSON.stringify(data);
   }
 
+  if (localStorage.hasOwnProperty("token")) {
+    opts.headers.Authorization = `Bearer ${localStorage.token}`;
+  }
   // console.log('call', url, opts)
 
   return fetch(url, opts);

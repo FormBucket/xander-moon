@@ -25,16 +25,13 @@ window.validateForm = function() {
 };
 
 var content = `
-<h3>Hello, World!</h3>
+<h3>What's on your mind?</h3>
 <form method="post"
   action="${server}/f/homepage"
   onsubmit="return validateForm()">
-  <label>Your Name</label>
-  <input type="text" name="name" />
-  <label>Your Email</label>
-  <input type="text" name="email" />
-  <label>What form will you make?</label>
-  <textarea name="message"></textarea>
+  <input type="text" name="name" placeholder="Your name" />
+  <input type="text" name="email" placeholder="Your email" />
+  <textarea name="message" placeholder="Ask a question or send us feedback. We love hearing from designers and developers."></textarea>
   <button class="secondary" type="submit">Submit</button>
 </form>`;
 
@@ -109,7 +106,8 @@ class Welcome extends React.Component {
                 <h2>Quickly and Easily Setup Forms</h2>
                 <p className="blurb">
                   Need a contact or lead form? Forget about setting up scripts,
-                  databases or fighting with spammers. We handle all of these for you.
+                  databases or fighting with spammers. We handle all of these
+                  for you.
                 </p>
               </div>
             </div>
@@ -123,8 +121,8 @@ class Welcome extends React.Component {
                 <div className="copy">
                   <h3>Magic Buckets</h3>
                   <p>
-                    Our services saves form submissions to a "bucket". A bucket is 
-                    like a table in a database or a worksheet in a
+                    Our services saves form submissions to a "bucket". A bucket
+                    is like a table in a database or a worksheet in a
                     spreadsheet. Each bucket has a unique URL which is simply
                     copied and pasted into your HTML. Setup is fast and easy.
                   </p>
@@ -246,7 +244,7 @@ class Welcome extends React.Component {
                       </p>
                       <button
                         type="button"
-                        onClick={() => router.open("/signup")}
+                        onClick={() => (window.location.href = "/signup")}
                       >
                         Sign Up
                       </button>

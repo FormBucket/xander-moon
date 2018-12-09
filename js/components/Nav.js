@@ -55,10 +55,10 @@ class Nav extends React.Component {
             <Link to="/guides">Guides</Link>
           </li>
           <li className="nav-link">
-            <Link to="/signup">Sign Up</Link>
+            <a href="/signup?redirect_uri=/buckets">Sign Up</a>
           </li>
           <li className="nav-link">
-            <Link to="/login">Login</Link>
+            <a href="/login?redirect_uri=/buckets">Login</a>
           </li>
         </ul>
       </nav>

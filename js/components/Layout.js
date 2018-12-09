@@ -10,25 +10,32 @@ import UserStore from "../stores/user";
 import { loadProfile } from "../stores/ActionCreator";
 
 /* Write some great components about what data
-* this application displays and how it needs to be
-* organized.
-*/
+ * this application displays and how it needs to be
+ * organized.
+ */
 class Layout extends React.Component {
-  state = {};
+  state = { loaded: false };
 
-  componentDidMount() {
+  componentWillMount() {
     if (window.Intercom) {
       window.Intercom("boot", {
         app_id: "n2h7hsol"
       });
     }
 
-    loadProfile();
+    if (this.props.user) {
+      this.setState({ loaded: true });
+    }
+
+    loadProfile().then(() => this.setState({ loaded: true }));
   }
 
   componentWillUnmount() {}
 
   render() {
+    if (this.state.loaded == false) {
+      return <div />;
+    }
     var { status, trial_period_days, trial_start, has_source } =
       this.props.user || {}; // TBD: get from profile
     // console.log('app', this.state)

@@ -108,21 +108,12 @@ class Account extends React.Component {
     cvc: ""
   };
 
-  componentWillMount() {
-    if (localStorage.hasOwnProperty("token") === false) {
-      router.open("/login");
-      return;
-    }
-  }
-
   componentDidMount() {
-    Promise.all([requestStripePubKey(), loadProfile()])
+    Promise.all([requestStripePubKey()])
       .then(values => {
         let stripe_pk = values[0].key;
-        let user = values[1];
         this.setState({ stripe_pk, stripe: window.Stripe(stripe_pk) });
-        dispatch("loadProfile", user);
-        return requestCreditCards(user.account_id);
+        return requestCreditCards(this.props.user.account_id);
       })
       .then(cards => {
         this.setState({ cardsLoaded: true, cards });
@@ -495,10 +486,8 @@ class Account extends React.Component {
           <div className="account-sidebar">
             <p>
               <a
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  router.open("/");
-                }}
+                onClick={() => localStorage.removeItem("token")}
+                href={"/logout?redirect_uri=https://" + window.location.host}
               >
                 Log Out
               </a>

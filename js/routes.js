@@ -6,12 +6,13 @@ import React from "react";
 import { loadable } from "xander";
 import Loader from "./components/Loader";
 
-let loading = props => <Loader />
+let loading = props => <Loader />;
 
-let loader = loader => loadable({
-  loader,
-  loading
-})
+let loader = loader =>
+  loadable({
+    loader,
+    loading
+  });
 
 let routes = [
   {
@@ -57,10 +58,6 @@ let routes = [
   {
     path: "/privacy-policy",
     component: loader(() => System.import("./components/Privacy"))
-  },
-  {
-    path: "/login",
-    component: loader(() => System.import("./components/Login"))
   },
   {
     path: "/signup",

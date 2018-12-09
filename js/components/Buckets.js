@@ -29,9 +29,6 @@ class Buckets extends React.Component {
 
   componentDidMount() {
     dispatch("initBuckets");
-    if (!UserStore.isUserLoggedIn()) {
-      router.open("/login");
-    }
 
     // load the buckets
     requestBuckets()
@@ -48,7 +45,7 @@ class Buckets extends React.Component {
   };
 
   handleSelect = bucket => {
-    router.open('/buckets/' + bucket.id + '/settings')
+    router.open("/buckets/" + bucket.id + "/settings");
   };
 
   handleShow = bucket => {
@@ -94,7 +91,7 @@ class Buckets extends React.Component {
         </div>
         <div className="wrapper">
           <div className="callout">
-            <p>Buckets are a container to store form submissions.</p>
+            <p>Buckets store your form data.</p>
             <button onClick={this.handleNewBucket}>
               <FontAwesome name="plus" /> Create Bucket
             </button>

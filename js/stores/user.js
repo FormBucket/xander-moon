@@ -3,7 +3,6 @@
  */
 
 import { createStore, dispatch } from "xander";
-import SubscriptionStore from "./subscription";
 import { DECODEJWT as decodeJWT } from "formula";
 
 // format unix time
@@ -34,7 +33,7 @@ const UserStore = createStore(
     setProfile: (state, data) => Object.assign({}, state, data)
   }, // store does not support updates
   {
-    isUserLoggedIn: state => readExp() > unix(),
+    isUserLoggedIn: state => state && state.id && !state.anonymous,
     getState: state => state,
     getStatus: state => (state ? state.status : "loading")
   }

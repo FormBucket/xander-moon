@@ -21,7 +21,7 @@
 
 .ReactModal__Content--after-open {
   opacity: 1;
-  transition: opacity .35s ease-in-out;
+  transition: opacity 0.35s ease-in-out;
 }
 
 .modal-overlay {
@@ -39,7 +39,9 @@
   overflow: hidden;
   max-width: 100%;
 
-  iframe, object, embed {
+  iframe,
+  object,
+  embed {
     position: absolute;
     top: 0;
     left: 0;
@@ -73,10 +75,10 @@
     text-align: center;
     margin-top: 0;
     margin-bottom: $base-spacing / 2;
+    font-size: $base-font-size * 1.2;
 
     @include media($phablet) {
       margin-top: $base-spacing;
-      font-size: $base-font-size * 1.25;
     }
   }
 
@@ -100,13 +102,21 @@
 }
 
 @keyframes drifting {
-	from { background-position: 0 0; }
-	to { background-position: 100% 0; }
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
 }
 
 @keyframes driftingbackwards {
-	from { background-position: 100% 0; }
-	to { background-position: 0 0; }
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
 }
 
 .features {
@@ -189,47 +199,47 @@
   padding: $base-spacing;
   text-align: center;
 
-    .problem {
-      @include clearfix;
-      @include span-columns(8);
-      @include shift(2);
-      text-align: center;
-      border-bottom: none;
+  .problem {
+    @include clearfix;
+    @include span-columns(8);
+    @include shift(2);
+    text-align: center;
+    border-bottom: none;
+    margin-bottom: $base-spacing;
+    padding-bottom: $base-spacing;
+
+    @include media($phablet) {
+      @include span-columns(12);
+      @include shift(0);
       margin-bottom: $base-spacing;
-      padding-bottom: $base-spacing;
+    }
+
+    .person {
+      @include span-columns(3);
+
+      @include media($phablet) {
+        @include span-columns(4);
+        @include shift(4);
+      }
+    }
+
+    .quote {
+      @include span-columns(8);
+      @include shift(1);
+      text-align: left;
+      background: white;
+      padding: $base-spacing;
+      border-radius: $base-border-radius * 3;
+      border: 1px solid $lightest-purple;
 
       @include media($phablet) {
         @include span-columns(12);
         @include shift(0);
-        margin-bottom: $base-spacing;
-      }
-
-      .person {
-        @include span-columns(3);
-
-        @include media($phablet) {
-          @include span-columns(4);
-          @include shift(4);
-        }
-      }
-
-      .quote {
-        @include span-columns(8);
-        @include shift(1);
-        text-align: left;
-        background: white;
-        padding: $base-spacing;
-        border-radius: $base-border-radius * 3;
-        border: 1px solid $lightest-purple;
-
-        @include media($phablet) {
-          @include span-columns(12);
-          @include shift(0);
-          text-align: center;
-        }
+        text-align: center;
       }
     }
   }
+}
 
 .editor {
   @include span-columns(12);
@@ -255,6 +265,8 @@
     background: white;
     border: 1px solid #ddd;
     border-radius: 3px;
+    font-size: 0.8em;
+    line-height: 2em;
 
     @include media($tablet) {
       @include span-columns(12);
@@ -263,6 +275,7 @@
 
     @include media($mobile) {
       font-size: $base-font-size / 1.25;
+      display: none;
     }
   }
 
@@ -314,16 +327,24 @@
 }
 
 @keyframes fadeup {
-  0% { opacity: 0;}
-  100% { opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-@keyframes type{
-  from { width: 0; }
+@keyframes type {
+  from {
+    width: 0;
+  }
 }
 
-@keyframes blink{
-  to { opacity: .0; }
+@keyframes blink {
+  to {
+    opacity: 0;
+  }
 }
 
 .section-block {
@@ -417,13 +438,14 @@
   .signup {
     padding: $base-spacing / 2;
 
-    button, .button {
+    button,
+    .button {
       width: 100%;
     }
   }
 
   .not-included {
-    color: transparentize($darkest-purple, 0.5)
+    color: transparentize($darkest-purple, 0.5);
   }
 }
 
