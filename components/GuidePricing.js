@@ -1,65 +1,104 @@
 /** @jsx h */
 /**
- * Copyright (c) 2015-2018, FormBucket.com
+ * Copyright (c) 2015-2018, microbucket.com
  */
 import { h } from "preact";
 import Guide from "./Guide";
 
-let GuideWebhooks = () => (
+let GuidePricing = () => (
   <Guide title="Pricing">
-    <h3>Units Of Work</h3>
-    <p>
-      FormBucket charges points for work performed. Billable units of work are:
-    </p>
-    <ul>
-      <li>Create Bucket (1000 points)</li>
-      <li>Form Received (1 point)</li>
-      <li>Blacklist IP Check (2 point)</li>
-      <li>SpamAssassin Check (5 point)</li>
-      <li>Akismet Check (15 point)</li>
-      <li>Honeypot (1 point)</li>
-      <li>Recaptcha (5 point)</li>
-      <li>Notification (10 points)</li>
-      <li>Autoresponder (20 points)</li>
-      <li>Webhook (5 points)</li>
-      <li>Export Submission (1/10 point)</li>
-      <li>Submission Retention (1 point per month)</li>
-    </ul>
-    <p>The cost for 10,000 points is $10.</p>
-    <h3>Payment</h3>
-    <p>
-      FormBucket.com accepts credit card and bitcoin. Your payment buys points.
-      A $10 payment buys 10,000 points. Minimum is $10.
-    </p>
-    <h3>Limits</h3>
-    <p>Set limits to prevent excessive usage.</p>
-    <ul>
+    <h2>Our prices are based on usage.</h2>
+    <p>At FormBucket we charge for what you use. There are no fixed monthly charges.</p>
+    <h2>Prices</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Action</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Per Form Submission</td>
+          <td>$0.001</td>
+        </tr>
+        <tr>
+          <td>Bucket enabled per hour</td>
+          <td>$0.001375</td>
+        </tr>
+        <tr>
+          <td>Per Notification</td>
+          <td>$0.01</td>
+        </tr>
+        <tr>
+          <td>Per Autoresponder</td>
+          <td>$0.02</td>
+        </tr>
+        <tr>
+          <td>Per Webhook</td>
+          <td>$0.02</td>
+        </tr>
+        <tr>
+          <td>Per API Request</td>
+          <td>$0.0001</td>
+        </tr>
+        <tr>
+          <td>Export form submission</td>
+          <td>$0.00001</td>
+        </tr>
+        <tr>
+          <td>Submission retained per hour</td>
+          <td>$0.0000042</td>
+        </tr>
+        <tr>
+          <td>Storage per GB per hour</td>
+          <td>$0.001375</td>
+        </tr>
+        <tr>
+          <td>Inbound data transfer per megabyte</td>
+          <td>$0.0015</td>
+        </tr>
+        <tr>
+          <td>Outbound data transfer per megabyte</td>
+          <td>$0.0005</td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>What can I buy for $1.00 U.S.?</h2>
+    <ol>
+      <li>Collect 1000 form submissions</li>
+      <li>Receive 100 email notifications</li>
+      <li>Send 20 automatic responses</li>
+      <li>Trigger 50 webhooks</li>
+      <li>Make 10,000 API requests</li>
+      <li>Enable a bucket for 30 days</li>
+      <li>Retain 10,000 records for 24 hours</li>
+    </ol>
+    <h2>How do I pay?</h2>
+    <p>Payment is upfront. We accept payment by credit card, paypal and bitcoin.</p>
+    <p>The minimum credit card payment is $10.</p>
+    <h2>Can I limit my spending?</h2>
+    <p>Yes, you may prevent excessive usage with account limits.</p>
+    <ol>
       <li>
         Max Number of Submissions Per IP Address (Default: 10/ip/account/day)
-      </li>
-      <li>Max Forms Received (Default: 5,000/points/day)</li>
-      <li>Max Emails Sent (Default: 5,000/points/day)</li>
-      <li>Max Webhooks Delivered (Default: 5,000/points/day)</li>
-    </ul>
-    <h3>Membership</h3>
-    <p>FormBucket membership is exclusive. You can apply or be invited.</p>
-    <p>Use invitation credits to invite your friends.</p>
-    <p>Users that violate our terms will be banned.</p>
-    <h3>Transfer</h3>
+      </li>{" "}
+      <li>Max Forms Received (Default: $1.00/day)</li>
+      <li>Max Emails Sent (Default: $5.00/day)</li>
+      <li>Max Webhooks Delivered (Default: $5.00/day)</li>
+    </ol>
+    <h2>Transfers</h2>
     <p>
-      Credits may be transferred between accounts. A 1.5% service fee is
-      charged.
+      Credits may be transferred between accounts. A service transfer fee is $0.29 + 1.5% .
     </p>
-    <h3>Refunds</h3>
+    <h2>Refunds</h2>
     <p>
-      Payments are non-refundable. They may only be redeemed for work. Credits
-      never expire.
+      Payments are non-refundable. They may only be redeemed for work. Account credits never expire.
     </p>
-    <h3>Autopay</h3>
+    <h2>Autopay</h2>
     <p>
-      Want to purchase points each month, year or when your account gets low?
-      Signup for autopay.
+      Signup for monthly auto pay to get 20% in free credits each month.
     </p>
   </Guide>
 );
-export default GuideWebhooks;
+export default GuidePricing;

@@ -3,6 +3,7 @@
  */
 
 import { h } from "preact";
+import "./styles/guides.scss";
 
 let Guide = ({ title, title2, children }) => (
   <div>

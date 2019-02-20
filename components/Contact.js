@@ -14,7 +14,6 @@ let Contact = class extends Component {
           sitekey,
           size: "invisible",
           callback: () => {
-            console.log("got callback from recaptcha");
             document.getElementById("formbucket-contact-form").submit();
           }
         });
@@ -42,8 +41,8 @@ let Contact = class extends Component {
         </div>
         <div class="wrapper">
           <p>
-            We love feedback! You can always reach us on Twitter
-            [@formbucket](https://twitter.com/FormBucket) too.
+            We love feedback! You can always reach us on Twitter{" "}
+            <a href="https://twitter.com/FormBucket">@formbucket</a>.
           </p>
           <form
             id="formbucket-contact-form"

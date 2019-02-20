@@ -5,16 +5,17 @@
 
 import { h, Component } from "preact";
 import IF from "formula/src/branch";
+import Contact from "./Contact";
 import "./styles/welcome.scss";
 
 const Clincher = () => (
   <div id="features" class="section-block">
     <div class="wrapper">
       <div class="clincher">
-        <h2>Just need a backend ?</h2>
+        <h2>Do you want a simple backend ?</h2>
         <p class="blurb">
-          Did you designed an awesome form for your site? Forget about scripts,
-          servers, databases, spam and more.
+          So you just designed an awesome static site for your client. Forget
+          about scripts and servers for a simple form.
         </p>
         <p class="blurb">Don't have an invite? Apply now.</p>
       </div>
@@ -101,8 +102,8 @@ class Welcome extends Component {
         <div class="hero">
           <div class="bubbles">
             <div class="wrapper">
-              <h1>Hosted form backend</h1>
-              <h2>Simple form API for your sites.</h2>
+              <h1>Managed Form Backend</h1>
+              <h2>Perfect form solution for your static sites.</h2>
               {IF(
                 props.user && !props.user.anonymous,
                 null,
@@ -111,12 +112,8 @@ class Welcome extends Component {
                     type="button"
                     onClick={() => (window.location.href = "/signup")}
                   >
-                    Apply Now
+                    Apply to join
                   </button>
-                  <p>Membership is by application or invite only.</p>
-                  <p>
-                    Need help? <a href="/contact">contact us</a>.
-                  </p>
                 </div>
               )}
             </div>
@@ -252,6 +249,11 @@ class Welcome extends Component {
                     </p>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div class="louder">
+              <div class="wrapper">
+                <Contact />
               </div>
             </div>
             {/* <div id="pricing" class="section-block">
