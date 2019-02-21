@@ -582,11 +582,11 @@ class Bucket extends Component {
               Submissions
             </a>
             &nbsp;{" "}
-            <a href={`/events?offset=0&limit=10&bucket_id=${bucket.id}`}>Events</a>
-            {/* 
+            <a href={`/logs?offset=0&limit=10&bucket_id=${bucket.id}`}>Logs</a>
+            &nbsp;{" "}
             <a href={`/notifications?offset=0&limit=10&bucket_id=${bucket.id}`}>
               Notifications
-            </a> */}
+            </a> 
           </div>
           <div class="bucket-preview">
             <div class="bucket-editor">

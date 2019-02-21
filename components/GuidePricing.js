@@ -5,16 +5,19 @@
 import { h } from "preact";
 import Guide from "./Guide";
 
-let GuidePricing = () => (
+let GuidePricing = () => true ? <Guide title="Pricing"><p>The monthly membership cost is $7/mo. Yes, this includes unlimited buckets and submissions.</p></Guide> : (
   <Guide title="Pricing">
-    <h2>Our prices are based on usage.</h2>
-    <p>At FormBucket we charge for what you use. There are no fixed monthly charges.</p>
+    <p>Today, our pricing is a simple monthly membership fee of $7/mo.</p>
+    <p>In the near future, we will adopt a new pricing model. 
+    The new model will have no fixed monthly charges. You will pay a tiny fee for each hour that your form is active. For each 33 hours the cost is $0.01. That works out to $0.21 per bucket per month.</p>
+    <p>Your total cost will depend on usage.
+    Must purchase prepaid credits to perform actions. Credits never expire.</p>
     <h2>Prices</h2>
     <table>
       <thead>
         <tr>
           <th>Action</th>
-          <th>Price</th>
+          <th>$Cost (US Dollars)</th>
         </tr>
       </thead>
       <tbody>
@@ -24,7 +27,7 @@ let GuidePricing = () => (
         </tr>
         <tr>
           <td>Bucket enabled per hour</td>
-          <td>$0.001375</td>
+          <td>$0.0003</td>
         </tr>
         <tr>
           <td>Per Notification</td>

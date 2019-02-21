@@ -75,6 +75,12 @@ class App extends Component {
             }
           />
           <AsyncRoute
+            path="/invoices"
+            getComponent={() =>
+              import("./pages/Invoices").then(module => module.default)
+            }
+          />
+          <AsyncRoute
             path="/buckets"
             getComponent={() =>
               import("./pages/Buckets").then(module => module.default)
@@ -238,7 +244,12 @@ class App extends Component {
               import("./pages/Log").then(module => module.default)
             }
           />
-
+          <AsyncRoute
+            path="/notifications"
+            getComponent={() =>
+              import("./pages/Notifications").then(module => module.default)
+            }
+          />
           <AsyncRoute
             default
             getComponent={() =>
@@ -253,3 +264,9 @@ class App extends Component {
 
 // launch React App
 render(<App />, document.getElementById("formbucket-root"));
+
+if (module.hot) {
+module.hot.accept(function () {
+window.location.reload();
+});
+}

@@ -18,7 +18,8 @@ import {
   requestUpdateSubmissions,
   requestDeleteSubmissions,
   requestLogs,
-  requestLog
+  requestLog,
+  requestEmailQueue
 } from "./webutils";
 
 const initialState = {
@@ -69,11 +70,10 @@ export let actions = store => ({
   },
 
   loadBucket(state, bucketId) {
-    console.log("loadBucket", bucketId);
     requestBucket(bucketId).then(bucket => {
-      let { buckets = [], bucketsbyid } = state;
-      if (bucketsbyid.hasOwnProperty(bucketId)) {
-        buckets = buckets.map(d => IF(d.id === bucketId, bucket, d));
+      let { buckets = [] } = state;
+      if (buckets.filter(d => d.id === bucketId).length > 0) {
+        buckets = buckets.map(d => d.id === bucketId ? bucket : d);
       } else {
         buckets = buckets.concat(bucket);
       }
@@ -274,7 +274,20 @@ export let actions = store => ({
       .catch(error => store.setState({ error: error.toString() }));
   },
 
+  clearLogs(state) {
+    return { logs: null };
+  },
+
   clearLog(state) {
-    return { log: null };
+      return { log: null }
+  },
+
+  loadNotifications(state, offset, limit, bucket_id, mail_id) {
+    requestEmailQueue(offset, limit, bucket_id, mail_id)
+      .then( result => store.setState(result) )
+      .catch(error => store.setState({ error: error.toString() }));
+  },
+  clearNotifications() {
+    return { items: null };
   }
 });

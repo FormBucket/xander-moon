@@ -45,7 +45,7 @@ class Welcome extends Component {
       notificationFailed = 0,
       notificationDelayed = 0
     } = props;
-    if (props.user && !props.user.anonymous) {
+    if (false && props.user && !props.user.anonymous) {
       return (
         <div class="wrapper">
           <h1>Welcome, {props.user.name}</h1>

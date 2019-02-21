@@ -4,7 +4,7 @@
 
 import { h, Component } from "preact";
 import format from "date-fns/format";
-// import Markdown from "react-markdown";
+import "highlight.js/styles/github.css";
 
 class Log extends Component {
   render() {
@@ -34,31 +34,31 @@ class Log extends Component {
             <label>Request Body</label>
             <div style={{ backgroundColor: "#EEE" }}>
               <pre>
-                <code>{JSON.stringify(log.requestBody, null, 4)}</code>
+                <code class="language-js">{JSON.stringify(log.requestBody, null, 4)}</code>
               </pre>
             </div>
             <label>Response Body</label>
             <div style={{ backgroundColor: "#EEE" }}>
               <pre>
-                <code>{JSON.stringify(log.requestBody, null, 4)}</code>
+                <code class="language-js">{JSON.stringify(log.requestBody, null, 4)}</code>
               </pre>
             </div>
             <label>Request Headers</label>
             <div style={{ backgroundColor: "#EEE" }}>
               <pre>
-                <code>{JSON.stringify(log.requestHeaders, null, 4)}</code>
+                <code class="language-js">{JSON.stringify(log.requestHeaders, null, 4)}</code>
               </pre>
             </div>
             <label>Response Headers</label>
             <div style={{ backgroundColor: "#EEE" }}>
               <pre>
-                <code>{JSON.stringify(log.responseHeaders, null, 4)}</code>
+                <code class="language-js">{JSON.stringify(log.responseHeaders, null, 4)}</code>
               </pre>
             </div>
             <label>User</label>
             <div style={{ backgroundColor: "#EEE" }}>
               <pre>
-                <code>{JSON.stringify(log.user, null, 4)}</code>
+                <code class="language-js">{JSON.stringify(log.user, null, 4)}</code>
               </pre>
             </div>
           </div>

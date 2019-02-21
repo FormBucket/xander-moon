@@ -34,6 +34,7 @@ class Invoices extends Component {
   }
 
   render() {
+    return <div>Invoices</div>;
     return (
       <div>
         <div class="page-heading">
