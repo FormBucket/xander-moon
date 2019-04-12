@@ -4,7 +4,7 @@
 
 // The server is initialized from the API server.
 export const server =
-    window.FORMBUCKET_API_SERVER || "https://api.formbucket.com",
+    window.FORMBUCKET_API_SERVER || "https://www-dev.formbucket.com",
   // The version is and will always be v1.
   version = `/v1`,
   // The API root is the result of concat(server, version).

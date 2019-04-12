@@ -25,10 +25,10 @@ let GuideIndex = () => (
       <a href="/guides/merge-tags">Merge Tags</a>
     </h6>
     <p>Personalize your autoresponder emails with merge tags.</p>
-    <hr />
+    {/* <hr />
     <h6>
       <a href="/guides/json-endpoints">JSON Endpoints</a>
-    </h6>
+    </h6> */}
     <p>This option sets up an endpoint that always returns a JSON object.</p>
     <hr />
     <h6>
@@ -51,10 +51,13 @@ let GuideIndex = () => (
     <hr />
     <h3>Developer Docs</h3>
     <h6>
-      <a href="/docs/api">API</a>
+      <a href="/docs/api">RESTFUL API (version 1)</a>
     </h6>
     <p>Check out the FormBucket API with examples.</p>
-    <hr />
+    <h6>
+      <a href="/guides/query">Querying your data</a>
+    </h6>
+    <p>Access your data with GraphQL.</p>
     <h6>
       <a href="/docs/webhooks">Webhooks</a>
     </h6>
@@ -62,9 +65,7 @@ let GuideIndex = () => (
     <hr />
     <h3>Legal / Privacy</h3>
     <h6>
-      <a href="/guides/pricing">
-        Pricing
-      </a>
+      <a href="/guides/pricing">Pricing</a>
     </h6>
     <p>How we charge for services.</p>
     <h6>

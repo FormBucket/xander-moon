@@ -1,6 +1,6 @@
 import { h, Component } from "preact";
 import { connect } from "unistore/preact";
-import { actions } from "../store";
+import { actions } from "../src/store";
 import Layout from "../components/Layout";
 import Buckets from "../components/Buckets";
 
@@ -9,7 +9,16 @@ class BucketsContainer extends Component {
     this.props.loadBuckets();
   }
   render() {
-    return <Buckets {...this.props} />;
+    return (
+      <div>
+        <div class="page-heading">
+          <div class="wrapper">
+            <h1>Buckets</h1>
+          </div>
+        </div>
+        <Buckets {...this.props} />
+      </div>
+    );
   }
 }
 
@@ -18,8 +27,6 @@ export default connect(
   actions
 )(props => (
   <Layout {...props}>
-    <BucketsContainer
-      {...props}
-    />
+    <BucketsContainer {...props} />
   </Layout>
 ));

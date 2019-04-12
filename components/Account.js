@@ -3,14 +3,13 @@
  */
 
 import { h, Component } from "preact";
-import FontAwesome from "react-fontawesome";
 import {
   requestCreditCards,
   requestDestroyAccount,
   requestStripePubKey,
   requestUpdateUser,
   requestDeleteCreditCard
-} from "../webutils";
+} from "../src/webutils";
 
 import IF from "formula/src/branch";
 import {} from "react-stripe-elements";
@@ -292,7 +291,7 @@ class Account extends Component {
         <div class="payment-meta">
           <div class="security-info">
             <p>
-              <FontAwesome name="lock" /> All transactions are secure and
+              <i class="fa fa-lock" /> All transactions are secure and
               encrypted.
             </p>
           </div>
@@ -437,7 +436,7 @@ class Account extends Component {
               placeholder="nikola@altcurrent.com"
             />
             <label htmlFor="password">
-              <FontAwesome name="lock" /> Change Password (Optional)
+              <i class="fa fa-lock" /> Change Password (Optional)
             </label>
             <input
               type="password"
@@ -502,10 +501,9 @@ class Account extends Component {
             <p>
               <a
                 onClick={() => localStorage.removeItem("token")}
-                href={"/graphql"}
-                native
+                href={"/query"}
               >
-                GraphiQL
+                Query
               </a>
             </p>
             {IF(
@@ -514,8 +512,7 @@ class Account extends Component {
                 status === "past_due",
               <p>
                 <a class="danger" onClick={this.handleDeleteSubscription}>
-                  Cancel Subscription{" "}
-                  <FontAwesome class="danger" name="frown-o" />
+                  Cancel Subscription <i class="danger fa fa-frown-o" />
                 </a>
               </p>,
               status === "canceled",
@@ -525,7 +522,7 @@ class Account extends Component {
               <a class="danger" onClick={this.handleDeleteAccount}>
                 Destroy Account
               </a>{" "}
-              <FontAwesome class="danger" name="frown-o" />
+              <i class="danger fa fa-frown-o" />
             </p>
           </div>
         </div>

@@ -3,19 +3,21 @@
  */
 
 import { h, Component } from "preact";
-import FontAwesome from "react-fontawesome";
 import IF from "formula/src/branch";
 import ISARRAY from "formula/src/isarray";
 import isEmpty from "formula/src/isempty";
 import isblank from "formula/src/isblank";
 import isTruthy from "formula/src/istruthy";
-import hljs from "highlight.js/lib/highlight.js";
-import xml from "highlight.js/lib/languages/xml.js";
-import "highlight.js/styles/github.css";
 import "./styles/bucket.scss";
 import { route } from "preact-router";
+import Editor from "react-simple-code-editor";
 
-hljs.registerLanguage("xml", xml);
+import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-javascript";
+import "prismjs/themes/prism.css";
+
+import { server } from "../src/webutils";
 
 function setupRecaptcha(recaptchaOn) {
   if (!recaptchaOn) return;
@@ -51,32 +53,34 @@ function makeHTMLForm(
       ? `<script src="https://www.google.com/recaptcha/api.js"></script>
 `
       : ""
-  }<form id="my-awesome-form" action="${"https://" +
-    window.location.host}/f/${id}" method="post" target="_blank">
-  <input type="text" name="email" placeholder="email" />
-  <input type="text" name="subject" placeholder="subject" />
-  <textarea type="text" name="message" placeholder="message"></textarea>${
+  }<form method="post"
+action="${"https://" + server}/f/${id}">
+  <input type="text" name="email"/>
+  <input type="text" name="subject" />
+  <textarea type="text" name="message"></textarea>${
     honeyPotOn
       ? `
-  <label style="display:none">Honey pot (Should be hidden and empty)</label>
-  <input type="text" name="${
-    isEmpty(honeyPotField) ? "__bucket_trap__" : honeyPotField
-  }" style="display: none" />`
+  <label style="display:none"></label>
+  <input type="hidden" 
+    name="${isEmpty(honeyPotField) ? "__bucket_trap__" : honeyPotField}" 
+    style="display: none" />`
       : ""
   }${
     recaptchaOn
       ? `
-  <div id="g-recaptcha-container" class="g-recaptcha" data-sitekey="{put-your-site-key-here}"></div>`
+  <div id="g-recaptcha-container" 
+    class="g-recaptcha" 
+    data-sitekey="{put-your-site-key-here}"></div>`
       : ``
   }
-  <input class="button secondary" type="submit" value="Submit" />
-  <input class="button secondary" type="reset" value="Reset" />
+  <input type="submit" value="Submit" />
+  <input type="reset" value="Reset" />
 </form>`;
 }
 
 class Bucket extends Component {
   state = {
-    showEditor: false
+    showEditor: true
   };
 
   componentWillUnmount() {
@@ -100,6 +104,7 @@ class Bucket extends Component {
     if (e.target.checked) {
       changeBucket({
         autoResponder: {
+          on: true,
           from: this.refs.autoResponder_from.value,
           subject: this.refs.autoResponder_subject.value,
           body: this.refs.autoResponder_body.value
@@ -137,6 +142,11 @@ class Bucket extends Component {
 
     if (!bucket) return null;
 
+    const code = this.state.code;
+    const options = {
+      selectOnLineNumbers: true
+    };
+
     let download = () => exportBucket(savedBucket);
     let downloadCSV = () => exportBucket(savedBucket, "csv");
     if (!bucket) return null;
@@ -160,12 +170,12 @@ class Bucket extends Component {
                 id="bucketName"
                 placeholder="e.g. Beta Signups"
                 autoFocus={focus}
-                onChange={e => changeBucket({ name: e.target.value })}
+                onKeyUp={e => changeBucket({ name: e.target.value })}
                 defaultValue={bucket.name}
               />
               <label htmlFor="bucketEnabled" class="label-switch">
                 {" "}
-                Enabled?
+                Status
                 <input
                   id="bucketEnabled"
                   type="checkbox"
@@ -178,22 +188,26 @@ class Bucket extends Component {
               </label>
             </div>
             <div class="section">
-              <h3>Custom Redirect</h3>
-              <input
-                type="text"
-                placeholder="Send to custom landing page, supports merge tags"
-                id="redirectURL"
-                onChange={e => changeBucket({ redirect_url: e.target.value })}
-                disabled={bucket.isAPIRequest}
-                defaultValue={bucket.redirect_url}
-              />
-              <label htmlFor="bucketAJAXOnly" class="label-switch">
+              <h3>Actions</h3>
+              <label for="redirectURL">
+                Redirect URL
+                <input
+                  type="text"
+                  placeholder="{{ _next }}"
+                  id="redirectURL"
+                  onChange={e => changeBucket({ redirect_url: e.target.value })}
+                  disabled={bucket.isAPIRequest}
+                  defaultValue={bucket.redirect_url}
+                />
+              </label>
+
+              {/* <label htmlFor="bucketAJAXOnly" class="label-switch">
                 {" "}
                 <a
                   style={{ textDecoration: "none" }}
                   href="/guides/json-endpoints"
                 >
-                  API Only? (Use XHR, fetch or your favorite request library)
+                  AJAX Only?
                 </a>
                 <input
                   id="bucketAJAXOnly"
@@ -204,7 +218,205 @@ class Bucket extends Component {
                   checked={bucket.isAPIRequest}
                 />
                 <div class="checkbox" />
+              </label> */}
+              {ISARRAY(bucket.webhooks) && bucket.webhooks.length > 0 ? (
+                <label>Webhooks</label>
+              ) : null}
+              {ISARRAY(bucket.webhooks)
+                ? bucket.webhooks.map((webhook, i) => (
+                    <div key={i} style={{ width: "95%" }}>
+                      <a
+                        style={{
+                          position: "relative",
+                          float: "right",
+                          right: "-30px",
+                          top: "42px",
+                          paddingTop: 5,
+                          paddingBottom: 5,
+                          paddingRight: 7,
+                          paddingLeft: 7,
+                          marginTop: -40,
+                          color: "red",
+                          backgroundColor: "white",
+                          cursor: "pointer"
+                        }}
+                        onClick={() => {
+                          changeBucket({});
+                        }}
+                      >
+                        <i
+                          style={{ color: "black", paddingRight: 20 }}
+                          class="fa fa-gear"
+                        />
+                      </a>
+                      <a
+                        style={{
+                          position: "relative",
+                          float: "right",
+                          right: "-30px",
+                          top: "42px",
+                          paddingTop: 5,
+                          paddingBottom: 5,
+                          paddingRight: 7,
+                          paddingLeft: 7,
+                          marginTop: -40,
+                          color: "red",
+                          backgroundColor: "white",
+                          cursor: "pointer"
+                        }}
+                        onClick={() => {
+                          var updated = bucket.webhooks.filter(
+                            (v, k) => i !== k
+                          );
+                          changeBucket({ webhooks: updated });
+                        }}
+                      >
+                        <i class="fa fa-minus" />
+                      </a>
+                      <input
+                        type="text"
+                        id={"webhook" + i}
+                        style={{ width: "95%" }}
+                        onChange={e => {
+                          var updated = bucket.webhooks.map((v, k) =>
+                            i === k ? e.target.value : v
+                          );
+                          changeBucket({ webhooks: updated });
+                        }}
+                        defaultValue={webhook}
+                      />
+                    </div>
+                  ))
+                : ""}
+
+              <div>
+                <a
+                  style={{ cursor: "pointer" }}
+                  onClick={() =>
+                    changeBucket({
+                      webhooks: bucket.webhooks
+                        ? bucket.webhooks.concat([""])
+                        : [""]
+                    })
+                  }
+                >
+                  <i class="fa fa-plus" /> Add webhook
+                </a>
+              </div>
+              <label>
+                <input
+                  type="checkbox"
+                  class="checkbox autoresponder"
+                  name="sendAutoresponder"
+                  onChange={this.toggleAutoResponder}
+                  checked={
+                    bucket.autoResponder && bucket.autoResponder.on == true
+                  }
+                />
+                Automatically send email to bucket submitter.
               </label>
+              <div
+                class="autoresponder-wrapper"
+                style={{
+                  display:
+                    bucket.autoResponder && bucket.autoResponder.on
+                      ? ""
+                      : "none"
+                }}
+              >
+                <p>
+                  <i class="fa fa-exclamation-circle" /> Note: Your form must
+                  have an <strong>email address</strong> field to use this
+                  feature.
+                </p>
+                <label htmlFor="fromEmail">From</label>
+                <input
+                  type="text"
+                  ref={e => (this.refs.autoResponder_from = e)}
+                  onChange={e =>
+                    changeBucket({
+                      autoResponder: Object.assign({}, bucket.autoResponder, {
+                        from: e.target.value
+                      })
+                    })
+                  }
+                  defaultValue={
+                    bucket.autoResponder
+                      ? bucket.autoResponder.from
+                      : user.email
+                  }
+                />
+                <label htmlFor="toEmail">To</label>
+                <input
+                  type="text"
+                  ref={e => (this.refs.autoResponder_to = e)}
+                  placeholder="{{ email }}"
+                  onChange={e =>
+                    changeBucket({
+                      autoResponder: Object.assign({}, bucket.autoResponder, {
+                        to: e.target.value
+                      })
+                    })
+                  }
+                  defaultValue={
+                    bucket.autoResponder ? bucket.autoResponder.to : null
+                  }
+                />
+                <label htmlFor="subject">Subject</label>
+                <input
+                  type="text"
+                  ref={e => (this.refs.autoResponder_subject = e)}
+                  placeholder="Thanks!"
+                  onChange={e =>
+                    changeBucket({
+                      autoResponder: Object.assign({}, bucket.autoResponder, {
+                        subject: e.target.value
+                      })
+                    })
+                  }
+                  defaultValue={
+                    bucket.autoResponder ? bucket.autoResponder.subject : ""
+                  }
+                />
+                <label>
+                  Body{" "}
+                  {/* <span style={{ float: "right" }}>
+                    <label style={{ display: "inline-block" }}>
+                      <input name="autoResponderEngine" type="radio" />
+                      HTML
+                    </label>
+                    {"  "}
+                    <label style={{ display: "inline-block" }}>
+                      <input name="autoResponderEngine" type="radio" />
+                      Markdown
+                    </label>
+                    {"  "}
+                    <label style={{ display: "inline-block" }}>
+                      <input name="autoResponderEngine" type="radio" />
+                      MJML
+                    </label>
+                  </span> */}
+                </label>
+                <textarea
+                  ref={e => (this.refs.autoResponder_body = e)}
+                  placeholder="Supports HTML, CSS, markdown and templates with {{handlebars}}."
+                  onChange={e =>
+                    changeBucket({
+                      autoResponder: Object.assign({}, bucket.autoResponder, {
+                        body: e.target.value
+                      })
+                    })
+                  }
+                  defaultValue={
+                    bucket.autoResponder ? bucket.autoResponder.body : ""
+                  }
+                />
+
+                {/*}<RichTextEditor
+                  value={bucket.autoResponder_content}
+                  onChange={this.onChangeAutoResponderMessage}
+                />*/}
+              </div>
             </div>
             <div class="section">
               <h3>Notifications</h3>
@@ -258,7 +470,7 @@ class Bucket extends Component {
                   }
                   checked={bucket.advancedNotificationOn}
                 />
-                Advanced Settings (optional)
+                Advanced Settings
               </label>
               <div
                 class="autoresponder-wrapper"
@@ -266,31 +478,31 @@ class Bucket extends Component {
                   display: bucket.advancedNotificationOn ? "" : "none"
                 }}
               >
-                <label htmlFor="notificationFrom">Sent From:</label>
-                <input
-                  name="notificationFrom"
-                  type="text"
-                  placeholder="Defaults to support@formbucket.com"
-                  onChange={e =>
-                    changeBucket({ notificationFrom: e.target.value })
-                  }
-                  defaultValue={bucket.notificationFrom}
-                />
                 <label htmlFor="notificationReplyTo">Reply to:</label>
                 <input
                   name="notificationReplyTo"
                   type="text"
-                  placeholder="Defaults to {{ email }} or {{ _replyto }}, otherwise your email"
+                  placeholder="{{ email }}"
                   onChange={e =>
                     changeBucket({ notificationReplyTo: e.target.value })
                   }
                   defaultValue={bucket.notificationReplyTo}
                 />
+                <label htmlFor="notificationFrom">Sent From:</label>
+                <input
+                  name="notificationFrom"
+                  type="text"
+                  placeholder="Recommended to leave blank."
+                  onChange={e =>
+                    changeBucket({ notificationFrom: e.target.value })
+                  }
+                  defaultValue={bucket.notificationFrom}
+                />
                 <label htmlFor="notificationReplyTo">CC:</label>
                 <input
                   name="notificationReplyTo"
                   type="text"
-                  placeholder="Defaults to {{ _cc }}, otherwise blank"
+                  placeholder="{{ _cc }}"
                   onChange={e => changeBucket({ email_cc: e.target.value })}
                   defaultValue={bucket.email_cc}
                 />
@@ -298,7 +510,7 @@ class Bucket extends Component {
                 <input
                   name="notificationReplyTo"
                   type="text"
-                  placeholder="Defaults to {{ _bcc }}, otherwise blank"
+                  placeholder="{{ _bcc }}"
                   onChange={e => changeBucket({ email_bcc: e.target.value })}
                   defaultValue={bucket.email_bcc}
                 />
@@ -308,24 +520,22 @@ class Bucket extends Component {
                 <input
                   name="notificationSubject"
                   type="text"
-                  placeholder='Defaults to {{ _subject }}, otherwise "Submission for {{bucket_name}}"'
+                  placeholder="{{ _subject }}"
                   onChange={e =>
                     changeBucket({ notificationSubject: e.target.value })
                   }
                   defaultValue={bucket.notificationSubject}
                 />
-                <label htmlFor="notificationTemplate">
-                  Body (supports Markdown)
-                </label>
+                <label htmlFor="notificationTemplate">Body</label>
                 <textarea
                   name="notificationTemplate"
-                  placeholder="Send default notification"
+                  placeholder="Supports HTML, CSS, markdown and templates with {{handlebars}}."
                   onChange={e =>
                     changeBucket({ notification_template: e.target.value })
                   }
                   defaultValue={bucket.notification_template}
                 />
-                <div>
+                {/* <div>
                   <a href="/guides/merge-tags" target="_blank">
                     Learn about merge tags
                   </a>
@@ -337,209 +547,62 @@ class Bucket extends Component {
                   >
                     Learn about Markdown
                   </a>
-                </div>
+                </div> */}
                 {/*}<RichTextEditor
                   value={bucket.autoResponder_content}
                   onChange={this.onChangeAutoResponderMessage}
                 />*/}
               </div>
-            </div>
-            <div class="section">
-              <h3>Autoresponder</h3>
-              <label>
-                <input
-                  type="checkbox"
-                  class="checkbox autoresponder"
-                  name="sendAutoresponder"
-                  onChange={this.toggleAutoResponder}
-                  checked={isTruthy(bucket.autoResponder)}
-                />
-                Automatically send an email to form submitters
-              </label>
-              <div
-                class="autoresponder-wrapper"
-                style={{ display: bucket.autoResponder ? "" : "none" }}
-              >
-                <p>
-                  <FontAwesome name="exclamation-circle" /> Note: Your form must
-                  have an <strong>email address</strong> field to use this
-                  feature.
-                </p>
-                <label htmlFor="fromEmail">From</label>
-                <input
-                  type="text"
-                  ref={e => (this.refs.autoResponder_from = e)}
-                  onChange={e =>
-                    changeBucket({
-                      autoResponder: Object.assign({}, bucket.autoResponder, {
-                        from: e.target.value
-                      })
-                    })
-                  }
-                  defaultValue={
-                    bucket.autoResponder
-                      ? bucket.autoResponder.from
-                      : user.email
-                  }
-                />
-                <label htmlFor="toEmail">To</label>
-                <input
-                  type="text"
-                  ref={e => (this.refs.autoResponder_to = e)}
-                  placeholder="Defaults to {{ email }}"
-                  onChange={e =>
-                    changeBucket({
-                      autoResponder: Object.assign({}, bucket.autoResponder, {
-                        to: e.target.value
-                      })
-                    })
-                  }
-                  defaultValue={
-                    bucket.autoResponder ? bucket.autoResponder.to : null
-                  }
-                />
-                <label htmlFor="subject">Subject</label>
-                <input
-                  type="text"
-                  ref={e => (this.refs.autoResponder_subject = e)}
-                  placeholder="Thanks!"
-                  onChange={e =>
-                    changeBucket({
-                      autoResponder: Object.assign({}, bucket.autoResponder, {
-                        subject: e.target.value
-                      })
-                    })
-                  }
-                  defaultValue={
-                    bucket.autoResponder ? bucket.autoResponder.subject : ""
-                  }
-                />
-                <label htmlFor="emailBody">Body (supports Markdown)</label>
-                <textarea
-                  ref={e => (this.refs.autoResponder_body = e)}
-                  onChange={e =>
-                    changeBucket({
-                      autoResponder: Object.assign({}, bucket.autoResponder, {
-                        body: e.target.value
-                      })
-                    })
-                  }
-                  defaultValue={
-                    bucket.autoResponder ? bucket.autoResponder.body : ""
-                  }
-                />
-                <div>
-                  <a href="/guides/merge-tags" target="_blank">
-                    Learn about merge tags
-                  </a>
-                </div>
-                <div>
-                  <a
-                    href="https://daringfireball.net/projects/markdown/  "
-                    target="_blank"
-                  >
-                    Learn about Markdown
-                  </a>
-                </div>
-                {/*}<RichTextEditor
-                  value={bucket.autoResponder_content}
-                  onChange={this.onChangeAutoResponderMessage}
-                />*/}
-              </div>
-            </div>
-            <div class="section">
-              <h3>Webhooks</h3>
-              {ISARRAY(bucket.webhooks)
-                ? bucket.webhooks.map((webhook, i) => (
-                    <div key={i}>
-                      <a
-                        style={{
-                          position: "relative",
-                          float: "right",
-                          right: "-30px",
-                          top: "42px",
-                          paddingTop: 5,
-                          paddingBottom: 5,
-                          paddingRight: 7,
-                          paddingLeft: 7,
-                          marginTop: -40,
-                          color: "red",
-                          backgroundColor: "white",
-                          cursor: "pointer"
-                        }}
-                        onClick={() => {
-                          var updated = bucket.webhooks.filter(
-                            (v, k) => i !== k
-                          );
-                          changeBucket({ webhooks: updated });
-                        }}
-                      >
-                        <FontAwesome name="minus" />
-                      </a>
-                      <input
-                        type="text"
-                        id={"webhook" + i}
-                        onChange={e => {
-                          var updated = bucket.webhooks.map((v, k) =>
-                            i === k ? e.target.value : v
-                          );
-                          changeBucket({ webhooks: updated });
-                        }}
-                        defaultValue={webhook}
-                      />
-                    </div>
-                  ))
-                : ""}
-              <div>
-                <a
-                  style={{ cursor: "pointer" }}
-                  onClick={() =>
-                    changeBucket({
-                      webhooks: bucket.webhooks
-                        ? bucket.webhooks.concat([""])
-                        : [""]
-                    })
-                  }
-                >
-                  <FontAwesome name="plus" /> Add webhook
+
+              {/* <div>
+                <a href="/guides/merge-tags" target="_blank">
+                  Learn about merge tags
                 </a>
               </div>
+              <div>
+                <a
+                  href="https://daringfireball.net/projects/markdown/  "
+                  target="_blank"
+                >
+                  Learn about Markdown
+                </a>
+              </div> */}
             </div>
             <div class="section">
-              <h3>Spam and Bot Protection</h3>
-
+              <h3>Security</h3>
               <label htmlFor="honeyPotEnabled" class="label-switch">
                 Honey Pot
                 <input
                   id="honeyPotEnabled"
                   type="checkbox"
-                  onClick={event =>
-                    changeBucket({ honeyPotOn: event.target.checked })
-                  }
+                  onClick={event => {
+                    changeBucket({ honeyPotOn: event.target.checked });
+                    setTimeout(() => {
+                      this.honeyPotInput && this.honeyPotInput.focus();
+                    }, 0);
+                  }}
                   checked={bucket.honeyPotOn}
                 />
                 <div class="checkbox" />
               </label>
-              <br />
-              <br />
               {IF(
                 bucket.honeyPotOn,
-
-                <div>
-                  <label>
-                    Honey pot field{" "}
-                    <a class="pull-right" href="/guides/honeypot">
-                      Honey pot?
-                    </a>
-                    <input
-                      placeholder="Optional custom fieldname"
-                      onChange={e =>
-                        changeBucket({ honeyPotField: e.target.value })
-                      }
-                      defaultValue={bucket.honeyPotField}
-                    />
-                  </label>
-                </div>
+                <label>
+                  Honey pot field{" "}
+                  <a class="pull-right" href="/guides/honeypot">
+                    Honey pot?
+                  </a>
+                  <input
+                    ref={ref => {
+                      this.honeyPotInput = ref;
+                    }}
+                    placeholder="Optional custom fieldname"
+                    onChange={e =>
+                      changeBucket({ honeyPotField: e.target.value })
+                    }
+                    defaultValue={bucket.honeyPotField}
+                  />
+                </label>
               )}
 
               <label htmlFor="recaptchaEnabled" class="label-switch">
@@ -572,6 +635,37 @@ class Bucket extends Component {
                   </label>
                 </div>
               )}
+              <label htmlFor="validateCodeOn" class="label-switch">
+                {" "}
+                Validation Code
+                <input
+                  id="validateCodeOn"
+                  type="checkbox"
+                  onClick={event => {
+                    changeBucket({ validateCodeOn: event.target.checked });
+                    setTimeout(
+                      () => this.validateCodeEditor.firstChild.focus(),
+                      20
+                    );
+                  }}
+                  checked={bucket.validateCodeOn}
+                />
+                <div class="checkbox" />
+              </label>
+              <Editor
+                value={bucket.validateCode || "form => isEmail(form.email)"}
+                onValueChange={validateCode => changeBucket({ validateCode })}
+                highlight={code => highlight(code, languages.js)}
+                padding={10}
+                disabled={!bucket.validateCodeOn}
+                ref={ref => (this.validateCodeEditor = ref ? ref.base : ref)}
+                style={{
+                  fontFamily: '"Fira code", "Fira Mono", monospace',
+                  fontSize: 12,
+                  minHeight: "4em",
+                  display: bucket.validateCodeOn ? "" : "none"
+                }}
+              />
             </div>
             <input
               type="button"
@@ -584,45 +678,32 @@ class Bucket extends Component {
             />
           </div>
           <div class="bucket-preview">
-            View:&nbsp;
-            <a
-              href={`/buckets/${
-                bucket.id
-              }/submissions/list/0/50/data,created_on`}
-            >
-              Submissions
-            </a>
-            &nbsp;{" "}
-            <a href={`/logs?offset=0&limit=10&bucket_id=${bucket.id}`}>Logs</a>
-            &nbsp;{" "}
-            <a href={`/notifications?offset=0&limit=10&bucket_id=${bucket.id}`}>
-              Notifications
-            </a>
-          </div>
-          <div class="bucket-preview">
             <div class="bucket-editor">
-              <h4>Endpoint:</h4>
-              <div>
-                <input
-                  type="text"
-                  value={"https://" + window.location.host + "/f/" + bucket.id}
-                />
-              </div>
-              <div style={{ display: this.state.showEditor ? "" : "none" }}>
-                <hr />
+              <h4>Quick use</h4>
+              <div
+                style={{
+                  display: this.state.showEditor ? "" : "none",
+                  fontSize: "smaller"
+                }}
+              >
                 <p>
                   Copy and paste the markup below into your project, replacing
-                  the example inputs with your own.
+                  this example form with your own.
                 </p>
                 <div class="quick-use" style={{ textAlign: "left" }}>
-                  <pre class="hightlight-js">
-                    <code id="form-code-example" class="html">
-                      {makeHTMLForm(savedBucket, true)}
-                    </code>
-                  </pre>
+                  <Editor
+                    value={bucket.myForm || makeHTMLForm(bucket, true)}
+                    onValueChange={myForm => changeBucket({ myForm })}
+                    highlight={code => highlight(code, languages.js)}
+                    padding={10}
+                    style={{
+                      fontFamily: '"Fira code", "Fira Mono", monospace',
+                      fontSize: 12,
+                      overflowWrap: "normal"
+                    }}
+                  />
                 </div>
-                <hr />
-                <a
+                {/* <a
                   href="javascript:void(0)"
                   onClick={() => {
                     setTimeout(() => {
@@ -633,7 +714,7 @@ class Bucket extends Component {
                   }}
                 >
                   Return to test form
-                </a>
+                </a> */}
               </div>
               <div style={{ display: !this.state.showEditor ? "" : "none" }}>
                 <hr />
@@ -702,16 +783,36 @@ class Bucket extends Component {
                 </div>
               </div>
             </div>
-          </div>
-          <div class="bucket-preview">
+            <p>
+              <a
+                href={`/buckets/${
+                  bucket.id
+                }/submissions/list/0/50/data,created_on`}
+              >
+                View Submissions
+              </a>
+            </p>
+            <p>
+              <a href={`/logs?offset=0&limit=10&bucket_id=${bucket.id}`}>
+                View Logs
+              </a>
+            </p>
+            <p>
+              <a
+                href={`/notifications?offset=0&limit=10&bucket_id=${bucket.id}`}
+              >
+                View Notifications
+              </a>
+            </p>
+
             <p>
               <a href="javascript:void(0)" onClick={downloadCSV}>
-                Export submissions to CSV
+                Export Submissions to CSV
               </a>
             </p>
             <p>
               <a href="javascript:void(0)" onClick={download}>
-                Export submissions to JSON
+                Export Submissions to JSON
               </a>
             </p>
             <p>

@@ -1,6 +1,6 @@
 import { h } from "preact";
 import { connect } from "unistore/preact";
-import GuideRadioButtons from "../components/GuideRadioButtons";
+import GuideGraphQL from "../components/GuideGraphQL";
 import Layout from "../components/Layout";
 import { actions } from "../src/store";
 
@@ -9,7 +9,7 @@ let Page = connect(
   actions
 )(props => (
   <Layout shouldLoadUser={true} {...props}>
-    <GuideRadioButtons />
+    <GuideGraphQL />
   </Layout>
 ));
 export default Page;

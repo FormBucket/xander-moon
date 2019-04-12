@@ -5,10 +5,20 @@
 
 import { h, Component } from "preact";
 import IF from "formula/src/branch";
-// import Contact from "./Contact";
 import "./styles/welcome.scss";
-
-const Clincher = () => <div id="features" class="section-block" />;
+import Contact from "./Contact";
+const Clincher = () => (
+  <div style={{ textAlign: "center" }}>
+    <iframe
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/U8AB6ddB5_g"
+      frameborder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    />
+  </div>
+);
 
 class Welcome extends Component {
   render() {
@@ -89,11 +99,8 @@ class Welcome extends Component {
         <div class="hero">
           <div class="bubbles">
             <div class="wrapper">
-              <h1>Cloud Form Backend</h1>
-              <h2>
-                Welcome to <strong>easy, fast and secure</strong> hosted form
-                collection service.
-              </h2>
+              <h1>Endpoints are just the beginning</h1>
+              <h2>Welcome to the world's simplest form cloud.</h2>
               {IF(
                 props.user && !props.user.anonymous,
                 null,
@@ -108,11 +115,11 @@ class Welcome extends Component {
                 </div>
               )}
             </div>
+            <Clincher />
           </div>
         </div>
-        <div>
+        <div style={{ marginTop: 30 }}>
           <div>
-            <Clincher />
             <div class="wrapper">
               <div class="features">
                 <div class="feature">
@@ -134,27 +141,6 @@ class Welcome extends Component {
                 <div class="feature">
                   <div class="icon">
                     <img
-                      src={require("../img/laptop.svg")}
-                      alt="Full Control"
-                    />
-                  </div>
-                  <div class="copy">
-                    <h3>No Embeds or iFrames</h3>
-                    <p>
-                      Develop forms with custom HTML and CSS. No overrides! No
-                      scripts! Use regular HTML forms or{" "}
-                      <a href="/openapi/ui" native>
-                        use our API
-                      </a>
-                      !
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="features">
-                <div class="feature">
-                  <div class="icon">
-                    <img
                       src={require("../img/heart.svg")}
                       alt="Your User Experience"
                     />
@@ -164,21 +150,6 @@ class Welcome extends Component {
                     <p>
                       Standard form submission redirect back to your website.
                       Our service is virtually invisible.
-                    </p>
-                  </div>
-                </div>
-                <div class="feature">
-                  <div class="icon">
-                    <img
-                      src={require("../img/autoresponder.svg")}
-                      alt="Submissions Manager"
-                    />
-                  </div>
-                  <div class="copy">
-                    <h3>Autoresponders</h3>
-                    <p>
-                      Automatically send personalized emails to people who
-                      submit your form.
                     </p>
                   </div>
                 </div>
@@ -199,19 +170,20 @@ class Welcome extends Component {
                 <div class="feature">
                   <div class="icon">
                     <img
-                      src={require("../img/shield.svg")}
-                      alt="Spam Protection"
+                      src={require("../img/autoresponder.svg")}
+                      alt="Autoresponders"
                     />
                   </div>
                   <div class="copy">
-                    <h3>Spam Protection</h3>
+                    <h3>Autoresponders</h3>
                     <p>
-                      Spam is a reality. Our service employs techniques to
-                      combat this problem.
+                      Automatically send personalized emails to people who
+                      submit your form.
                     </p>
                   </div>
                 </div>
               </div>
+
               <div class="features">
                 <div class="feature">
                   <div class="icon">
@@ -244,12 +216,50 @@ class Welcome extends Component {
                   </div>
                 </div>
               </div>
+              <div class="features">
+                <div class="feature">
+                  <div class="icon">
+                    <img
+                      src={require("../img/shield.svg")}
+                      alt="Spam Protection"
+                    />
+                  </div>
+                  <div class="copy">
+                    <h3>Spam Protection</h3>
+                    <p>
+                      Spam is a reality. Our service employs techniques to
+                      combat this problem.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="feature">
+                  <div class="icon">
+                    <img
+                      src={require("../img/laptop.svg")}
+                      alt="Full Control"
+                    />
+                  </div>
+                  <div class="copy">
+                    <h3>No Embeds or iFrames</h3>
+                    <p>
+                      Develop forms with custom HTML and CSS. No overrides! No
+                      scripts! Use regular HTML forms or{" "}
+                      <a href="/openapi/ui" native>
+                        use our API
+                      </a>
+                      !
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-            {/* <div class="louder">
+            <hr />
+            <div class="louder">
               <div class="wrapper">
                 <Contact />
               </div>
-            </div> */}
+            </div>
             {/* <div id="pricing" class="section-block">
               <div class="louder">
                 <div class="wrapper">

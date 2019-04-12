@@ -2,7 +2,7 @@ import { h, Component } from "preact";
 import Layout from "../components/Layout";
 import Logs from "../components/Logs";
 import { connect } from "unistore/preact";
-import { actions } from "../store";
+import { actions } from "../src/store";
 
 class LogsContainer extends Component {
   componentWillMount() {

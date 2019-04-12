@@ -6,7 +6,7 @@ import { h, Component } from "preact";
 import eq from "formula/src/eq";
 import text from "formula/src/text";
 import format from "date-fns/format";
-import { requestInvoices } from "../webutils";
+import { requestInvoices } from "../src/webutils";
 
 let formatDate = unix => format(new Date(unix * 1000), "MMMM DD, YYYY hh:mm a");
 

@@ -1,6 +1,6 @@
 import { h, Component } from "preact";
 import { connect } from "unistore/preact";
-import { actions } from "../store";
+import { actions } from "../src/store";
 import Invoices from "../components/Invoices";
 import Layout from "../components/Layout";
 

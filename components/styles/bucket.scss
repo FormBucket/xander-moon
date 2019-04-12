@@ -60,9 +60,7 @@
   border-radius: $switch-radius;
   font-weight: bold;
   cursor: pointer;
-  display: inline-block;
-  height: $switch-height;
-  position: relative;
+  // position: relative;
 
   span {
     position: relative;
@@ -185,23 +183,26 @@
   }
 }
 
+.bucket-page h3 {
+  font-weight: bolder;
+}
+
 @include media($phablet) {
-.bucket-page {
-  .button.button-save {
-    width: 100%;
-    position: fixed;
-    left: 0px;
-    bottom: 0px;
+  .bucket-page {
+    .button.button-save {
+      width: 100%;
+      position: fixed;
+      left: 0px;
+      bottom: 0px;
+    }
+    ::first-child {
+      display: none;
+    }
   }
-  ::first-child {
-    display: none;
 
+  .bucket-preview {
+    .button.button-save {
+      display: none;
+    }
   }
-}
-
-.bucket-preview {
-  .button.button-save {
-    display: none;
-  }
-}
 }

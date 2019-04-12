@@ -6,7 +6,6 @@ import { h, Component } from "preact";
 import { route } from "preact-router";
 import IF from "formula/src/branch";
 import ISBLANK from "formula/src/isblank";
-import FontAwesome from "react-fontawesome";
 import format from "date-fns/format";
 import isSameDay from "date-fns/is_same_day/index";
 
@@ -192,7 +191,7 @@ class Submissions extends Component {
                 borderColor: IF(offset > 0, color.enabled, color.disabled)
               }}
             >
-              <FontAwesome name="chevron-left" />
+              <i class="fa fa-chevron-left" />
             </button>
 
             <button
@@ -212,7 +211,7 @@ class Submissions extends Component {
                 )
               }}
             >
-              <FontAwesome name="chevron-right" />
+              <i class="fa fa-chevron-right" />
             </button>
             {"  "}
             {IF(
@@ -224,7 +223,7 @@ class Submissions extends Component {
                   zIndex: 9999
                 }}
               >
-                <FontAwesome name="spinner" /> Loading...
+                <i class="fa fa-spinner" /> Loading...
               </span>,
               null
             )}
@@ -245,7 +244,7 @@ class Submissions extends Component {
                   style={{ float: "right" }}
                   href={"/buckets/" + props.bucket.id + "/settings"}
                 >
-                  <FontAwesome name="gear" /> Settings
+                  <i class="fa fa-gear" /> Settings
                 </a>
                 {pager("top")}
               </div>
@@ -271,8 +270,12 @@ class Submissions extends Component {
                     }
                   >
                     <li class="dropdown-item">
-                      <FontAwesome
-                        name={props.selected.length === 0 ? "plus" : "minus"}
+                      <i
+                        class={
+                          props.selected.length === 0
+                            ? "fa fa-plus"
+                            : "fa fa-minus"
+                        }
                       />{" "}
                       {props.selected.length === 0
                         ? "Select all"
@@ -283,7 +286,7 @@ class Submissions extends Component {
                     props.expanded.length > 0,
                     <a onClick={() => props.setExpanded([])}>
                       <li class="dropdown-item">
-                        <FontAwesome name="compress" /> Collapse
+                        <i class="fa fa-compress" /> Collapse
                       </li>
                     </a>,
                     <a
@@ -292,7 +295,7 @@ class Submissions extends Component {
                       }
                     >
                       <li class="dropdown-item">
-                        <FontAwesome name="expand" /> Expand
+                        <i class="fa fa-expand" /> Expand
                       </li>
                     </a>
                   )}
@@ -305,12 +308,12 @@ class Submissions extends Component {
                       }
                     >
                       <li class="dropdown-item">
-                        <FontAwesome name="folder" /> Move to inbox
+                        <i class="fa fa-folder" /> Move to inbox
                       </li>
                     </a>,
                     <a onClick={() => updateSubmissions({ spam: true })}>
                       <li class="dropdown-item">
-                        <FontAwesome name="ban" /> Spam
+                        <i class="fa fa-ban" /> Spam
                       </li>
                     </a>
                   )}
@@ -318,12 +321,12 @@ class Submissions extends Component {
                     props.matches.type !== "deleted",
                     <a onClick={() => updateSubmissions({ deleted: true })}>
                       <li class="dropdown-item">
-                        <FontAwesome name="trash-o" /> Delete
+                        <i class="fa fa-trash-o" /> Delete
                       </li>
                     </a>,
                     <a onClick={() => destroySubmissions()}>
                       <li class="dropdown-item">
-                        <FontAwesome name="eraser" /> Destroy
+                        <i class="fa fa-eraser" /> Destroy
                       </li>
                     </a>
                   )}
@@ -399,14 +402,14 @@ class Submissions extends Component {
                             )}
                           </span>
                         </span>
-                        <FontAwesome
+                        <i
                           onClick={event =>
                             this.handleExpand(event, submission)
                           }
-                          name={IF(
+                          class={IF(
                             props.expanded.indexOf(submission.id) > -1,
-                            "angle-double-up",
-                            "angle-double-down"
+                            "fa fa-angle-double-up",
+                            "fa fa-angle-double-down"
                           )}
                         />
                       </h3>

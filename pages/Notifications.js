@@ -2,7 +2,7 @@ import { h, Component } from "preact";
 import Layout from "../components/Layout";
 import Notifications from "../components/Notifications";
 import { connect } from "unistore/preact";
-import { actions } from "../store";
+import { actions } from "../src/store";
 
 class NotificationsContainer extends Component {
   componentWillMount() {
