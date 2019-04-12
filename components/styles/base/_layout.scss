@@ -141,6 +141,7 @@ header.navigation {
     text-align: right;
     width: 100%;
     z-index: 9999;
+    text-transform: uppercase;
 
     @include media($horizontal-bar-mode) {
       background: transparent;
@@ -439,7 +440,7 @@ label {
 .section {
   @include clearfix;
   margin-bottom: $base-spacing;
-  padding-bottom: $base-spacing;
+  padding-bottom: $base-spacing / 4;
   border-bottom: 1px solid $lightest-purple;
 }
 

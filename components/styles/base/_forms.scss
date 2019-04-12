@@ -24,6 +24,12 @@ label {
   abbr {
     display: none;
   }
+
+  div {
+    margin-left: 1em;
+    font-weight: 400;
+    display: inline-block;
+  }
 }
 
 #{$all-text-inputs},

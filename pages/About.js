@@ -4,7 +4,7 @@ import About from "../components/About";
 import Layout from "../components/Layout";
 
 let Page = connect("user,support_email")(props => (
-  <Layout user={props.user}>
+  <Layout {...props}>
     <About support_email={props.support_email} />
   </Layout>
 ));

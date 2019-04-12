@@ -41,7 +41,7 @@ let BucketList = props => {
             </div>
             <div class="submission-count">
               <button class="secondary" onClick={() => props.show(bucket)}>
-                {bucket.submission_count} Submissions{" "}
+                {bucket.submissions ? bucket.submissions.totalCount : '?'} Submissions{" "}
                 <FontAwesome name="chevron-right" />
               </button>
             </div>

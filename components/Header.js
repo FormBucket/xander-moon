@@ -5,34 +5,34 @@
 import { h, Component } from "preact";
 import logo from "../img/logo.svg";
 
-const Nav = ({ show, user, toggleMenu }) => (
+const Nav = ({ menuOn, user, toggleMenu }) => (
   <nav role="navigation">
     <a href="#" class="navigation-menu-button" onClick={toggleMenu}>
       MENU
     </a>
     {user && !user.anonymous ? (
-      <ul class={"navigation-menu" + (show ? " show" : " hide")}>
+      <ul class={"navigation-menu" + (menuOn ? " show" : " hide")}>
         <li class="nav-link">
-          <a href="/guides">Guides</a>
+          <a href="/guides" onClick={toggleMenu}>Guides</a>
         </li>
         <li class="nav-link">
-          <a href="/buckets">Buckets</a>
+          <a href="/buckets" onClick={toggleMenu}>Buckets</a>
         </li>
         <li class="nav-link">
-          <a href="/account">Account</a>
+          <a href="/account" onClick={toggleMenu}>Account</a>
         </li>
       </ul>
     ) : (
       <ul
         id="js-navigation-menu"
-        class={"navigation-menu" + (show ? " show" : " hide")}
+        class={"navigation-menu" + (menuOn ? " show" : " hide")}
       >
         <li class="nav-link">
-          <a href="/guides/pricing">Pricing</a>
+          <a href="/guides">Guides</a>
         </li>
         <li class="nav-link">
           <a href="/signup?redirect_uri=/buckets" native>
-            Join
+            Join Free
           </a>
         </li>
         <li class="nav-link">

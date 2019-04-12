@@ -13,9 +13,11 @@ const Footer = () => (
       |{" "}
       <a href="https://github.com/formbucket" target="_blank">
         Github
-      </a>{" "}
-      | <a href="/guides">Guides</a> |{" "}
-      <a href="https://status.formbucket.com/">Status</a> |{" "}
+      </a>
+    </div>
+    <div>
+      <a href="/guides">Guides</a> |{" "}
+      <a target="_blank" href="https://status.formbucket.com/">Status</a> |{" "}
       <a href="/about" native>
         About
       </a>{" "}
@@ -34,8 +36,19 @@ const Footer = () => (
       | <a href="/docs/general-data-protection-regulation">GDPR</a>
     </div>
 
+    <div style={{display: 'none'}}>
+      <strong>Compare us to:</strong> {" "}
+      <a href="/formbucket-vs-formkeep" native>FormKeep</a>
+      {" "} | {" "}
+      <a href="/formbucket-vs-formspree" native>FormSpree</a>
+      {" "} | {" "}
+      <a href="/formbucket-vs-getform" native>GetForm</a>
+      {" "} | {" "}
+      <a href="/formbucket-vs-wufoo" native>Wufoo</a>
+    </div>
+
     <p>
-      &copy; 2015-2018{" "}
+      &copy; 2015-2019{" "}
       <a href="https://www.formbucket.com">
         {/* <img
           style={{

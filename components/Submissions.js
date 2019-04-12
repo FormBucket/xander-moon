@@ -41,8 +41,8 @@ class Submissions extends Component {
   };
 
   changeRoute(changes = {}) {
-    let params = { ...this.props.matches, ...changes };
-    let { id, limit, offset, mode, type, select, q } = params;
+    let params = { ...this.props.matches, ...this.props, ...changes };
+    let { id, limit, offset, mode, type = "inbox", select, q } = params;
     this.props.loadSubmissions(params);
     route(
       `/buckets/${id}/submissions/${mode}/${offset}/${limit}/${select}?q=${q ||
@@ -79,20 +79,28 @@ class Submissions extends Component {
   };
 
   goForward = event => {
-    var offset = +this.props.matches.offset,
-      limit = +this.props.matches.limit;
+    var {
+      props,
+      props: { matches }
+    } = this;
+
+    var offset = +matches.offset,
+      limit = +matches.limit;
 
     if (this.props.loading) {
       return;
     }
     // console.log('goForward')
-    var newOffset = IF(
-      offset + limit <= this.props.total,
-      offset + limit,
-      offset
-    );
+    var total = IF(
+        matches.type === "spam",
+        props.spamCount,
+        matches.type === "deleted",
+        props.deletedCount,
+        props.totalCount
+      ),
+      newOffset = IF(offset + limit <= total, offset + limit, offset);
 
-    if (offset === newOffset || newOffset >= this.props.total) {
+    if (offset === newOffset || newOffset >= total) {
       return;
     }
 
@@ -102,6 +110,11 @@ class Submissions extends Component {
   };
 
   goBack = event => {
+    var {
+      props,
+      props: { matches }
+    } = this;
+
     var offset = +this.props.matches.offset,
       limit = +this.props.matches.limit;
 
@@ -110,9 +123,16 @@ class Submissions extends Component {
     }
 
     // console.log('goBack')
-    var newOffset = IF(offset - limit > 0, offset - limit, 0);
+    var newOffset = IF(offset - limit > 0, offset - limit, 0),
+      total = IF(
+        matches.type === "spam",
+        props.spamCount,
+        props.matches.type === "deleted",
+        props.deletedCount,
+        props.totalCount
+      );
 
-    if (offset === newOffset || offset >= this.props.total) {
+    if (offset === newOffset || offset >= total) {
       return;
     }
 
@@ -123,7 +143,8 @@ class Submissions extends Component {
 
   switchFolder = type => {
     this.changeRoute({
-      type
+      type,
+      offset: 0
     });
   };
 
@@ -134,17 +155,19 @@ class Submissions extends Component {
       limit = +matches.limit,
       total = IF(
         matches.type === "spam",
-        props.totalSpam,
+        props.spamCount,
         props.matches.type === "deleted",
-        props.totalDeleted,
-        props.total
+        props.deletedCount,
+        props.totalCount
       ),
       from = total > 0 ? offset + 1 : 0,
       to = IF(offset + limit < total, offset + limit, total),
       { bucket, submissions } = props;
 
-    if (!bucket) return null;
-    if (!submissions) return null;
+    let emptyResponse = <div style={{ height: "80vh" }} />;
+
+    if (!bucket) return emptyResponse;
+    if (!submissions) return emptyResponse;
 
     let headingText = IF(
       this.props.bucket.name && this.props.bucket.name.trim().length > 0,
@@ -233,6 +256,7 @@ class Submissions extends Component {
                       IF(event.keyCode === 13, () => this.handleSearch(event))
                     }
                     placeholder="Search all submissions..."
+                    defaultValue={this.props.q}
                   />
                 </div>
 
@@ -316,7 +340,7 @@ class Submissions extends Component {
               )}
               onClick={event => this.switchFolder("inbox")}
             >
-              Inbox <span class="submission-count">{props.total}</span>
+              Inbox <span class="submission-count">{props.totalCount}</span>
             </button>
             <button
               class={IF(
@@ -326,7 +350,7 @@ class Submissions extends Component {
               )}
               onClick={() => this.switchFolder("spam")}
             >
-              Spam <span class="submission-count">{props.totalSpam}</span>
+              Spam <span class="submission-count">{props.spamCount}</span>
             </button>
             <button
               class={IF(
@@ -336,7 +360,7 @@ class Submissions extends Component {
               )}
               onClick={() => this.switchFolder("deleted")}
             >
-              Deleted <span class="submission-count">{props.totalDeleted}</span>
+              Deleted <span class="submission-count">{props.deletedCount}</span>
             </button>
           </div>
           <ul class="submissions-list">
@@ -365,15 +389,14 @@ class Submissions extends Component {
                             this.handleSelect(event, submission)
                           }
                         >
-                          Submission # {total - offset - i}{" "}
+                          # {total - offset - i}
+                          {" - "}
                           <span class="submission-ts">
-                            (
                             {IF(
-                              isSameDay(new Date(), submission.created_on),
-                              format(submission.created_on, "hh:mm a"),
-                              format(submission.created_on, "MMM DD hh:mm a")
+                              isSameDay(new Date(), submission.createdOn),
+                              format(submission.createdOn, "hh:mm a"),
+                              format(submission.createdOn, "MMM DD hh:mm a")
                             )}
-                            )
                           </span>
                         </span>
                         <FontAwesome

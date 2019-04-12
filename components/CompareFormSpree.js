@@ -2,15 +2,12 @@
  * Copyright (c) 2015-2018, FormBucket.com
  */
 
-var React = require("react");
-var PropTypes = React.PropTypes;
-import Layout from "./Layout";
-import Loader from "./Loader";
+import { h, Component } from "preact";
 
-let Compare = class extends React.Component {
+let Compare = class extends Component {
   render() {
     return (
-      <Layout>
+      <div>
         <div class="wrapper">
           <h2>
             <a id="How_do_they_stack_up_0" />How do they compare?
@@ -107,7 +104,7 @@ let Compare = class extends React.Component {
           </div>
           <p>*Pricing data as published 12/04/16 on Formspree.io.</p>
         </div>
-      </Layout>
+      </div>
     );
   }
 };

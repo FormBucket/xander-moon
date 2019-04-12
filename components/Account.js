@@ -22,14 +22,13 @@ import {
 } from "react-stripe-elements";
 
 import "./styles/account.scss";
-import { route } from "preact-router";
 
 const plan_monthly = "plan_monthly_7_14";
 const CARD_ELEMENT_OPTIONS = {
   style: {
     base: {
       fontSize: "18px",
-      color: "#424770",
+      color: "#0233b1",
       letterSpacing: "0.025em",
       "::placeholder": {
         color: "#aab7c4"
@@ -51,13 +50,15 @@ class _CardForm extends Component {
         .createToken({ name: this.refs.cardName.value })
         .then(payload => {
           let { token } = payload;
-          subscribe(this.props.account_id, token.id, plan_monthly)
+          this.props
+            .subscribe(this.props.account_id, token.id, plan_monthly)
             .then(this.props.onSubscribe)
             .catch(this.props.onSubscribeError);
         });
     }
   };
   render() {
+    this.refs = this.refs || {};
     return (
       <form onSubmit={this.handleSubmit}>
         <div class="card-element">
@@ -65,6 +66,7 @@ class _CardForm extends Component {
             <label htmlFor="cardName">Name</label>
             <input
               type="text"
+              ref={e => (this.refs.cardName = e)}
               name="cardName"
               placeholder="Enter name on card here"
             />
@@ -173,21 +175,18 @@ class Account extends Component {
   };
 
   handleSave = () => {
-    let { account_id } = this.props.user;
-
-    this.setState({ saving: true });
-
-    requestUpdateUser({
-      id: this.props.user.id,
-      name: this.refs.name.value,
-      email: this.refs.email.value,
-      password: this.refs.password.value
-    })
+    this.props
+      .updateUser({
+        id: this.props.user.id,
+        name: this.refs.name.value,
+        email: this.refs.email.value,
+        password: this.refs.password.value
+      })
       .then(user => {
-        this.setState({
-          saving: false,
-          flash: "Saved"
-        });
+        // this.setState({
+        //   saving: false,
+        //   flash: "Saved"
+        // });
 
         setTimeout(() => this.setState({ flash: undefined }), 2000);
 
@@ -195,9 +194,8 @@ class Account extends Component {
       })
       .catch(error =>
         this.setState({
-          saving: false,
           flash: error,
-          error: errorchangeCard
+          error: error
         })
       );
   };
@@ -205,7 +203,7 @@ class Account extends Component {
   render() {
     let { user } = this.props;
 
-    var { status, valid_until, trial_end, plan_amount } = user;
+    var { status, validUntil, trialEnd, plan_amount } = user;
     var { cards, cardsLoaded, changeCard, submittingCard } = this.state;
     let card = cards[0];
 
@@ -219,8 +217,12 @@ class Account extends Component {
     let hasCardOnFile = cards && cards.length > 0;
     let isCardActive = card && !isCardExpired;
 
-    valid_until = new Date(valid_until);
-    trial_end = new Date(trial_end);
+    validUntil = new Date(validUntil);
+    trialEnd = new Date(trialEnd);
+
+    if (!user || !status) {
+      return null;
+    }
 
     var PaymentNotice = IF(
       status === "trialing",
@@ -229,22 +231,22 @@ class Account extends Component {
           hasCardOnFile,
           <span>
             Your card will be charged on{" "}
-            {trial_end.getMonth() +
+            {trialEnd.getMonth() +
               1 +
               "/" +
-              trial_end.getDate() +
+              trialEnd.getDate() +
               "/" +
-              trial_end.getFullYear()}
+              trialEnd.getFullYear()}
             .
           </span>,
           <span>
             Your free trial ends on{" "}
-            {trial_end.getMonth() +
+            {trialEnd.getMonth() +
               1 +
               "/" +
-              trial_end.getDate() +
+              trialEnd.getDate() +
               "/" +
-              trial_end.getFullYear()}
+              trialEnd.getFullYear()}
             .
           </span>
         )}
@@ -253,12 +255,12 @@ class Account extends Component {
       <div class="inline-error">
         <span>
           Card expired, please update before{" "}
-          {valid_until.getMonth() +
+          {validUntil.getMonth() +
             1 +
             "/" +
-            valid_until.getDate() +
+            validUntil.getDate() +
             "/" +
-            valid_until.getFullYear()}{" "}
+            validUntil.getFullYear()}{" "}
           for ${plan_amount / 100}.
         </span>
       </div>,
@@ -266,12 +268,12 @@ class Account extends Component {
       <div class="inline-info">
         <span>
           Your next payment is due on{" "}
-          {valid_until.getMonth() +
+          {validUntil.getMonth() +
             1 +
             "/" +
-            valid_until.getDate() +
+            validUntil.getDate() +
             "/" +
-            valid_until.getFullYear()}{" "}
+            validUntil.getFullYear()}{" "}
           .
         </span>
       </div>,
@@ -383,12 +385,12 @@ class Account extends Component {
                 status === "trialing",
                 <p class="card-register-message">
                   Your card will be charged on{" "}
-                  {trial_end.getMonth() +
+                  {trialEnd.getMonth() +
                     1 +
                     "/" +
-                    trial_end.getDate() +
+                    trialEnd.getDate() +
                     "/" +
-                    trial_end.getFullYear()}{" "}
+                    trialEnd.getFullYear()}{" "}
                   and every following month. .
                 </p>,
                 status === "active",
@@ -406,6 +408,7 @@ class Account extends Component {
       </div>
     );
 
+    this.refs = this.refs || {};
     return (
       <div class="account-wrapper">
         <div class="page-heading">
@@ -418,8 +421,9 @@ class Account extends Component {
             <label htmlFor="fullName">Full Name</label>
             <input
               type="text"
+              ref={element => (this.refs.name = element)}
               name="displayName"
-              defaultValue={this.props.user.name}
+              defaultValue={(this.props.user || {}).name}
               placeholder="e.g. Nikola Tesla"
             />
             {/*<label htmlFor="orgName">Company / Org</label>
@@ -427,6 +431,7 @@ class Account extends Component {
             <label htmlFor="emailAddress">Email Address</label>
             <input
               type="text"
+              ref={element => (this.refs.email = element)}
               name="username"
               defaultValue={this.props.user.email}
               placeholder="nikola@altcurrent.com"
@@ -434,10 +439,14 @@ class Account extends Component {
             <label htmlFor="password">
               <FontAwesome name="lock" /> Change Password (Optional)
             </label>
-            <input type="password" defaultValue="" />
+            <input
+              type="password"
+              ref={element => (this.refs.password = element)}
+              defaultValue=""
+            />
 
             <button
-              disabled={this.state.saving}
+              disabled={this.props.isSaving}
               class="button secondary"
               onClick={this.handleSave}
             >
@@ -455,6 +464,14 @@ class Account extends Component {
                 native
               >
                 Log Out
+              </a>
+            </p>
+            <p>
+              <a
+                onClick={() => localStorage.removeItem("token")}
+                href={"/security"}
+              >
+                Security
               </a>
             </p>
             {/* <p>
@@ -476,11 +493,20 @@ class Account extends Component {
                 />
               </span>
             </p> */}
-            <p>
+            {/* <p>
               <a href="/logs?offset=0&limit=10">View Logs</a>
-            </p>
+            </p> */}
             <p>
               <a href="/account/invoices">View Invoices</a>
+            </p>
+            <p>
+              <a
+                onClick={() => localStorage.removeItem("token")}
+                href={"/graphql"}
+                native
+              >
+                GraphiQL
+              </a>
             </p>
             {IF(
               status === "trialing" ||

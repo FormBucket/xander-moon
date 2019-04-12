@@ -21,7 +21,7 @@ if (window.Intercom) {
     app_id: "n2h7hsol"
   });
 } else {
-  console.log("window.Intercom is not defined");
+  // console.log("window.Intercom is not defined");
 }
 
 export default class Redirect extends Component {
@@ -34,17 +34,19 @@ export default class Redirect extends Component {
   }
 }
 
+window.actions = actions;
+window.store = store;
+
 class App extends Component {
   // some method that returns a promise
   isAuthenticated() {}
 
-  componentWillMount() {
-    actions(store).loadProfile();
-  }
-
   handleRoute = async e => {
     window.scrollTo(0, 0);
-    window.Intercom("update");
+    // actions(store).toggleMenuOff();
+    if (window.Intercom) {
+      window.Intercom("update");
+    }
   };
 
   render() {
@@ -75,7 +77,7 @@ class App extends Component {
             }
           />
           <AsyncRoute
-            path="/invoices"
+            path="/account/invoices"
             getComponent={() =>
               import("./pages/Invoices").then(module => module.default)
             }
@@ -111,21 +113,30 @@ class App extends Component {
             to={({}) => `/docs/privacy-policy`}
           />
           <Redirect path="/terms" replace={true} to={({}) => `/docs/terms`} />
-          <Redirect
+
+          <AsyncRoute
             path="/formbucket-vs-formkeep"
-            to={({}) => `/guides/form-bucket-vs-form-keep`}
+            getComponent={() =>
+              import("./pages/CompareFormKeep").then(module => module.default)
+            }
           />
-          <Redirect
+          <AsyncRoute
             path="/formbucket-vs-formspree"
-            to={({}) => `/guides/form-bucket-vs-formspree`}
+            getComponent={() =>
+              import("./pages/CompareFormSpree").then(module => module.default)
+            }
           />
-          <Redirect
+          <AsyncRoute
             path="/formbucket-vs-getform"
-            to={({}) => `/guides/form-bucket-vs-getform`}
+            getComponent={() =>
+              import("./pages/CompareGetForm").then(module => module.default)
+            }
           />
-          <Redirect
+          <AsyncRoute
             path="/formbucket-vs-wufoo"
-            to={({}) => `/guides/form-bucket-vs-wufoo`}
+            getComponent={() =>
+              import("./pages/CompareWufoo").then(module => module.default)
+            }
           />
 
           <AsyncRoute
@@ -266,7 +277,7 @@ class App extends Component {
 render(<App />, document.getElementById("formbucket-root"));
 
 if (module.hot) {
-module.hot.accept(function () {
-window.location.reload();
-});
+  module.hot.accept(function() {
+    window.location.reload();
+  });
 }

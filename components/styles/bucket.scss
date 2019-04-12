@@ -54,6 +54,7 @@
   $switch-background: $base-background-color;
   $switch-border-background: darken($base-background-color, 9%);
   $switch-shadow: 0 2px 5px transparentize(black, 0.6);
+  width: 100%;
 
   margin-bottom: $base-spacing;
   border-radius: $switch-radius;
@@ -138,6 +139,16 @@
   @include card;
   padding: $base-spacing / 2 $base-spacing;
 
+  button,
+  .button {
+    width: 100%;
+  }
+
+  .button.button-reset {
+    background: white;
+    color: blue;
+  }
+
   input[type="submit"] {
     margin-right: 1em;
   }
@@ -172,4 +183,25 @@
   100% {
     transform: scale(1);
   }
+}
+
+@include media($phablet) {
+.bucket-page {
+  .button.button-save {
+    width: 100%;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+  }
+  ::first-child {
+    display: none;
+
+  }
+}
+
+.bucket-preview {
+  .button.button-save {
+    display: none;
+  }
+}
 }

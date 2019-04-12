@@ -4,7 +4,7 @@ import Terms from "../components/Terms";
 import Layout from "../components/Layout";
 
 let Page = connect("user")(props => (
-  <Layout user={props.user}>
+  <Layout shouldLoadUser={true} {...props}>
     <Terms />
   </Layout>
 ));

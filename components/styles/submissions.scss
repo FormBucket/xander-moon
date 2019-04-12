@@ -14,6 +14,11 @@
       padding: $base-spacing / 2;
       font-size: $base-font-size / 1.2;
     }
+
+    @include media($mobile) {
+      padding: $base-spacing / 3;
+      font-size: $base-font-size / 1.4;
+    }
   }
 }
 
@@ -25,6 +30,10 @@
   .secondary {
     border: none;
     border-radius: $base-border-radius $base-border-radius 0 0;
+
+    @include media($mobile) {
+      padding: 0.65em 0.9em;
+    }
   }
 
   .active {

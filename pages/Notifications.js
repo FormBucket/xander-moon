@@ -7,8 +7,8 @@ import { actions } from "../store";
 class NotificationsContainer extends Component {
   componentWillMount() {
     let { matches } = this.props;
-    let { offset, limit, bucket_id } = matches
-    console.log(matches)
+    let { offset, limit, bucket_id } = matches;
+    console.log(matches);
     this.props.loadNotifications(offset, limit, bucket_id);
   }
   componentWillUnmount() {
@@ -20,10 +20,10 @@ class NotificationsContainer extends Component {
 }
 
 export default connect(
-  "offset,limit,bucket_id,items,user,total_count",
+  "menuOn,flash,user,bucket,offset,limit,bucket_id,items,user",
   actions
 )(props => (
-  <Layout user={props.user}>
+  <Layout {...props}>
     <NotificationsContainer {...props} />
   </Layout>
 ));

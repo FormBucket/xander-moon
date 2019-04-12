@@ -67,6 +67,9 @@
     background-image: url(/img/mindmap2.svg);
     background-size: contain;
     background-blend-mode: lighten;
+    @include media($phablet) {
+      min-height: calc(100vh - 65px);
+    }
   }
 
   h1 {
@@ -91,6 +94,8 @@
       margin-top: $base-spacing;
       font-size: $base-font-size * 1.25;
     }
+
+  
   }
 
   h3 {

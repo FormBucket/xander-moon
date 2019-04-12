@@ -4,7 +4,7 @@ import Privacy from "../components/Privacy";
 import Layout from "../components/Layout";
 
 let Page = connect("user")(props => (
-  <Layout user={props.user}>
+  <Layout shouldLoadUser={true} {...props}>
     <Privacy />
   </Layout>
 ));

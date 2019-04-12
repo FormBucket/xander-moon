@@ -5,23 +5,10 @@
 
 import { h, Component } from "preact";
 import IF from "formula/src/branch";
-import Contact from "./Contact";
+// import Contact from "./Contact";
 import "./styles/welcome.scss";
 
-const Clincher = () => (
-  <div id="features" class="section-block">
-    <div class="wrapper">
-      <div class="clincher">
-        <h2>Do you want a simple backend ?</h2>
-        <p class="blurb">
-          So you just designed an awesome static site for your client. Forget
-          about scripts and servers for a simple form.
-        </p>
-        <p class="blurb">Don't have an invite? Apply now.</p>
-      </div>
-    </div>
-  </div>
-);
+const Clincher = () => <div id="features" class="section-block" />;
 
 class Welcome extends Component {
   render() {
@@ -102,8 +89,11 @@ class Welcome extends Component {
         <div class="hero">
           <div class="bubbles">
             <div class="wrapper">
-              <h1>Managed Form Backend</h1>
-              <h2>Perfect form solution for your static sites.</h2>
+              <h1>Cloud Form Backend</h1>
+              <h2>
+                Welcome to <strong>easy, fast and secure</strong> hosted form
+                collection service.
+              </h2>
               {IF(
                 props.user && !props.user.anonymous,
                 null,
@@ -112,8 +102,9 @@ class Welcome extends Component {
                     type="button"
                     onClick={() => (window.location.href = "/signup")}
                   >
-                    Apply to join
+                    Join Free
                   </button>
+                  <p>Start collecting forms in seconds.</p>
                 </div>
               )}
             </div>
@@ -134,9 +125,9 @@ class Welcome extends Component {
                   <div class="copy">
                     <h3>Form + Bucket</h3>
                     <p>
-                      Form submissions are saved to a bucket. Each bucket has a
-                      unique URL which is as simple as copy and paste to your
-                      HTML. Setup is fast and easy.
+                      Your forms are saved to a bucket which is assigned a
+                      unique URL. Setup is fast and easy, simply copy and paste
+                      the URL into to your HTML code.
                     </p>
                   </div>
                 </div>
@@ -150,8 +141,12 @@ class Welcome extends Component {
                   <div class="copy">
                     <h3>No Embeds or iFrames</h3>
                     <p>
-                      Build and style forms with your HTML and CSS. No
-                      overrides! No scripts! Just your beautiful code!
+                      Develop forms with custom HTML and CSS. No overrides! No
+                      scripts! Use regular HTML forms or{" "}
+                      <a href="/openapi/ui" native>
+                        use our API
+                      </a>
+                      !
                     </p>
                   </div>
                 </div>
@@ -167,9 +162,8 @@ class Welcome extends Component {
                   <div class="copy">
                     <h3>Your User Experience</h3>
                     <p>
-                      Standard form submission redirect back to your website or
-                      use JSON Endpoints for advanced integration. Our service
-                      is virtually invisible.
+                      Standard form submission redirect back to your website.
+                      Our service is virtually invisible.
                     </p>
                   </div>
                 </div>
@@ -229,8 +223,8 @@ class Welcome extends Component {
                   <div class="copy">
                     <h3>Submission Database</h3>
                     <p>
-                      Form submissions stored in a searchable database with
-                      export to CSV and JSON.
+                      Your form submissions are collected and stored in a
+                      searchable database with export to CSV and JSON.
                     </p>
                   </div>
                 </div>
@@ -244,18 +238,18 @@ class Welcome extends Component {
                   <div class="copy">
                     <h3>Webhook Automation</h3>
                     <p>
-                      Sometimes you want to integrate with other systems.
+                      Sometimes you need to integrate with other systems.
                       Webhook events to other applications.
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="louder">
+            {/* <div class="louder">
               <div class="wrapper">
                 <Contact />
               </div>
-            </div>
+            </div> */}
             {/* <div id="pricing" class="section-block">
               <div class="louder">
                 <div class="wrapper">

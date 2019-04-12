@@ -8,7 +8,6 @@ class SubmissionsContainer extends Component {
   componentWillMount() {
     let { matches } = this.props;
     this.props.loadSubmissions(matches);
-    this.props.loadBucket(matches.id);
   }
   componentWillUnmount() {
     this.props.clearBucket();
@@ -19,10 +18,10 @@ class SubmissionsContainer extends Component {
 }
 
 export default connect(
-  "flash,user,bucket,submissions,total,totalSpam,totalDeleted,selected,expanded",
+  "menuOn,flash,user,bucket,submissions,totalCount,spamCount,deletedCount,selected,expanded",
   actions
 )(props => (
-  <Layout user={props.user}>
+  <Layout {...props}>
     <SubmissionsContainer {...props} />
   </Layout>
 ));

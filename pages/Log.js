@@ -17,10 +17,10 @@ class LogContainer extends Component {
 }
 
 export default connect(
-  "flash,user,log",
+  "menuOn,flash,user,log",
   actions
 )(props => (
-  <Layout user={props.user}>
+  <Layout {...props}>
     <LogContainer {...props} />
   </Layout>
 ));

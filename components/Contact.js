@@ -40,19 +40,15 @@ let Contact = class extends Component {
           </div>
         </div>
         <div class="wrapper">
-          <p>
-            We love feedback! You can always reach us on Twitter{" "}
-            <a href="https://twitter.com/FormBucket">@formbucket</a>.
-          </p>
           <form
             id="formbucket-contact-form"
             action="https://api.formbucket.com/f/vCDgvMn"
             method="post"
           >
-            <input type="text" name="name" placeholder="Your full name" />
-            <input type="text" name="email" placeholder="Your email address" />
-            <input type="text" name="phone" placeholder="Your phone number" />
-            <textarea name="message" placeholder="What's on your mind?" />
+            <input type="text" name="name" placeholder="Your name" />
+            <input type="text" name="email" placeholder="Email address" />
+            <input type="text" name="phone" placeholder="Phone number" />
+            <textarea name="message" placeholder="How can we help?" />
             <input type="hidden" name="__honey_trap__" value="" />
             <div
               id="contact-recaptcha"
@@ -60,7 +56,7 @@ let Contact = class extends Component {
               data-size="invisible"
               data-sitekey={sitekey}
             />
-            <button id="contact-submit">Submit</button>
+            <button id="contact-submit">Contact Support</button>
           </form>
         </div>
       </div>

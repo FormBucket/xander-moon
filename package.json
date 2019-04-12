@@ -10,7 +10,7 @@
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
     "build:static": "node runMetalSmith && rm -rf public/img/ && cp -r img/ public/",
     "build": "npm run clean && npm run build:static && npm run build:webpack",
-    "start": "node devServer.js",
+    "start": "yarn parcel index.pug --log-level 3 --hmr-hostname www-dev.formbucket.com --https",
     "start:static": "cd public && http-server . -p 3000",
     "lint": "eslint src",
     "deploy:www-next": "rsync -apvz -e \"ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null\" --progress ./public/ ops@10.8.0.10:/srv/www/formbucket.com/",

@@ -27,7 +27,7 @@ let GuideIndex = () => (
     <p>Personalize your autoresponder emails with merge tags.</p>
     <hr />
     <h6>
-      <a href="/guides/json-endpoints">JSON Endpoints?</a>
+      <a href="/guides/json-endpoints">JSON Endpoints</a>
     </h6>
     <p>This option sets up an endpoint that always returns a JSON object.</p>
     <hr />
@@ -61,6 +61,12 @@ let GuideIndex = () => (
     <p>Webhooks forward your submissions to external systems.</p>
     <hr />
     <h3>Legal / Privacy</h3>
+    <h6>
+      <a href="/guides/pricing">
+        Pricing
+      </a>
+    </h6>
+    <p>How we charge for services.</p>
     <h6>
       <a href="/docs/terms">Terms</a>
     </h6>

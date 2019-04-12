@@ -4,22 +4,27 @@
 
 import { h, Component } from "preact";
 import IF from "formula/src/branch";
-import format from "date-fns/format";
-import { route } from 'preact-router';
+import { route } from "preact-router";
 
 class Notifications extends Component {
   handleChange(newOffset, limit, bucket_id) {
     this.props.loadNotifications(newOffset, limit, bucket_id);
-    route(`/notifications?offset=${newOffset}&limit=${limit}&bucket_id=${bucket_id}`)
+    route(
+      `/notifications?offset=${newOffset}&limit=${limit}&bucket_id=${bucket_id}`
+    );
   }
   render() {
+    let { bucket_id, offset, limit } = this.props;
+    let { bucket } = this.props;
 
-    let {bucket, bucket_id, offset, limit, items = [], total_count } = this.props;
+    if (!bucket) return <div>Loading...</div>;
+    if (!bucket.notifications) return <div>Loading...</div>;
+
+    let items = bucket.notifications.nodes;
+    let total_count = bucket.notifications.totalCount;
     offset = +offset;
     limit = +limit;
 
-    console.log('render', this);
-    if (items === null) return <div>Loading...</div>;
     return (
       <div>
         <div class="page-heading">
@@ -28,67 +33,78 @@ class Notifications extends Component {
               Notifications
               {IF(
                 bucket_id,
-                <span>
-                  {" "}
-                  &gt;{" "}
-                  {bucket
-                    ? bucket.name
-                    : bucket_id}
-                </span>
+                <span> &gt; {bucket ? bucket.name : bucket_id}</span>
               )}
             </h1>
           </div>
         </div>
         <div class="wrapper">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Status</th>
-                <th>Type</th>
-                <th>From</th>
-                <th>To</th>
-                <th>Subject</th>
-                <th>Sent at</th>
-              </tr>
-            </thead>
-            <tbody>
+          <div class="div">
+            <div>
               {items.map((d, i) => (
-                <tr key={i}>
-                  <td>{d.completed ? format(d.completed, "MMM DD, YYYY hh:mm a") : "N/A"}</td>
-                  <td>{d.campaign}</td>
-                  <td>{d.from}</td>
-                  <td>{d.to}</td>
-                  <td>{d.subject}</td>
-                  <td>
-                    {IF(
-                      d.status === 0,
-                      "Not sent",
-                      d.status === 1,
-                      "Processing",
-                      d.status === 2,
-                      "Sent",
-                      d.status < 0,
-                      "Error!"
-                    )}
-                  </td>
-                </tr>
+                <div
+                  style={{ border: "1px black solid", padding: 10, margin: 10 }}
+                >
+                  <label>
+                    Id:
+                    <div>{d.id}</div>
+                  </label>
+
+                  <label>
+                    Created:
+                    <div>{d.created_on}</div>
+                  </label>
+
+                  <label>
+                    Campaign:
+                    <div>{d.campaign}</div>
+                  </label>
+
+                  <label>
+                    From:
+                    <div>{d.from}</div>
+                  </label>
+
+                  <label>
+                    Subject:
+                    <div>{d.subject}</div>
+                  </label>
+
+                  <label>
+                    Status:
+                    <div>
+                      {IF(
+                        d.status === 0,
+                        "Not sent",
+                        d.status === 1,
+                        "Processing",
+                        d.status === 2,
+                        "Sent",
+                        d.status < 0,
+                        "Error!"
+                      )}
+                    </div>
+                  </label>
+                  <div />
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+          </div>
           <button
             disabled={offset == 0}
-            onClick={() => this.handleChange(Math.max(0, offset -limit), limit, bucket_id)}
+            onClick={() =>
+              this.handleChange(Madiv.max(0, offset - limit), limit, bucket_id)
+            }
           >
             Back
           </button>{" "}
           <button
-            disabled={limit+offset > total_count}
+            disabled={limit + offset > total_count}
             onClick={() => this.handleChange(offset + limit, limit, bucket_id)}
-          >Next</button> Showing{" "}
-          {+offset + 1} to{" "}
-          {+offset +
-            1 +
-            +items.length}
+          >
+            Next
+          </button>{" "}
+          Showing {+offset + 1} to {+offset + 1 + +items.length}
         </div>
       </div>
     );

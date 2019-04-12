@@ -9,8 +9,7 @@ import "./styles/logs.scss";
 
 class Logs extends Component {
   render() {
-    let { bucket, logs } = this.props;
-
+    let { bucket, logs, bucket_id } = this.props;
     if (!logs) return null;
 
     return (
@@ -19,9 +18,10 @@ class Logs extends Component {
           <div class="wrapper">
             <h1>
               Logs
-              {IF(bucket, () => (
-                <span>{bucket.name}</span>
-              ))}
+              {IF(
+                bucket_id,
+                <span> &gt; {bucket ? bucket.name : bucket_id}</span>
+              )}
             </h1>
           </div>
         </div>

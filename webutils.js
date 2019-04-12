@@ -3,21 +3,98 @@
  */
 
 // The server is initialized from the API server.
-export const server = window.FORMBUCKET_API_SERVER || "",
+export const server =
+    window.FORMBUCKET_API_SERVER || "https://api.formbucket.com",
   // The version is and will always be v1.
   version = `/v1`,
   // The API root is the result of concat(server, version).
   apiRoot = server + version;
 
 // Import helpers that do basic stuff.
-import {
-  getText,
-  postText,
-  getJSON,
-  postJSON,
-  putJSON,
-  deleteJSON
-} from "./fetch-helpers";
+// generic function to detect common HTTP error codes. Credit to Mozilla.
+export function processStatus(response) {
+  // status "0" to handle local files fetching (e.g. Cordova/Phonegap etc.)
+  if (response.status === 200 || response.status === 0) {
+    return Promise.resolve(response);
+  } else {
+    return response.text().then(text => Promise.reject(new Error(text)));
+  }
+}
+
+export function callResource(method, url, data) {
+  var opts = {
+    credentials: "include",
+    method: method,
+    mode: "cors",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    }
+  };
+
+  if (data) {
+    opts.body = JSON.stringify(data);
+  }
+
+  if (localStorage.hasOwnProperty("token")) {
+    opts.headers.Authorization = `Bearer ${localStorage.token}`;
+  }
+  // console.log('call', url, opts)
+
+  return fetch(url, opts);
+}
+
+function getResource(url) {
+  return callResource("GET", url);
+}
+
+function postResource(url, data) {
+  return callResource("POST", url, data);
+}
+
+function putResource(url, data) {
+  return callResource("PUT", url, data);
+}
+
+function deleteResource(url, data) {
+  return callResource("DELETE", url, data);
+}
+
+function getText(url) {
+  return getResource(url)
+    .then(processStatus)
+    .then(res => res.text());
+}
+
+function postText(url, data) {
+  return postResource(url, data)
+    .then(processStatus)
+    .then(res => res.text());
+}
+
+function getJSON(url) {
+  return getResource(url)
+    .then(processStatus)
+    .then(res => res.json());
+}
+
+function postJSON(url, data) {
+  return postResource(url, data)
+    .then(processStatus)
+    .then(res => res.json());
+}
+
+function putJSON(url, data) {
+  return putResource(url, data)
+    .then(processStatus)
+    .then(res => res.json());
+}
+
+function deleteJSON(url, data) {
+  return deleteResource(url, data)
+    .then(processStatus)
+    .then(res => res.json());
+}
 
 // Submit a form
 export function submit(bucket_id, formData) {
@@ -272,4 +349,12 @@ export function requestAddCreditCard(id) {
 // make promise to update credit card.
 export function requestUpdateCreditCard(id, changes) {
   return putJSON(`${apiRoot}/billing/credit_card`, { id, changes });
+}
+
+export function gql(query, variables, operationName) {
+  return postJSON(`${server}/graphql`, {
+    query,
+    variables,
+    operationName
+  });
 }

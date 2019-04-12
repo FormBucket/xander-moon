@@ -6,7 +6,9 @@ import { h, Component } from "preact";
 import FontAwesome from "react-fontawesome";
 import IF from "formula/src/branch";
 import ISARRAY from "formula/src/isarray";
-import ISEMPTY from "formula/src/isempty";
+import isEmpty from "formula/src/isempty";
+import isblank from "formula/src/isblank";
+import isTruthy from "formula/src/istruthy";
 import hljs from "highlight.js/lib/highlight.js";
 import xml from "highlight.js/lib/languages/xml.js";
 import "highlight.js/styles/github.css";
@@ -15,8 +17,8 @@ import { route } from "preact-router";
 
 hljs.registerLanguage("xml", xml);
 
-function setupRecaptcha(recaptcha_on) {
-  if (!recaptcha_on) return;
+function setupRecaptcha(recaptchaOn) {
+  if (!recaptchaOn) return;
 
   if (grecaptcha) {
     grecaptcha.render("g-recaptcha-container", {
@@ -24,7 +26,7 @@ function setupRecaptcha(recaptcha_on) {
     });
 
     document.getElementById("my-awesome-form").onsubmit = () => {
-      if (recaptcha_on) {
+      if (recaptchaOn) {
         if (grecaptcha.getResponse() == "") {
           alert("Invalid recaptcha");
           grecaptcha.reset();
@@ -37,15 +39,15 @@ function setupRecaptcha(recaptcha_on) {
 }
 
 function makeHTMLForm(
-  { id, honey_pot_on, honey_pot_field, recaptcha_on },
+  { id, honeyPotOn, honeyPotField, recaptchaOn },
   isPreview = false
 ) {
-  setTimeout(() => {
-    hljs.highlightBlock(document.getElementById("form-code-example"));
-  }, 16);
+  // setTimeout(() => {
+  //   hljs.highlightBlock(document.getElementById("form-code-example"));
+  // }, 16);
 
   return `${
-    recaptcha_on && isPreview
+    recaptchaOn && isPreview
       ? `<script src="https://www.google.com/recaptcha/api.js"></script>
 `
       : ""
@@ -54,15 +56,15 @@ function makeHTMLForm(
   <input type="text" name="email" placeholder="email" />
   <input type="text" name="subject" placeholder="subject" />
   <textarea type="text" name="message" placeholder="message"></textarea>${
-    honey_pot_on
+    honeyPotOn
       ? `
   <label style="display:none">Honey pot (Should be hidden and empty)</label>
   <input type="text" name="${
-    ISEMPTY(honey_pot_field) ? "__bucket_trap__" : honey_pot_field
+    isEmpty(honeyPotField) ? "__bucket_trap__" : honeyPotField
   }" style="display: none" />`
       : ""
   }${
-    recaptcha_on
+    recaptchaOn
       ? `
   <div id="g-recaptcha-container" class="g-recaptcha" data-sitekey="{put-your-site-key-here}"></div>`
       : ``
@@ -81,23 +83,26 @@ class Bucket extends Component {
     this.props.resetBucket();
   }
 
-  componentDidUpdate() {
-    setTimeout(() => setupRecaptcha(this.props.savedBucket.recaptcha_on), 250);
+  componentDidMount() {
+    let { savedBucket = {} } = this.props;
+
+    setTimeout(() => setupRecaptcha(savedBucket.recaptchaOn), 250);
   }
 
   componentWillUnmount() {
-    if (this.props.saveBucket.recaptcha_on) grecaptcha.reset();
+    if (this.props.saveBucket.recaptchaOn) grecaptcha.reset();
   }
 
   toggleAutoResponder = e => {
-    changeBucket({ auto_responder: false });
+    let { changeBucket } = this.props;
+    changeBucket({ autoResponder: false });
 
     if (e.target.checked) {
       changeBucket({
-        auto_responder: {
-          from: this.refs.auto_responder_from.value,
-          subject: this.refs.auto_responder_subject.value,
-          body: this.refs.auto_responder_body.value
+        autoResponder: {
+          from: this.refs.autoResponder_from.value,
+          subject: this.refs.autoResponder_subject.value,
+          body: this.refs.autoResponder_body.value
         }
       });
     }
@@ -105,10 +110,11 @@ class Bucket extends Component {
 
   onChangeAutoResponderMessage = value => {
     if (!value) return;
+    let { changeBucket } = this.props;
 
     changeBucket({
-      auto_responder_content: value,
-      auto_responder: Object.assign({}, bucket.auto_responder, {
+      autoResponder_content: value,
+      autoResponder: Object.assign({}, bucket.autoResponder, {
         body: value.toString("markdown")
       })
     });
@@ -134,9 +140,9 @@ class Bucket extends Component {
     let download = () => exportBucket(savedBucket);
     let downloadCSV = () => exportBucket(savedBucket, "csv");
     if (!bucket) return null;
-
+    this.refs = this.refs || {};
     return (
-      <div>
+      <div class="bucket-page">
         <div class="page-heading">
           <div class="wrapper">
             <h1>
@@ -159,7 +165,7 @@ class Bucket extends Component {
               />
               <label htmlFor="bucketEnabled" class="label-switch">
                 {" "}
-                Accept Submissions?
+                Enabled?
                 <input
                   id="bucketEnabled"
                   type="checkbox"
@@ -178,7 +184,7 @@ class Bucket extends Component {
                 placeholder="Send to custom landing page, supports merge tags"
                 id="redirectURL"
                 onChange={e => changeBucket({ redirect_url: e.target.value })}
-                disabled={bucket.is_api_request}
+                disabled={bucket.isAPIRequest}
                 defaultValue={bucket.redirect_url}
               />
               <label htmlFor="bucketAJAXOnly" class="label-switch">
@@ -187,15 +193,15 @@ class Bucket extends Component {
                   style={{ textDecoration: "none" }}
                   href="/guides/json-endpoints"
                 >
-                  JSON Endpoint?
+                  API Only? (Use XHR, fetch or your favorite request library)
                 </a>
                 <input
                   id="bucketAJAXOnly"
                   type="checkbox"
                   onChange={event =>
-                    changeBucket({ is_api_request: event.target.checked })
+                    changeBucket({ isAPIRequest: event.target.checked })
                   }
-                  checked={bucket.is_api_request}
+                  checked={bucket.isAPIRequest}
                 />
                 <div class="checkbox" />
               </label>
@@ -205,16 +211,16 @@ class Bucket extends Component {
               <label>
                 <input
                   type="radio"
-                  onChange={() => changeBucket({ email_to: false })}
-                  checked={bucket.email_to === false}
+                  onChange={() => changeBucket({ emailTo: false })}
+                  checked={bucket.emailTo === false || isblank(bucket.emailTo)}
                 />
                 Do not send notifications
               </label>
               <label>
                 <input
                   type="radio"
-                  onClick={() => changeBucket({ email_to: true })}
-                  checked={bucket.email_to === true}
+                  onClick={() => changeBucket({ emailTo: true })}
+                  checked={bucket.emailTo === true}
                 />
                 Send notifications to {user.email}
               </label>
@@ -223,19 +229,20 @@ class Bucket extends Component {
                   type="radio"
                   onClick={() =>
                     changeBucket({
-                      email_to: "" + this.refs.additionalEmails.value
+                      emailTo: "" + this.refs.additionalEmails.value
                     })
                   }
-                  checked={typeof bucket.email_to === "string"}
+                  checked={typeof bucket.emailTo === "string"}
                 />
                 Send notifications to:
                 <textarea
-                  disabled={typeof bucket.email_to === "string" ? false : true}
+                  disabled={typeof bucket.emailTo === "string" ? false : true}
                   class="cc-emails"
+                  ref={e => (this.refs.additionalEmails = e)}
                   placeholder="Separate addresses by comma"
-                  onChange={e => changeBucket({ email_to: e.target.value })}
+                  onChange={e => changeBucket({ emailTo: e.target.value })}
                   defaultValue={
-                    typeof bucket.email_to === "string" ? bucket.email_to : ""
+                    typeof bucket.emailTo === "string" ? bucket.emailTo : ""
                   }
                 />
               </label>
@@ -246,17 +253,17 @@ class Bucket extends Component {
                   name="enableAdvancedNotificationSettings"
                   onChange={() =>
                     changeBucket({
-                      advanced_notification_on: !bucket.advanced_notification_on
+                      advancedNotificationOn: !bucket.advancedNotificationOn
                     })
                   }
-                  checked={bucket.advanced_notification_on}
+                  checked={bucket.advancedNotificationOn}
                 />
                 Advanced Settings (optional)
               </label>
               <div
                 class="autoresponder-wrapper"
                 style={{
-                  display: bucket.advanced_notification_on ? "" : "none"
+                  display: bucket.advancedNotificationOn ? "" : "none"
                 }}
               >
                 <label htmlFor="notificationFrom">Sent From:</label>
@@ -265,9 +272,9 @@ class Bucket extends Component {
                   type="text"
                   placeholder="Defaults to support@formbucket.com"
                   onChange={e =>
-                    changeBucket({ notification_from: e.target.value })
+                    changeBucket({ notificationFrom: e.target.value })
                   }
-                  defaultValue={bucket.notification_from}
+                  defaultValue={bucket.notificationFrom}
                 />
                 <label htmlFor="notificationReplyTo">Reply to:</label>
                 <input
@@ -275,9 +282,9 @@ class Bucket extends Component {
                   type="text"
                   placeholder="Defaults to {{ email }} or {{ _replyto }}, otherwise your email"
                   onChange={e =>
-                    changeBucket({ notification_reply_to: e.target.value })
+                    changeBucket({ notificationReplyTo: e.target.value })
                   }
-                  defaultValue={bucket.notification_reply_to}
+                  defaultValue={bucket.notificationReplyTo}
                 />
                 <label htmlFor="notificationReplyTo">CC:</label>
                 <input
@@ -303,9 +310,9 @@ class Bucket extends Component {
                   type="text"
                   placeholder='Defaults to {{ _subject }}, otherwise "Submission for {{bucket_name}}"'
                   onChange={e =>
-                    changeBucket({ notification_subject: e.target.value })
+                    changeBucket({ notificationSubject: e.target.value })
                   }
-                  defaultValue={bucket.notification_subject}
+                  defaultValue={bucket.notificationSubject}
                 />
                 <label htmlFor="notificationTemplate">
                   Body (supports Markdown)
@@ -332,7 +339,7 @@ class Bucket extends Component {
                   </a>
                 </div>
                 {/*}<RichTextEditor
-                  value={bucket.auto_responder_content}
+                  value={bucket.autoResponder_content}
                   onChange={this.onChangeAutoResponderMessage}
                 />*/}
               </div>
@@ -345,13 +352,13 @@ class Bucket extends Component {
                   class="checkbox autoresponder"
                   name="sendAutoresponder"
                   onChange={this.toggleAutoResponder}
-                  checked={bucket.auto_responder}
+                  checked={isTruthy(bucket.autoResponder)}
                 />
                 Automatically send an email to form submitters
               </label>
               <div
                 class="autoresponder-wrapper"
-                style={{ display: bucket.auto_responder ? "" : "none" }}
+                style={{ display: bucket.autoResponder ? "" : "none" }}
               >
                 <p>
                   <FontAwesome name="exclamation-circle" /> Note: Your form must
@@ -361,60 +368,64 @@ class Bucket extends Component {
                 <label htmlFor="fromEmail">From</label>
                 <input
                   type="text"
+                  ref={e => (this.refs.autoResponder_from = e)}
                   onChange={e =>
                     changeBucket({
-                      auto_responder: Object.assign({}, bucket.auto_responder, {
+                      autoResponder: Object.assign({}, bucket.autoResponder, {
                         from: e.target.value
                       })
                     })
                   }
                   defaultValue={
-                    bucket.auto_responder
-                      ? bucket.auto_responder.from
+                    bucket.autoResponder
+                      ? bucket.autoResponder.from
                       : user.email
                   }
                 />
                 <label htmlFor="toEmail">To</label>
                 <input
                   type="text"
+                  ref={e => (this.refs.autoResponder_to = e)}
                   placeholder="Defaults to {{ email }}"
                   onChange={e =>
                     changeBucket({
-                      auto_responder: Object.assign({}, bucket.auto_responder, {
+                      autoResponder: Object.assign({}, bucket.autoResponder, {
                         to: e.target.value
                       })
                     })
                   }
                   defaultValue={
-                    bucket.auto_responder ? bucket.auto_responder.to : null
+                    bucket.autoResponder ? bucket.autoResponder.to : null
                   }
                 />
                 <label htmlFor="subject">Subject</label>
                 <input
                   type="text"
+                  ref={e => (this.refs.autoResponder_subject = e)}
                   placeholder="Thanks!"
                   onChange={e =>
                     changeBucket({
-                      auto_responder: Object.assign({}, bucket.auto_responder, {
+                      autoResponder: Object.assign({}, bucket.autoResponder, {
                         subject: e.target.value
                       })
                     })
                   }
                   defaultValue={
-                    bucket.auto_responder ? bucket.auto_responder.subject : ""
+                    bucket.autoResponder ? bucket.autoResponder.subject : ""
                   }
                 />
                 <label htmlFor="emailBody">Body (supports Markdown)</label>
                 <textarea
+                  ref={e => (this.refs.autoResponder_body = e)}
                   onChange={e =>
                     changeBucket({
-                      auto_responder: Object.assign({}, bucket.auto_responder, {
+                      autoResponder: Object.assign({}, bucket.autoResponder, {
                         body: e.target.value
                       })
                     })
                   }
                   defaultValue={
-                    bucket.auto_responder ? bucket.auto_responder.body : ""
+                    bucket.autoResponder ? bucket.autoResponder.body : ""
                   }
                 />
                 <div>
@@ -431,7 +442,7 @@ class Bucket extends Component {
                   </a>
                 </div>
                 {/*}<RichTextEditor
-                  value={bucket.auto_responder_content}
+                  value={bucket.autoResponder_content}
                   onChange={this.onChangeAutoResponderMessage}
                 />*/}
               </div>
@@ -503,16 +514,16 @@ class Bucket extends Component {
                   id="honeyPotEnabled"
                   type="checkbox"
                   onClick={event =>
-                    changeBucket({ honey_pot_on: event.target.checked })
+                    changeBucket({ honeyPotOn: event.target.checked })
                   }
-                  checked={bucket.honey_pot_on}
+                  checked={bucket.honeyPotOn}
                 />
                 <div class="checkbox" />
               </label>
               <br />
               <br />
               {IF(
-                bucket.honey_pot_on,
+                bucket.honeyPotOn,
 
                 <div>
                   <label>
@@ -523,9 +534,9 @@ class Bucket extends Component {
                     <input
                       placeholder="Optional custom fieldname"
                       onChange={e =>
-                        changeBucket({ honey_pot_field: e.target.value })
+                        changeBucket({ honeyPotField: e.target.value })
                       }
-                      defaultValue={bucket.honey_pot_field}
+                      defaultValue={bucket.honeyPotField}
                     />
                   </label>
                 </div>
@@ -538,22 +549,22 @@ class Bucket extends Component {
                   id="recaptchaEnabled"
                   type="checkbox"
                   onClick={event => {
-                    changeBucket({ recaptcha_on: event.target.checked });
+                    changeBucket({ recaptchaOn: event.target.checked });
                   }}
-                  checked={bucket.recaptcha_on}
+                  checked={bucket.recaptchaOn}
                 />
                 <div class="checkbox" />
               </label>
               {IF(
-                bucket.recaptcha_on,
+                bucket.recaptchaOn,
                 <div class="spam-protection">
                   <label>
                     Secret key (provided by Google)
                     <input
                       onChange={e =>
-                        changeBucket({ recaptcha_secret: e.target.value })
+                        changeBucket({ recaptchaSecret: e.target.value })
                       }
-                      defaultValue={bucket.recaptcha_secret}
+                      defaultValue={bucket.recaptchaSecret}
                     />
                   </label>
                   <label>
@@ -564,10 +575,10 @@ class Bucket extends Component {
             </div>
             <input
               type="button"
-              class="button"
+              class="button button-save"
               onClick={() => {
                 this.props.saveBucket();
-                setupRecaptcha(this.props.unsavedBucket.recaptcha_on);
+                setupRecaptcha(this.props.unsavedBucket.recaptchaOn);
               }}
               value="Save Settings"
             />
@@ -586,7 +597,7 @@ class Bucket extends Component {
             &nbsp;{" "}
             <a href={`/notifications?offset=0&limit=10&bucket_id=${bucket.id}`}>
               Notifications
-            </a> 
+            </a>
           </div>
           <div class="bucket-preview">
             <div class="bucket-editor">
@@ -599,7 +610,6 @@ class Bucket extends Component {
               </div>
               <div style={{ display: this.state.showEditor ? "" : "none" }}>
                 <hr />
-                <h4>Example HTML</h4>
                 <p>
                   Copy and paste the markup below into your project, replacing
                   the example inputs with your own.
@@ -611,14 +621,9 @@ class Bucket extends Component {
                     </code>
                   </pre>
                 </div>
-              </div>
-              <hr />
-
-              <h4>
-                Test Form
+                <hr />
                 <a
                   href="javascript:void(0)"
-                  style={{ float: "right" }}
                   onClick={() => {
                     setTimeout(() => {
                       this.setState({ showEditor: !this.state.showEditor });
@@ -627,45 +632,74 @@ class Bucket extends Component {
                     return false;
                   }}
                 >
-                  {IF(this.state.showEditor, "Hide", "Show")} Example HTML
+                  Return to test form
                 </a>
-              </h4>
-              <div>
-                <form
-                  id="my-awesome-form"
-                  action={`${"https://" + window.location.host}/f/${bucket.id}`}
-                  method="post"
-                  target="_blank"
-                >
-                  <input type="text" name="email" placeholder="email" />
-                  <input type="text" name="subject" placeholder="subject" />
-                  <textarea type="text" name="message" placeholder="message" />
-                  {bucket.honey_pot_on ? (
-                    <div>
-                      <label style="display:none">
-                        Honey pot (Should be hidden and empty)
-                      </label>
-                      <input
-                        type="text"
-                        name={
-                          ISEMPTY(bucket.honey_pot_field)
-                            ? "__bucket_trap__"
-                            : bucket.honey_pot_field
-                        }
-                        style="display: none"
-                      />
-                    </div>
-                  ) : null}
-                  {savedBucket.recaptcha_on ? (
-                    <div id="g-recaptcha-container" />
-                  ) : null}
-                  <input
-                    class="button secondary"
-                    type="submit"
-                    value="Submit"
-                  />
-                  <input class="button secondary" type="reset" value="Reset" />
-                </form>
+              </div>
+              <div style={{ display: !this.state.showEditor ? "" : "none" }}>
+                <hr />
+                <h4>
+                  Test Form
+                  <a
+                    href="javascript:void(0)"
+                    style={{ float: "right" }}
+                    onClick={() => {
+                      setTimeout(() => {
+                        this.setState({ showEditor: !this.state.showEditor });
+                        return false;
+                      }, 200);
+                      return false;
+                    }}
+                  >
+                    {IF(this.state.showEditor, "Hide", "Show")} HTML
+                  </a>
+                </h4>
+                <div>
+                  <form
+                    id="my-awesome-form"
+                    action={`${"https://" + window.location.host}/f/${
+                      bucket.id
+                    }`}
+                    method="post"
+                    target="_blank"
+                  >
+                    <input type="text" name="email" placeholder="email" />
+                    <input type="text" name="subject" placeholder="subject" />
+                    <textarea
+                      type="text"
+                      name="message"
+                      placeholder="message"
+                    />
+                    {bucket.honeyPotOn ? (
+                      <div>
+                        <label style="display:none">
+                          Honey pot (Should be hidden and empty)
+                        </label>
+                        <input
+                          type="text"
+                          name={
+                            isEmpty(bucket.honeyPotField)
+                              ? "__bucket_trap__"
+                              : bucket.honeyPotField
+                          }
+                          style="display: none"
+                        />
+                      </div>
+                    ) : null}
+                    {savedBucket.recaptchaOn ? (
+                      <div id="g-recaptcha-container" />
+                    ) : null}
+                    <input
+                      class="button secondary"
+                      type="submit"
+                      value="Submit"
+                    />
+                    <input
+                      class="button button-reset secondary"
+                      type="reset"
+                      value="Reset"
+                    />
+                  </form>
+                </div>
               </div>
             </div>
           </div>

@@ -9,12 +9,19 @@ import IF from "formula/src/branch";
 import FlashMessage from "./FlashMessage";
 
 import "./styles/app.scss";
+import { TSImportEqualsDeclaration } from "babel-types";
 
 /* Write some great components about what data
  * this application displays and how it needs to be
  * organized.
  */
 class Layout extends Component {
+  componentWillMount() {
+    if (this.props.shouldLoadUser) {
+      this.props.loadProfile();
+    }
+  }
+
   render() {
     var { status, trial_period_days, trial_start, has_source } =
       this.props.user || {};
@@ -61,10 +68,10 @@ class Layout extends Component {
           </div>,
           null
         )}
-        <Header user={this.props.user} />
+        <Header user={this.props.user} toggleMenu={this.props.toggleMenu} menuOn={this.props.menuOn} />
         <div class="main">{this.props.children}</div>
         <Footer />
-        <FlashMessage text={this.props.flash} />
+        <FlashMessage text={this.context.store.getState().flash} />
       </div>
     );
   }

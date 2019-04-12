@@ -3,8 +3,8 @@ import { connect } from "unistore/preact";
 import GuideHoneyPot from "../components/GuideHoneyPot";
 import Layout from "../components/Layout";
 
-let Page = connect("user")(props => (
-  <Layout user={props.user}>
+let Page = connect("menuOn,flash,user")(props => (
+  <Layout shouldLoadUser={true} {...props}>
     <GuideHoneyPot />
   </Layout>
 ));

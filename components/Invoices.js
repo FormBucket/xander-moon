@@ -17,24 +17,8 @@ class Invoices extends Component {
     loading: false
   };
 
-  componentDidMount() {
-    if (UserStore.isUserLoggedIn()) {
-      this.setState({ loading: true });
-
-      requestInvoices()
-        .then(invoices =>
-          this.setState({
-            loading: false,
-            loaded: true,
-            invoices
-          })
-        )
-        .catch(error => this.setState({ error: error }));
-    }
-  }
-
   render() {
-    return <div>Invoices</div>;
+    let { invoices = [] } = this.props;
     return (
       <div>
         <div class="page-heading">
@@ -50,12 +34,12 @@ class Invoices extends Component {
                 <th>Total</th>
                 <th>Paid?</th>
               </tr>
-              {this.state.invoices.map(d => (
+              {invoices.map(d => (
                 <tr key={d.id}>
                   <td>
                     {formatDate(d.date)}
                     <br />
-                    <a href={d.invoice_pdf}>{d.id}</a>
+                    <a href={d.invoicePdf}>{d.id}</a>
                   </td>
                   <td>{text(d.total / 100, "$#,##0.00")}</td>
                   <td>{d.paid ? "Yes" : "No"}</td>

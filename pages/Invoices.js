@@ -5,17 +5,19 @@ import Invoices from "../components/Invoices";
 import Layout from "../components/Layout";
 
 class InvoicesContainer extends Component {
-  componentWillMount() {}
+  componentWillMount() {
+    this.props.loadInvoices();
+  }
   render() {
     return <Invoices {...this.props} />;
   }
 }
 
 export default connect(
-  "flash,user",
+  "menuOn,flash,user,invoices",
   actions
-)(({ user }) => (
-  <Layout user={user}>
-    <InvoicesContainer user={user} />
+)(props => (
+  <Layout {...props}>
+    <InvoicesContainer {...props} />
   </Layout>
 ));

@@ -14,15 +14,12 @@ class BucketsContainer extends Component {
 }
 
 export default connect(
-  "user,buckets",
+  "menuOn,user,buckets",
   actions
-)(({ user, buckets, loadBuckets, createBucket }) => (
-  <Layout user={user}>
+)(props => (
+  <Layout {...props}>
     <BucketsContainer
-      user={user}
-      buckets={buckets}
-      loadBuckets={loadBuckets}
-      createBucket={createBucket}
+      {...props}
     />
   </Layout>
 ));

@@ -3,13 +3,9 @@ import devtools from "unistore/devtools";
 import { route } from "preact-router";
 
 import {
-  requestBuckets,
-  requestBucket,
   requestCreateBucket,
   requestUpdateBucket,
-  requestSubmissionsByBucket,
   requestUpdateUser,
-  requestProfile,
   requestSubscribe,
   requestUnsubscribe,
   requestDeleteBucket,
@@ -17,10 +13,282 @@ import {
   requestDownloadFile,
   requestUpdateSubmissions,
   requestDeleteSubmissions,
-  requestLogs,
-  requestLog,
-  requestEmailQueue
+  gql
 } from "./webutils";
+import update from "immutability-helper";
+
+let fragmentViewerSummary = `fragment ViewerSummary on Account {
+  id
+  name
+  anonymous
+  email
+  status
+  trialPeriodDays
+  trialStart
+  trialEnd
+  validUntil
+  created
+  updated
+}`;
+
+let fragmentBucketMinimal = `fragment BucketMinimal on Bucket {
+  id
+  name
+  created
+}`;
+
+let fragmentBucketSummary = `fragment BucketSummary on Bucket {
+  id
+  name
+  created
+  submissions {
+    totalCount
+  }
+}`;
+
+let fragmentBucketComplete = `fragment BucketComplete on Bucket {
+  id
+  owner {
+    id
+  }
+  name
+  enabled
+  redirectUrl
+  isAPIRequest
+  emailTo
+  advancedNotificationOn
+  notificationFrom
+  notificationReplyTo
+  emailCC
+  emailBCC
+  notificationSubject
+  notificationTemplate
+  webhooks
+  honeyPotOn
+  honeyPotField
+  recaptchaOn
+  recaptchaSecret
+  autoResponder {
+    on
+    to
+    replyTo
+    cc
+    bcc
+  }
+}`;
+
+let fragmentLogParts = `fragment LogParts on LogConnection {
+  totalCount
+  pageInfo {
+    startCursor
+    endCursor
+  }
+  nodes {
+    id
+    type
+    method
+    url
+    ts
+  }
+}`;
+
+let fragmentSubmissionParts = `fragment SubmissionParts on SubmissionConnection {
+  totalCount
+  spamCount
+  deletedCount
+  pageInfo {
+    startCursor
+    endCursor
+  }
+  nodes {
+    id
+    data
+    apiRequest
+    ip
+    createdOn
+  }
+}`;
+
+let fragmentNotificationParts = `fragment NotificationParts on NotificationConnection {
+  totalCount
+  pageInfo {
+    startCursor
+    endCursor
+  }
+  nodes {
+    id
+    status
+    subject
+  }
+}`;
+
+let queryProfile = `query profile {
+  viewer {
+    ...ViewerSummary
+  }
+}`;
+
+let queryBucket = `query bucketPage($bucketId:ID!){
+  viewer {
+    ...ViewerSummary
+  }
+  bucket(id: $bucketId) {
+    ...BucketComplete
+  }
+}`;
+
+let queryBuckets = `query bucketsPage {
+  viewer {
+    ...ViewerSummary
+  }
+  buckets {
+    totalCount
+    nodes {
+      ...BucketSummary
+    }
+  }
+}`;
+
+let querylogsPage = `query logsPage($bucketId: ID!){
+  viewer {
+    ...ViewerSummary
+  }
+  bucket(id: $bucketId) {
+    ...BucketComplete
+    logs(first: 1) {
+      ...LogParts
+    }
+  }
+}`;
+
+let querylogPage = `query logPage($logId: ID!){
+  viewer {
+    ...ViewerSummary
+  }
+  log(id: $logId) {
+    id
+    type
+    start
+    ts
+    ip
+    method
+    url
+    host
+    query
+    requestHeaders
+    responseHeaders
+    requestBody
+    status
+  }
+}`;
+
+let querySubmissionsPage = `query submissionsPage($bucketId: ID!, $limit: Int, $offset: Int,  $type: SubmissionType, $search: String){
+  viewer {
+    ...ViewerSummary
+  }
+  bucket(id: $bucketId) {
+    ...BucketMinimal
+    submissions(limit: $limit, offset: $offset, type: $type, search: $search) {
+      ...SubmissionParts
+    }
+  }
+}`;
+
+let queryNotificationPage = `query notificationsPage($bucketId: ID!){
+  viewer {
+    ...ViewerSummary
+  }
+  bucket(id: $bucketId) {
+    ...BucketComplete
+    notifications {
+      ...NotificationParts
+    }
+  }
+}`;
+
+let queryInvoicesPage = `query invoicesPage {
+  viewer {
+    ...ViewerSummary
+  }
+  invoices {
+    edges {
+      node {
+        id
+        date
+        total
+        paid
+        amountDue
+        amountPaid
+        amountRemaining
+        attemptCount
+        attempted
+        autoAdvance
+        billing
+        billingReason
+        customer
+        defaultSource
+        hostedInvoiceUrl
+        invoicePdf
+      }
+    }
+  }
+}`;
+
+export let profileOperation = `${fragmentViewerSummary}
+${queryProfile}`;
+
+export let bucketsOperation = `${fragmentViewerSummary}
+${fragmentBucketSummary}
+${queryBuckets}
+`;
+
+export let bucketOperation = `${fragmentViewerSummary}
+${fragmentBucketComplete}
+${queryBucket}
+`;
+
+export let submissionsOperation = `${fragmentViewerSummary}
+${fragmentBucketMinimal}
+${fragmentSubmissionParts}
+${querySubmissionsPage}
+`;
+
+export let logsOperation = `${fragmentViewerSummary}
+${fragmentBucketComplete}
+${fragmentLogParts}
+${querylogsPage}
+`;
+
+export let logOperation = `${fragmentViewerSummary}
+${querylogPage}
+`;
+
+export let notificationOperation = `${fragmentViewerSummary}
+${fragmentBucketComplete}
+${fragmentNotificationParts}
+${queryNotificationPage}
+`;
+
+export let invoicesOperation = `${fragmentViewerSummary}
+${queryInvoicesPage}
+`;
+
+export let allOperations = `
+${fragmentViewerSummary}
+${fragmentBucketMinimal}
+${fragmentBucketSummary}
+${fragmentBucketComplete}
+${fragmentLogParts}
+${fragmentSubmissionParts}
+${fragmentNotificationParts}
+${queryProfile}
+${queryBucket}
+${queryBuckets}
+${querylogsPage}
+${querySubmissionsPage}
+${queryNotificationPage}
+${queryInvoicesPage}
+`;
 
 const initialState = {
   user: {
@@ -30,7 +298,8 @@ const initialState = {
   unsavedBucket: {},
   savedBucket: {},
   buckets: undefined,
-  bucketsbyid: {}
+  bucketsbyid: {},
+  menuOn: false
 };
 
 export let store =
@@ -40,13 +309,29 @@ export let store =
 
 // If actions is a function, it gets passed the store:
 export let actions = store => ({
-  updateUser(updates) {
-    return requestUpdateUser(updates);
+  updateUser(state, updates) {
+    store.setState({
+      isSaving: true,
+      user: { ...state.user, name: updates.name, email: updates.email }
+    });
+    requestUpdateUser(updates).then(() =>
+      store.setState({
+        isSaving: false
+      })
+    );
+  },
+
+  toggleMenuOff() {
+    return { menuOn: false };
+  },
+
+  toggleMenu(state) {
+    return { menuOn: !state.menuOn };
   },
 
   loadProfile() {
-    requestProfile().then(user => {
-      store.setState({ user });
+    gql(profileOperation, {}, "profile").then(({ data: { viewer } }) => {
+      store.setState({ user: viewer, viewer });
 
       if (window.Intercom) {
         window.Intercom("update", {
@@ -60,9 +345,20 @@ export let actions = store => ({
   },
 
   loadBuckets() {
-    requestBuckets().then(buckets => {
-      store.setState({ buckets });
-    });
+    gql(bucketsOperation, {}, "bucketsPage").then(
+      ({
+        data: {
+          buckets: { nodes },
+          viewer
+        }
+      }) => {
+        store.setState({
+          buckets: nodes,
+          user: viewer,
+          viewer
+        });
+      }
+    );
   },
 
   clearBucket(state) {
@@ -70,15 +366,23 @@ export let actions = store => ({
   },
 
   loadBucket(state, bucketId) {
-    requestBucket(bucketId).then(bucket => {
-      let { buckets = [] } = state;
-      if (buckets.filter(d => d.id === bucketId).length > 0) {
-        buckets = buckets.map(d => d.id === bucketId ? bucket : d);
-      } else {
-        buckets = buckets.concat(bucket);
+    gql(bucketOperation, { bucketId }, "bucketPage").then(
+      ({ data: { bucket, viewer } }) => {
+        let { buckets = [] } = state;
+        if (buckets.filter(d => d.id === bucketId).length > 0) {
+          buckets = buckets.map(d => (d.id === bucketId ? bucket : d));
+        } else {
+          buckets = buckets.concat(bucket);
+        }
+        store.setState({
+          unsavedBucket: bucket,
+          savedBucket: bucket,
+          buckets,
+          user: viewer,
+          viewer
+        });
       }
-      store.setState({ unsavedBucket: bucket, savedBucket: bucket, buckets });
-    });
+    );
   },
 
   createBucket(state, bucket = {}) {
@@ -183,35 +487,34 @@ export let actions = store => ({
       totalDeleted: null
     });
 
-    Promise.all([
-      requestBucket(params.id),
-      requestSubmissionsByBucket(
-        params.id,
-        +params.offset,
-        +params.limit,
-        params.select.indexOf("id") > -1
-          ? params.select
-          : "id," + params.select,
-        params.q,
-        params.type || "inbox"
-      )
-    ])
-      .then(values => {
-        let { total, totalSpam, totalDeleted, items } = values[1];
-        let bucket = values[0];
-        let submissions = items;
-        let ids = items.map(d => d.id);
+    gql(
+      submissionsOperation,
+      {
+        bucketId: params.id,
+        type: params.type,
+        limit: +params.limit,
+        offset: +params.offset,
+        search: params.q
+      },
+      "submissionsPage"
+    )
+      .then(({ data: { bucket, viewer } }) => {
+        let { totalCount, spamCount, deletedCount } = bucket.submissions;
+        let submissions = bucket.submissions.nodes;
+        // let ids = submissions.map(d => d.id);
         store.setState({
           selected: [],
-          expanded: ids,
+          // expanded: ids,
+          expanded: submissions.map(d => d.id),
           bucket,
-          total,
-          totalSpam,
-          totalDeleted,
-          submissions
+          totalCount,
+          spamCount,
+          deletedCount,
+          submissions,
+          q: params.q
         });
       })
-      .catch(error => store.setState({ error: error }));
+      .catch(error => store.setState({ error: error.toString() }));
   },
 
   setSelected(state, selected) {
@@ -224,12 +527,6 @@ export let actions = store => ({
     return {
       expanded
     };
-  },
-
-  loadSubmissionsByBucket(state, bucket_id, offset, limit, select) {
-    requestSubmissionsByBucket(bucket_id, offset, limit, select).then(items => {
-      store.setState({ submissions: items });
-    });
   },
 
   subscribe(state, account_id, token, plan) {
@@ -248,26 +545,41 @@ export let actions = store => ({
   },
 
   loadLogs(state, offset, limit = 100, bucketId) {
-    requestLogs(offset, limit, bucketId)
-      .then(logs =>
+    // requestLogs(offset, limit, bucketId);
+    gql(
+      logsOperation,
+      {
+        bucketId,
+        limit,
+        offset
+      },
+      "logsPage"
+    )
+      .then(({ data: { bucket, viewer } }) =>
         store.setState({
+          user: viewer,
           currentOffset: offset,
           loading: false,
           loaded: true,
-          logs: logs
+          logs: bucket.logs.nodes,
+          savedBucket: bucket,
+          bucket: bucket
         })
       )
-      .catch(error => this.setState({ error: error }));
-
-    if (bucketId) {
-      return actions(store).loadBucket(state, bucketId);
-    }
+      .catch(error => console.log(error));
   },
 
   loadLog(state, logId) {
-    requestLog(logId)
-      .then(log =>
+    gql(
+      logOperation,
+      {
+        logId
+      },
+      "logPage"
+    )
+      .then(({ data: { log, viewer } }) =>
         store.setState({
+          user: viewer,
           log
         })
       )
@@ -279,15 +591,25 @@ export let actions = store => ({
   },
 
   clearLog(state) {
-      return { log: null }
+    return { log: null };
   },
 
-  loadNotifications(state, offset, limit, bucket_id, mail_id) {
-    requestEmailQueue(offset, limit, bucket_id, mail_id)
-      .then( result => store.setState(result) )
+  loadNotifications(state, offset, limit, bucketId, mail_id) {
+    gql(notificationOperation, {
+      offset,
+      limit,
+      bucketId,
+      mail_id
+    })
+      .then(({ data }) => store.setState(data))
       .catch(error => store.setState({ error: error.toString() }));
   },
   clearNotifications() {
     return { items: null };
+  },
+  loadInvoices() {
+    gql(invoicesOperation, {}, "invoicesPage").then(({ data: { invoices } }) =>
+      store.setState({ invoices: invoices.edges.map(d => d.node) })
+    );
   }
 });

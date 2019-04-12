@@ -17,10 +17,10 @@ class BucketContainer extends Component {
 }
 
 export default connect(
-  "flash,user,unsavedBucket,savedBucket",
+  "menuOn,flash,user,unsavedBucket,savedBucket",
   actions
 )(props => (
-  <Layout user={props.user}>
+  <Layout {...props}>
     <BucketContainer {...props} />
   </Layout>
 ));
