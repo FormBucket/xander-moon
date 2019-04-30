@@ -1,4 +1,4 @@
-# formbucket-ui 
+# formbucket-ui
 
 This is the web app user interface for FormBucket.com.
 
@@ -24,17 +24,14 @@ Dependencies are installed with yarn.
 yarn
 ```
 
-# build public folder
-
-The build command runs all of the processes to create the public folder. First webpack is used to 
-create static HTML file and then webpack creates the public/assets directory.
-
-```sh
-yarn build
-```
-
 # developing with the devServer.js
 
 ```sh
-npm start
+yarn start
+```
+
+# build files
+
+```sh
+yarn build
 ```
