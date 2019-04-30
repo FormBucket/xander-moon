@@ -6,7 +6,19 @@ import { actions } from "../src/store";
 
 class LogsContainer extends Component {
   componentWillMount() {
-    this.props.loadLogs(0, 100, this.props.bucket_id);
+    this.props.loadLogs(
+      this.props.matches.offset,
+      this.props.matches.limit,
+      this.props.bucket_id
+    );
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.matches.offset !== nextProps.matches.offset)
+      this.props.loadLogs(
+        nextProps.matches.offset,
+        nextProps.matches.limit,
+        nextProps.bucket_id
+      );
   }
   componentWillUnmount() {
     this.props.clearLogs();
@@ -17,7 +29,7 @@ class LogsContainer extends Component {
 }
 
 export default connect(
-  "menuOn,flash,user,bucket,logs",
+  "error,menuOn,flash,user,bucket,logs",
   actions
 )(props => (
   <Layout {...props}>

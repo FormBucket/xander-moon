@@ -18,7 +18,7 @@ class SubmissionsContainer extends Component {
 }
 
 export default connect(
-  "menuOn,flash,user,bucket,submissions,totalCount,spamCount,deletedCount,selected,expanded",
+  "error,menuOn,flash,user,bucket,submissions,totalCount,spamCount,deletedCount,selected,expanded",
   actions
 )(props => (
   <Layout {...props}>

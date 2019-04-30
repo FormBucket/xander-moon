@@ -17,7 +17,7 @@ class BucketContainer extends Component {
 }
 
 export default connect(
-  "menuOn,flash,user,unsavedBucket,savedBucket",
+  "error,menuOn,flash,user,unsavedBucket,savedBucket",
   actions
 )(props => (
   <Layout {...props}>

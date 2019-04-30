@@ -15,12 +15,21 @@ class NotificationsContainer extends Component {
     this.props.clearNotifications();
   }
   render() {
-    return <Notifications {...this.props} />;
+    let { matches } = this.props;
+    let { offset, limit, bucket_id } = matches;
+    return (
+      <Notifications
+        {...this.props}
+        offset={offset}
+        limit={limit}
+        bucket_id={bucket_id}
+      />
+    );
   }
 }
 
 export default connect(
-  "menuOn,flash,user,bucket,offset,limit,bucket_id,items,user",
+  "error,menuOn,flash,user,bucket,offset,limit,bucket_id,items,user",
   actions
 )(props => (
   <Layout {...props}>

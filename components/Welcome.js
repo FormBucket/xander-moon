@@ -19,8 +19,25 @@ const Clincher = () => (
     />
   </div>
 );
+import Editor from "react-simple-code-editor";
+
+import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-javascript";
+import "prismjs/themes/prism.css";
 
 class Welcome extends Component {
+  state = {
+    formCode: `<h3>What's on your mind?</h3>
+<form method="post" action="https://api.formbucket.com/f/homepage"
+  onsubmit="return validateForm()">
+  <input type="text" name="name" placeholder="Your Name" />
+  <input type="text" name="email" placeholder="Your Email" />
+  <textarea name="message" placeholder="Share your feedback, comments or issues."></textarea>
+  <button type="submit">Submit</button>
+  <p><strong>Tip:</strong>You can edit the code on this site.</p>
+</form>`
+  };
   render() {
     let { props, state } = this;
     let {
@@ -99,8 +116,12 @@ class Welcome extends Component {
         <div class="hero">
           <div class="bubbles">
             <div class="wrapper">
-              <h1>Endpoints are just the beginning</h1>
-              <h2>Welcome to the world's simplest form cloud.</h2>
+              <h1>Collecting forms online made easy!</h1>
+              <h2>
+                We make custom HTML forms easy. Simply copy your unique bucket
+                URL into your code. We'll collect the responses, send out
+                notifications and more.
+              </h2>
               {IF(
                 props.user && !props.user.anonymous,
                 null,
@@ -111,13 +132,13 @@ class Welcome extends Component {
                   >
                     Join Free
                   </button>
-                  <p>Start collecting forms in seconds.</p>
                 </div>
               )}
             </div>
             <Clincher />
           </div>
         </div>
+
         <div style={{ marginTop: 30 }}>
           <div>
             <div class="wrapper">
@@ -256,8 +277,41 @@ class Welcome extends Component {
             </div>
             <hr />
             <div class="louder">
-              <div class="wrapper">
-                <Contact />
+              <div className="wrapper">
+                <div className="">
+                  <div className="editor">
+                    <div className="left">
+                      <Editor
+                        value={this.state.formCode}
+                        onValueChange={formCode => this.setState({ formCode })}
+                        highlight={code => highlight(code, languages.js)}
+                        padding={10}
+                        style={{
+                          marginBottom: 20,
+                          color: "#512da8"
+                        }}
+                      />
+                    </div>
+                    <div className="right">
+                      <iframe
+                        sandbox="allow-same-origin allow-forms allow-scripts"
+                        style={{
+                          border: "1px solid #EEE",
+                          width: "100%",
+                          minHeight: 287
+                        }}
+                        ref={ref => {
+                          this.formFrame = ref;
+                        }}
+                        src={`data:text/html;base64,${btoa(
+                          `<html><head><title>FormBucket Test Page</title><style>body { margin: 0; padding: 10; background: white; } input, button, textarea { display: block;margin-bottom: 20px; }</style></head><body>${
+                            this.state.formCode
+                          }</body></html>`
+                        )}`}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             {/* <div id="pricing" class="section-block">

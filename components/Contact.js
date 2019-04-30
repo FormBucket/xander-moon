@@ -36,7 +36,7 @@ let Contact = class extends Component {
       <div>
         <div class="page-heading">
           <div class="wrapper">
-            <h1>Need help?</h1>
+            <h1>Contact Us</h1>
           </div>
         </div>
         <div class="wrapper">

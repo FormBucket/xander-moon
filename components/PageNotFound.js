@@ -3,6 +3,7 @@
  */
 
 import { h } from "preact";
+import image from "../img/bucketkitty.gif";
 
 export default props => (
   <div>
@@ -13,7 +14,7 @@ export default props => (
     </div>
     <div class="wrapper">
       <h2>Maybe Bucketkitty can find it?</h2>
-      <img src={import("../img/bucketkitty.gif")} alt="bucketkitty" />
+      <img src={image} alt="bucketkitty" />
     </div>
   </div>
 );

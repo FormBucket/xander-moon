@@ -19,26 +19,26 @@ import "prismjs/themes/prism.css";
 
 import { server } from "../src/webutils";
 
-function setupRecaptcha(recaptchaOn) {
-  if (!recaptchaOn) return;
+// function setupRecaptcha(recaptchaOn) {
+//   if (true || !recaptchaOn) return;
 
-  if (grecaptcha) {
-    grecaptcha.render("g-recaptcha-container", {
-      sitekey: "6LcC9kwUAAAAAKZkAPmBWJeHh13qX4R5jCLlENBT"
-    });
+//   if (grecaptcha) {
+//     grecaptcha.render("g-recaptcha-container", {
+//       sitekey: "6LcC9kwUAAAAAKZkAPmBWJeHh13qX4R5jCLlENBT"
+//     });
 
-    document.getElementById("my-awesome-form").onsubmit = () => {
-      if (recaptchaOn) {
-        if (grecaptcha.getResponse() == "") {
-          alert("Invalid recaptcha");
-          grecaptcha.reset();
-          return false;
-        }
-      }
-      return true;
-    };
-  }
-}
+//     document.getElementById("my-awesome-form").onsubmit = () => {
+//       if (recaptchaOn) {
+//         if (grecaptcha.getResponse() == "") {
+//           alert("Invalid recaptcha");
+//           grecaptcha.reset();
+//           return false;
+//         }
+//       }
+//       return true;
+//     };
+//   }
+// }
 
 function makeHTMLForm(
   { id, honeyPotOn, honeyPotField, recaptchaOn },
@@ -48,17 +48,22 @@ function makeHTMLForm(
   //   hljs.highlightBlock(document.getElementById("form-code-example"));
   // }, 16);
 
+  return `<form method="post"
+action="${server}/f/${id}">
+<input type="email" name="email"/>
+<input type="submit"/>
+<input type="reset" />
+</form>`;
+
   return `${
-    recaptchaOn && isPreview
+    false && recaptchaOn && isPreview
       ? `<script src="https://www.google.com/recaptcha/api.js"></script>
 `
       : ""
   }<form method="post"
-action="${"https://" + server}/f/${id}">
-  <input type="text" name="email"/>
-  <input type="text" name="subject" />
-  <textarea type="text" name="message"></textarea>${
-    honeyPotOn
+action="${server}/f/${id}">
+  <input type="email" name="email"/>${
+    false && honeyPotOn
       ? `
   <label style="display:none"></label>
   <input type="hidden" 
@@ -66,7 +71,7 @@ action="${"https://" + server}/f/${id}">
     style="display: none" />`
       : ""
   }${
-    recaptchaOn
+    false && recaptchaOn
       ? `
   <div id="g-recaptcha-container" 
     class="g-recaptcha" 
@@ -90,11 +95,11 @@ class Bucket extends Component {
   componentDidMount() {
     let { savedBucket = {} } = this.props;
 
-    setTimeout(() => setupRecaptcha(savedBucket.recaptchaOn), 250);
+    // setTimeout(() => setupRecaptcha(savedBucket.recaptchaOn), 250);
   }
 
   componentWillUnmount() {
-    if (this.props.saveBucket.recaptchaOn) grecaptcha.reset();
+    // if (this.props.saveBucket.recaptchaOn) grecaptcha.reset();
   }
 
   toggleAutoResponder = e => {
@@ -138,7 +143,7 @@ class Bucket extends Component {
       exportBucket,
       deleteBucket
     } = props;
-    let bucket = unsavedBucket;
+    let bucket = { ...savedBucket, ...unsavedBucket };
 
     if (!bucket) return null;
 
@@ -151,6 +156,9 @@ class Bucket extends Component {
     let downloadCSV = () => exportBucket(savedBucket, "csv");
     if (!bucket) return null;
     this.refs = this.refs || {};
+
+    bucket.quickUseFormCode =
+      bucket.quickUseFormCode || makeHTMLForm(bucket, true);
     return (
       <div class="bucket-page">
         <div class="page-heading">
@@ -164,28 +172,30 @@ class Bucket extends Component {
           <div class="bucket-details">
             <div class="section">
               <div>{error}</div>
-              <h3>Name</h3>
-              <input
-                type="text"
-                id="bucketName"
-                placeholder="e.g. Beta Signups"
-                autoFocus={focus}
-                onKeyUp={e => changeBucket({ name: e.target.value })}
-                defaultValue={bucket.name}
-              />
-              <label htmlFor="bucketEnabled" class="label-switch">
-                {" "}
-                Status
+              <div>
+                <h3>Name</h3>
                 <input
-                  id="bucketEnabled"
-                  type="checkbox"
-                  onClick={event =>
-                    changeBucket({ enabled: event.target.checked })
-                  }
-                  checked={bucket.enabled}
+                  type="text"
+                  id="bucketName"
+                  placeholder="e.g. Beta Signups"
+                  autoFocus={focus}
+                  onKeyUp={e => changeBucket({ name: e.target.value })}
+                  defaultValue={bucket.name}
                 />
-                <div class="checkbox" />
-              </label>
+                <label htmlFor="bucketEnabled" class="label-switch">
+                  {" "}
+                  Status
+                  <input
+                    id="bucketEnabled"
+                    type="checkbox"
+                    onClick={event =>
+                      changeBucket({ enabled: event.target.checked })
+                    }
+                    checked={bucket.enabled}
+                  />
+                  <div class="checkbox" />
+                </label>
+              </div>
             </div>
             <div class="section">
               <h3>Actions</h3>
@@ -193,39 +203,25 @@ class Bucket extends Component {
                 Redirect URL
                 <input
                   type="text"
-                  placeholder="{{ _next }}"
+                  placeholder={
+                    bucket.isAPIRequest
+                      ? "Redirects are disabled when JSON Only is enabled."
+                      : "{{ _next }}"
+                  }
                   id="redirectURL"
-                  onChange={e => changeBucket({ redirect_url: e.target.value })}
+                  onChange={e => changeBucket({ redirectUrl: e.target.value })}
                   disabled={bucket.isAPIRequest}
-                  defaultValue={bucket.redirect_url}
+                  defaultValue={bucket.redirectUrl}
                 />
               </label>
 
-              {/* <label htmlFor="bucketAJAXOnly" class="label-switch">
-                {" "}
-                <a
-                  style={{ textDecoration: "none" }}
-                  href="/guides/json-endpoints"
-                >
-                  AJAX Only?
-                </a>
-                <input
-                  id="bucketAJAXOnly"
-                  type="checkbox"
-                  onChange={event =>
-                    changeBucket({ isAPIRequest: event.target.checked })
-                  }
-                  checked={bucket.isAPIRequest}
-                />
-                <div class="checkbox" />
-              </label> */}
               {ISARRAY(bucket.webhooks) && bucket.webhooks.length > 0 ? (
                 <label>Webhooks</label>
               ) : null}
               {ISARRAY(bucket.webhooks)
                 ? bucket.webhooks.map((webhook, i) => (
                     <div key={i} style={{ width: "95%" }}>
-                      <a
+                      {/* <a
                         style={{
                           position: "relative",
                           float: "right",
@@ -248,7 +244,7 @@ class Bucket extends Component {
                           style={{ color: "black", paddingRight: 20 }}
                           class="fa fa-gear"
                         />
-                      </a>
+                      </a> */}
                       <a
                         style={{
                           position: "relative",
@@ -333,6 +329,7 @@ class Bucket extends Component {
                 <input
                   type="text"
                   ref={e => (this.refs.autoResponder_from = e)}
+                  placeholder="support@formbucket.com"
                   onChange={e =>
                     changeBucket({
                       autoResponder: Object.assign({}, bucket.autoResponder, {
@@ -439,11 +436,12 @@ class Bucket extends Component {
               <label>
                 <input
                   type="radio"
-                  onClick={() =>
+                  onClick={() => {
                     changeBucket({
                       emailTo: "" + this.refs.additionalEmails.value
-                    })
-                  }
+                    });
+                    setTimeout(() => this.refs.additionalEmails.focus(), 0);
+                  }}
                   checked={typeof bucket.emailTo === "string"}
                 />
                 Send notifications to:
@@ -569,9 +567,81 @@ class Bucket extends Component {
               </div> */}
             </div>
             <div class="section">
-              <h3>Security</h3>
+              <h3>Security Checks</h3>
+              <label htmlFor="spamCheckEnabled" class="label-switch">
+                Spam Filter
+                <input
+                  id="spamCheckEnabled"
+                  type="checkbox"
+                  onClick={event => {
+                    changeBucket({ spamCheckOn: event.target.checked });
+                  }}
+                  checked={bucket.spamCheckOn}
+                />
+                <div class="checkbox" />
+              </label>
+              <label htmlFor="autoRecaptchaEnabled" class="label-switch">
+                {" "}
+                <span
+                  style={{
+                    textDecoration: bucket.isAPIRequest ? "line-through" : ""
+                  }}
+                >
+                  Automatic Recaptcha (On formbucket.com)
+                </span>
+                <input
+                  id="autoRecaptchaEnabled"
+                  type="checkbox"
+                  onClick={event => {
+                    changeBucket({
+                      autoRecaptchaOn: event.target.checked,
+                      recaptchaOn: false
+                    });
+                  }}
+                  disabled={bucket.isAPIRequest}
+                  checked={bucket.autoRecaptchaOn}
+                />
+                <div class="checkbox" />
+              </label>
+
+              <label htmlFor="recaptchaEnabled" class="label-switch">
+                {" "}
+                Custom Recaptcha (On your site)
+                <input
+                  id="recaptchaEnabled"
+                  type="checkbox"
+                  onClick={event => {
+                    changeBucket({
+                      recaptchaOn: event.target.checked,
+                      autoRecaptchaOn: false
+                    });
+                    setTimeout(() => this.recaptchaInput.focus(), 20);
+                  }}
+                  checked={bucket.recaptchaOn}
+                />
+                <div class="checkbox" />
+              </label>
+              {IF(
+                bucket.recaptchaOn,
+                <div class="spam-protection">
+                  <label>
+                    Secret key (provided by Google)
+                    <input
+                      onChange={e =>
+                        changeBucket({ recaptchaSecret: e.target.value })
+                      }
+                      ref={e => (this.recaptchaInput = e)}
+                      defaultValue={bucket.recaptchaSecret}
+                    />
+                  </label>
+                  <label>
+                    <script src="https://www.google.com/recaptcha/api.js" />
+                  </label>
+                </div>
+              )}
+
               <label htmlFor="honeyPotEnabled" class="label-switch">
-                Honey Pot
+                Honey Pot (Non-visible field that must be blank)
                 <input
                   id="honeyPotEnabled"
                   type="checkbox"
@@ -604,37 +674,6 @@ class Bucket extends Component {
                   />
                 </label>
               )}
-
-              <label htmlFor="recaptchaEnabled" class="label-switch">
-                {" "}
-                Recaptcha
-                <input
-                  id="recaptchaEnabled"
-                  type="checkbox"
-                  onClick={event => {
-                    changeBucket({ recaptchaOn: event.target.checked });
-                  }}
-                  checked={bucket.recaptchaOn}
-                />
-                <div class="checkbox" />
-              </label>
-              {IF(
-                bucket.recaptchaOn,
-                <div class="spam-protection">
-                  <label>
-                    Secret key (provided by Google)
-                    <input
-                      onChange={e =>
-                        changeBucket({ recaptchaSecret: e.target.value })
-                      }
-                      defaultValue={bucket.recaptchaSecret}
-                    />
-                  </label>
-                  <label>
-                    <script src="https://www.google.com/recaptcha/api.js" />
-                  </label>
-                </div>
-              )}
               <label htmlFor="validateCodeOn" class="label-switch">
                 {" "}
                 Validation Code
@@ -653,33 +692,52 @@ class Bucket extends Component {
                 <div class="checkbox" />
               </label>
               <Editor
-                value={bucket.validateCode || "form => isEmail(form.email)"}
+                value={
+                  bucket.validateCode ||
+                  "function isValid(form) { return true; }"
+                }
                 onValueChange={validateCode => changeBucket({ validateCode })}
                 highlight={code => highlight(code, languages.js)}
                 padding={10}
-                disabled={!bucket.validateCodeOn}
                 ref={ref => (this.validateCodeEditor = ref ? ref.base : ref)}
                 style={{
-                  fontFamily: '"Fira code", "Fira Mono", monospace',
-                  fontSize: 12,
-                  minHeight: "4em",
-                  display: bucket.validateCodeOn ? "" : "none"
+                  display: bucket.validateCodeOn ? "" : "none",
+                  marginBottom: 20
                 }}
               />
+              <label htmlFor="bucketAJAXOnly" class="label-switch">
+                {" "}
+                JSON Only? (Respond always with JSON instead of HTTP 302
+                redirect.)
+                <input
+                  id="bucketAJAXOnly"
+                  type="checkbox"
+                  onChange={event =>
+                    changeBucket({
+                      isAPIRequest: event.target.checked,
+                      autoRecaptchaOn: false
+                    })
+                  }
+                  checked={bucket.isAPIRequest}
+                />
+                <div class="checkbox" />
+              </label>
             </div>
+
             <input
               type="button"
               class="button button-save"
               onClick={() => {
                 this.props.saveBucket();
-                setupRecaptcha(this.props.unsavedBucket.recaptchaOn);
               }}
               value="Save Settings"
             />
           </div>
           <div class="bucket-preview">
             <div class="bucket-editor">
-              <h4>Quick use</h4>
+              <p>
+                <strong>Quick use</strong>
+              </p>
               <div
                 style={{
                   display: this.state.showEditor ? "" : "none",
@@ -688,33 +746,34 @@ class Bucket extends Component {
               >
                 <p>
                   Copy and paste the markup below into your project, replacing
-                  this example form with your own.
+                  this example with your own code.
                 </p>
                 <div class="quick-use" style={{ textAlign: "left" }}>
                   <Editor
-                    value={bucket.myForm || makeHTMLForm(bucket, true)}
-                    onValueChange={myForm => changeBucket({ myForm })}
+                    value={bucket.quickUseFormCode}
+                    onValueChange={quickUseFormCode => {
+                      changeBucket({ quickUseFormCode });
+                      // var doc = this.formFrame.contentWindow.document;
+                      // doc.open();
+                      // doc.write(
+                      //   "<html><head><title></title><style>input { display: block;margin-bottom: 20px; }</style></head><body>" +
+                      //     quickUseFormCode +
+                      //     "</body></html>"
+                      // );
+                      // doc.close();
+                    }}
                     highlight={code => highlight(code, languages.js)}
                     padding={10}
                     style={{
                       fontFamily: '"Fira code", "Fira Mono", monospace',
-                      fontSize: 12,
+                      fontSize: 14,
                       overflowWrap: "normal"
                     }}
                   />
                 </div>
-                {/* <a
-                  href="javascript:void(0)"
-                  onClick={() => {
-                    setTimeout(() => {
-                      this.setState({ showEditor: !this.state.showEditor });
-                      return false;
-                    }, 200);
-                    return false;
-                  }}
-                >
-                  Return to test form
-                </a> */}
+                <p style={{ marginTop: 5 }}>
+                  Your bucket's id is <strong>{bucket.id}</strong>.
+                </p>
               </div>
               <div style={{ display: !this.state.showEditor ? "" : "none" }}>
                 <hr />
@@ -737,9 +796,7 @@ class Bucket extends Component {
                 <div>
                   <form
                     id="my-awesome-form"
-                    action={`${"https://" + window.location.host}/f/${
-                      bucket.id
-                    }`}
+                    action={`${window.location.host}/f/${bucket.id}`}
                     method="post"
                     target="_blank"
                   >
@@ -766,7 +823,7 @@ class Bucket extends Component {
                         />
                       </div>
                     ) : null}
-                    {savedBucket.recaptchaOn ? (
+                    {savedBucket && savedBucket.recaptchaOn ? (
                       <div id="g-recaptcha-container" />
                     ) : null}
                     <input
@@ -785,6 +842,55 @@ class Bucket extends Component {
             </div>
             <p>
               <a
+                href={`#`}
+                onClick={() => {
+                  this.setState({ showTestForm: !this.state.showTestForm });
+                  if (this.state.showTestForm) {
+                    // var doc = this.formFrame.contentWindow.document;
+                    // doc.open();
+                    // doc.write(
+                    //   "<html><head><title></title><style>input { display: block;margin-bottom: 20px; }</style></head><body>" +
+                    //     bucket.quickUseFormCode +
+                    //     "</body></html>"
+                    // );
+                    // doc.close();
+                  }
+                }}
+              >
+                Quick test
+              </a>
+            </p>
+            {!this.state.showTestForm ? null : (
+              <p
+                style={{
+                  display: this.state.showTestForm ? "" : "none",
+                  fontSize: "smaller"
+                }}
+              >
+                <strong>Tip: </strong> Edit the code above.
+              </p>
+            )}
+            {!this.state.showTestForm ? null : (
+              <iframe
+                sandbox="allow-same-origin allow-forms allow-scripts"
+                style={{
+                  border: "1px solid #EEE",
+                  width: "100%",
+                  height: 460
+                }}
+                ref={ref => {
+                  this.formFrame = ref;
+                }}
+                src={`data:text/html;base64,${btoa(
+                  `<html><head><title>FormBucket Test Page</title><style>body { margin: 0; padding: 10; } input { display: block;margin-bottom: 20px; }</style></head><body>${
+                    bucket.quickUseFormCode
+                  }</body></html>`
+                )}`}
+              />
+            )}
+
+            <p>
+              <a
                 href={`/buckets/${
                   bucket.id
                 }/submissions/list/0/50/data,created_on`}
@@ -792,6 +898,7 @@ class Bucket extends Component {
                 View Submissions
               </a>
             </p>
+
             <p>
               <a href={`/logs?offset=0&limit=10&bucket_id=${bucket.id}`}>
                 View Logs
@@ -804,7 +911,13 @@ class Bucket extends Component {
                 View Notifications
               </a>
             </p>
-
+            {/* <p>
+              <a
+                href={`/notifications?offset=0&limit=10&bucket_id=${bucket.id}`}
+              >
+                View Webhooks
+              </a>
+            </p> */}
             <p>
               <a href="javascript:void(0)" onClick={downloadCSV}>
                 Export Submissions to CSV

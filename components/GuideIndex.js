@@ -51,7 +51,9 @@ let GuideIndex = () => (
     <hr />
     <h3>Developer Docs</h3>
     <h6>
-      <a href="/docs/api">RESTFUL API (version 1)</a>
+      <a href="/openapi/ui" target="_blank" native>
+        RESTFUL API (version 1)
+      </a>
     </h6>
     <p>Check out the FormBucket API with examples.</p>
     <h6>

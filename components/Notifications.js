@@ -6,9 +6,40 @@ import { h, Component } from "preact";
 import IF from "formula/src/branch";
 import { route } from "preact-router";
 
+let Paging = ({
+  handleChange,
+  offset,
+  limit,
+  bucket_id,
+  items,
+  total_count
+}) => (
+  <div style={{ marginTop: 20, marginBottom: 20 }}>
+    <button
+      disabled={offset == 0}
+      onClick={() =>
+        handleChange(Math.max(0, offset - limit), limit, bucket_id)
+      }
+    >
+      Back
+    </button>{" "}
+    <button
+      disabled={limit + offset > total_count}
+      onClick={() => handleChange(offset + limit, limit, bucket_id)}
+    >
+      Next
+    </button>{" "}
+    Showing {+offset + 1} to {+offset + 1 + +items.length}
+  </div>
+);
+
+let loadNotifications;
 class Notifications extends Component {
+  componentWillMount() {
+    loadNotifications = this.props.loadNotifications;
+  }
   handleChange(newOffset, limit, bucket_id) {
-    this.props.loadNotifications(newOffset, limit, bucket_id);
+    loadNotifications(newOffset, limit, bucket_id);
     route(
       `/notifications?offset=${newOffset}&limit=${limit}&bucket_id=${bucket_id}`
     );
@@ -25,6 +56,28 @@ class Notifications extends Component {
     offset = +offset;
     limit = +limit;
 
+    if (total_count === 0) {
+      return (
+        <div>
+          <div class="page-heading">
+            <div class="wrapper">
+              <h1>
+                Notifications
+                {IF(
+                  bucket_id,
+                  <span>
+                    {" "}
+                    &gt; {bucket && bucket.name ? bucket.name : bucket_id}
+                  </span>
+                )}
+              </h1>
+            </div>
+            <div class="wrapper">Nothing here to see</div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div>
         <div class="page-heading">
@@ -33,78 +86,83 @@ class Notifications extends Component {
               Notifications
               {IF(
                 bucket_id,
-                <span> &gt; {bucket ? bucket.name : bucket_id}</span>
+                <span>
+                  {" "}
+                  &gt; {bucket && bucket.name ? bucket.name : bucket_id}
+                </span>
               )}
             </h1>
           </div>
         </div>
         <div class="wrapper">
+          <Paging
+            handleChange={this.handleChange}
+            offset={offset}
+            limit={limit}
+            bucket_id={bucket_id}
+            total_count={total_count}
+            items={items}
+          />
           <div class="div">
             <div>
               {items.map((d, i) => (
                 <div
-                  style={{ border: "1px black solid", padding: 10, margin: 10 }}
+                  style={{ border: "1px black solid", padding: 5, margin: 5 }}
                 >
                   <label>
-                    Id:
-                    <div>{d.id}</div>
+                    Id: <span style={{ fontWeight: "normal" }}>{d.id}</span>
                   </label>
 
                   <label>
-                    Created:
-                    <div>{d.created_on}</div>
+                    Created:{" "}
+                    <span style={{ fontWeight: "normal" }}>{d.createdOn}</span>
                   </label>
 
                   <label>
-                    Campaign:
-                    <div>{d.campaign}</div>
+                    Type:{" "}
+                    <span style={{ fontWeight: "normal" }}>
+                      {d.campaign || "Notification"}
+                    </span>
                   </label>
 
                   <label>
-                    From:
-                    <div>{d.from}</div>
+                    From: <span style={{ fontWeight: "normal" }}>{d.from}</span>
                   </label>
 
                   <label>
-                    Subject:
-                    <div>{d.subject}</div>
+                    Subject:{" "}
+                    <span style={{ fontWeight: "normal" }}>{d.subject}</span>
                   </label>
 
                   <label>
-                    Status:
-                    <div>
+                    Status:{" "}
+                    <span style={{ fontWeight: "normal" }}>
                       {IF(
-                        d.status === 0,
+                        !d.status || d.status === 0,
                         "Not sent",
                         d.status === 1,
                         "Processing",
                         d.status === 2,
                         "Sent",
                         d.status < 0,
-                        "Error!"
+                        "Error!",
+                        "Not sent"
                       )}
-                    </div>
+                    </span>
                   </label>
                   <div />
                 </div>
               ))}
             </div>
           </div>
-          <button
-            disabled={offset == 0}
-            onClick={() =>
-              this.handleChange(Madiv.max(0, offset - limit), limit, bucket_id)
-            }
-          >
-            Back
-          </button>{" "}
-          <button
-            disabled={limit + offset > total_count}
-            onClick={() => this.handleChange(offset + limit, limit, bucket_id)}
-          >
-            Next
-          </button>{" "}
-          Showing {+offset + 1} to {+offset + 1 + +items.length}
+          <Paging
+            handleChange={this.handleChange}
+            offset={offset}
+            limit={limit}
+            bucket_id={bucket_id}
+            total_count={total_count}
+            items={items}
+          />
         </div>
       </div>
     );

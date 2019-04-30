@@ -94,8 +94,6 @@
       margin-top: $base-spacing;
       font-size: $base-font-size * 1.25;
     }
-
-  
   }
 
   h3 {
@@ -262,19 +260,19 @@
   @include span-columns(12);
   min-height: 24rem;
   text-align: left;
-  margin-top: $base-spacing * 2;
-  margin-bottom: $base-spacing * 2;
+  margin-top: 0;
+  margin-bottom: 0;
   border-radius: 3px;
 
   pre {
     overflow: hidden;
   }
 
-  .language-html {
-    background-color: initial;
-    padding: 0px;
-    margin: 0px;
-  }
+  // .language-html {
+  //   background-color: initial;
+  //   padding: 0px;
+  //   margin: 0px;
+  // }
 
   .left {
     @include span-columns(7);

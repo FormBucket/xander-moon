@@ -17,7 +17,7 @@ class LogContainer extends Component {
 }
 
 export default connect(
-  "menuOn,flash,user,log",
+  "error,menuOn,flash,user,log",
   actions
 )(props => (
   <Layout {...props}>

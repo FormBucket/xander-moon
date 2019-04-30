@@ -14,7 +14,7 @@ class InvoicesContainer extends Component {
 }
 
 export default connect(
-  "menuOn,flash,user,invoices",
+  "error,menuOn,flash,user,invoices",
   actions
 )(props => (
   <Layout {...props}>

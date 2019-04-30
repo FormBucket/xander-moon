@@ -23,7 +23,7 @@ class BucketsContainer extends Component {
 }
 
 export default connect(
-  "menuOn,user,buckets",
+  "error,menuOn,user,buckets",
   actions
 )(props => (
   <Layout {...props}>

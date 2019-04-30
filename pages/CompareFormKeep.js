@@ -5,7 +5,7 @@ import Layout from "../components/Layout";
 import { actions } from "../src/store";
 
 let Page = connect(
-  "menuOn,flash,user",
+  "error,menuOn,flash,user",
   actions
 )(props => (
   <Layout shouldLoadViewer={true} {...props}>

@@ -3,8 +3,7 @@
  */
 
 // The server is initialized from the API server.
-export const server =
-    window.FORMBUCKET_API_SERVER || "https://www-dev.formbucket.com",
+export const server = "https://formbucket.com",
   // The version is and will always be v1.
   version = `/v1`,
   // The API root is the result of concat(server, version).
@@ -144,8 +143,8 @@ export function requestCreateBucket(data) {
 }
 
 // Send server request to update existing bucket.
-export function requestUpdateBucket(bucket) {
-  return putJSON(`${apiRoot}/buckets/` + bucket.id, bucket);
+export function requestUpdateBucket(id, bucket) {
+  return putJSON(`${apiRoot}/buckets/` + id, bucket);
 }
 
 // Send server request to update existing submission.

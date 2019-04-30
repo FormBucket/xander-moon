@@ -11,7 +11,7 @@ class AccountContainer extends Component {
 }
 
 export default connect(
-  "menuOn,flash,user,isSaving",
+  "error,menuOn,flash,user,isSaving",
   actions
 )(props => (
   <Layout shouldLoadUser={true} {...props}>

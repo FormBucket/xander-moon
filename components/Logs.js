@@ -9,8 +9,12 @@ import "./styles/logs.scss";
 
 class Logs extends Component {
   render() {
-    let { bucket, logs, bucket_id } = this.props;
+    let { bucket, logs, bucket_id, matches } = this.props;
+    let { limit, offset } = matches;
     if (!logs) return null;
+
+    limit = +limit;
+    offset = +offset;
 
     return (
       <div>
@@ -47,6 +51,21 @@ class Logs extends Component {
               ))}
             </tbody>
           </table>
+          <a
+            class={`button`}
+            href={`/logs?offset=${offset -
+              limit}&limit=10&bucket_id=buk_lNSsGwUsjhTXGDXxnXhpBKd1`}
+          >
+            Back
+          </a>{" "}
+          <a
+            class={`button`}
+            href={`/logs?offset=${offset +
+              limit}&limit=10&bucket_id=buk_lNSsGwUsjhTXGDXxnXhpBKd1`}
+          >
+            Next
+          </a>
+          {/* {offset + 1} to {offset + limit} */}
         </div>
       </div>
     );

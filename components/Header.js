@@ -13,13 +13,19 @@ const Nav = ({ menuOn, user, toggleMenu }) => (
     {user && !user.anonymous ? (
       <ul class={"navigation-menu" + (menuOn ? " show" : " hide")}>
         <li class="nav-link">
-          <a href="/guides" onClick={toggleMenu}>Guides</a>
+          <a href="/guides" onClick={toggleMenu}>
+            Guides
+          </a>
         </li>
         <li class="nav-link">
-          <a href="/buckets" onClick={toggleMenu}>Buckets</a>
+          <a href="/buckets" onClick={toggleMenu}>
+            Buckets
+          </a>
         </li>
         <li class="nav-link">
-          <a href="/account" onClick={toggleMenu}>Account</a>
+          <a href="/account" onClick={toggleMenu}>
+            Account
+          </a>
         </li>
       </ul>
     ) : (
@@ -36,7 +42,12 @@ const Nav = ({ menuOn, user, toggleMenu }) => (
           </a>
         </li>
         <li class="nav-link">
-          <a href="/login?redirect_uri=/buckets" native>
+          <a
+            href={
+              "/login?redirect_uri=" + encodeURIComponent(window.location.href)
+            }
+            native
+          >
             Login
           </a>
         </li>

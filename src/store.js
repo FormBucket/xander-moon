@@ -3,8 +3,6 @@ import devtools from "unistore/devtools";
 import { route } from "preact-router";
 
 import {
-  requestCreateBucket,
-  requestUpdateBucket,
   requestUpdateUser,
   requestSubscribe,
   requestUnsubscribe,
@@ -66,6 +64,8 @@ let fragmentBucketComplete = `fragment BucketComplete on Bucket {
   webhooks
   honeyPotOn
   honeyPotField
+  spamCheckOn
+  autoRecaptchaOn
   recaptchaOn
   recaptchaSecret
   autoResponder {
@@ -75,6 +75,7 @@ let fragmentBucketComplete = `fragment BucketComplete on Bucket {
     cc
     bcc
   }
+  quickUseForm
 }`;
 
 let fragmentLogParts = `fragment LogParts on LogConnection {
@@ -119,6 +120,8 @@ let fragmentNotificationParts = `fragment NotificationParts on NotificationConne
     id
     status
     subject
+    from
+    createdOn
   }
 }`;
 
@@ -149,13 +152,13 @@ let queryBuckets = `query bucketsPage {
   }
 }`;
 
-let querylogsPage = `query logsPage($bucketId: ID!){
+let querylogsPage = `query logsPage($bucketId: ID!, $limit: Int, $offset: Int){
   viewer {
     ...ViewerSummary
   }
   bucket(id: $bucketId) {
     ...BucketComplete
-    logs(first: 1) {
+    logs(limit: $limit, offset: $offset) {
       ...LogParts
     }
   }
@@ -194,13 +197,13 @@ let querySubmissionsPage = `query submissionsPage($bucketId: ID!, $limit: Int, $
   }
 }`;
 
-let queryNotificationPage = `query notificationsPage($bucketId: ID!){
+let queryNotificationPage = `query notificationsPage($bucketId: ID!, $limit: Int, $offset: Int){
   viewer {
     ...ViewerSummary
   }
   bucket(id: $bucketId) {
     ...BucketComplete
-    notifications {
+    notifications(limit: $limit, offset: $offset) {
       ...NotificationParts
     }
   }
@@ -370,12 +373,14 @@ export let actions = store => ({
       ({ data: { bucket, viewer } }) => {
         let { buckets = [] } = state;
         if (buckets.filter(d => d.id === bucketId).length > 0) {
-          buckets = buckets.map(d => (d.id === bucketId ? bucket : d));
+          buckets = buckets.map(d =>
+            d.id === bucketId ? { ...d, ...bucket } : d
+          );
         } else {
           buckets = buckets.concat(bucket);
         }
         store.setState({
-          unsavedBucket: bucket,
+          unsavedBucket: {},
           savedBucket: bucket,
           buckets,
           user: viewer,
@@ -385,14 +390,21 @@ export let actions = store => ({
     );
   },
 
-  createBucket(state, bucket = {}) {
-    requestCreateBucket(bucket).then(result => {
-      bucket.id = result.id;
+  createBucket(
+    state,
+    bucket = { enabled: true, spamCheckOn: true, autoRecaptchaOn: true }
+  ) {
+    gql(
+      `mutation($bucket: BucketInput) {
+        createBucket(bucket: $bucket)
+    }`,
+      { bucket }
+    ).then(({ data: { createBucket } }) => {
+      bucket.id = createBucket;
       store.setState({
-        bucketChanges: {},
         buckets: state.buckets.concat(bucket)
       });
-      route("/buckets/" + result.id + "/settings");
+      route("/buckets/" + bucket.id + "/settings");
     });
   },
 
@@ -410,11 +422,16 @@ export let actions = store => ({
   },
 
   saveBucket(state) {
-    requestUpdateBucket(state.unsavedBucket).then(
+    gql(
+      `mutation($id: ID!, $changes: BucketInput) {
+      updateBucket(id: $id, changes: $changes)
+    }`,
+      { id: state.savedBucket.id, changes: state.unsavedBucket }
+    ).then(
       result => {
         store.setState({
           flash: "Saved",
-          savedBucket: state.unsavedBucket
+          savedBucket: { ...state.savedBucket, ...state.unsavedBucket }
         });
         setTimeout(() => store.setState({ flash: undefined }), 2000);
       },
@@ -449,8 +466,8 @@ export let actions = store => ({
   },
 
   exportBucket(state, bucket, type) {
-    requestBucketExport(bucket.id, type).then(result =>
-      requestDownloadFile(result)
+    requestBucketExport(bucket.id, type).then(({ key }) =>
+      requestDownloadFile(key)
     );
   },
 
@@ -550,8 +567,8 @@ export let actions = store => ({
       logsOperation,
       {
         bucketId,
-        limit,
-        offset
+        limit: +limit,
+        offset: +offset
       },
       "logsPage"
     )
@@ -596,8 +613,8 @@ export let actions = store => ({
 
   loadNotifications(state, offset, limit, bucketId, mail_id) {
     gql(notificationOperation, {
-      offset,
-      limit,
+      offset: +offset,
+      limit: +limit,
       bucketId,
       mail_id
     })

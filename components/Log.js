@@ -4,7 +4,11 @@
 
 import { h, Component } from "preact";
 import format from "date-fns/format";
-import "highlight.js/styles/github.css";
+import Editor from "react-simple-code-editor";
+
+import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-json";
+import "prismjs/themes/prism.css";
 
 class Log extends Component {
   render() {
@@ -32,34 +36,32 @@ class Log extends Component {
             <label>API Version</label>
             <div>{log.version}</div>
             <label>Request Body</label>
-            <div style={{ backgroundColor: "#EEE" }}>
-              <pre>
-                <code class="language-js">
-                  {JSON.stringify(log.requestBody, null, 4)}
-                </code>
-              </pre>
+            <div>
+              <Editor
+                value={JSON.stringify(log.requestBody, null, 4)}
+                highlight={code => highlight(code, languages.json)}
+              />
             </div>
             <label>Request Headers</label>
-            <div style={{ backgroundColor: "#EEE" }}>
-              <pre>
-                <code class="language-js">
-                  {JSON.stringify(log.requestHeaders, null, 4)}
-                </code>
-              </pre>
+            <div>
+              <Editor
+                value={JSON.stringify(log.requestHeaders, null, 4)}
+                highlight={code => highlight(code, languages.json)}
+              />
             </div>
             <label>Response Headers</label>
-            <div style={{ backgroundColor: "#EEE" }}>
-              <pre>
-                <code class="language-js">
-                  {JSON.stringify(log.responseHeaders, null, 4)}
-                </code>
-              </pre>
+            <div>
+              <Editor
+                value={JSON.stringify(log.responseHeaders, null, 4)}
+                highlight={code => highlight(code, languages.json)}
+              />
             </div>
             <label>User</label>
-            <div style={{ backgroundColor: "#EEE" }}>
-              <pre>
-                <code class="language-js">{JSON.stringify(user, null, 4)}</code>
-              </pre>
+            <div>
+              <Editor
+                value={JSON.stringify(log.user, null, 4) || ""}
+                highlight={code => highlight(code, languages.json)}
+              />
             </div>
           </div>
         </div>

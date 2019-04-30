@@ -68,7 +68,12 @@ class Layout extends Component {
           </div>,
           null
         )}
-        <Header user={this.props.user} toggleMenu={this.props.toggleMenu} menuOn={this.props.menuOn} />
+        <Header
+          user={this.props.user}
+          toggleMenu={this.props.toggleMenu}
+          menuOn={this.props.menuOn}
+        />
+        <div class="error">{this.props.error}</div>
         <div class="main">{this.props.children}</div>
         <Footer />
         <FlashMessage text={this.context.store.getState().flash} />

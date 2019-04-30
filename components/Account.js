@@ -47,12 +47,8 @@ class _CardForm extends Component {
 
       this.props.stripe
         .createToken({ name: this.refs.cardName.value })
-        .then(payload => {
-          let { token } = payload;
-          this.props
-            .subscribe(this.props.account_id, token.id, plan_monthly)
-            .then(this.props.onSubscribe)
-            .catch(this.props.onSubscribeError);
+        .then(({ token }) => {
+          this.props.subscribe(this.props.account_id, token.id, plan_monthly);
         });
     }
   };
@@ -377,6 +373,7 @@ class Account extends Component {
                         this.setState({ cardsLoaded: true, cards })
                       );
                     }}
+                    {...this.props}
                   />
                 </Elements>
               </StripeProvider>
@@ -465,33 +462,27 @@ class Account extends Component {
                 Log Out
               </a>
             </p>
-            <p>
-              <a
-                onClick={() => localStorage.removeItem("token")}
-                href={"/security"}
-              >
-                Security
-              </a>
-            </p>
-            {/* <p>
-              <a
-                onClick={() =>
-                  this.setState({ show_token: !this.state.show_token })
-                }
-              >
-                {this.state.show_token ? "Hide API Key" : "Show API Key"}
-              </a>
-              <span style={{ display: this.state.show_token ? "" : "none" }}>
-                <br />
-                <span>
-                  <a href="/docs/api">(How to use this)</a>
+            {!localStorage.hasOwnProperty("token") ? null : (
+              <p>
+                <a
+                  onClick={() =>
+                    this.setState({ show_token: !this.state.show_token })
+                  }
+                >
+                  {this.state.show_token ? "Hide API Key" : "Show API Key"}
+                </a>
+                <span style={{ display: this.state.show_token ? "" : "none" }}>
+                  <br />
+                  <span>
+                    <a href="/docs/api">(How to use this)</a>
+                  </span>
+                  <textarea
+                    rows={4}
+                    value={this.state.show_token ? localStorage.token : ""}
+                  />
                 </span>
-                <textarea
-                  rows={4}
-                  value={this.state.show_token ? localStorage.token : ""}
-                />
-              </span>
-            </p> */}
+              </p>
+            )}
             {/* <p>
               <a href="/logs?offset=0&limit=10">View Logs</a>
             </p> */}
@@ -503,7 +494,7 @@ class Account extends Component {
                 onClick={() => localStorage.removeItem("token")}
                 href={"/query"}
               >
-                Query
+                GraphQL IDE
               </a>
             </p>
             {IF(
