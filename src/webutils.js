@@ -20,11 +20,11 @@ export function processStatus(response) {
   }
 }
 
-export function callResource(method, url, data) {
+export function callResource(method, url, data, mode = "cors") {
   var opts = {
     credentials: "include",
-    method: method,
-    mode: "cors",
+    method,
+    mode,
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json"

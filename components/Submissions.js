@@ -50,6 +50,7 @@ class Submissions extends Component {
   }
 
   handleSelect = (event, submission) => {
+    console.log("handleSelect");
     event.stopPropagation();
     if (this.props.selected.indexOf(submission.id) > -1) {
       this.props.setSelected(
@@ -61,6 +62,7 @@ class Submissions extends Component {
   };
 
   handleExpand = (event, submission) => {
+    console.log("handleExpand");
     event.stopPropagation();
     if (this.props.expanded.indexOf(submission.id) > -1) {
       this.props.setExpanded(

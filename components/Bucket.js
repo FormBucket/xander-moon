@@ -496,21 +496,21 @@ class Bucket extends Component {
                   }
                   defaultValue={bucket.notificationFrom}
                 />
-                <label htmlFor="notificationReplyTo">CC:</label>
+                <label htmlFor="notificationEmailCC">CC:</label>
                 <input
-                  name="notificationReplyTo"
+                  name="notificationEmailCC"
                   type="text"
                   placeholder="{{ _cc }}"
-                  onChange={e => changeBucket({ email_cc: e.target.value })}
-                  defaultValue={bucket.email_cc}
+                  onChange={e => changeBucket({ emailCC: e.target.value })}
+                  defaultValue={bucket.emailCC}
                 />
-                <label htmlFor="notificationReplyTo">BCC:</label>
+                <label htmlFor="notificationEmailBCC">BCC:</label>
                 <input
-                  name="notificationReplyTo"
+                  name="notificationEmailBCC"
                   type="text"
                   placeholder="{{ _bcc }}"
-                  onChange={e => changeBucket({ email_bcc: e.target.value })}
-                  defaultValue={bucket.email_bcc}
+                  onChange={e => changeBucket({ emailBCC: e.target.value })}
+                  defaultValue={bucket.emailBCC}
                 />
                 <label htmlFor="notificationSubject" htmlFor="subject">
                   Subject
@@ -529,9 +529,9 @@ class Bucket extends Component {
                   name="notificationTemplate"
                   placeholder="Supports HTML, CSS, markdown and templates with {{handlebars}}."
                   onChange={e =>
-                    changeBucket({ notification_template: e.target.value })
+                    changeBucket({ notificationTemplate: e.target.value })
                   }
-                  defaultValue={bucket.notification_template}
+                  defaultValue={bucket.notificationTemplate}
                 />
                 {/* <div>
                   <a href="/guides/merge-tags" target="_blank">
@@ -576,7 +576,9 @@ class Bucket extends Component {
                   onClick={event => {
                     changeBucket({ spamCheckOn: event.target.checked });
                   }}
-                  checked={bucket.spamCheckOn}
+                  checked={
+                    bucket.spamCheckOn === true || isblank(bucket.spamCheckOn)
+                  }
                 />
                 <div class="checkbox" />
               </label>
@@ -674,7 +676,7 @@ class Bucket extends Component {
                   />
                 </label>
               )}
-              <label htmlFor="validateCodeOn" class="label-switch">
+              {/* <label htmlFor="validateCodeOn" class="label-switch">
                 {" "}
                 Validation Code
                 <input
@@ -704,7 +706,7 @@ class Bucket extends Component {
                   display: bucket.validateCodeOn ? "" : "none",
                   marginBottom: 20
                 }}
-              />
+              /> */}
               <label htmlFor="bucketAJAXOnly" class="label-switch">
                 {" "}
                 JSON Only? (Respond always with JSON instead of HTTP 302

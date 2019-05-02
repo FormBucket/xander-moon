@@ -7,10 +7,100 @@ import { route } from "preact-router";
 import "./styles/bucketlist.scss";
 import IF from "formula/src/branch";
 import ISBLANK from "formula/src/isblank";
-import EQ from "formula/src/eq";
 
-function setState(props) {
-  dispatch("changeBuckets", props);
+class DndListItem extends Component {
+  render({ onDragStart, children }) {
+    return (
+      <div class="dnd-list-item" draggable="true" onDragStart={onDragStart}>
+        {children}
+      </div>
+    );
+  }
+}
+
+class DndList extends Component {
+  onDragStart = (index, ev) => {
+    ev.dataTransfer.setData("text", index);
+  };
+  hit(r, p) {
+    return (
+      p.x >= r.x && p.x < r.x + r.width && p.y >= r.y && p.y < r.y + r.height
+    );
+  }
+  onDrop = ev => {
+    ev.preventDefault();
+    let draggedIdx = parseInt(ev.dataTransfer.getData("text"));
+    let pos = { x: ev.clientX, y: ev.clientY };
+    let children = Array.from(this.base.querySelectorAll(".dnd-list-item"));
+    let insertBeforeIdx = null;
+    for (let idx = 0, n = children.length; idx < n; ++idx) {
+      let childRect = children[idx].getBoundingClientRect();
+      if (this.hit(childRect, pos)) {
+        this.props.onMoveItem(draggedIdx, idx);
+        return;
+      }
+      // "remember" the first child that's below the cursor position
+      if (insertBeforeIdx == null && childRect.y >= pos.y) {
+        insertBeforeIdx = idx;
+      }
+    }
+    this.props.onMoveItem(draggedIdx, insertBeforeIdx);
+  };
+  render({ children }) {
+    return (
+      <div
+        class="dnd-list"
+        onDrop={this.onDrop}
+        onDragOver={ev => ev.preventDefault()}
+      >
+        {children.map((it, index) => (
+          <DndListItem
+            onDragStart={(...args) => this.onDragStart(index, ...args)}
+          >
+            {it}
+          </DndListItem>
+        ))}
+      </div>
+    );
+  }
+}
+
+class App extends Component {
+  render({ items, select, show, moveBucket }, {}) {
+    return (
+      <ul class="bucket-list">
+        <DndList onMoveItem={moveBucket}>
+          {items.map(bucket => (
+            <div>
+              <li key={bucket.id}>
+                <div class="bucket-item">
+                  <div class="bucket-meta" onClick={() => select(bucket)}>
+                    <h3>
+                      <i
+                        class={
+                          "fa toggle-switch fa-" +
+                          IF(bucket.enabled, "toggle-on", "toggle-off")
+                        }
+                      />
+                      <span>
+                        {IF(ISBLANK(bucket.name), bucket.id, bucket.name)}
+                      </span>
+                    </h3>
+                  </div>
+                  <div class="submission-count">
+                    <button class="secondary" onClick={() => show(bucket)}>
+                      {bucket.submissions ? bucket.submissions.totalCount : "?"}{" "}
+                      Submissions <i class="fa fa-chevron-right" />
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </div>
+          ))}
+        </DndList>
+      </ul>
+    );
+  }
 }
 
 let BucketList = props => {
@@ -24,33 +114,7 @@ let BucketList = props => {
     );
   }
 
-  return (
-    <ul class="bucket-list">
-      {props.buckets.map(bucket => (
-        <li key={bucket.id}>
-          <div class="bucket-item">
-            <div class="bucket-meta" onClick={() => props.select(bucket)}>
-              <h3>
-                <i
-                  class={
-                    "fa toggle-switch fa-" +
-                    IF(bucket.enabled, "toggle-on", "toggle-off")
-                  }
-                />
-                <span>{IF(ISBLANK(bucket.name), bucket.id, bucket.name)}</span>
-              </h3>
-            </div>
-            <div class="submission-count">
-              <button class="secondary" onClick={() => props.show(bucket)}>
-                {bucket.submissions ? bucket.submissions.totalCount : "?"}{" "}
-                Submissions <i class="fa fa-chevron-right" />
-              </button>
-            </div>
-          </div>
-        </li>
-      ))}
-    </ul>
-  );
+  return <App items={props.buckets} moveBucket={props.moveBucket} {...props} />;
 };
 
 class Buckets extends Component {
@@ -71,7 +135,7 @@ class Buckets extends Component {
   };
 
   render() {
-    let { buckets } = this.props || {};
+    let { buckets, moveBucket } = this.props || {};
     let state = this.props;
 
     if (!buckets) return null;
@@ -80,6 +144,7 @@ class Buckets extends Component {
       <BucketList
         buckets={buckets}
         selected_bucket_id={state.selected_bucket_id}
+        moveBucket={moveBucket}
         select={this.handleSelect}
         show={this.handleShow}
       />

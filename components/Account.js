@@ -414,6 +414,7 @@ class Account extends Component {
         </div>
         <div class="wrapper">
           <div class="account-details">
+            <label htmlFor="id">ID: {(this.props.user || {}).id}</label>
             <label htmlFor="fullName">Full Name</label>
             <input
               type="text"

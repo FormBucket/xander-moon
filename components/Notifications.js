@@ -29,7 +29,7 @@ let Paging = ({
     >
       Next
     </button>{" "}
-    Showing {+offset + 1} to {+offset + 1 + +items.length}
+    {/* Showing {+offset + 1} to {+offset + 1 + +items.length} */}
   </div>
 );
 
@@ -130,6 +130,10 @@ class Notifications extends Component {
                   </label>
 
                   <label>
+                    To: <span style={{ fontWeight: "normal" }}>{d.to}</span>
+                  </label>
+
+                  <label>
                     Subject:{" "}
                     <span style={{ fontWeight: "normal" }}>{d.subject}</span>
                   </label>
@@ -138,19 +142,37 @@ class Notifications extends Component {
                     Status:{" "}
                     <span style={{ fontWeight: "normal" }}>
                       {IF(
-                        !d.status || d.status === 0,
+                        !d.status || d.status == 0,
                         "Not sent",
-                        d.status === 1,
+                        d.status == 1,
                         "Processing",
-                        d.status === 2,
+                        d.status == 2,
                         "Sent",
-                        d.status < 0,
+                        +d.status < 0,
                         "Error!",
                         "Not sent"
                       )}
                     </span>
                   </label>
-                  <div />
+                  <iframe
+                    sandbox="allow-same-origin allow-forms allow-scripts"
+                    style={{
+                      backgroundColor: "white",
+                      border: "1px solid #EEE",
+                      maxwidth: 200,
+                      height: 200,
+                      marginTop: -200,
+                      float: "right"
+                    }}
+                    ref={ref => {
+                      this.formFrame = ref;
+                    }}
+                    src={`data:text/html;base64,${btoa(
+                      unescape(`<html><head><title>FormBucket Test Page</title><style>body { margin: 0; padding: 10; } input { display: block;margin-bottom: 20px; }</style></head><body>
+                  ${d.body}
+                  </body></html>`)
+                    )}`}
+                  />
                 </div>
               ))}
             </div>
