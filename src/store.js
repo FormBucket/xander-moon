@@ -32,13 +32,13 @@ let fragmentViewerSummary = `fragment ViewerSummary on Account {
 let fragmentBucketMinimal = `fragment BucketMinimal on Bucket {
   id
   name
-  created
 }`;
 
 let fragmentBucketSummary = `fragment BucketSummary on Bucket {
   id
+  enabled
   name
-  created
+  createdOn
   submissions {
     totalCount
   }
@@ -70,12 +70,17 @@ let fragmentBucketComplete = `fragment BucketComplete on Bucket {
   recaptchaSecret
   autoResponder {
     on
+    from
     to
     replyTo
     cc
     bcc
+    subject
+    body
   }
   quickUseForm
+  createdOn
+  updatedOn
 }`;
 
 let fragmentLogParts = `fragment LogParts on LogConnection {
@@ -121,6 +126,8 @@ let fragmentNotificationParts = `fragment NotificationParts on NotificationConne
     status
     subject
     from
+    to
+    body
     createdOn
   }
 }`;
@@ -310,6 +317,22 @@ export let store =
     ? createStore(initialState)
     : devtools(createStore(initialState));
 
+let sendUserId;
+store.subscribe(state => {
+  let user = state.viewer || {};
+  if (user.id === sendUserId) return;
+  if (window.Intercom) {
+    window.Intercom("update", {
+      app_id: "n2h7hsol",
+      user_id: user.id,
+      name: user.name, // Full name
+      email: user.email, // Email address
+      created_at: Math.round(new Date(user.created_on).getTime() / 1000) // Signup date as a Unix timestamp
+    });
+  }
+  sendUserId = user.id;
+});
+
 // If actions is a function, it gets passed the store:
 export let actions = store => ({
   updateUser(state, updates) {
@@ -334,16 +357,8 @@ export let actions = store => ({
 
   loadProfile() {
     gql(profileOperation, {}, "profile").then(({ data: { viewer } }) => {
-      store.setState({ user: viewer, viewer });
-
-      if (window.Intercom) {
-        window.Intercom("update", {
-          app_id: "n2h7hsol",
-          name: user.name, // Full name
-          email: user.email, // Email address
-          created_at: Math.round(new Date(user.created_on).getTime() / 1000) // Signup date as a Unix timestamp
-        });
-      }
+      let user = viewer;
+      store.setState({ user, viewer });
     });
   },
 
@@ -466,9 +481,7 @@ export let actions = store => ({
   },
 
   exportBucket(state, bucket, type) {
-    requestBucketExport(bucket.id, type).then(({ key }) =>
-      requestDownloadFile(key)
-    );
+    requestBucketExport(bucket.id, type).then(key => requestDownloadFile(key));
   },
 
   updateSubmissions(
@@ -522,7 +535,7 @@ export let actions = store => ({
         store.setState({
           selected: [],
           // expanded: ids,
-          expanded: submissions.map(d => d.id),
+          expanded: [],
           bucket,
           totalCount,
           spamCount,
@@ -628,5 +641,19 @@ export let actions = store => ({
     gql(invoicesOperation, {}, "invoicesPage").then(({ data: { invoices } }) =>
       store.setState({ invoices: invoices.edges.map(d => d.node) })
     );
+  },
+  moveBucket(state, source, dest) {
+    var buckets = state.buckets.concat([]);
+    var assertedId = buckets[source].id;
+    gql(
+      `mutation bucketOrder($assertedId: ID!, $source: Int!, $dest: Int!) {
+        modifyBucketOrder(assertedId: $assertedId, source: $source, dest: $dest)
+      }`,
+      { source, dest, assertedId }
+    );
+
+    var sourceItem = buckets.splice(source, 1);
+    buckets.splice(dest, 0, ...sourceItem);
+    return { buckets };
   }
 });

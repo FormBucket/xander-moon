@@ -1,10 +1,11 @@
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   devServer: {
-    index: "index.html",
+    index: "./index.html",
     historyApiFallback: {
-      index: "index.html"
+      index: "./index.html"
     },
     host: "10.8.0.41",
     useLocalIp: false,
@@ -15,7 +16,9 @@ module.exports = {
     hot: true
   },
   output: {
-    publicPath: "/"
+    publicPath: "/",
+    filename: "[hash].main.js",
+    chunkFilename: "[hash].[chunkhash].[id].chunk.js"
   },
   resolve: {
     alias: {
@@ -64,5 +67,11 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/index.html",
+      filename: "./index.html"
+    })
+  ]
 };

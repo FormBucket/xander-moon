@@ -13,7 +13,7 @@ import { store, actions } from "./store";
 // send route location changes to Intercom.ActionCreator
 if (window.Intercom) {
   window.Intercom("boot", {
-    app_id: "n2h7hsol"
+    app_id: APP_ID
   });
 } else {
   // console.log("window.Intercom is not defined");
@@ -52,6 +52,12 @@ class App extends Component {
             path="/"
             getComponent={() =>
               import("../pages/Home").then(module => module.default)
+            }
+          />
+          <AsyncRoute
+            path="/default"
+            getComponent={() =>
+              import("../pages/Default").then(module => module.default)
             }
           />
           <Redirect

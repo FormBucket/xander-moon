@@ -8,8 +8,9 @@ import IF from "formula/src/branch";
 import "./styles/welcome.scss";
 import Contact from "./Contact";
 const Clincher = () => (
-  <div style={{ textAlign: "center" }}>
+  <div style={{ textAlign: "center", maxWidth: "100%" }}>
     <iframe
+      style={{ maxWidth: "100vw" }}
       width="560"
       height="315"
       src="https://www.youtube.com/embed/U8AB6ddB5_g"
@@ -28,14 +29,12 @@ import "prismjs/themes/prism.css";
 
 class Welcome extends Component {
   state = {
-    formCode: `<h3>What's on your mind?</h3>
-<form method="post" action="https://api.formbucket.com/f/homepage"
-  onsubmit="return validateForm()">
-  <input type="text" name="name" placeholder="Your Name" />
-  <input type="text" name="email" placeholder="Your Email" />
-  <textarea name="message" placeholder="Share your feedback, comments or issues."></textarea>
-  <button type="submit">Submit</button>
-  <p><strong>Tip:</strong>You can edit the code on this site.</p>
+    formCode: `<form method="post"
+    action="https://formbucket.com/f/buk_ELB6nWrb08lTFqO0BLIU3ZM0">
+<input type="email" name="email" placeholder="Your email" />
+<input type="text" name="message" placeholder="Your message" />
+<input type="submit"/>
+<input type="reset" />
 </form>`
   };
   render() {
@@ -116,11 +115,11 @@ class Welcome extends Component {
         <div class="hero">
           <div class="bubbles">
             <div class="wrapper">
-              <h1>Collecting forms online made easy!</h1>
+              <h1>Forms made easy!</h1>
               <h2>
-                We make custom HTML forms easy. Simply copy your unique bucket
-                URL into your code. We'll collect the responses, send out
-                notifications and more.
+                Our service makes capturing your custom forms easy. Simply copy
+                your unique bucket URL into your HTML code. We'll collect the
+                responses, send out notifications and more.
               </h2>
               {IF(
                 props.user && !props.user.anonymous,
