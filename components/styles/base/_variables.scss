@@ -1,0 +1,75 @@
+// Neat Overrides
+// $column: 90px;
+// $gutter: 30px;
+// $grid-columns: 12;
+// $max-width: 1200px;
+
+// Neat Breakpoints
+$medium-screen: 600px;
+$large-screen: 900px;
+
+$medium-screen-up: new-breakpoint(min-width $medium-screen 4);
+$large-screen-up: new-breakpoint(min-width $large-screen 8);
+
+$mobile: new-breakpoint(max-width 500px);
+$phablet: new-breakpoint(max-width 700px);
+$tablet: new-breakpoint(max-width 900px);
+
+// Typography
+$source-sans: "Source Sans Pro", sans-serif;
+$source-code: "Source Code Pro";
+$base-font-family: $source-sans;
+$heading-font-family: $base-font-family;
+$code-font-family: $source-code;
+
+// Font Sizes
+$base-font-size: 1em;
+
+// Line height
+$base-line-height: 1.5;
+$heading-line-height: 1.2;
+
+// Other Sizes
+$base-border-radius: 3px;
+$base-spacing: $base-line-height * 1em;
+$small-spacing: $base-spacing / 2;
+$base-z-index: 0;
+
+// Colors
+$eggshell: #f5efed;
+$darkest-purple: #311b92;
+$dark-purple: #512da8;
+$purple: #673ab7;
+$lightest-purple: #ede7f6;
+$light-green: #2875ef;
+$blue: #477dca;
+$dark-gray: #333;
+$medium-gray: #999;
+$light-gray: #ddd;
+$green: #0e64ec;
+
+$delete-color: #b51414;
+
+// Font Colors
+$base-font-color: $darkest-purple;
+$action-color: $light-green;
+
+// Border
+$base-border-color: $light-gray;
+$base-border: 1px solid $base-border-color;
+
+// Background Colors
+$base-background-color: #f3f9f8;
+$secondary-background-color: tint($base-border-color, 75%);
+
+// Shadows
+$base-box-shadow: 0px 2px 5px 0px rgba(237, 231, 246, 1);
+
+// Forms
+$form-box-shadow: inset 0 1px 3px rgba(#000, 0.06);
+$form-box-shadow-focus: $form-box-shadow,
+  0 0 5px adjust-color($action-color, $lightness: -5%, $alpha: -0.3);
+
+// Animations
+$base-duration: 150ms;
+$base-timing: ease;
