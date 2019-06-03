@@ -4,35 +4,31 @@
 
 import { h } from "preact";
 
-let About = ({ support_email = "mailto:support@formbucket.com" }) => (
+let About = () => (
   <div>
     <div class="page-heading">
       <div class="wrapper">
-        <h1>Powering forms is our mission.</h1>
+        <h1>We make forms online simple.</h1>
       </div>
     </div>
     <div class="wrapper">
       <p>
-        We started FormBucket to scratch our own itch as web developers in need
-        of a powerful form handling and automation solution for our static site
-        projects. FormBucket gives web developers and designers an instant
-        backend for any form with a simple URL endpoint.
+        We are a small team of experienced engineers operating a simple and fun
+        form collection hosted service in the cloud.
       </p>
 
       <p>
-        Since launching, FormBucket has been featured in <b>ProductHunt</b>,{" "}
-        <b>Web Designer Depot</b> and <b>Hacker News</b>.
+        Our service offers developers and designers an easy backend for any form
+        with a simple URL. We accept data via standard web interfaces supported
+        by browsers and applications.
       </p>
 
-      <p>
-        Try <a href="/signup">FormBucket free for 14 days</a>, no credit card
-        required!
-      </p>
+      <p>We are also run by some pretty nice people working in California.</p>
 
       <p>Sincerely,</p>
 
       <p>
-        <a href={support_email}>The FormBucket Team</a>
+        <a href="https://formbucket.com/contact">FormBucket Support</a>
       </p>
     </div>
   </div>

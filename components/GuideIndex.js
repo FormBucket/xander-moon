@@ -6,6 +6,9 @@ import { h } from "preact";
 import Guide from "./Guide";
 let GuideIndex = () => (
   <Guide title="Guides" title2="Welcome">
+    <h6>
+      <a href="/guides/pricing">Pricing</a>
+    </h6>
     <p>
       Want to collect forms on your site? These docs will help. Need more help?{" "}
       <a href="/contact">contact us</a>
@@ -60,15 +63,12 @@ let GuideIndex = () => (
       <a href="/guides/query">Querying your data</a>
     </h6>
     <p>Access your data with GraphQL.</p>
-    <h6>
+    {/* <h6>
       <a href="/docs/webhooks">Webhooks</a>
     </h6>
-    <p>Webhooks forward your submissions to external systems.</p>
+    <p>Webhooks forward your submissions to external systems.</p> */}
     <hr />
     <h3>Legal / Privacy</h3>
-    <h6>
-      <a href="/guides/pricing">Pricing</a>
-    </h6>
     <p>How we charge for services.</p>
     <h6>
       <a href="/docs/terms">Terms</a>

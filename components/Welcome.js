@@ -18,6 +18,12 @@ const Clincher = () => (
       allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen
     />
+    <p style={{ fontSize: "1.5em" }}>
+      $7/mo after 14 day free trial.{" "}
+      <a href="/signup" native>
+        Sign up today.
+      </a>
+    </p>
   </div>
 );
 import Editor from "react-simple-code-editor";
@@ -115,24 +121,12 @@ class Welcome extends Component {
         <div class="hero">
           <div class="bubbles">
             <div class="wrapper">
-              <h1>Forms made easy!</h1>
+              <h1>Collecting forms online made simple!</h1>
               <h2>
                 Our service makes capturing your custom forms easy. Simply copy
                 your unique bucket URL into your HTML code. We'll collect the
                 responses, send out notifications and more.
               </h2>
-              {IF(
-                props.user && !props.user.anonymous,
-                null,
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => (window.location.href = "/signup")}
-                  >
-                    Join Free
-                  </button>
-                </div>
-              )}
             </div>
             <Clincher />
           </div>

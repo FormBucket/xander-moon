@@ -463,27 +463,33 @@ class Account extends Component {
                 Log Out
               </a>
             </p>
-            {!localStorage.hasOwnProperty("token") ? null : (
-              <p>
-                <a
-                  onClick={() =>
-                    this.setState({ show_token: !this.state.show_token })
+            <p>
+              <a
+                onClick={() => {
+                  let show_token = !this.state.show_token;
+                  this.setState({ show_token });
+                  if (!this.state.token) {
+                    fetch("/v1/token", {
+                      credentials: "include"
+                    })
+                      .then(r => r.text())
+                      .then(token => this.setState({ token }));
                   }
-                >
-                  {this.state.show_token ? "Hide API Key" : "Show API Key"}
-                </a>
-                <span style={{ display: this.state.show_token ? "" : "none" }}>
-                  <br />
-                  <span>
-                    <a href="/docs/api">(How to use this)</a>
-                  </span>
-                  <textarea
-                    rows={4}
-                    value={this.state.show_token ? localStorage.token : ""}
-                  />
-                </span>
-              </p>
-            )}
+                }}
+              >
+                {this.state.show_token ? "Hide API Key" : "Show API Key"}
+              </a>
+              <span style={{ display: this.state.show_token ? "" : "none" }}>
+                <br />
+                {/* <span>
+                  <a href="/openapi/ui">(How to use this)</a>
+                </span> */}
+                <textarea
+                  rows={6}
+                  value={this.state.show_token ? this.state.token : ""}
+                />
+              </span>
+            </p>
             {/* <p>
               <a href="/logs?offset=0&limit=10">View Logs</a>
             </p> */}

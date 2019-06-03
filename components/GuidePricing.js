@@ -6,7 +6,7 @@ import { h } from "preact";
 import Guide from "./Guide";
 
 let GuidePricing = () =>
-  true ? (
+  false ? (
     <Guide title="Pricing">
       <p>
         The monthly membership cost is $7/mo. This includes unlimited buckets
@@ -18,10 +18,8 @@ let GuidePricing = () =>
       <p>Today, our pricing is a simple monthly membership fee of $7/mo.</p>
       <hr />
       <p>
-        We plan to adopt a new pricing model. The new model will have no fixed
-        monthly charges. You will pay a tiny fee for each hour that your form is
-        active. For each 33 hours the cost is $0.01. That works out to $0.21 per
-        bucket per month.
+        We plan to adopt a new pricing model so that you pay only for what you
+        use.
       </p>
       <p>
         Your total cost will depend on usage. Must purchase prepaid credits to
