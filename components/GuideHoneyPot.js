@@ -7,7 +7,7 @@ import Guide from "./Guide";
 import "highlight.js/styles/github.css";
 import "./styles/api.scss";
 
-let example = `<form action="https://api.formbucket.com/f/buk_... " method="post">
+let example = `<form action="https://formbucket.com/f/buk_... " method="post">
   <input type="text" name="__bucket_trap__" style="display: none">
   <button type="submit">Want it ? Click here</button>
 </form>`;
@@ -21,8 +21,9 @@ let GuideHoneyPot = () => (
         required field validations.
       </p>
       <p>
-        The default name for the field is "<strong>bucket_trap</strong>". If you
-        prefer a different name then you can change in the bucket settings.
+        The default name for the field is "<strong>__bucket_trap__</strong>". If
+        you prefer a different name then you can change it in your bucket's
+        settings.
       </p>
       <p>An example HTML Form with a hidden honeypot:</p>
       <pre>
