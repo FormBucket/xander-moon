@@ -12,7 +12,7 @@
     "build:static": "node runMetalSmith && rm -rf public/img/ && cp -r img/ public/",
     "build": "npm run clean && npm run build:static && npm run build:webpack",
     "dev": "yarn start",
-    "start": "yarn webpack-dev-server --public www-dev.formbucket.com",
+    "start": "yarn webpack-dev-server --public www-dev.formbucket.com --content-base dist/ --history-api-fallback",
     "start:static": "cd public && http-server . -p 3000",
     "lint": "eslint src",
     "deploy:www-next": "rsync -apvz -e \"ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null\" --progress ./public/ ops@10.8.0.10:/srv/www/formbucket.com/",
