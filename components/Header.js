@@ -4,6 +4,7 @@
 
 import { h, Component } from "preact";
 import logo from "../img/logo.svg";
+import { white } from "ansi-colors";
 
 const Nav = ({ menuOn, user, toggleMenu }) => (
   <nav role="navigation">
@@ -12,6 +13,24 @@ const Nav = ({ menuOn, user, toggleMenu }) => (
     </a>
     {user && !user.anonymous ? (
       <ul class={"navigation-menu" + (menuOn ? " show" : " hide")}>
+        <li class="nav-link">
+          <a href="https://twitter.com/formbucket" target="blank">
+            <i
+              class="fa fa-twitter"
+              aria-hidden="true"
+              alt="Twitter"
+              style={{ color: "white", fontSize: "1.5em", padding: 10 }}
+            />
+          </a>
+          <a href="https://github.com/formbucket" target="blank">
+            <i
+              class="fa fa-github"
+              aria-hidden="true"
+              alt="Github"
+              style={{ color: "white", fontSize: "1.5em", padding: 10 }}
+            />
+          </a>
+        </li>
         <li class="nav-link">
           <a href="/guides" onClick={toggleMenu}>
             Guides
@@ -34,11 +53,29 @@ const Nav = ({ menuOn, user, toggleMenu }) => (
         class={"navigation-menu" + (menuOn ? " show" : " hide")}
       >
         <li class="nav-link">
+          <a href="https://twitter.com/formbucket" target="blank">
+            <i
+              class="fa fa-twitter"
+              aria-hidden="true"
+              alt="Twitter"
+              style={{ color: "white", fontSize: "1.5em", padding: 10 }}
+            />
+          </a>
+          <a href="https://github.com/formbucket" target="blank">
+            <i
+              class="fa fa-github"
+              aria-hidden="true"
+              alt="Github"
+              style={{ color: "white", fontSize: "1.5em", padding: 10 }}
+            />
+          </a>
+        </li>
+        <li class="nav-link">
           <a href="/guides">Guides</a>
         </li>
         <li class="nav-link">
           <a href="/signup?redirect_uri=/buckets" native>
-            Join Free
+            Sign up
           </a>
         </li>
         <li class="nav-link">

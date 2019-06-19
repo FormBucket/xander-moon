@@ -12,7 +12,7 @@
     "build:static": "node runMetalSmith && rm -rf public/img/ && cp -r img/ public/",
     "build": "npm run clean && npm run build:static && npm run build:webpack",
     "dev": "yarn start",
-    "start": "yarn webpack-dev-server --public www-dev.formbucket.com",
+    "start": "yarn webpack-dev-server --public www-dev.formbucket.com --content-base dist/ --history-api-fallback",
     "start:static": "cd public && http-server . -p 3000",
     "lint": "eslint src",
     "deploy:www-next": "rsync -apvz -e \"ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null\" --progress ./public/ ops@10.8.0.10:/srv/www/formbucket.com/",
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "date-fns": "^1.30.1",
-    "formula": "^3.8.4",
+    "formula": "3.10",
     "highlight.js": "^9.6.0",
     "parcel-plugin-bundle-visualiser": "^1.2.0",
     "preact": "^8.4.2",
