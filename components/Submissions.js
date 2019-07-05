@@ -429,7 +429,19 @@ class Submissions extends Component {
                       <div key={i + "|" + j}>
                         <p>
                           <strong>{key}</strong>:{" "}
-                          {(submission.data[key] || "").toString()}
+                          {IF(
+                            typeof submission.data[key] === "object" &&
+                              submission.data[key].filename,
+                            <a
+                              href={`/v1/attachments/${props.bucket.id}/${
+                                submission.id
+                              }/${key}`}
+                              native
+                            >
+                              {submission.data[key].filename}
+                            </a>,
+                            (submission.data[key] || "").toString()
+                          )}
                         </p>
                       </div>
                     ))}
