@@ -48,7 +48,9 @@ class _CardForm extends Component {
       this.props.stripe
         .createToken({ name: this.refs.cardName.value })
         .then(({ token }) => {
-          this.props.subscribe(this.props.account_id, token.id, plan_monthly);
+          this.props
+            .subscribe(this.props.account_id, token.id, plan_monthly)
+            .then(this.props.onSubscribe);
         });
     }
   };
@@ -117,7 +119,8 @@ class Account extends Component {
         "Cancelling your subscription will stop submissions immediately. Your account and data will remain on our service. Continue?"
       )
     ) {
-      cancelSubscription(this.props.user.account_id)
+      this.props
+        .cancelSubscription(this.props.user.account_id)
         .then(n => {
           alert("Your subscription has been canceled.");
           this.setState({
@@ -504,7 +507,7 @@ class Account extends Component {
                 GraphQL IDE
               </a>
             </p>
-            {IF(
+            {/* {IF(
               status === "trialing" ||
                 status === "active" ||
                 status === "past_due",
@@ -515,7 +518,7 @@ class Account extends Component {
               </p>,
               status === "canceled",
               null
-            )}
+            )} */}
             <p>
               <a class="danger" onClick={this.handleDeleteAccount}>
                 Destroy Account

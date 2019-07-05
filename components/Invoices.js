@@ -37,7 +37,7 @@ class Invoices extends Component {
               {invoices.map(d => (
                 <tr key={d.id}>
                   <td>
-                    {formatDate(d.date)}
+                    {formatDate(d.created)}
                     <br />
                     <a href={d.invoicePdf}>{d.id}</a>
                   </td>

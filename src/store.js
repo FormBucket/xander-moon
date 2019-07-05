@@ -224,7 +224,7 @@ let queryInvoicesPage = `query invoicesPage {
     edges {
       node {
         id
-        date
+        created
         total
         paid
         amountDue
@@ -560,8 +560,9 @@ export let actions = store => ({
   },
 
   subscribe(state, account_id, token, plan) {
-    requestSubscribe(account_id, token, plan).then(user => {
+    return requestSubscribe(account_id, token, plan).then(user => {
       store.setState({ user });
+      return Promise.resolve(user);
     });
   },
 
