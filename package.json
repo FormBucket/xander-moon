@@ -8,7 +8,7 @@
   "scripts": {
     "clone:bare": "rm -rf ../formbucket-client.git; git clone --bare . ../formbucket-client.git",
     "clean": "rm -rf public",
-    "build": "webpack --mode=production",
+    "build": "webpack --mode=production; cp -r img/ public;",
     "dev": "yarn start",
     "start": "yarn webpack-dev-server --public www-dev.formbucket.com --content-base dist/ --history-api-fallback",
     "start:static": "cd public && http-server . -p 3000",
