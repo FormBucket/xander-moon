@@ -1,6 +1,6 @@
 # formbucket-ui
 
-This is the web app user interface for FormBucket.com API service.
+User interface for formbucket.com.
 
 # run application
 
