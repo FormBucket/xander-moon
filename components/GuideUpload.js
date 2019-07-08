@@ -37,10 +37,9 @@ let example = `<form method="post"
 
 let GuideUploads = () => (
   <Guide title="Guides" title2="File Uploads">
-    <p>FormBucket supports uploading files up to 5MB.</p>
     <p>
-      To enable file upload you must add <em>enctype="multipart/form-data"</em>{" "}
-      to your form.{" "}
+      FormBucket supports file uploads up to 5MB. To enable file upload you must
+      add <em>enctype="multipart/form-data"</em> to your form.
     </p>
     <Ed value={example} />
   </Guide>
