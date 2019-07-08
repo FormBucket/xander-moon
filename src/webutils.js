@@ -100,13 +100,6 @@ export function submit(bucket_id, formData) {
   return postJSON(`${window.FORMBUCKET_API_SERVER}/f/${bucket_id}`, formData);
 }
 
-// Create a batch of submissions.
-export function requestCreateSubmissions(bucket_id, submissions) {
-  return postJSON(`${apiRoot}/buckets/${bucket_id}/submissions`, {
-    submissions
-  });
-}
-
 // Request user signin and receive access code.
 export function requestSignIn(user) {
   return postText(`${apiRoot}/signin`, user);
@@ -228,11 +221,6 @@ export function requestStripePubKey() {
   return getJSON(`${apiRoot}/stripe/pk`);
 }
 
-// Get the user charges.
-export function requestCharges(account_id) {
-  return getJSON(`${apiRoot}/accounts/${account_id}/charges`);
-}
-
 // Get the the user's invoices.
 export function requestInvoices() {
   return getJSON(`${apiRoot}/invoices`);
@@ -240,12 +228,12 @@ export function requestInvoices() {
 
 // Get the the user's invoices.
 export function requestCreditCards(account_id) {
-  return getJSON(`${apiRoot}/accounts/${account_id}/credit_cards`);
+  return getJSON(`${apiRoot}/credit_cards`);
 }
 
 // Send request to subscribe user to plan.
 export function requestSubscribe(account_id, token, plan) {
-  return postJSON(`${apiRoot}/accounts/${account_id}/subscribe`, {
+  return postJSON(`${apiRoot}/subscribe`, {
     token: token,
     plan: plan
   });
@@ -253,7 +241,7 @@ export function requestSubscribe(account_id, token, plan) {
 
 // Send request to unsubscribe user to plan.
 export function requestUnsubscribe(account_id) {
-  return deleteJSON(`${apiRoot}/accounts/${account_id}/subscription`);
+  return deleteJSON(`${apiRoot}/subscribe`);
 }
 
 // Send request to destroy users account.
@@ -337,12 +325,12 @@ export function requestEmailEvents(offset = 0, limit = 10, bucket_id, mail_id) {
 
 // make promise to delete credit card.
 export function requestDeleteCreditCard(id) {
-  return deleteJSON(`${apiRoot}/billing/credit_card`, { id });
+  return deleteJSON(`${apiRoot}/credit_card`, { id });
 }
 
 // make promise to add credit card.
 export function requestAddCreditCard(id) {
-  return postJSON(`${apiRoot}/billing/credit_card`, { id });
+  return postJSON(`${apiRoot}/credit_card`, { id });
 }
 
 // make promise to update credit card.

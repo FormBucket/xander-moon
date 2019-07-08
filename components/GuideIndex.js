@@ -35,6 +35,11 @@ let GuideIndex = () => (
     <p>This option sets up an endpoint that always returns a JSON object.</p>
     <hr />
     <h6>
+      <a href="/guides/file-uploads">File Uploads</a>
+    </h6>
+    <p>FormBucket makes it simple to accept file uploads.</p>
+    <hr />
+    <h6>
       <a href="/guides/radio-buttons">Radio Buttons</a>
     </h6>
     <p>Send a radio button, when you want only 1 option selected at a time.</p>

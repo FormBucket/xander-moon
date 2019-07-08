@@ -9,13 +9,14 @@ module.exports = {
     },
     host: "10.8.0.41",
     useLocalIp: false,
-    contentBase: path.join(__dirname, "dist"),
+    contentBase: path.join(__dirname, "public"),
     compress: true,
     disableHostCheck: true,
     port: 1234,
     hot: true
   },
   output: {
+    path: __dirname + "/public",
     publicPath: "/",
     filename: "[hash].main.js",
     chunkFilename: "[hash].[chunkhash].[id].chunk.js"

@@ -227,6 +227,12 @@ class App extends Component {
             }
           />
 
+          <AsyncRoute
+            path="/guides/file-uploads"
+            getComponent={() =>
+              import("../pages/GuideUpload").then(module => module.default)
+            }
+          />
           <Redirect
             path="/gdpr"
             to={({}) => `/docs/general-data-protection-regulation`}

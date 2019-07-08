@@ -6,7 +6,7 @@ import { h } from "preact";
 import Guide from "./Guide";
 
 let GuidePricing = () =>
-  false ? (
+  true ? (
     <Guide title="Pricing">
       <p>
         The monthly membership cost is $7/mo. This includes unlimited buckets
@@ -35,59 +35,64 @@ let GuidePricing = () =>
         </thead>
         <tbody>
           <tr>
-            <td>Per Form Submission</td>
+            <td>Bucket enabled per hour</td>
+            <td>$0.004625 ($3.33 / month)</td>
+          </tr>
+          <tr>
+            <td>Per Submission</td>
             <td>$0.001</td>
           </tr>
           <tr>
-            <td>Bucket enabled per hour</td>
-            <td>$0.0003</td>
-          </tr>
-          <tr>
-            <td>Per Notification</td>
+            <td>Per Email</td>
             <td>$0.01</td>
-          </tr>
-          <tr>
-            <td>Per Autoresponder</td>
-            <td>$0.02</td>
           </tr>
           <tr>
             <td>Per Webhook</td>
             <td>$0.02</td>
           </tr>
-          <tr>
+
+          {/* <tr>
             <td>Per API Request</td>
             <td>$0.0001</td>
-          </tr>
-          <tr>
+          </tr> */}
+          {/* <tr>
             <td>Export form submission</td>
             <td>$0.00001</td>
-          </tr>
-          <tr>
+          </tr> */}
+          {/* <tr>
             <td>Submission retained per hour</td>
             <td>$0.0000042</td>
-          </tr>
+          </tr> */}
           <tr>
             <td>Storage per GB per hour</td>
-            <td>$0.001375</td>
+            <td>$0.001375 ($0.99 / GB / month)</td>
           </tr>
-          <tr>
+          {/* <tr>
             <td>Inbound data transfer per megabyte</td>
             <td>$0.0015</td>
           </tr>
           <tr>
             <td>Outbound data transfer per megabyte</td>
             <td>$0.0005</td>
+          </tr> */}
+          <tr>
+            <td>Email Support (7 day response)</td>
+            <td>$7 / month</td>
+          </tr>
+          <tr>
+            <td>Chat Support (24 hour response)</td>
+            <td>$29 / month</td>
           </tr>
         </tbody>
       </table>
       <h2>What can I buy for $1.00 U.S.?</h2>
       <ol>
+        <li>Enable a bucket for 200 hours</li>
         <li>Collect 1000 form submissions</li>
         <li>Receive 100 email notifications</li>
         <li>Send 20 automatic responses</li>
         <li>Trigger 50 webhooks</li>
         <li>Make 10,000 API requests</li>
-        <li>Enable a bucket for 30 days</li>
         <li>Retain 10,000 records for 24 hours</li>
       </ol>
       <h2>How do I pay?</h2>

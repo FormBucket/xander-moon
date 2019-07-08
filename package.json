@@ -8,15 +8,11 @@
   "scripts": {
     "clone:bare": "rm -rf ../formbucket-client.git; git clone --bare . ../formbucket-client.git",
     "clean": "rm -rf public",
-    "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
-    "build:static": "node runMetalSmith && rm -rf public/img/ && cp -r img/ public/",
-    "build": "npm run clean && npm run build:static && npm run build:webpack",
+    "build": "webpack --mode=production",
     "dev": "yarn start",
     "start": "yarn webpack-dev-server --public www-dev.formbucket.com --content-base dist/ --history-api-fallback",
     "start:static": "cd public && http-server . -p 3000",
-    "lint": "eslint src",
-    "deploy:www-next": "rsync -apvz -e \"ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null\" --progress ./public/ ops@10.8.0.10:/srv/www/formbucket.com/",
-    "deploy:www-prod": "rsync -apvz -e \"ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null\" --progress ./public whqops@10.8.0.1:/srv/www/formbucket.com"
+    "lint": "eslint src"
   },
   "alias": {
     "react": "preact-compat",
